@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <!-- Standard/Facebook -->
+    <meta property="og:url" content="https://wallofhistory.com/contact/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Contact | Wall of History" />
+    <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
+    <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
+    <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta property="og:video" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
+    <meta property="og:video:url" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
+    <meta property="og:video:secure_url" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="2556" />
+    <meta property="og:video:height" content="1024" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:title" content="Contact | Wall of History" />
+    <meta name="twitter:site" content="@Wall_of_History" />
+    <meta name="twitter:creator" content="@JSLBrowning" />
+    <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
+    <meta name="twitter:player" content="https://wallofhistory.com/player/container.html" />
+    <meta name="twitter:player:width" content="2556" />
+    <meta name="twitter:player:height" content="1024" />
+    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
+    <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <!-- end of OGP data -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>Contact | Wall of History</title>
+</head>
+<body>
+    <header>
+        <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a></p>
+    </header>
+    <main>
+    <h1>Contact</h1>
+    <p>If you would like to contact Wall of History, please send us an <a href="mailto:admin@wallofhistory.com">email</a>, or message our official <a class="nonblock" href="https://www.facebook.com/WallofHistory/">Facebook</a>, <a class="nonblock" href="https://www.instagram.com/wall_of_history/">Instagram</a>, or <a class="nonblock" href="https://twitter.com/Wall_of_History">Twitter</a> accounts.</p>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

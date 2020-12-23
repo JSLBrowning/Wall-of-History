@@ -1,0 +1,48 @@
+body{
+    background: linear-gradient(0deg, #808f6e 0%, #667e87 100%);
+}
+
+header a:hover{
+    color: #dce5e7;
+}
+
+header a:active{
+    color: #bacbcf;
+}
+
+.maintext a:hover{
+    color: #dce5e7;
+}
+
+.maintext a:active{
+    color: #bacbcf;
+}
+
+audio{
+    background-color: #667e87;
+}
+
+.slidecontrols button,
+#slidelocationdiv{
+    background-color: #7598a0;
+}
+
+.slidecontrols button:hover {
+    background-color: #bacbcf;
+}
+
+.slidecontrols button:active {
+    background-color: #97b2b8;
+}
+
+.modalcontent{
+    background: linear-gradient(0deg, #010203 0%, #537f89 100%);
+}
+
+.close:hover{
+    color: #dce5e7;
+}
+
+.close:active{
+    color: #bacbcf;
+}

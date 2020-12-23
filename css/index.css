@@ -1,0 +1,13 @@
+body{
+    background-image: url("/img/background-image.png");
+    background-position: center;
+}
+
+main{
+    width: 90%;
+    max-width: 960px;
+}
+
+main video{
+    padding: 0em;
+}

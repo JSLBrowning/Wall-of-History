@@ -1,0 +1,15 @@
+main{
+    width: 90%;
+    max-width: 720px;
+}
+
+main img{
+    width: 100%;
+    max-width: 720px;
+}
+
+@media only screen and (max-width: 640px){
+    main{
+        width: 100%;
+    }
+}

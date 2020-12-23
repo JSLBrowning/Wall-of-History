@@ -1,0 +1,10 @@
+ol{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+li{
+    width: fit-content;
+}

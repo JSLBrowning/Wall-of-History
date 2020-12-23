@@ -1,0 +1,473 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+@font-face{
+    font-family: 'TradeMarker';
+    src: url('../../fonts/TradeMarker-Bold.woff2') format('woff2'),
+        url('../../fonts/TradeMarker-Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+@font-face{
+    font-family: 'Gill Sans Std';
+    src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'),
+        url('../../fonts/GillSansStd-Light.woff') format('woff');
+}
+
+body,
+main{
+    background: #050505;
+}
+
+html, body{
+    min-height: 100%;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header,
+main{
+    position: relative;
+    background: #0A0A0A;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Gill Sans Std';
+    font-style: normal;
+    line-height: 1.5;
+    text-shadow: 2px 2px 5px black;
+}
+
+header{
+    margin: auto;
+    width: 100%;
+    box-shadow: 0em 0.25em #000;
+    border-bottom: 1px solid #fff;
+    margin-bottom: 1em;
+}
+
+header p{
+    text-align: center;
+    margin: auto;
+    padding: 0.5em;
+    font-size: 1em;
+}
+
+header a{
+    color: #fff;
+    text-decoration: none;
+}
+
+header a:hover{
+    color: #cccccc;
+    text-decoration: none;
+}
+
+header a:active{
+    color: #99999a;
+    text-decoration: none;
+}
+
+header a:visited{
+    color: #fff;
+    text-decoration: none;
+}
+
+main{
+    margin: 32px auto;
+    padding: 8px 0px;
+    width: 90%;
+    max-width: 640px;
+    box-shadow: 0.25em 0.25em #000;
+    border: 1px solid #fff;
+    border-radius: 0.75em 0em 0.5em 0em;
+}
+
+main h1, h2, h3{
+    text-align: center;
+    padding: 0 8px;
+    line-height: 1em;
+    font-family: 'TradeMarker';
+    font-weight: bold;
+}
+
+main h1{
+    font-size: 2.5em;
+}
+
+main h2{
+    font-size: 1.25em;
+}
+
+main h2:nth-of-type(2){
+    margin-bottom: 0.5em;
+}
+
+main h3{
+    font-size: 2em;
+}
+
+.maintextpadding{
+    padding: 4px;
+}
+
+audio{
+    width: 100%;
+    max-width: 640px;
+}
+
+main p{
+    padding: 0.5em 0.5em;
+    font-size: 1.125em;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+ul{
+    list-style: none;
+    margin: 8px 8px;
+}
+
+#sortable li{
+    margin: 4px;
+    background-color: #3a3a3a;
+    border-radius: 4px;
+    padding: 0px 4px;
+    display: flex;
+}
+
+#sortable li:hover{
+    background-color: #262626;
+}
+
+label{
+    display: inline-block;
+    width: 100%;
+    padding: 0px 8px;
+    text-align: left;
+    font-size: 1.25em;
+    cursor: pointer;
+}
+
+label input{
+    margin-right: 4px;
+}
+
+main a,
+.modal-content a{
+    color: #fff;
+}
+
+main a:hover,
+.modal-content a:hover{
+    color: #cccccc;
+}
+
+main a:active,
+.modal-content a:active{
+    color: #99999a;
+}
+
+main a:visited,
+.modal-content a:visited{
+    color: #fff;
+}
+
+main img,
+main video,
+main iframe{
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    padding: 8px 0px 8px 0px;
+}
+
+main blockquote{
+    margin: auto;
+    width: auto;
+    display: table;
+}
+
+#indeximg{
+    margin: 0px 0px -18px 0px;
+}
+
+.social{
+    width: 33.33%;
+    flex-direction: row;
+    margin: auto;
+    margin-bottom: 1em;
+}
+
+.social a{
+    width: 32px;
+    height: 32px;
+}
+
+.social img{
+    width: 32px;
+    height: 32px;
+}
+
+.slidecontrols,
+.savefile,
+.nav,
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main button{
+    display: inline-block;
+    margin: 4px 4px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background: none;
+    color: #fff;
+    box-shadow: 0.125em 0.125em #000;
+    cursor: pointer;
+}
+
+#submit{
+    display: block;
+    margin: 10px auto;
+    width: 128px;
+    height: 64px;
+    font-size: 2em;
+}
+
+.slidecontrols,
+.checkbuttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slidecontrols button,
+#slidelocationdiv,
+.checkbuttons button{
+    z-index: 1;
+    margin: -8px 0px 0px 0px;
+    border: none;
+    border-radius: 0px;
+    background-color: #333435;
+    width: 33.33%;
+    height: 32px;
+    font-size: 1.25em;
+    text-shadow: 2px 2px 5px #000;
+    box-shadow: none;
+}
+
+.slidecontrols button{
+    color: #fff;
+    cursor: pointer;
+}
+
+#slidelocationdiv{
+    line-height: 32px;
+    text-align: center;
+}
+
+#slidelocation{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1em;
+    line-height: 0px;
+    user-select: none;
+}
+
+.slidecontrols button:hover,
+.checkbuttons button:hover{
+    background-color: #99999a;
+}
+
+.slidecontrols button:active,
+.checkbuttons button:active{
+    background-color: #666767;
+}
+
+.checkbuttons{
+    flex-wrap: wrap;
+}
+
+.checkbuttons button{
+    flex-basis: 25%;
+    flex-wrap: wrap;
+    margin-top: 0px;
+    font-size: 0.875em;
+}
+
+.savefile button{
+    width: 128px;
+    height: 32px;
+    font-size: 1.25em;
+}
+
+nav button,
+.nav button{
+    width: 128px;
+    height: 64px;
+    font-size: 2em;
+}
+
+.modalbtn{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+main hr,
+.maintext hr,
+.modalcontent hr{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    color: #fff;
+}
+
+main hr,
+.maintext hr{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.closediv{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.close {
+    text-align: center;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 8px;
+    text-shadow: 2px 2px 5px black;
+}
+
+.close:hover{
+    color: #cccccc;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close:active{
+    color: #99999a;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+main h2 a{
+    cursor: pointer;
+}
+
+#submit{
+    border-radius: 0.25em 0em 0.25em 0em;
+}
+
+@media only screen and (max-width: 640px){
+    header img{
+        max-width: 90%;
+        height: auto;
+    }
+
+    main,
+    .maintext{
+        margin: 8px auto;
+        width: 95%;
+        padding: 0px;
+    }
+
+    main h1,
+    .modalcontent h1,
+    .maintext h1{
+        font-size: 1.25em;
+    }
+
+    main h2,
+    .modalcontent h2,
+    .maintext h2{
+        font-size: 0.75em;
+    }
+
+    main h3,
+    .modalcontent h3,
+    .maintext h3{
+        font-size: 1em;
+    }
+
+    .maintextpadding:nth-of-type(1){
+        padding: 0px;
+    }
+    
+    main p,
+    header p,
+    .modalcontent p,
+    .maintext p{
+        font-size: 1em;
+    }
+
+    .social{
+        width: 99.99%;
+    }
+
+    .social a{
+        width: 24px;
+        height: 24px;
+    }
+
+    .social img{
+        width: 24px;
+        height: 24px;
+    }
+
+    .savefile button{
+        width: 128px;
+        height: 32px;
+        font-size: 1em;
+    }
+    
+    .nav button{
+        width: 128px;
+        height: 32px;
+        font-size: 1em;
+    }
+}
+
+#gearbtndiv{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+#gearbtn{
+    text-align: center;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 8px;
+    text-shadow: 2px 2px 5px black;
+}
+
+#gearbtn:hover{
+    color: #cdcfd0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#gearbtn:active{
+    color: #9ca0a2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.contents p{
+    text-align: center;
+    padding: 0em 0.5em;
+    line-height: 1.25em;
+}

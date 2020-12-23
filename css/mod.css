@@ -1,0 +1,101 @@
+/*
+:root[data-theme=dark] {
+    --site-body-scrollbar-color-keyword: dark;
+    --site-body-scrollbar-color-track: #000000;
+    --site-body-scrollbar-color-thumb: #828282;
+    --site-body-text-color: #F2F2F2;
+    --site-body-bg-color: #181818;
+    --site-body-link-color: #FF746E;
+    --site-body-contrast-bg-color: #0D0D0D;
+    --site-body-active-text-color: #F2F2F2;
+    --site-body-active-bg-color: #A40500;
+    --site-header-text-color: #FFFFFF;
+    --site-header-bg-color: #000000;
+    --site-header-contrast-bg-color: #111111;
+    --site-header-active-bg-color: #A40500;
+    --site-header-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.6);
+    --site-header-menu-bg-color: #2A2A2A;
+    --site-tile-default-bg-color: #808080;
+    --site-tile-header-bg-color: rgba(0, 0, 0, 0.5);
+    --site-comments-divider-color: #3C3C3C
+}
+*/
+
+@font-face{
+    font-family: 'TradeMarker-Light';
+    src: url('../../fonts/TradeMarker-Light.woff') format('woff');
+}
+
+@font-face{
+    font-family: 'Montserrat';
+    src: url('../../fonts/Montserrat/Montserrat-Light.woff') format('woff');
+}
+
+body,
+main{
+    background-image: none;
+    background-color: #181818;
+    font-size: 0.9375em;
+    color: #F2F2F2;
+}
+
+header{
+    background-color: #181818;
+    color: #F2F2F2;
+    box-shadow: none;
+}
+
+header,
+main{
+    border: none;
+}
+
+main{
+    background-color: #404040;
+    box-shadow: none;
+}
+
+main h1, h2, h2{
+    font-family: 'TradeMarker-Light';
+    letter-spacing: 0.1em;
+}
+
+p, ul, ol, li{
+    font-family: 'Montserrat';
+}
+
+header a:hover,
+main a:hover{
+    color: #F2F2F2;
+}
+
+header a:hover,
+header a:active{
+    background-color: #A40500;
+}
+
+main a:hover,
+main a:active{
+    text-shadow: 2px 2px #A40500;
+}
+
+header a:active,
+main a:active{
+    color: #F2F2F2;
+}
+
+header a:visited,
+main a:visited{
+    color: #F2F2F2;
+}
+
+main button{
+    border: none;
+    background-color: #828282;
+    box-shadow: none;
+}
+
+main button:hover,
+main button:active{
+    background-color: #A40500;
+}

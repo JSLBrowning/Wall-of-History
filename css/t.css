@@ -1,0 +1,13 @@
+.cardcontent{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.cardcontent img{
+    border-radius: 20px;
+}
+
+.cardcontent p{
+    margin-top: auto;
+    margin-bottom: auto;
+}
