@@ -25,10 +25,14 @@ CREATE TABLE WoH_headers(
 
 CREATE TABLE WoH_tags(
     id text PRIMARY KEY,
+    tagtype text,
+    /* Examples: Type, Organizational, Author, Illustrator, etc. */
     tag text
+    /* Examples: */
     /* Types: animation, blog, card, comic, diary, game, growing_reader, movie, novel, podcast, serial, short_story, web_fiction */
     /* Organizational: chapter */
-    /* Contributors: Greg Farshtey, Staurt Sayger, etc. */
+    /* Authors: C.A. Hapka, Greg Farshtey, etc. */
+    /* Illustrators: Carlos D'Anda, Staurt Sayger, etc. */
 );
 
 CREATE TABLE WoH_web(
