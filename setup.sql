@@ -5,7 +5,7 @@ CREATE TABLE WoH_metadata(
     title text NOT NULL,
     snippet text,
     publish_date date,
-    chronology int NOT NULL,
+    chronology int,
     recommended boolean
 );
 
