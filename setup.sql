@@ -16,7 +16,7 @@ CREATE TABLE WoH_content(
     header int NOT NULL,
     main longtext,
     word_count int
-)
+);
 
 CREATE TABLE WoH_headers(
     header_id int PRIMARY KEY,
