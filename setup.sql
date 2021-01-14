@@ -12,10 +12,15 @@ CREATE TABLE WoH_metadata(
 CREATE TABLE WoH_content(
     id text PRIMARY KEY,
     content_language text NOT NULL,
-    head mediumtext,
+    css int,
     header int NOT NULL,
     main longtext,
     word_count int
+);
+
+CREATE TABLE WoH_css(
+    css_id int PRIMARY KEY,
+    html mediumtext
 );
 
 CREATE TABLE WoH_headers(
@@ -24,7 +29,7 @@ CREATE TABLE WoH_headers(
 );
 
 CREATE TABLE WoH_tags(
-    id text PRIMARY KEY,
+    id text,
     tagtype text,
     /* Examples: Type, Organizational, Author, Illustrator, etc. */
     tag text
@@ -43,13 +48,4 @@ CREATE TABLE WoH_web(
 CREATE TABLE WoH_adaptations(
     original_id text NOT NULL,
     child_id text NOT NULL
-);
-
-INSERT INTO WoH_metadata VALUES(
-    "8ghd",
-    "Tahu — Toa of Fire",
-    "Six heroes, one destiny.",
-    "01/01/2003",
-    1,
-    1
 );
