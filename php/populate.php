@@ -3,4 +3,6 @@
     // As such, all of this code will be relocated here, cleaned up, and streamlined.
     // The aforementioned pages will henceforth call the functions defined here.
     // https://stackoverflow.com/questions/8104998/how-to-call-function-of-one-php-file-from-another-php-file-and-pass-parameters-t
+
+    include("..//php/db_connect.php");
 ?>

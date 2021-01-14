@@ -30,7 +30,7 @@ CREATE TABLE WoH_headers(
 
 CREATE TABLE WoH_tags(
     id text,
-    tagtype text,
+    tag_type text,
     /* Examples: Type, Organizational, Author, Illustrator, etc. */
     tag text
     /* Examples: */
