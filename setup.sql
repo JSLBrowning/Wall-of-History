@@ -1,7 +1,7 @@
 USE test;
 
 CREATE TABLE WoH_metadata(
-    id text PRIMARY KEY,
+    id varchar(6) PRIMARY KEY,
     title text NOT NULL,
     snippet text,
     publish_date date,
@@ -10,7 +10,7 @@ CREATE TABLE WoH_metadata(
 );
 
 CREATE TABLE WoH_content(
-    id text PRIMARY KEY,
+    id varchar(6) PRIMARY KEY,
     content_language text NOT NULL,
     css int,
     header int NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE WoH_headers(
 );
 
 CREATE TABLE WoH_tags(
-    id text,
+    id varchar(6),
     tag_type text,
     /* Examples: Type, Organizational, Author, Illustrator, etc. */
     tag text
@@ -41,11 +41,11 @@ CREATE TABLE WoH_tags(
 );
 
 CREATE TABLE WoH_web(
-    parent_id text NOT NULL,
-    child_id text NOT NULL
+    parent_id varchar(6) NOT NULL,
+    child_id varchar(6) NOT NULL
 );
 
 CREATE TABLE WoH_adaptations(
-    original_id text NOT NULL,
-    child_id text NOT NULL
+    original_id varchar(6) NOT NULL,
+    child_id varchar(6) NOT NULL
 );
