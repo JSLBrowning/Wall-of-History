@@ -11,7 +11,8 @@ CREATE TABLE WoH_metadata(
 
 CREATE TABLE WoH_content(
     id varchar(6) PRIMARY KEY,
-    content_language text NOT NULL,
+    content_language text,
+    /* For content with no spoken or written text, this can be NULL. */
     css int,
     header int NOT NULL,
     main longtext,

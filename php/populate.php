@@ -7,6 +7,10 @@
     include("..//php/db_connect.php");
 
     function loadContent($id){
+        $sql = "SELECT * FROM FULL OUTER JOIN woh_metadata, woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = '" . $id . "'";
+    }
+
+    function loadContentOld($id){
         if (count($_GET) == 1) {
             $sql = "SELECT childless, content FROM wall_of_history_contents WHERE id='" . $_GET["id"] . "'";
             $result = $mysqli->query($sql);
