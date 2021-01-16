@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <?php 
+    /*
     include("..//php/db_connect.php");
         
     if (count($_GET) == 1) {
@@ -28,7 +29,7 @@
         <link rel='stylesheet' type='text/css' href='/css/modal.css'>
         <link rel='stylesheet' type='text/css' href='/css/read.css'>
         <title>Table of Contents | Wall of History</title>";
-    }
+    */
     ?>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
@@ -49,7 +50,8 @@
     <main>
         <?php
         include("..//php/populate.php");
-        loadContent($_GET["id"]);
+        $id = $_GET["id"];
+        loadContent($id);
 
         /*
         if (count($_GET) == 1) {

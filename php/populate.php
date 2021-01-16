@@ -4,10 +4,11 @@
     // The aforementioned pages will henceforth call the functions defined here.
     // https://stackoverflow.com/questions/8104998/how-to-call-function-of-one-php-file-from-another-php-file-and-pass-parameters-t
 
-    include("..//php/db_connect.php");
-
     function loadContent($id){
-        $sql = "SELECT * FROM FULL OUTER JOIN woh_metadata, woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = '" . $id . "'";
+        include("..//php/db_connect.php");
+
+        $sql = "SELECT * FROM FULL OUTER JOIN woh_metadata, woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\"";
+        $sql = "SELECT * FROM woh_content WHERE id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
