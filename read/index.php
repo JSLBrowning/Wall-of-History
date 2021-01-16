@@ -1,38 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php 
-    /*
-    include("..//php/db_connect.php");
-        
-    if (count($_GET) == 1) {
-        // Create selection statement.
-        $sql = "SELECT head FROM wall_of_history_contents WHERE id = '" . $_GET["id"] . "'";
-            
-        // Perfom selection.
-        $result = $mysqli->query($sql);
-                    
-        if ($result->num_rows > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo array_shift($row);
-            }
-        }
-    } else {
-        echo "<meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
-        <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-        <link rel='icon' href='../favicon.ico' type='image/x-icon'>
-    
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <link rel='stylesheet' type='text/css' href='/css/main.css'>
-        <link rel='stylesheet' type='text/css' href='/css/modal.css'>
-        <link rel='stylesheet' type='text/css' href='/css/read.css'>
-        <title>Table of Contents | Wall of History</title>";
-    */
-    ?>
-    <link rel='stylesheet' type='text/css' href='/css/modal.css'>
+    <meta charset='UTF-8'>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <?php 
+        include("..//php/populate.php");
+        $id = $_GET["id"];
+        populateHead($id);
+    ?>
+    <link rel='stylesheet' type='text/css' href='/css/main.css'>
+    <link rel='stylesheet' type='text/css' href='/css/modal.css'>
+    <link rel='stylesheet' type='text/css' href='/css/read.css'>
 </head>
 <body>
     <header>
@@ -49,7 +29,6 @@
     </header>
     <main>
         <?php
-        include("..//php/populate.php");
         $id = $_GET["id"];
         loadContent($id);
 

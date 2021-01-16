@@ -5,14 +5,14 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-$sql = "SELECT parent FROM wall_of_history_contents WHERE id = $q";
+$sql = "SELECT * FROM woh_web WHERE child_id = \"" . $q . "\"";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo array_shift($row);
+    while ($row = $result->fetch_assoc()) {
+        echo $row["parent_id"];
     }
 } else {
     echo "That's not good.";

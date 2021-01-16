@@ -4,11 +4,27 @@
     // The aforementioned pages will henceforth call the functions defined here.
     // https://stackoverflow.com/questions/8104998/how-to-call-function-of-one-php-file-from-another-php-file-and-pass-parameters-t
 
+    function populateHead($id){
+        include("..//php/db_connect.php");
+
+        $sql = "SELECT * FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
+
+        $result = $mysqli->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
+                <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
+                <meta content='http://www.wallofhistory.co/story/img/ogp.png' property='og:image'/>
+                <meta content='summary_large_image' name='twitter:card'/>
+                <meta content='@Wall_of_History' name='twitter:site'/>
+                <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+        }
+    }
+
     function loadContent($id){
         include("..//php/db_connect.php");
 
-        $sql = "SELECT * FROM FULL OUTER JOIN woh_metadata, woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\"";
-        $sql = "SELECT * FROM woh_content WHERE id = \"" . $id . "\"";
+        // $sql = "SELECT * FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\"";
+        $sql = "SELECT * FROM woh_content WHERE woh_content.id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
