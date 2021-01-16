@@ -4,6 +4,8 @@ CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
     title text NOT NULL,
     snippet text,
+    /* small_image text, */
+    /* large image text, */
     publish_date date,
     chronology int,
     recommended boolean
