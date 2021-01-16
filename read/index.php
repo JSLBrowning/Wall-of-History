@@ -48,6 +48,10 @@
     </header>
     <main>
         <?php
+        include("..//php/populate.php");
+        loadContent($_GET["id"]);
+
+        /*
         if (count($_GET) == 1) {
             include("..//php/db_connect.php");
             $sql = "SELECT childless, content FROM wall_of_history_contents WHERE id='" . $_GET["id"] . "'";
@@ -155,6 +159,7 @@
             }
             $mysqli->close();
         }
+        */
         ?>
 
         <?php
