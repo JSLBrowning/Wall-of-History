@@ -4,7 +4,7 @@
     // The aforementioned pages will henceforth call the functions defined here.
     // https://stackoverflow.com/questions/8104998/how-to-call-function-of-one-php-file-from-another-php-file-and-pass-parameters-t
 
-    function populateHead($id){
+    function populateHead($id) {
         include("..//php/db_connect.php");
 
         $sql = "SELECT * FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
@@ -20,14 +20,45 @@
         }
     }
 
-    function loadContent($id){
+    function hasChildren($id) {
         include("..//php/db_connect.php");
 
-        // $sql = "SELECT * FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\"";
+        $sql = "SELECT * FROM woh_web WHERE parent_id = \"" . $id . "\"";
+
+        $result = $mysqli->query($sql);
+        $num_rows = mysqli_num_rows($result);
+
+        // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
+        if ($num_rows == 0) {
+            return null;
+        } else {
+            // If the content does have children, they will be displayed in a list.
+            echo "<li>";
+            
+            // Each child must be made its own list item…
+            while ($row = $result->fetch_assoc()) {
+                // …which must have the matching title, of course.
+                $sql_title = "SELECT title FROM woh_metada WHERE woh_metadata.id = \"" . $row["child_id"] . "\"";
+                
+                $result_title = $mysqli->query($sql_title);
+                
+                while($row_title = $result_title->fetch_assoc()){
+                    echo "<a href='/read/?id=" . $row["child_id"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
+                }
+            }
+            echo "</li>";
+        }
+    }
+
+    function loadContent($id) {
+        include("..//php/db_connect.php");
+
+        // Might as well fetch all the content for the content in question, right?
         $sql = "SELECT * FROM woh_content WHERE woh_content.id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
+            // Self-explanatory — the main column contains the contents of the main tag.
             echo $row["main"];
         }
     }
