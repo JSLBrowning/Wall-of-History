@@ -29,24 +29,22 @@
         $num_rows = mysqli_num_rows($result);
 
         // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
-        if ($num_rows == 0) {
-            exit;
-        } else {
+        if ($num_rows != 0) {
             // If the content does have children, they will be displayed in a list.
-            echo "<li>";
+            echo "<ol id='sortable'>";
             
             // Each child must be made its own list item…
             while ($row = $result->fetch_assoc()) {
                 // …which must have the matching title, of course.
-                $sql_title = "SELECT title FROM woh_metada WHERE woh_metadata.id = \"" . $row["child_id"] . "\"";
+                $sql_title = "SELECT title FROM woh_metadata WHERE woh_metadata.id = \"" . $row["child_id"] . "\"";
                 
                 $result_title = $mysqli->query($sql_title);
                 
                 while($row_title = $result_title->fetch_assoc()){
-                    echo "<a href='/read/?id=" . $row["child_id"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
+                    echo "<li><a href='/read/?id=" . $row["child_id"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
                 }
             }
-            echo "</li>";
+            echo "</ol>";
         }
     }
 

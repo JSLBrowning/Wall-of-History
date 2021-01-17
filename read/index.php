@@ -144,6 +144,7 @@
         ?>
 
         <?php
+        /*
         include("..//php/db_connect.php");
 
         // Create selection statement.
@@ -170,6 +171,7 @@
             print rd($b);
         }
         $mysqli->close();
+        */
         ?>
 
         <div style="padding: 4px;"></div>
