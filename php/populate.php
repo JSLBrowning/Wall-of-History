@@ -30,7 +30,7 @@
 
         // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
         if ($num_rows == 0) {
-            return null;
+            exit;
         } else {
             // If the content does have children, they will be displayed in a list.
             echo "<li>";
@@ -52,6 +52,8 @@
 
     function loadContent($id) {
         include("..//php/db_connect.php");
+
+        hasChildren($id);
 
         // Might as well fetch all the content for the content in question, right?
         $sql = "SELECT * FROM woh_content WHERE woh_content.id = \"" . $id . "\"";
