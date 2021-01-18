@@ -52,3 +52,10 @@ CREATE TABLE WoH_adaptations(
     original_id varchar(6) NOT NULL,
     child_id varchar(6) NOT NULL
 );
+
+/*
+TO-DO:
+Remove author tags from chapters.
+Correct author tags for works not written/created by Farshtey.
+Remove headings from contents.
+*/

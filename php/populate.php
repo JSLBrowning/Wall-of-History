@@ -24,6 +24,9 @@
         include("..//php/db_connect.php");
 
         $sql = "SELECT * FROM woh_web WHERE parent_id = \"" . $id . "\"";
+        /* ORDER BY child_id — maybe use a full join with metadata to do chronology then title? */
+        $sql = "SELECT child_id, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY chronology, title ASC";
+        /* Okay, it works, but it's not elegant — the child-having stuff with no chronology values are all put before the ordered stuff. But Quest for the Toa should absolutely be listed before Tale of the Toa... What can be done about that...? */
 
         $result = $mysqli->query($sql);
         $num_rows = mysqli_num_rows($result);
