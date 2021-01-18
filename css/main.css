@@ -363,6 +363,7 @@ main hr,
 }
 
 main h2 a{
+    text-decoration: none;
     cursor: pointer;
 }
 

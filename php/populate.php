@@ -51,16 +51,68 @@
     function loadContent($id) {
         include("..//php/db_connect.php");
 
-        hasChildren($id);
+        // GET PARENT(S), IF ANY, AND DISPLAY AT THE TOP OF <MAIN>
+        $sql = "SELECT * FROM woh_web WHERE child_id = \"" . $id . "\"";
+        
+        $result = $mysqli->query($sql);
+        $num_rows = mysqli_num_rows($result);
+        while ($row = $result->fetch_assoc()) {
+            if ($num_rows == 0) {
+
+            } elseif ($num_rows == 1) {
+                $sql_title = "SELECT title FROM woh_metadata WHERE id = \"" . $row["parent_id"] . "\"";
+                $result_title = $mysqli->query($sql_title);
+                while($row_title = $result_title->fetch_assoc()){
+                    echo "<h2><a onClick='location.href=\"/read/?id=" . $row["parent_id"] . "\"'>" . $row_title["title"] . "</a>" . "</h2>";
+                }
+            } else {
+                echo "<h2>↑</h2>";
+            }
+        }
+
+        // GET AND DISPLAY TITLE
+        $sql = "SELECT title FROM woh_metadata WHERE id = \"" . $id . "\"";
+
+        $result = $mysqli->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            echo "<h1>" . $row["title"] . "</h1>";
+        }
+
+        // GET AND DISPLAY CONTRIBUTORS
+        $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'developer' OR tag_type = 'author' OR tag_type = 'illustrator')";
+
+        $result = $mysqli->query($sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows == 0) {
+
+        } elseif ($num_rows == 1) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<h2>" . $row["tag"] . "</h2>";
+            }
+        } else {
+            echo "<h2>";
+            while ($row = $result->fetch_assoc()) {
+                echo $row["tag"] . ", ";
+            }
+            echo "</h2>";
+        }
+
+        echo "<h2>";
+        while ($row = $result->fetch_assoc()) {
+            echo $row["tag"] . ", ";
+        }
+        echo "</h2>";
 
         // Might as well fetch all the content for the content in question, right?
-        $sql = "SELECT * FROM woh_content WHERE woh_content.id = \"" . $id . "\"";
+        $sql = "SELECT * FROM woh_content WHERE id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
             // Self-explanatory — the main column contains the contents of the main tag.
             echo $row["main"];
         }
+
+        hasChildren($id);
     }
 
     /*
