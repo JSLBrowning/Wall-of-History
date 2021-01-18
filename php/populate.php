@@ -7,6 +7,8 @@
     function populateHead($id) {
         include("..//php/db_connect.php");
 
+        // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
+
         $sql = "SELECT * FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
