@@ -8,6 +8,7 @@
         include("..//php/db_connect.php");
 
         // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
+        // https://www.mysqltutorial.org/mysql-recursive-cte/
 
         $sql = "SELECT * FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
 
@@ -25,9 +26,7 @@
     function hasChildren($id) {
         include("..//php/db_connect.php");
 
-        $sql = "SELECT * FROM woh_web WHERE parent_id = \"" . $id . "\"";
-        /* ORDER BY child_id — maybe use a full join with metadata to do chronology then title? */
-        $sql = "SELECT child_id, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY chronology, title ASC";
+        $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         /* Okay, it works, but it's not elegant — the child-having stuff with no chronology values are all put before the ordered stuff. But Quest for the Toa should absolutely be listed before Tale of the Toa... What can be done about that...? */
 
         $result = $mysqli->query($sql);
@@ -41,12 +40,12 @@
             // Each child must be made its own list item…
             while ($row = $result->fetch_assoc()) {
                 // …which must have the matching title, of course.
-                $sql_title = "SELECT title FROM woh_metadata WHERE woh_metadata.id = \"" . $row["child_id"] . "\"";
+                $sql_title = "SELECT title FROM woh_metadata WHERE woh_metadata.id = \"" . $row["cid"] . "\"";
                 
                 $result_title = $mysqli->query($sql_title);
                 
                 while($row_title = $result_title->fetch_assoc()){
-                    echo "<li><a href='/read/?id=" . $row["child_id"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
+                    echo "<li><a href='/read/?id=" . $row["cid"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
                 }
             }
             echo "</ol>";

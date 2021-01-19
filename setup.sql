@@ -55,7 +55,8 @@ CREATE TABLE WoH_adaptations(
 
 /*
 TO-DO:
-Remove author tags from chapters.
-Correct author tags for works not written/created by Farshtey.
-Remove headings from contents.
+Remove author tags from chapters (the twelve big chapters, I mean).
+Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
+Remove headings from contents (existing h2s and h1s, since those are generated programmatically).
+Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
 */
