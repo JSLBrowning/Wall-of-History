@@ -1,25 +1,30 @@
 <?php
-    // Some of the pages that require PHP — such as /read and /reference — are very messy right now, on account of the fact that all the PHP necessary to populate them with content is actually in those pages.
-    // As such, all of this code will be relocated here, cleaned up, and streamlined.
-    // The aforementioned pages will henceforth call the functions defined here.
-    // https://stackoverflow.com/questions/8104998/how-to-call-function-of-one-php-file-from-another-php-file-and-pass-parameters-t
-
     function populateHead($id) {
         include("..//php/db_connect.php");
 
         // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
         // https://www.mysqltutorial.org/mysql-recursive-cte/
 
-        $sql = "SELECT * FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
+        $sql = "SELECT title, snippet, IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1)) FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
-                <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
-                <meta content='http://www.wallofhistory.co/story/img/ogp.png' property='og:image'/>
-                <meta content='summary_large_image' name='twitter:card'/>
-                <meta content='@Wall_of_History' name='twitter:site'/>
-                <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            if ($row["large_image"] === NULL) {
+                echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
+                    <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
+                    <meta content='http://www.wallofhistory.co/img/ogp.png' property='og:image'/>
+                    <meta content='summary_large_image' name='twitter:card'/>
+                    <meta content='@Wall_of_History' name='twitter:site'/>
+                    <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            } else {
+                echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
+                    <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
+                    <meta content='http://www.wallofhistory.co/img/ogp.png' property='og:image'/>
+                    <meta content='" . $row["large_image"] . "' property='og:image'/>
+                    <meta content='summary_large_image' name='twitter:card'/>
+                    <meta content='@Wall_of_History' name='twitter:site'/>
+                    <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            }
         }
     }
 

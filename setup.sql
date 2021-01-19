@@ -5,7 +5,7 @@ CREATE TABLE WoH_metadata(
     title text NOT NULL,
     snippet text,
     /* small_image text, */
-    /* large image text, */
+    /* large_image text, */
     publish_date date,
     chronology int,
     recommended boolean
@@ -59,4 +59,5 @@ Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
 Remove headings from contents (existing h2s and h1s, since those are generated programmatically).
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
+Try and standardize single quotes, double quotes, escapes, et cetera.
 */
