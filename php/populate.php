@@ -122,4 +122,27 @@
 
         hasChildren($id);
     }
+
+    function populateSettings() {
+        include("..//php/db_connect.php");
+
+        $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        
+        $result = $mysqli->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
+
+            $result_chapter = $mysqli->query($sql_chapter);
+            if ($result_chapter === false) {
+                echo "<p>" . $row["title"] . "</p>";
+            } else {
+                $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
+
+                $result_title = $mysqli->query($sql_title);
+                while ($row_title = $result_title->fetch_assoc()) {
+                    echo "<p>" . $row_title["title"] . ": " . $row["title"] . "</p>";
+                }
+            }
+        }
+    }
 ?>

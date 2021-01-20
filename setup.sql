@@ -13,7 +13,6 @@ CREATE TABLE WoH_metadata(
 
 CREATE TABLE WoH_content(
     id varchar(6) PRIMARY KEY,
-    content_language text,
     /* For content with no spoken or written text, this can be NULL. */
     css int,
     header int NOT NULL,
@@ -34,10 +33,11 @@ CREATE TABLE WoH_headers(
 CREATE TABLE WoH_tags(
     id varchar(6),
     tag_type text,
-    /* Examples: Type, Organizational, Author, Illustrator, etc. */
+    /* Examples: Type, Language, Organizational, Author, Illustrator, etc. */
     tag text
     /* Examples: */
     /* Types: animation, blog, card, comic, diary, game, growing_reader, movie, novel, podcast, serial, short_story, web_fiction */
+    /* Language: en, es, fr */
     /* Organizational: chapter */
     /* Authors: C.A. Hapka, Greg Farshtey, etc. */
     /* Illustrators: Carlos D'Anda, Staurt Sayger, etc. */
@@ -61,3 +61,5 @@ Remove headings from contents (existing h2s and h1s, since those are generated p
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
 Try and standardize single quotes, double quotes, escapes, et cetera.
 */
+
+INSERT INTO woh_tags VALUES ("7f482f", "organizational", "chapter");

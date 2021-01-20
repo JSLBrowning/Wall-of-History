@@ -81,6 +81,7 @@
         </div>
         <h1 style="margin: 0.25em 0em;">Sort</h1>
         <?php
+            /*
             include("..//php/db_connect.php");
 
             // Create selection statement.
@@ -122,6 +123,10 @@
                 print r($a, $level);
             }
             $mysqli->close();
+            */
+            include("..//php/populate.php");
+
+            populateSettings();
         ?>
         <button id="submit" style="background-color: #0A0A0A; position: fixed; bottom: 1em; right: 1em;">Submit!</button>
         </main>
