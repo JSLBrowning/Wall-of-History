@@ -61,5 +61,3 @@ Remove headings from contents (existing h2s and h1s, since those are generated p
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
 Try and standardize single quotes, double quotes, escapes, et cetera.
 */
-
-INSERT INTO woh_tags VALUES ("7f482f", "organizational", "chapter");
