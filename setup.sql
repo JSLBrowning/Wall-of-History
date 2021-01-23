@@ -2,55 +2,78 @@ USE test;
 
 CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
+    /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
     title text NOT NULL,
+    /* Self-explantory, I'm sure. Titles should be minimal — the first chapter of Tale of the Toa is simply titled “Tahu — Toa of Fire,” not “BIONICLE Chronicles #1: Tale of the Toa: ‘Tahu — Toa of Fire.’” */
     snippet text,
-    /* small_image text, */
-    /* large_image text, */
-    publish_date date,
+    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
+    small_image text,
+    /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
+    large_image text,
+    /* This is the image that will appear in the summary cards generated for the work in question, so they should be banners. Twitter, for example, uses a 2:1 aspect ratio for these. */
+    publication_date date,
+    /* This can be ignored — the front end doesn't currently do anything with it anyway, but the idea is that it'll eventually display the publication dates of anything that has one. */
     chronology int,
+    /* This number, along with the boolean below, defines the default reading order for contents of the site. Only the actual contents of the site should have a chronology value — Tale of the Toa as a whole does not have one, for example, but the individual chapters of Tale of the Toa do. */
     recommended boolean
+    /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
 );
 
 CREATE TABLE WoH_content(
     id varchar(6) PRIMARY KEY,
-    /* For content with no spoken or written text, this can be NULL. */
+    /* Self-explantory — it's the same ID as above. */
     css int,
+    /* If you want special CSS for a certain work, include the ID of the CSS here (see below for more details). If not, this can be NULL. */
     header int NOT NULL,
+    /* This defines which header HTML will be displayed on the page for this content — for example, the regular BIONICLE logo is used for most Wall of History pages, but the 2002 version is used for pages of Beware the Bohrok. */
     main longtext,
+    /* The actual contents of the page (in HTML) go here. */
     word_count int
+    /* Can be ignored — as with the publication date, the front end doesn't do anything with this yet. */
 );
 
 CREATE TABLE WoH_css(
     css_id int PRIMARY KEY,
+    /* Self-explanatory. */
     html mediumtext
+    /* This is the HTML that includes the link to the CSS sheet(s) you want */
+    /* Example: <link rel="stylesheet" href="mystyle.css"> */
 );
 
 CREATE TABLE WoH_headers(
     header_id int PRIMARY KEY,
+    /* Self-explantory. */
     html mediumtext
+    /* Self-explanatory. */
 );
 
 CREATE TABLE WoH_tags(
     id varchar(6),
+    /* Self-explanatory — these are the same tags used for metadata and content. */
     tag_type text,
     /* Examples: Type, Language, Organizational, Author, Illustrator, etc. */
-    tag text
+    tag text,
     /* Examples: */
     /* Types: animation, blog, card, comic, diary, game, growing_reader, movie, novel, podcast, serial, short_story, web_fiction */
     /* Language: en, es, fr */
     /* Organizational: chapter */
     /* Authors: C.A. Hapka, Greg Farshtey, etc. */
     /* Illustrators: Carlos D'Anda, Staurt Sayger, etc. */
+    detailed_tag text
+    /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Greg Farshtey” above, you would put “Written by Greg Farshtey” here. */
 );
 
 CREATE TABLE WoH_web(
     parent_id varchar(6) NOT NULL,
+    /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
     child_id varchar(6) NOT NULL
+    /* You'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
 );
 
 CREATE TABLE WoH_adaptations(
+    /* You can probably ignore this one, since everything that'll be on your site is original (and because I haven't implemented any use for this yet). */
     original_id varchar(6) NOT NULL,
-    child_id varchar(6) NOT NULL
+    adaptation_id varchar(6) NOT NULL
 );
 
 /*
