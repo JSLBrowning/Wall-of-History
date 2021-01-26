@@ -1,3 +1,7 @@
+// This probably needs the most work out of everything left.
+// It still WORKS, but could stand to be more streamlined, and needs comments.
+// Also, any ID/chronology equivalence needs to be fixed, since those are now separate values (though if I'm remebering right, there never was any to begin with).
+
 function MODRebrand() {
     if (window.location !== window.parent.location) {
         var head = document.getElementsByTagName('head')[0];

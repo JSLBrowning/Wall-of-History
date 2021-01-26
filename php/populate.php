@@ -1,5 +1,6 @@
 <?php
     function populateHead($id) {
+        // This function is pretty straightforward — it populates the head of the page with content-specific OGP data.
         include("..//php/db_connect.php");
 
         // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
@@ -29,10 +30,11 @@
     }
 
     function hasChildren($id) {
+        // This function finds any and all children that a given piece of content has, then echoes them in a list format.
         include("..//php/db_connect.php");
 
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-        /* Okay, it works, but it's not elegant — the child-having stuff with no chronology values are all put before the ordered stuff. But Quest for the Toa should absolutely be listed before Tale of the Toa... What can be done about that...? */
+        /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
 
         $result = $mysqli->query($sql);
         $num_rows = mysqli_num_rows($result);
@@ -57,7 +59,13 @@
         }
     }
 
+    function loadHeader($id) {
+        // TO-DO: Make this load the header and echo it into the empty header space.
+        // Delete header space if none?
+    }
+
     function loadContent($id) {
+        // This function is the most complicated, echoing the actuals contents of the page from the top (parent(s), title, author) down (content).
         include("..//php/db_connect.php");
 
         // GET PARENT(S), IF ANY, AND DISPLAY AT THE TOP OF <MAIN>
@@ -124,6 +132,7 @@
     }
 
     function populateSettings() {
+        // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
         include("..//php/db_connect.php");
 
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
