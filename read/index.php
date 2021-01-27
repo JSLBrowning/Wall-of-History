@@ -7,7 +7,11 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <?php 
         include("..//php/populate.php");
-        $id = $_GET["id"];
+        if(count($_GET)) {
+            $id = $_GET["id"];
+        } else {
+            $id = "0";
+        }
         populateHead($id);
     ?>
     <link rel='stylesheet' type='text/css' href='/css/main.css'>

@@ -39,6 +39,12 @@
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
 
+        // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
+        if ($id == "0") {
+            $sql = "SELECT id AS cid, title, chronology FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT MIN(chronology) FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid AND chronology IS NOT NULL)), title ASC";
+        }
+        // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
+
         $result = $mysqli->query($sql);
         $num_rows = mysqli_num_rows($result);
 
@@ -139,6 +145,7 @@
         include("..//php/db_connect.php");
 
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        // Put ASC after chronology IFNULL too?
         
         /*
         <li class="ui-sortable-handle">
@@ -158,6 +165,9 @@
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
+            // This... isn't working right.
+            // Quest for the Toa is displaying as Chapter 1: Quest for the Masks: Quest for the Toa.
+            // It isn't a chapter. And the chapter tags aren't even in yet?
             if ($result_chapter === false) {
                 echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
                 echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";

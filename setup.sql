@@ -83,4 +83,5 @@ Correct author tags for works not written/created by Farshtey (namely those on H
 Remove headings from contents (existing h2s and h1s, since those are generated programmatically).
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
 Try and standardize single quotes, double quotes, escapes, et cetera.
+Remove em tags from MNOG chapter titles. Blah blah blah.
 */
