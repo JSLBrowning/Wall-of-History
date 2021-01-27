@@ -140,6 +140,8 @@
         /*
         <li class="ui-sortable-handle">
             <input data-type="game" data-author="Greg Farshtey" type="checkbox" name="75" id="75" value="75">
+            Is spaces in data attributes allowed?
+            Add languages.
             <label for="75"><em>BIONICLE: Quest for the Toa</em><a href="/read/?id=75">↗</a></label>
         </li>
         */
