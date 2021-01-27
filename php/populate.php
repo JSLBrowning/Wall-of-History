@@ -137,13 +137,23 @@
 
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         
+        /*
+        <li class="ui-sortable-handle">
+            <input data-type="game" data-author="Greg Farshtey" type="checkbox" name="75" id="75" value="75">
+            <label for="75"><em>BIONICLE: Quest for the Toa</em><a href="/read/?id=75">↗</a></label>
+        </li>
+        */
         $result = $mysqli->query($sql);
+
+        echo "<li class='ui-sortable-handle'>";
+
         while ($row = $result->fetch_assoc()) {
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
             if ($result_chapter === false) {
-                echo "<p>" . $row["title"] . "</p>";
+                echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>"
+                echo "<label for='" . $row["cid"] . "'>" . $row["title"] . "<a href=/read/?id=" . $row["cid"] . ">↗</a></label>";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
 
@@ -153,5 +163,7 @@
                 }
             }
         }
+
+        echo "</li>";
     }
 ?>
