@@ -44,34 +44,6 @@
         <h1 style="margin-bottom: 0.25em;">Select</h1>
         <!--
         <div class="checkbuttons">
-            <button onclick="uncheckEverything()">Uncheck Everything</button>
-            <button onclick="checkEverything()">Check Everything</button>
-            <button onclick="uncheckAnimations()">Uncheck Animations</button>
-            <button onclick="checkAnimations()">Check Animations</button>
-            <button onclick="uncheckBlogs()">Uncheck Blogs</button>
-            <button onclick="checkBlogs()">Check Blogs</button>
-            <button onclick="uncheckCards()">Uncheck Cards</button>
-            <button onclick="checkCards()">Check Cards</button>
-            <button onclick="uncheckComics()">Uncheck Comics</button>
-            <button onclick="checkComics()">Check Comics</button>
-            <button onclick="uncheckDiaries()">Uncheck Diaries</button>
-            <button onclick="checkDiaries()">Check Diaries</button>
-            <button onclick="uncheckGames()">Uncheck Games</button>
-            <button onclick="checkGames()">Check Games</button>
-            <button onclick="uncheckGrowing()">Uncheck Growing Reader Books</button>
-            <button onclick="checkGrowing()">Check Growing Reader Books</button>
-            <button onclick="uncheckMovies()">Uncheck Movies</button>
-            <button onclick="checkMovies()">Check Movies</button>
-            <button onclick="uncheckNovels()">Uncheck Novels</button>
-            <button onclick="checkNovels()">Check Novels</button>
-            <button onclick="uncheckPodcasts()">Uncheck Podcasts</button>
-            <button onclick="checkPodcasts()">Check Podcasts</button>
-            <button onclick="uncheckSerials()">Uncheck Serials</button>
-            <button onclick="checkSerials()">Check Serials</button>
-            <button onclick="uncheckShorts()">Uncheck Short Stories</button>
-            <button onclick="checkShorts()">Check Short Stories</button>
-            <button onclick="uncheckWeb()">Uncheck Web Fiction</button>
-            <button onclick="checkWeb()">Check Web Fiction</button>
         </div>
         -->
         <h1 style="margin: 0.25em 0em;">Language Preference</h1>
