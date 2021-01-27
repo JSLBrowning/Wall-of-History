@@ -42,6 +42,7 @@
     <main>
         <h2><a onclick="resetReadingOrder()">Reset to Default</a></h2>
         <h1 style="margin-bottom: 0.25em;">Select</h1>
+        <!--
         <div class="checkbuttons">
             <button onclick="uncheckEverything()">Uncheck Everything</button>
             <button onclick="checkEverything()">Check Everything</button>
@@ -72,6 +73,7 @@
             <button onclick="uncheckWeb()">Uncheck Web Fiction</button>
             <button onclick="checkWeb()">Check Web Fiction</button>
         </div>
+        -->
         <h1 style="margin: 0.25em 0em;">Language Preference</h1>
         <div class="checkbuttons">
             <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'en,es');
@@ -81,51 +83,7 @@
         </div>
         <h1 style="margin: 0.25em 0em;">Sort</h1>
         <?php
-            /*
-            include("..//php/db_connect.php");
-
-            // Create selection statement.
-            $sql = "SELECT id, parent, fulltitle AS title, mediatype FROM wall_of_history_contents WHERE childless=1 ORDER BY id ASC";
-            // $sql = "SELECT id, parent, title, childless FROM wall_of_history_contents ORDER BY id ASC";
-
-            // Perfom selection.
-            $result = $mysqli->query($sql);
-
-            if ($result->num_rows > 0) {
-                $a = array();
-                $level = 'NULL';
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                    foreach ($row as $i => $value) {
-                        if ($value == "") $row[$i] = 'NULL';
-                    }
-                    array_push($a, $row);
-                }
-                
-                // Remove parent stuff?
-                foreach($a as $i => $value) {
-                    $a[$i]["parent"] = 'NULL';
-                }
-
-                function r($a, $level)
-                {
-                    $r = '';
-                    foreach ($a as $i) {
-                        if ($i['parent'] == $level) {
-                            $r = $r . "<li>
-                                <input class='" . $i["mediatype"] . "' type='checkbox' name='" . $i['id'] . "' id='" . $i['id'] . "' value='" . $i['id'] . "'>
-                                <label for='" . $i['id'] . "'>" . $i['title'] . "<a href='/read/?id=" . $i['id'] . "'>↗</a>" . "</label>" . r($a, $i['id']) . "
-                            </li>";
-                        }
-                    }
-                    return ($r == '' ? '' : "<ol id='sortable' style='list-style-type: none;'>" . $r . "</ol>");
-                }
-                print r($a, $level);
-            }
-            $mysqli->close();
-            */
             include("..//php/populate.php");
-
             populateSettings();
         ?>
         <button id="submit" style="background-color: #0A0A0A; position: fixed; bottom: 1em; right: 1em;">Submit!</button>

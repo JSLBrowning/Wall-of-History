@@ -6,11 +6,14 @@
         // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
         // https://www.mysqltutorial.org/mysql-recursive-cte/
 
-        $sql = "SELECT title, snippet, IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1)) FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
+        $sql = "SELECT title, snippet, large_image FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
+        // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
+        // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
+        // Need to work on it.
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            if ($row["large_image"] === NULL) {
+            if (is_null($row["large_image"])) {
                 echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
                     <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
                     <meta content='http://www.wallofhistory.co/img/ogp.png' property='og:image'/>
@@ -147,27 +150,27 @@
         */
         $result = $mysqli->query($sql);
 
-        echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>";
+        echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
 
         while ($row = $result->fetch_assoc()) {
-            echo "<li class='ui-sortable-handle'>";
+            echo "          <li class='ui-sortable-handle'>\n";
 
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
             if ($result_chapter === false) {
-                echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>";
-                echo "<label for='" . $row["cid"] . "'>" . $row["title"] . "<a href=/read/?id=" . $row["cid"] . ">↗</a></label>";
+                echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
+                echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
 
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
-                    echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>";
-                    echo "<label for='" . $row["cid"] . "'>" . $row_title["title"] . ": " . $row["title"] . "<a href=/read/?id=" . $row["cid"] . ">↗</a></label>";
+                    echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
+                    echo "              <label for='" . $row["cid"] . "'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
                 }
             }
-            echo "</li>";
+            echo "          </li>\n";
         }
         echo "</ol>";
     }
