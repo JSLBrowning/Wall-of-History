@@ -145,25 +145,28 @@
         */
         $result = $mysqli->query($sql);
 
-        echo "<li class='ui-sortable-handle'>";
+        echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>";
 
         while ($row = $result->fetch_assoc()) {
+            echo "<li class='ui-sortable-handle'>";
+
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
             if ($result_chapter === false) {
-                echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>"
+                echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>";
                 echo "<label for='" . $row["cid"] . "'>" . $row["title"] . "<a href=/read/?id=" . $row["cid"] . ">↗</a></label>";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
 
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
-                    echo "<p>" . $row_title["title"] . ": " . $row["title"] . "</p>";
+                    echo "<input data-type='game' data-author='Greg Farshtey' type='checkbox' name='" . $row["cid"] . " id='" . $row["cid"] . "' value='" . $row["cid"] . "'>";
+                    echo "<label for='" . $row["cid"] . "'>" . $row_title["title"] . ": " . $row["title"] . "<a href=/read/?id=" . $row["cid"] . ">↗</a></label>";
                 }
             }
+            echo "</li>";
         }
-
-        echo "</li>";
+        echo "</ol>";
     }
 ?>
