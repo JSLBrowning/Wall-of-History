@@ -1,4 +1,5 @@
 <?php
+// Do I still NEED this?
 include("..//php/db_connect.php");
 
 // get the q parameter from URL

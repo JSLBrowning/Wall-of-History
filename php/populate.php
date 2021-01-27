@@ -128,8 +128,8 @@
             echo "</h2>";
         }
 
-        // Might as well fetch all the content for the content in question, right?
-        $sql = "SELECT * FROM woh_content WHERE id = \"" . $id . "\"";
+        // GET AND DISPLAY CONTENT
+        $sql = "SELECT main FROM woh_content WHERE id = \"" . $id . "\"";
 
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
@@ -144,17 +144,8 @@
         // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
         include("..//php/db_connect.php");
 
-        $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-        // Put ASC after chronology IFNULL too?
+        $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
         
-        /*
-        <li class="ui-sortable-handle">
-            <input data-type="game" data-author="Greg Farshtey" type="checkbox" name="75" id="75" value="75">
-            Is spaces in data attributes allowed?
-            Add languages.
-            <label for="75"><em>BIONICLE: Quest for the Toa</em><a href="/read/?id=75">↗</a></label>
-        </li>
-        */
         $result = $mysqli->query($sql);
 
         echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -165,10 +156,8 @@
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
-            // This... isn't working right.
-            // Quest for the Toa is displaying as Chapter 1: Quest for the Masks: Quest for the Toa.
-            // It isn't a chapter. And the chapter tags aren't even in yet?
-            if ($result_chapter === false) {
+            $num_chap = mysqli_num_rows($result_chapter);
+            if ($num_chap == 0) {
                 echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
                 echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
             } else {
