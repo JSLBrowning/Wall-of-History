@@ -12,21 +12,12 @@
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
-    <meta property="og:video" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
-    <meta property="og:video:url" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
-    <meta property="og:video:secure_url" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
-    <meta property="og:video:type" content="video/mp4" />
-    <meta property="og:video:width" content="2556" />
-    <meta property="og:video:height" content="1024" />
     <!-- Twitter -->
-    <meta name="twitter:card" content="player" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="About | Wall of History" />
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
     <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
-    <meta name="twitter:player" content="https://wallofhistory.com/player/container.html" />
-    <meta name="twitter:player:width" content="2556" />
-    <meta name="twitter:player:height" content="1024" />
     <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- end of OGP data -->
