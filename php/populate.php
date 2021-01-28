@@ -6,6 +6,8 @@
         // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
         // https://www.mysqltutorial.org/mysql-recursive-cte/
 
+        // Another idea: make the names of CSS files match their associated type tags or pieces of content, then have them automatically be loaded.
+
         $sql = "SELECT title, snippet, large_image FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
         // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
         // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
