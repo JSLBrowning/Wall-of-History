@@ -33,6 +33,7 @@
         <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
     <main>
+        <!-- TO-DO: Make this only autoplay the FIRST time someone visits the site. -->
         <video style="margin-top: -0.75em;" controls autoplay>
             <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
             Your browser does not support the video tag.

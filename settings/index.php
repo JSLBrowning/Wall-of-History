@@ -34,8 +34,7 @@
         <h2><a onclick="resetReadingOrder()">Reset to Default</a></h2>
         <h1 style="margin-bottom: 0.25em;">Select</h1>
         <!--
-        <div class="checkbuttons">
-        </div>
+        TO-DO: jQuery control group for tag selections, language preference
         -->
         <h1 style="margin: 0.25em 0em;">Language Preference</h1>
         <div class="checkbuttons">

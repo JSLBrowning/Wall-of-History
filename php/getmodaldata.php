@@ -5,7 +5,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-// $sql = "SELECT id, parent, fulltitle AS title, path FROM wall_of_history_contents WHERE childless=1 ORDER BY id ASC";
+// TO-DO: Ensure this is capitalization blind (this may have to be implemented in the JS).
 $sql = "SELECT content FROM wall_of_history_reference WHERE name = '$q'";
 
 // Perfom selection.
