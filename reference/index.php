@@ -106,7 +106,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
     <script src="/js/modal.js"></script>
-    <script src="/js/collapsible.js"></script>
     <script src="/js/indeterminate.js"></script>
     <script src="/js/slideshow.js"></script>
 </body>

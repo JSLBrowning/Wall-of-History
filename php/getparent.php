@@ -6,7 +6,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-$sql = "SELECT * FROM woh_web WHERE child_id = \"" . $q . "\"";
+$sql = "SELECT parent_id FROM woh_web WHERE child_id = \"" . $q . "\"";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
