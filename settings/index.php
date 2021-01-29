@@ -32,6 +32,7 @@
     </header>
     <main>
         <h2><a onclick="resetReadingOrder()">Reset to Default</a></h2>
+        <h2><a onclick="uncheckGreg()">Uncheck Greg</a></h2>
         <h1 style="margin-bottom: 0.25em;">Select</h1>
         <!--
         TO-DO: jQuery control group for tag selections, language preference

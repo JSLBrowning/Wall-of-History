@@ -160,7 +160,7 @@
             $result_chapter = $mysqli->query($sql_chapter);
             $num_chap = mysqli_num_rows($result_chapter);
             if ($num_chap == 0) {
-                echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
+                echo "              <input data-type='game' data-author='GregFarshtey CarlosD’Anda' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
                 echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
