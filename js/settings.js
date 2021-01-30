@@ -82,3 +82,14 @@ function uncheckGreg(){
     boxes[i].checked = false;
   }
 }
+
+$( function() {
+  $( "#check" ).selectmenu({
+    change: function( event, data ) {
+      let boxes = document.querySelectorAll("[data-tag*='" + data.item.value + "']");
+      for (i = 0; i < boxes.length; i++){
+        boxes[i].checked = false;
+      }
+    }
+  });
+} );

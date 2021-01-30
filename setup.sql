@@ -51,16 +51,15 @@ CREATE TABLE WoH_tags(
     id varchar(6),
     /* Self-explanatory — these are the same tags used for metadata and content. */
     tag_type text,
-    /* Examples: Type, Language, Organizational, Author, Illustrator, etc. */
+    /* Examples: Type, Language, Organizational, Author, etc. */
     tag text,
     /* Examples: */
     /* Types: animation, blog, card, comic, diary, game, growing_reader, movie, novel, podcast, serial, short_story, web_fiction */
     /* Language: en, es, fr */
     /* Organizational: chapter */
-    /* Authors: C.A. Hapka, Greg Farshtey, etc. */
-    /* Illustrators: Carlos D'Anda, Staurt Sayger, etc. */
+    /* Authors: C.A. Hapka, Greg Farshtey, Carlos D’Anda, Staurt Sayger, etc. */
     detailed_tag text
-    /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Greg Farshtey” above, you would put “Written by Greg Farshtey” here. */
+    /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Carlos D’Anda” above, you would put “Illustrated by Carlos D’Anda” here. */
 );
 
 CREATE TABLE WoH_web(
@@ -84,4 +83,5 @@ Remove headings from contents (existing h2s and h1s, since those are generated p
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
 Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
+Cards shouldn't be chapters, their names are descriptive enough.
 */

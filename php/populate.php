@@ -138,7 +138,6 @@
             // Self-explanatory — the main column contains the contents of the main tag.
             echo $row["main"];
         }
-
         hasChildren($id);
     }
 
@@ -146,8 +145,23 @@
         // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
         include("..//php/db_connect.php");
 
+        // First, find all the unique tags with which we select items, and make the selector.
+        $sql_tags = "SELECT DISTINCT(tag) AS tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') ORDER BY tag_type";
+        $result_tags = $mysqli->query($sql_tags);
+
+        echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check'>";
+        while ($row_tags = $result_tags->fetch_assoc()) {
+            echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
+        }
+        echo "</select>";
+
+        echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck'>";
+        while ($row_tags = $result_tags->fetch_assoc()) {
+            echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
+        }
+        echo "</select></fieldset>";
+
         $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
-        
         $result = $mysqli->query($sql);
 
         echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -155,12 +169,15 @@
         while ($row = $result->fetch_assoc()) {
             echo "          <li class='ui-sortable-handle'>\n";
 
+            // If an item has a vague title, such as “Chapter 1,” the name of the parent item needs to be appended to the front end.
             $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
 
             $result_chapter = $mysqli->query($sql_chapter);
             $num_chap = mysqli_num_rows($result_chapter);
             if ($num_chap == 0) {
-                echo "              <input data-type='game' data-author='GregFarshtey CarlosD’Anda' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
+                $sql_nexttags = "SELECT tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author')";
+                $result_nexttags = $mysqli->query($sql_nexttags);
+                echo "              <input data-tags='BLAHBLAHBLAHFUCKYOU' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
                 echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
