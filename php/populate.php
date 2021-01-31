@@ -149,7 +149,7 @@
         $sql_tags = "SELECT DISTINCT(tag) AS tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') ORDER BY tag_type";
         $result_tags = $mysqli->query($sql_tags);
 
-        echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check'>";
+        echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onChange = 'checkAll(this);'>";
         while ($row_tags = $result_tags->fetch_assoc()) {
             echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
         }
@@ -175,9 +175,12 @@
             $result_chapter = $mysqli->query($sql_chapter);
             $num_chap = mysqli_num_rows($result_chapter);
             if ($num_chap == 0) {
-                $sql_nexttags = "SELECT tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author')";
+                $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') AND id = '" . $row["cid"] . "'";
                 $result_nexttags = $mysqli->query($sql_nexttags);
-                echo "              <input data-tags='BLAHBLAHBLAHFUCKYOU' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
+                while ($row_nexttags = $result_nexttags->fetch_assoc()) {
+                    $itemtags = $row_nexttags["tags"];
+                }
+                echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
                 echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
             } else {
                 $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";

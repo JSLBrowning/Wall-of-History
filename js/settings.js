@@ -15,7 +15,7 @@ function fixSettings() {
   }
 }
 
-if (localStorage.getItem("WallofHistoryReadingOrder") != null){
+if (localStorage.getItem("WallofHistoryReadingOrder") != null) {
   fixSettings();
 }
 
@@ -75,21 +75,18 @@ jQuery(document).ready(function ($) {
   });
 });
 
-function uncheckGreg(){
-  console.log("1");
-  let boxes = document.querySelectorAll("[data-author*='GregFarshtey']");
+function checkAll(sel) {
+  let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
+  for (i = 0; i < boxes.length; i++){
+    boxes[i].checked = true;
+  }
+  alert("All " + sel.options[sel.selectedIndex].value + " items have been selected.");
+}
+
+function uncheckAll(sel) {
+  let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
   for (i = 0; i < boxes.length; i++){
     boxes[i].checked = false;
   }
+  alert("All " + sel.options[sel.selectedIndex].value + " items have been unselected.");
 }
-
-$( function() {
-  $( "#check" ).selectmenu({
-    change: function( event, data ) {
-      let boxes = document.querySelectorAll("[data-tag*='" + data.item.value + "']");
-      for (i = 0; i < boxes.length; i++){
-        boxes[i].checked = false;
-      }
-    }
-  });
-} );
