@@ -19,6 +19,10 @@ if (localStorage.getItem("WallofHistoryReadingOrder") != null) {
   fixSettings();
 }
 
+// The below is necessary because if the select menus load with any actual value selected by default, and a user tries to select that same value, it won't work the first time.
+document.getElementById("check").selectedIndex = "-1";
+document.getElementById("uncheck").selectedIndex = "-1"; 
+
 $.noConflict();
 jQuery(document).ready(function ($) {
   function initSortable() {

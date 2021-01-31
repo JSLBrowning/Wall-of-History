@@ -146,16 +146,17 @@
         include("..//php/db_connect.php");
 
         // First, find all the unique tags with which we select items, and make the selector.
-        $sql_tags = "SELECT DISTINCT(tag) AS tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') ORDER BY tag_type";
+        $sql_tags = "SELECT DISTINCT(tag) AS tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') ORDER BY tag_type";
         $result_tags = $mysqli->query($sql_tags);
 
-        echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onChange = 'checkAll(this);'>";
+        echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = -1;'>";
         while ($row_tags = $result_tags->fetch_assoc()) {
-            echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
+            echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["detailed_tag"] . "'</option>";
         }
         echo "</select>";
 
-        echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck'>";
+        echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck' onchange = 'uncheckAll(this);' onfocus='this.selectedIndex = -1;'>";
+        $result_tags->data_seek(0);
         while ($row_tags = $result_tags->fetch_assoc()) {
             echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
         }

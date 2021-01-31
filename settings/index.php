@@ -22,7 +22,6 @@
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- end of OGP data -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
     <title>Settings | Wall of History</title>
 </head>
 <body>
