@@ -1,3 +1,39 @@
+// MENU AND SETTINGS MODALS
+var allModals = document.getElementsByClassName("modal");
+
+var navigationModal = document.getElementById("navigationModal");
+var navigationButton = document.getElementById("navigationButton");
+var navigationClose = document.getElementById("navigationClose");
+
+navigationButton.onclick = function() {
+    navigationModal.style.display = "block";
+}
+
+navigationClose.onclick = function() {
+    navigationModal.style.display = "none";
+}
+
+var settingsModal = document.getElementById("settingsModal");
+var settingsButton = document.getElementById("settingsButton");
+var settingsClose = document.getElementById("settingsClose");
+
+settingsButton.onclick = function() {
+    settingsModal.style.display = "block";
+}
+
+settingsClose.onclick = function() {
+    settingsModal.style.display = "none";
+}
+
+// This works for the second modal, but not the first... Why?
+window.onclick = function(event) {
+    if ((event.target == navigationModal) || (event.target == settingsModal)) {
+        for (i = 0; i < allModals.length; ++i) {
+            allModals[i].style.display = "none";
+        }
+    }
+}
+
 // Replace this shit with an AJAX request.
 let referenceList = document.getElementById("referenceitems").children;
 let referenceItems = []

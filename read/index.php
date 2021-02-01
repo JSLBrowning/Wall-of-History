@@ -19,19 +19,35 @@
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
 </head>
 <body>
-    <aside>Blah blah blah.</aside>
-    <aside>Settings settings settings.</aside>
+    <!-- MAIN NAVIGATION MENU MODAL -->
+    <button id="navigationButton">&#9776;</button>
+    <div id="navigationModal" class="modal">
+        <div class="modal-content">
+            <span id="navigationClose">&times;</span>
+            <p>
+            <?php
+                if (count($_GET) == 1) {
+                    echo "<a href=\"/read/\">Contents</a>";
+                } else {
+                    echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                }
+            ?>
+            | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
+        </div>
+    </div>
+    <!-- SETTINGS MENU MODAL -->
+    <!-- WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER) -->
+    <button id="settingsButton">&#9881;</button>
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span id="settingsClose">&times;</span>
+            <p>Blah blah blah…</p>
+        </div>
+    </div>
+    <!-- DOWNLOAD BUTTON -->
+    <button id="downloadButton" style="display: none;">↓</button>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
-        <p>
-        <?php
-            if (count($_GET) == 1) {
-                echo "<a href=\"/read/\">Contents</a>";
-            } else {
-                echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
-            }
-        ?>
-         | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
     <main>
         <?php
@@ -102,6 +118,7 @@
     <script src="/js/language.js"></script>
     <script src="/js/slideshow.js"></script>
     <script>
+        // ?
         if ($("#sortable").length > 0) {
             $(".savefile").hide();
             $(".nav").hide();
