@@ -32,17 +32,12 @@
     <main>
         <h2><a onclick="resetReadingOrder()">Reset to Default</a></h2>
         <!--
-        <h2><a onclick="uncheckGreg()">Uncheck Greg</a></h2>
-        <h1 style="margin-bottom: 0.25em;">Select</h1>
-        TO-DO: jQuery control group for tag selections, language preference
-        <h1 style="margin: 0.25em 0em;">Language Preference</h1>
         <div class="checkbuttons">
             <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'en,es');
             alert('Your language preference has been updated!')">English</button>
             <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'es,en');
             alert('¡Tu preferencia de idioma ha sido actualizada!')">Español</button>
         </div>
-        <h1 style="margin: 0.25em 0em;">Sort</h1>
         -->
         <?php
             include("..//php/populate.php");

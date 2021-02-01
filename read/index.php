@@ -19,6 +19,8 @@
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
 </head>
 <body>
+    <aside>Blah blah blah.</aside>
+    <aside>Settings settings settings.</aside>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
         <p>
