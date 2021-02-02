@@ -136,6 +136,8 @@
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
             // Self-explanatory — the main column contains the contents of the main tag.
+            /* echo str_replace("<p>", "<a></a><p>", (string)$row["main"]); */
+            // Okay, we'll come back to page numbers later.
             echo $row["main"];
         }
         hasChildren($id);

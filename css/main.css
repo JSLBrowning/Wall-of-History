@@ -225,7 +225,7 @@ nav{
 
 main button{
     display: inline-block;
-    margin: 0.25em 0.5em;
+    margin: 0.25em 8px;
     border: none;
     border-radius: 32px;
     background: none;

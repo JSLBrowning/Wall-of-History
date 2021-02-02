@@ -20,6 +20,9 @@
     <link rel='stylesheet' type='text/css' href='/css/tahu.css'>
 </head>
 <body>
+    <header>
+        <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+    </header>
     <aside>
         <!-- MAIN NAVIGATION MENU MODAL -->
         <button id="navigationButton">&#9776;</button>
@@ -48,9 +51,6 @@
         <!-- DOWNLOAD BUTTON -->
         <button id="downloadButton" style="display: none;">↓</button>
     </aside>
-    <header>
-        <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
-    </header>
     <main>
         <?php
         if(count($_GET)) {

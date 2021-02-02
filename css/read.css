@@ -4,11 +4,19 @@
     font-size: medium;
 }
 
+aside{
+    position: absolute;
+    z-index: 1;
+    top: 1em;
+    right: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
 #navigationButton,
 #settingsButton,
 #downloadButton{
-    top: 1em;
-    position: absolute;
+    margin: 0.5em;
     width: 72px;
     height: 72px;
     border-radius: 50%;
@@ -19,24 +27,25 @@
     padding: none;
     font-size: 2em;
     font-weight: bolder;
+    z-index: 1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
 }
 
 #navigationButton:focus,
-#settingsButton:focus{
+#settingsButton:focus,
+#downloadButton:focus{
     outline: 0;
 }
 
-#navigationButton{
-    left: 1em;
-    z-index: 2;
+#navigationButton:hover,
+#settingsButton:hover,
+#downloadButton:hover{
+    transform: scale(1.05);
 }
 
-#settingsButton,
-#downloadButton{
-    right: 1em;
-    z-index: 1;
-}
-
-#downloadButton{
-    margin-top: 3em;
+#navigationButton:active,
+#settingsButton:active,
+#downloadButton:active{
+    transform: scale(0.95);
 }
