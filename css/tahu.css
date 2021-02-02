@@ -1,20 +1,18 @@
 body{
-    background-color: #050000;
+    background-color: #100000;
 }
 
-header,
-main{
-    background-color: #0A0000;
+main,
+#navigationButton,
+#settingsButton,
+#downloadButton{
+    background-color: #200000;
 }
 
-header{
-    border-bottom: 1px solid red;
-}
-
-main{
-    border: 1px solid red;
-}
-
-main button{
-    border: 1px solid red;
+main,
+body button,
+#navigationButton,
+#settingsButton,
+#downloadButton{
+    box-shadow: 0 0 4px orangered;
 }

@@ -5,16 +5,38 @@
 }
 
 #navigationButton,
-#settingsButton{
+#settingsButton,
+#downloadButton{
     top: 1em;
     position: absolute;
-    z-index: 1;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: #101010;
+    color: white;
+    box-shadow: 0 0 0.25em white;
+    border: none;
+    padding: none;
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+#navigationButton:focus,
+#settingsButton:focus{
+    outline: 0;
 }
 
 #navigationButton{
     left: 1em;
+    z-index: 2;
 }
 
-#settingsButton{
+#settingsButton,
+#downloadButton{
     right: 1em;
+    z-index: 1;
+}
+
+#downloadButton{
+    margin-top: 3em;
 }

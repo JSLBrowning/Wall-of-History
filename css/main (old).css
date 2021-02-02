@@ -21,7 +21,7 @@
 
 body,
 main{
-    background: #080808;
+    background: #050505;
 }
 
 html, body{
@@ -37,20 +37,21 @@ img{
 header,
 main{
     position: relative;
-    background: #161616;
+    background: #0A0A0A;
     overflow: hidden;
     color: #fff;
     font-family: 'Gill Sans Std';
     font-style: normal;
     line-height: 1.5;
+    text-shadow: 2px 2px 5px black;
 }
 
 header{
     margin: auto;
-    margin-top: 1em;
     width: 100%;
+    box-shadow: 0em 0.25em #000;
+    border-bottom: 1px solid #fff;
     margin-bottom: 1em;
-    background: none;
 }
 
 header p{
@@ -85,8 +86,9 @@ main{
     padding: 8px 0px;
     width: 90%;
     max-width: 640px;
-    box-shadow: 0 0 0.25em white;
-    border-radius: 0.5em;
+    box-shadow: 0.25em 0.25em #000;
+    border: 1px solid #fff;
+    border-radius: 0.75em 0em 0.5em 0em;
 }
 
 main h1, h2, h3{
@@ -225,14 +227,13 @@ nav{
 
 main button{
     display: inline-block;
-    margin: 0.25em 0.5em;
-    border: none;
-    border-radius: 32px;
+    margin: 4px 4px;
+    border: 1px solid #fff;
+    border-radius: 4px;
     background: none;
     color: #fff;
-    box-shadow: 0 0 0.125em white;
+    box-shadow: 0.125em 0.125em #000;
     cursor: pointer;
-    transition: all .2s ease-in-out;
 }
 
 #submit{
@@ -316,24 +317,6 @@ nav button,
     width: 128px;
     height: 64px;
     font-size: 2em;
-}
-
-.savefile button:hover,
-nav button:hover,
-.nav button:hover{
-    transform: scale(1.05);
-}
-
-.savefile button:active,
-nav button:active,
-.nav button:active{
-    transform: scale(0.95);
-}
-
-.savefile button:focus,
-nav button:focus,
-.nav button:focus{
-    outline: 0;
 }
 
 .modalbtn{

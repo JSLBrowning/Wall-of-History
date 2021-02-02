@@ -17,35 +17,37 @@
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
+    <link rel='stylesheet' type='text/css' href='/css/tahu.css'>
 </head>
 <body>
-    <!-- MAIN NAVIGATION MENU MODAL -->
-    <button id="navigationButton">&#9776;</button>
-    <div id="navigationModal" class="modal">
-        <div class="modal-content">
-            <span id="navigationClose">&times;</span>
-            <p>
-            <?php
-                if (count($_GET) == 1) {
-                    echo "<a href=\"/read/\">Contents</a>";
-                } else {
-                    echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
-                }
-            ?>
-            | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
+    <aside>
+        <!-- MAIN NAVIGATION MENU MODAL -->
+        <button id="navigationButton">&#9776;</button>
+        <div id="navigationModal" class="modal">
+            <div class="modal-content">
+                <span id="navigationClose">&times;</span>
+                <p>
+                <?php
+                    if (count($_GET) == 1) {
+                        echo "<a href=\"/read/\">Contents</a>";
+                    } else {
+                        echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                    }
+                ?>
+                | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
+            </div>
         </div>
-    </div>
-    <!-- SETTINGS MENU MODAL -->
-    <!-- WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER) -->
-    <button id="settingsButton">&#9881;</button>
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <span id="settingsClose">&times;</span>
-            <p>Blah blah blah…</p>
+        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+        <button id="settingsButton">&#9881;</button>
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <span id="settingsClose">&times;</span>
+                <p>Blah blah blah…</p>
+            </div>
         </div>
-    </div>
-    <!-- DOWNLOAD BUTTON -->
-    <button id="downloadButton" style="display: none;">↓</button>
+        <!-- DOWNLOAD BUTTON -->
+        <button id="downloadButton" style="display: none;">↓</button>
+    </aside>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
@@ -89,7 +91,6 @@
         $mysqli->close();
         */
         ?>
-
         <div style="padding: 4px;"></div>
         <div class="savefile">
             <button type="savefilebutton" onclick="savePlace()">Save Place</button>
