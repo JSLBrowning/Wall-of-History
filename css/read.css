@@ -17,15 +17,15 @@ aside{
 #settingsButton,
 #downloadButton{
     margin: 0.5em;
-    width: 72px;
-    height: 72px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background-color: #101010;
     color: white;
     box-shadow: 0 0 0.25em white;
     border: none;
     padding: none;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bolder;
     z-index: 1;
     cursor: pointer;
@@ -41,11 +41,18 @@ aside{
 #navigationButton:hover,
 #settingsButton:hover,
 #downloadButton:hover{
-    transform: scale(1.05);
+    transform: scale(1.125);
 }
 
 #navigationButton:active,
 #settingsButton:active,
 #downloadButton:active{
     transform: scale(0.95);
+}
+
+#navigationClose,
+#settingsClose{
+    color: white;
+    top: 8px;
+    right: 8px;
 }

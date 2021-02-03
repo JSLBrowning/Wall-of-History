@@ -1,21 +1,21 @@
 // MENU AND SETTINGS MODALS
 var allModals = document.getElementsByClassName("modal");
-
 var navigationModal = document.getElementById("navigationModal");
 var navigationButton = document.getElementById("navigationButton");
 var navigationClose = document.getElementById("navigationClose");
+var settingsModal = document.getElementById("settingsModal");
+var settingsButton = document.getElementById("settingsButton");
+var settingsClose = document.getElementById("settingsClose");
 
 navigationButton.onclick = function() {
+    settingsButton.style.zIndex = "-1";
+    // Settings button is still at 1 a second too late.
     navigationModal.style.display = "block";
 }
 
 navigationClose.onclick = function() {
     navigationModal.style.display = "none";
 }
-
-var settingsModal = document.getElementById("settingsModal");
-var settingsButton = document.getElementById("settingsButton");
-var settingsClose = document.getElementById("settingsClose");
 
 settingsButton.onclick = function() {
     settingsModal.style.display = "block";
@@ -30,6 +30,7 @@ window.onclick = function(event) {
     if ((event.target == navigationModal) || (event.target == settingsModal)) {
         for (i = 0; i < allModals.length; ++i) {
             allModals[i].style.display = "none";
+            settingsButton.style.zIndex = "1";
         }
     }
 }

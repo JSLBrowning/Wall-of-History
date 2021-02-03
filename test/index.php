@@ -18,6 +18,7 @@
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
     <link rel='stylesheet' type='text/css' href='/css/tahu.css'>
+    <link rel='stylesheet' type='text/css' href='/css/contents.css'>
 </head>
 <body>
     <header>
@@ -57,54 +58,52 @@
         <button id="downloadButton" style="display: none;">↓</button>
     </aside>
     <main>
-        <?php
-        if(count($_GET)) {
-            $id = $_GET["id"];
-        } else {
-            $id = "0";
-        }
-        loadContent($id);
-        ?>
-
-        <?php
-        /*
-        include("..//php/db_connect.php");
-
-        // Create selection statement.
-        $sql = "SELECT name FROM wall_of_history_reference";
-
-        // Perfom selection.
-        $result = $mysqli->query($sql);
-
-        if ($result->num_rows > 0) {
-            $b = array();
-
-            while ($row = mysqli_fetch_assoc($result)) {
-                array_push($b, $row);
-            }
-
-            function rd($b)
-            {
-                $r = '';
-                foreach ($b as $i) {
-                    $r = $r . "<li>" . $i['name'] . "</li>";
-                }
-                return ($r == '' ? '' : "<ol id='referenceitems' style='list-style-type:none' hidden='true'>" . $r . "</ol>");
-            }
-            print rd($b);
-        }
-        $mysqli->close();
-        */
-        ?>
-        <div style="padding: 4px;"></div>
-        <div class="savefile">
-            <button type="savefilebutton" onclick="savePlace()">Save Place</button>
-            <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
-        </div>
-        <div class="nav">
-            <button type="navbutton" onclick="goBack()" id="backbutton">←</button>
-            <button type="navbutton" onclick="goForward()" id="forwardbutton">→</button>
-        </div>
+        <h1>Table of Contents</h1>
+        <button class="contentsButton">
+            <div class="contentsImg">
+                <img src="/img/ogp/a1.png">
+            </div>
+            <div class="contentsText">
+                <p>BIONICLE Adventures #1: Mystery of Metru Nui</p>
+                <p>The Toa must blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.</p>
+            </div>
+        </button>
+        <button class="contentsButton">
+            <div class="contentsImg">
+                <img src="/img/ogp/a2.png">
+            </div>
+            <div class="contentsText">
+                <p>BIONICLE Adventures #2: Trial by Fire</p>
+                <p>The Toa must blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.</p>
+            </div>
+        </button>
+        <button class="contentsButton">
+            <div class="contentsImg">
+                <img src="/img/ogp/a3.png">
+            </div>
+            <div class="contentsText">
+                <p>BIONICLE Adventures #3: The Darkness Below</p>
+                <p>The Toa must blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.</p>
+            </div>
+        </button>
+        <button class="contentsButton">
+            <div class="contentsImg">
+                <img src="/img/ogp/a4.png">
+            </div>
+            <div class="contentsText">
+                <p>BIONICLE Adventures #4: Legends of Metru Nui</p>
+                <p>The Toa must blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.</p>
+            </div>
+        </button>
+        <button class="contentsButton">
+        <div class="contentsImg">
+                <img src="/img/ogp/a5.png">
+            </div>
+            <div class="contentsText">
+                <p>BIONICLE Adventures #5: Voyage of Fear</p>
+                <p>The Toa must blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.</p>
+            </div>
+        </button>
     </main>
     <!-- modal -->
     <div id="myModal" class="modal">
