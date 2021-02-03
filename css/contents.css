@@ -69,4 +69,6 @@
 
 .contentsText p:last-of-type{
     font-family: "Gill Sans Std";
+    padding-top: 0em;
+    padding-bottom: 0em;
 }

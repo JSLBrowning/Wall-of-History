@@ -38,12 +38,13 @@
         // This function finds any and all children that a given piece of content has, then echoes them in a list format.
         include("..//php/db_connect.php");
 
-        $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
 
         // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
         if ($id == "0") {
-            $sql = "SELECT id AS cid, title, chronology FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT MIN(chronology) FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid AND chronology IS NOT NULL)), title ASC";
+            $sql = "SELECT id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT MIN(chronology) FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid AND chronology IS NOT NULL)), title ASC";
+            echo "<h1>Table of Contents</h1>";
         }
         // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
 
@@ -52,21 +53,22 @@
 
         // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
         if ($num_rows != 0) {
-            // If the content does have children, they will be displayed in a list.
-            echo "<ol id='sortable'>";
-            
-            // Each child must be made its own list item…
             while ($row = $result->fetch_assoc()) {
-                // …which must have the matching title, of course.
-                $sql_title = "SELECT title FROM woh_metadata WHERE woh_metadata.id = \"" . $row["cid"] . "\"";
-                
-                $result_title = $mysqli->query($sql_title);
-                
-                while($row_title = $result_title->fetch_assoc()){
-                    echo "<li><a href='/read/?id=" . $row["cid"] . "'>" . $row_title["title"] . " ↗</a>" . "</li>";
+                echo "<button class='contentsButton' onclick='window.location.href=\"/read/?id=" . $row["cid"] . "\";'>";
+                if (($row["small_image"] === NULL) && ($row["large_image"] === NULL)) {
+                    
+                } elseif (!($row["small_image"] === NULL)) {
+                    echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
+                } else {
+                    echo "<div class='contentsImg'><img src='" . $row["large_image"] . "'></div>";
+                }
+                $snippet = (string) $row["snippet"];
+                if (strlen($snippet) > 196) {
+                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></div></button>";
+                } else {
+                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></div></button>";
                 }
             }
-            echo "</ol>";
         }
     }
 
