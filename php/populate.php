@@ -1,4 +1,6 @@
 <?php
+    // TO-DO: Add a populator for the settings button based on available sections.
+    // ALSO add a read as standalone button generator and create corresponding JS.
     function populateHead($id) {
         // This function is pretty straightforward — it populates the head of the page with content-specific OGP data.
         include("..//php/db_connect.php");
@@ -91,6 +93,7 @@
         $result = $mysqli->query($sql);
         $num_rows = mysqli_num_rows($result);
         if ((!($id == 0)) && ($num_rows == 0)) {
+            // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
             echo "<h2><a onClick='location.href=\"/read/\"'>Table of Contents</a></h2>";
         } else {
             while ($row = $result->fetch_assoc()) {

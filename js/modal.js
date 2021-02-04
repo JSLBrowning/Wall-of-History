@@ -1,10 +1,10 @@
 // MENU AND SETTINGS MODALS
 var allModals = document.getElementsByClassName("modal");
-var navigationModal = document.getElementById("navigationModal");
 var navigationButton = document.getElementById("navigationButton");
+var navigationModal = document.getElementById("navigationModal");
 var navigationClose = document.getElementById("navigationClose");
-var settingsModal = document.getElementById("settingsModal");
 var settingsButton = document.getElementById("settingsButton");
+var settingsModal = document.getElementById("settingsModal");
 var settingsClose = document.getElementById("settingsClose");
 
 navigationButton.onclick = function() {
@@ -17,18 +17,24 @@ navigationClose.onclick = function() {
     navigationModal.style.display = "none";
 }
 
-settingsButton.onclick = function() {
-    settingsModal.style.display = "block";
+if (settingsModal) {
+    settingsButton.onclick = function() {
+        settingsModal.style.display = "block";
+    }
 }
 
-settingsClose.onclick = function() {
-    settingsModal.style.display = "none";
+if (settingsModal) {
+    settingsClose.onclick = function() {
+        settingsModal.style.display = "none";
+    }
 }
 
 // This works for the second modal, but not the first... Why?
+// Well, now it doesn't work for either of them. Great.
+// Wait, it works for... the first one, on the homepage.
 window.onclick = function(event) {
-    if ((event.target == navigationModal) || (event.target == settingsModal)) {
-        for (i = 0; i < allModals.length; ++i) {
+    if (event.target.classList.contains('modal')) {
+        for (i = 0; i < allModals.length; i++) {
             allModals[i].style.display = "none";
             settingsButton.style.zIndex = "1";
         }
@@ -45,7 +51,7 @@ for (i = 0; i < referenceList.length; i++) {
 
 // Next thing.
 for (i = 0; i < referenceList.length; i++) {
-    $("p:contains('" + referenceItems[i] + "')").html(function (_, html) {
+    $("p:contains('" + referenceItems[i] + "')").html(function(_, html) {
         regex = new RegExp(referenceItems[i], "gi");
         return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>');
     });
@@ -67,7 +73,7 @@ function getContent(str) {
         return;
     } else {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("modal-data").innerHTML = this.responseText;
 
@@ -89,13 +95,13 @@ function getContent(str) {
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function () {
+span.onclick = function() {
     modal.style.display = "none";
     document.getElementById("modal-data").innerHTML = "<p>No information is available at this time.</p>";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
         document.getElementById("modal-data").innerHTML = "<p>No information is available at this time.</p>";

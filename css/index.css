@@ -1,13 +1,8 @@
-body{
-    background-image: url("/img/background-image.png");
-    background-position: center;
-}
-
-main{
+main {
     width: 90%;
     max-width: 960px;
 }
 
-main video{
+main video {
     padding: 0em;
 }

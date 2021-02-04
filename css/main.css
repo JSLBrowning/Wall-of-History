@@ -1,38 +1,37 @@
-*{
+* {
     padding: 0px;
     margin: 0px;
 }
 
-@font-face{
+@font-face {
     font-family: 'TradeMarker';
-    src: url('../../fonts/TradeMarker-Bold.woff2') format('woff2'),
-        url('../../fonts/TradeMarker-Bold.woff') format('woff');
+    src: url('../../fonts/TradeMarker-Bold.woff2') format('woff2'), url('../../fonts/TradeMarker-Bold.woff') format('woff');
     font-weight: bold;
 }
 
-@font-face{
+@font-face {
     font-family: 'Gill Sans Std';
-    src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'),
-        url('../../fonts/GillSansStd-Light.woff') format('woff');
+    src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'), url('../../fonts/GillSansStd-Light.woff') format('woff');
 }
 
 body,
-main{
+main {
     background: #080808;
 }
 
-html, body{
+html,
+body {
     min-height: 100%;
 }
 
-img{
+img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 header,
-main{
+main {
     position: relative;
     background: #161616;
     overflow: hidden;
@@ -42,43 +41,41 @@ main{
     line-height: 1.5;
 }
 
-header{
-    margin: auto;
-    margin-top: 1em;
+header {
+    margin: 0.5em auto;
     width: 100%;
-    margin-bottom: 1em;
     background: none;
 }
 
-header p{
+header p {
     text-align: center;
     margin: auto;
     padding: 0.5em;
     font-size: 1em;
 }
 
-header a{
+header a {
     color: #fff;
     text-decoration: none;
 }
 
-header a:hover{
+header a:hover {
     color: #cccccc;
     text-decoration: none;
 }
 
-header a:active{
+header a:active {
     color: #99999a;
     text-decoration: none;
 }
 
-header a:visited{
+header a:visited {
     color: #fff;
     text-decoration: none;
 }
 
-main{
-    margin: 32px auto;
+main {
+    margin: 1em auto;
     padding: 8px 0px;
     width: 90%;
     max-width: 640px;
@@ -86,7 +83,9 @@ main{
     border-radius: 0.5em;
 }
 
-main h1, h2, h3{
+main h1,
+h2,
+h3 {
     text-align: center;
     padding: 0 8px;
     line-height: 1em;
@@ -94,44 +93,47 @@ main h1, h2, h3{
     font-weight: bold;
 }
 
-main h1{
+
+/* Why don't these work? */
+
+main h2 a:hover {
+    transform: scale(1.125);
+}
+
+main h2 a:active {
+    transform: scale(0.95);
+}
+
+main h1 {
     font-size: 2.5em;
 }
 
-main h2{
+main h2 {
     font-size: 1.25em;
 }
 
-main h2:nth-of-type(2){
-    margin-bottom: 0.5em;
-}
-
-main h3{
+main h3 {
     font-size: 2em;
 }
 
-.maintextpadding{
-    padding: 4px;
-}
-
-audio{
+audio {
     width: 100%;
     max-width: 640px;
 }
 
-main p{
+main p {
     padding: 0.5em 0.5em;
     font-size: 1.125em;
     text-align: justify;
     text-justify: inter-word;
 }
 
-ul{
+ul {
     list-style: none;
     margin: 8px 8px;
 }
 
-#sortable li{
+#sortable li {
     margin: 4px;
     background-color: #3a3a3a;
     border-radius: 4px;
@@ -139,11 +141,11 @@ ul{
     display: flex;
 }
 
-#sortable li:hover{
+#sortable li:hover {
     background-color: #262626;
 }
 
-label{
+label {
     display: inline-block;
     width: 100%;
     padding: 0px 8px;
@@ -152,61 +154,61 @@ label{
     cursor: pointer;
 }
 
-label input{
+label input {
     margin-right: 4px;
 }
 
 main a,
-.modal-content a{
+.modal-content a {
     color: #fff;
 }
 
 main a:hover,
-.modal-content a:hover{
+.modal-content a:hover {
     color: #cccccc;
 }
 
 main a:active,
-.modal-content a:active{
+.modal-content a:active {
     color: #99999a;
 }
 
 main a:visited,
-.modal-content a:visited{
+.modal-content a:visited {
     color: #fff;
 }
 
 main img,
 main video,
-main iframe{
+main iframe {
     margin: 0px 0px 0px 0px;
     width: 100%;
     padding: 8px 0px 8px 0px;
 }
 
-main blockquote{
+main blockquote {
     margin: auto;
     width: auto;
     display: table;
 }
 
-#indeximg{
+#indeximg {
     margin: 0px 0px -18px 0px;
 }
 
-.social{
+.social {
     width: 33.33%;
     flex-direction: row;
     margin: auto;
     margin-bottom: 1em;
 }
 
-.social a{
+.social a {
     width: 32px;
     height: 32px;
 }
 
-.social img{
+.social img {
     width: 32px;
     height: 32px;
 }
@@ -214,13 +216,13 @@ main blockquote{
 .slidecontrols,
 .savefile,
 .nav,
-nav{
+nav {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-main button{
+main button {
     display: inline-block;
     margin: 0.25em 8px;
     border: none;
@@ -232,7 +234,7 @@ main button{
     transition: all .2s ease-in-out;
 }
 
-#submit{
+#submit {
     display: block;
     margin: 10px auto;
     width: 128px;
@@ -241,7 +243,7 @@ main button{
 }
 
 .slidecontrols,
-.checkbuttons{
+.checkbuttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,7 +251,7 @@ main button{
 
 .slidecontrols button,
 #slidelocationdiv,
-.checkbuttons button{
+.checkbuttons button {
     z-index: 1;
     margin: -8px 0px 0px 0px;
     border: none;
@@ -262,17 +264,17 @@ main button{
     box-shadow: none;
 }
 
-.slidecontrols button{
+.slidecontrols button {
     color: #fff;
     cursor: pointer;
 }
 
-#slidelocationdiv{
+#slidelocationdiv {
     line-height: 32px;
     text-align: center;
 }
 
-#slidelocation{
+#slidelocation {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -282,34 +284,34 @@ main button{
 }
 
 .slidecontrols button:hover,
-.checkbuttons button:hover{
+.checkbuttons button:hover {
     background-color: #99999a;
 }
 
 .slidecontrols button:active,
-.checkbuttons button:active{
+.checkbuttons button:active {
     background-color: #666767;
 }
 
-.checkbuttons{
+.checkbuttons {
     flex-wrap: wrap;
 }
 
-.checkbuttons button{
+.checkbuttons button {
     flex-basis: 25%;
     flex-wrap: wrap;
     margin-top: 0px;
     font-size: 0.875em;
 }
 
-.savefile button{
+.savefile button {
     width: 128px;
     height: 32px;
     font-size: 1.25em;
 }
 
 nav button,
-.nav button{
+.nav button {
     width: 128px;
     height: 64px;
     font-size: 2em;
@@ -317,42 +319,42 @@ nav button,
 
 .savefile button:hover,
 nav button:hover,
-.nav button:hover{
+.nav button:hover {
     transform: scale(1.05);
 }
 
 .savefile button:active,
 nav button:active,
-.nav button:active{
+.nav button:active {
     transform: scale(0.95);
 }
 
 .savefile button:focus,
 nav button:focus,
-.nav button:focus{
+.nav button:focus {
     outline: 0;
 }
 
-.modalbtn{
+.modalbtn {
     text-decoration: underline;
     cursor: pointer;
 }
 
 main hr,
 .maintext hr,
-.modalcontent hr{
+.modalcontent hr {
     margin-left: 0.5em;
     margin-right: 0.5em;
     color: #fff;
 }
 
 main hr,
-.maintext hr{
+.maintext hr {
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
-.closediv{
+.closediv {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -367,103 +369,90 @@ main hr,
     text-shadow: 2px 2px 5px black;
 }
 
-.close:hover{
+.close:hover {
     color: #cccccc;
     text-decoration: none;
     cursor: pointer;
 }
 
-.close:active{
+.close:active {
     color: #99999a;
     text-decoration: none;
     cursor: pointer;
 }
 
-main h2 a{
+main h2 a {
     text-decoration: none;
     cursor: pointer;
+    transition: all .2s ease-in-out;
 }
 
-#submit{
+#submit {
     border-radius: 0.25em 0em 0.25em 0em;
 }
 
-@media only screen and (max-width: 640px){
-    header img{
+@media only screen and (max-width: 640px) {
+    header img {
         max-width: 90%;
         height: auto;
     }
-
     main,
-    .maintext{
+    .maintext {
         margin: 8px auto;
         width: 95%;
         padding: 0px;
     }
-
     main h1,
     .modalcontent h1,
-    .maintext h1{
+    .maintext h1 {
         font-size: 1.25em;
     }
-
     main h2,
     .modalcontent h2,
-    .maintext h2{
+    .maintext h2 {
         font-size: 0.75em;
     }
-
     main h3,
     .modalcontent h3,
-    .maintext h3{
+    .maintext h3 {
         font-size: 1em;
     }
-
-    .maintextpadding:nth-of-type(1){
-        padding: 0px;
-    }
-    
     main p,
     header p,
     .modalcontent p,
-    .maintext p{
+    .maintext p {
         font-size: 1em;
     }
-
-    .social{
+    .social {
         width: 99.99%;
     }
-
-    .social a{
+    .social a {
         width: 24px;
         height: 24px;
     }
-
-    .social img{
+    .social img {
         width: 24px;
         height: 24px;
     }
-
-    .savefile button{
+    .savefile button {
         width: 128px;
         height: 32px;
         font-size: 1em;
     }
-    
-    .nav button{
+    .nav button {
         width: 128px;
         height: 32px;
         font-size: 1em;
     }
 }
 
-#gearbtndiv{
+#gearbtndiv {
     position: absolute;
     top: 8px;
     right: 8px;
 }
 
-#gearbtn{
+#gearbtn {
     text-align: center;
     color: #fff;
     font-size: 2em;
@@ -472,19 +461,19 @@ main h2 a{
     text-shadow: 2px 2px 5px black;
 }
 
-#gearbtn:hover{
+#gearbtn:hover {
     color: #cdcfd0;
     text-decoration: none;
     cursor: pointer;
 }
 
-#gearbtn:active{
+#gearbtn:active {
     color: #9ca0a2;
     text-decoration: none;
     cursor: pointer;
 }
 
-.contents p{
+.contents p {
     text-align: center;
     padding: 0em 0.5em;
     line-height: 1.25em;

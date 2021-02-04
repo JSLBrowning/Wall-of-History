@@ -94,7 +94,8 @@ function hideButtons() {
         forwardButton.style.display = "none";
     }
 
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+    let WoHReadingOrder = localStorage.getItem("WallofHistoryReadingOrder");
+    let WallofHistoryReadingOrder = WoHReadingOrder.split(",");
     if (findSelf() === 0) {
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "none";
@@ -106,14 +107,11 @@ function hideButtons() {
     const urlParams = new URLSearchParams(window.location.search);
     let currentId = urlParams.get("id");
 
-    if (!(currentId in WallofHistoryReadingOrder)) {
-        
+    if (!(WoHReadingOrder.indexOf(currentId) !== -1)) {
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "none";
         let forwardButton = document.getElementById("forwardbutton");
         forwardButton.style.display = "none";
-    } else {
-        alert("Fuck.");
     }
 }
 
