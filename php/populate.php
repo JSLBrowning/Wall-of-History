@@ -14,6 +14,10 @@
         // Need to work on it.
 
         $result = $mysqli->query($sql);
+        $num_rows = mysqli_num_rows($result);
+        if ((!($id == 0)) && ($num_rows == 0)) {
+            echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\" />";
+        }
         while ($row = $result->fetch_assoc()) {
             if (is_null($row["large_image"])) {
                 echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
@@ -86,17 +90,19 @@
         
         $result = $mysqli->query($sql);
         $num_rows = mysqli_num_rows($result);
-        while ($row = $result->fetch_assoc()) {
-            if ($num_rows == 0) {
-
-            } elseif ($num_rows == 1) {
-                $sql_title = "SELECT title FROM woh_metadata WHERE id = \"" . $row["parent_id"] . "\"";
-                $result_title = $mysqli->query($sql_title);
-                while($row_title = $result_title->fetch_assoc()){
-                    echo "<h2><a onClick='location.href=\"/read/?id=" . $row["parent_id"] . "\"'>" . $row_title["title"] . "</a>" . "</h2>";
+        if ((!($id == 0)) && ($num_rows == 0)) {
+            echo "<h2><a onClick='location.href=\"/read/\"'>Table of Contents</a></h2>";
+        } else {
+            while ($row = $result->fetch_assoc()) {
+                if ($num_rows == 1) {
+                    $sql_title = "SELECT title FROM woh_metadata WHERE id = \"" . $row["parent_id"] . "\"";
+                    $result_title = $mysqli->query($sql_title);
+                    while($row_title = $result_title->fetch_assoc()){
+                        echo "<h2><a onClick='location.href=\"/read/?id=" . $row["parent_id"] . "\"'>" . $row_title["title"] . "</a></h2>";
+                    }
+                } else {
+                    echo "<h2>↑</h2>";
                 }
-            } else {
-                echo "<h2>↑</h2>";
             }
         }
 

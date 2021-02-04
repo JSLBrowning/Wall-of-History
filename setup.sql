@@ -84,4 +84,5 @@ Remove the accidental recommended booleans from parent items (ex. Trial by Fire 
 Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
 Cards shouldn't be chapters, their names are descriptive enough.
+Add images. Obviously.
 */
