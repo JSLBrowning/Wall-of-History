@@ -1,6 +1,17 @@
 <?php
     // TO-DO: Add a populator for the settings button based on available sections.
+        /* STEP 1: GET ACTIVE LANG SECTION, GET ALL VERSION SUBSECTIONS, IF ANY.
+        (IF NONE OF EITHER, BUTTON STAYS HIDDEN -- IF EITHER, BLOCK.)
+        STEP 2: IF CHANGE VERSION, REALLOCATE DISPLAY='NONE' TO OTHER VERSION.
+        IF CHANGE LANGUAGE, SHOW FIRST VERSION IN LIST, REPOPULATE VERSION LIST.
+        DO THIS IN JS? */
     // ALSO add a read as standalone button generator and create corresponding JS.
+        /* STEP 1: GENERATE TEMP READING ORDER BASED ON CHILDREN: XHTML CALL TO PHP FUNCTION IN JS, TRIGGERED BY PHP-GENERATED BUTTON.
+        JUMP TO FIRST CHAP.
+        IF ID IN TEMP READING ORDER, TAKE TEMP ORDER AS PRECEDENT.
+        IF EXIT PAGE OR RELOAD TO PAGE OUTSIDE READING ORDER, DELETE TEMP ORDER.
+        IF LAST CHAP, DELETE TEMP ORDER.
+        IF SAVE ON TEMP CHAPTER... PRESERVE TEMP ORDER UNTIL NEXT RELOAD. */
     function populateHead($id) {
         // This function is pretty straightforward — it populates the head of the page with content-specific OGP data.
         include("..//php/db_connect.php");
