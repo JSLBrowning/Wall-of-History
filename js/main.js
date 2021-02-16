@@ -194,7 +194,14 @@ function downloadContent() {
     $.get("/doc/downloads/" + currentID + ".zip")
         .done(function() {
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
-            document.getElementById("downloadLink").download = "Wall of History Download";
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
+                }
+            };
+            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
+            xmlhttp.send();
             document.getElementById("downloadLink").style.display = "block";
         }).fail(function() {
             console.log("No downloads available for this content.");
