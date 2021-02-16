@@ -1,30 +1,30 @@
-body{
+body {
     background-color: #000C00;
 }
 
 header,
-main{
+main {
     background-color: #001700;
 }
 
-header a:hover{
+header a:hover {
     color: #ccd0cc;
 }
 
-header a:active{
+header a:active {
     color: #99a299;
 }
 
-.maintext a:hover{
+.maintext a:hover {
     color: #ccd0cc;
 }
 
-.maintext a:active{
+.maintext a:active {
     color: #99a299;
 }
 
 .slidecontrols button,
-#slidelocationdiv{
+#slidelocationdiv {
     background-color: #334533;
 }
 
@@ -35,6 +35,7 @@ header a:active{
 .slidecontrols button:active {
     background-color: #667366;
 }
+
 
 /* Recolor.
 .modalcontent{

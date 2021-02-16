@@ -65,32 +65,32 @@
         </nav>
         <p style="margin-top: 1em; text-align: center;">Find Us</p>
         <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-            <a href="https://discord.com/invite/V7KUyye" width="32px" height="32px">
-                <img src="../img/index/Discord-Logo-White.png" width="32px" height="32px">
+            <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
+                <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
             </a>
-            <a href="https://www.facebook.com/WallofHistory" width="32px" height="32px">
-                <img src="../img/index/f_logo_RGB-White_1024.png" width="32px" height="32px">
+            <a href="https://www.facebook.com/WallofHistory" width="24px" height="24px">
+                <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
             </a>
-            <a href="https://www.instagram.com/Wall_of_History/" width="32px" height="32px">
-                <img src="../img/index/white-instagram-logo-transparent-background.png" width="32px" height="32px">
+            <a href="https://www.instagram.com/Wall_of_History/" width="24px" height="24px">
+                <img src="../img/index/white-instagram-logo-transparent-background.png" width="24px" height="24px">
             </a>
-            <a href="https://www.reddit.com/r/WallofHistory/" width="32px" height="32px">
-                <img src="../img/index/reddit_share_silhouette_128.png" width="32px" height="32px">
+            <a href="https://www.reddit.com/r/WallofHistory/" width="24px" height="24px">
+                <img src="../img/index/reddit_share_silhouette_128.png" width="24px" height="24px">
             </a>
-            <a href="https://twitter.com/Wall_of_History" width="32px" height="32px">
-                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="32px" height="32px">
+            <a href="https://twitter.com/Wall_of_History" width="24px" height="24px">
+                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
             </a>
-            <a href="https://www.youtube.com/channel/UCNnu_YlSMehzaAZwWS6gkVg" width="32px" height="32px">
-                <img src="../img/index/yt_logo_mono_dark.png" width="32px" height="32px">
+            <a href="https://www.youtube.com/channel/UCNnu_YlSMehzaAZwWS6gkVg" width="24px" height="24px">
+                <img src="../img/index/yt_logo_mono_dark.png" width="24px" height="24px">
             </a>
         </div>
         <p style="text-align: center;">Share</p>
         <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-            <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="32px" height="32px">
-                <img src="../img/index/f_logo_RGB-White_1024.png" width="32px" height="32px">
+            <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="24px" height="24px">
+                <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
             </a>
-            <a href="https://twitter.com/intent/tweet?text=I'm living the %23BIONICLE legend on @Wall_of_History, and you should be too! https://wallofhistory.com/" width="32px" height="32px">
-                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="32px" height="32px">
+            <a href="https://twitter.com/intent/tweet?text=I'm living the %23BIONICLE legend on @Wall_of_History, and you should be too! https://wallofhistory.com/" width="24px" height="24px">
+                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
             </a>
         </div>
     </main>

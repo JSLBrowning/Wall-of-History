@@ -1,10 +1,10 @@
-main{
+main {
     width: 90%;
     max-width: 960px;
 }
 
-@media only screen and (max-width: 640px){
-    main{
+@media only screen and (max-width: 640px) {
+    main {
         width: 100%;
     }
 }

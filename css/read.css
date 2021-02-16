@@ -1,12 +1,12 @@
 /* TO-DO: Combine into main.css? */
 
-#sortable li a{
+#sortable li a {
     width: 100%;
     text-align: center;
     font-size: medium;
 }
 
-aside{
+aside {
     position: absolute;
     z-index: 1;
     top: 1em;
@@ -17,7 +17,7 @@ aside{
 
 #navigationButton,
 #settingsButton,
-#downloadButton{
+#downloadButton {
     margin: 0.5em;
     width: 48px;
     height: 48px;
@@ -36,24 +36,24 @@ aside{
 
 #navigationButton:focus,
 #settingsButton:focus,
-#downloadButton:focus{
+#downloadButton:focus {
     outline: 0;
 }
 
 #navigationButton:hover,
 #settingsButton:hover,
-#downloadButton:hover{
+#downloadButton:hover {
     transform: scale(1.125);
 }
 
 #navigationButton:active,
 #settingsButton:active,
-#downloadButton:active{
+#downloadButton:active {
     transform: scale(0.95);
 }
 
 #navigationClose,
-#settingsClose{
+#settingsClose {
     color: white;
     top: 8px;
     right: 8px;

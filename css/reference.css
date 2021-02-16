@@ -1,12 +1,12 @@
 /* TO-DO: MAYBE combine into main.css? */
 
-ol{
+ol {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-li{
+li {
     width: fit-content;
 }

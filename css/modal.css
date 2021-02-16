@@ -1,169 +1,186 @@
 /* TO-DO: Combine into main.css */
 
+
 /* The Modal (background) */
+
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 3;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
+
 /* Modal Content/Box */
+
 .modal-content,
 .modal-data {
-  background-color: #0A0A0A;
-  margin: 5% auto 5% auto; /* 15% from the top and centered */
-  padding: 0em;
-  border: 1px solid #fff;
-  border-radius: 0.75em 0em 0.5em 0em;
-  width: 80%; /* Could be more or less, depending on screen size */
-  max-width: 720px;
-  box-shadow: 0.25em 0.25em #000;
+    background-color: #0A0A0A;
+    margin: 5% auto 5% auto;
+    /* 15% from the top and centered */
+    padding: 0em;
+    border: 1px solid #fff;
+    border-radius: 0.75em 0em 0.5em 0em;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+    max-width: 720px;
+    box-shadow: 0.25em 0.25em #000;
 }
 
 .modal-content img,
 .modal-data img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-
-  margin: 0px;
-  width: 100%;
-  max-width: 640px;
-  padding: 0px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0px;
+    width: 100%;
+    max-width: 640px;
+    padding: 0px;
 }
 
 .modal-content p,
 .modal-data img {
-  font-family: 'Gill Sans Std';
-  color: #fff;
-  padding: 1em;
-  font-size: 1.125em;
+    font-family: 'Gill Sans Std';
+    color: #fff;
+    padding: 1em;
+    font-size: 1.125em;
 }
 
+
 /* The Close Button */
+
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  display: none;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    display: none;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
+
 
 /* Uh... */
 
-.modal{
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.75);
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .modal-content,
 .modal-data {
-  width: 90%;
-  max-width: 640px;
-  border: 1px solid #fff;
-  border-radius: 8px;
-  background: #0A0A0A;
-  margin: 4% auto;
-  padding: 8px 0px;
-  position: relative;
+    width: 90%;
+    max-width: 640px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    background: #0A0A0A;
+    margin: 4% auto;
+    padding: 8px 0px;
+    position: relative;
 }
 
 .modal-content img,
-.modal-data img{
-  width: 100%;
-  max-width: 640px;
-  margin-top: -8px;
-  border-radius: 8px 8px 0px 0px;
+.modal-data img {
+    width: 100%;
+    max-width: 640px;
+    margin-top: -8px;
+    border-radius: 8px 8px 0px 0px;
 }
 
-.modal-content h1, h2,
-.modal-data h1, h2 {
-  text-align: center;
-  padding: 8px 8px;
-  line-height: 1.25em;
-  font-family: 'TradeMarker';
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 2px 2px 5px black;
+.modal-content h1,
+h2,
+.modal-data h1,
+h2 {
+    text-align: center;
+    padding: 8px 8px;
+    line-height: 1.25em;
+    font-family: 'TradeMarker';
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px black;
 }
 
 .modal-content h1,
 .modal-data h1 {
-  padding-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 .modal-content p,
 .modal-data p,
-.modal-data ul
-.modal-data li {
-  position: relative;
-  overflow: hidden;
-  color: #fff;
-  font-family: 'Gill Sans Std';
-  font-style: normal;
-  line-height: 1.5;
-  text-shadow: 2px 2px 5px black;
-  font-size: 1.125em;
-  padding: 0.5em 0.5em;
+.modal-data ul .modal-data li {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Gill Sans Std';
+    font-style: normal;
+    line-height: 1.5;
+    text-shadow: 2px 2px 5px black;
+    font-size: 1.125em;
+    padding: 0.5em 0.5em;
 }
 
 .modal-content ul,
 .modal-content li {
-  font-family: 'Gill Sans Std';
-  color: #fff;
-  font-size: 0.875em;
+    font-family: 'Gill Sans Std';
+    color: #fff;
+    font-size: 0.875em;
 }
 
 .modal-content .source {
-  text-align: center;
-  font-size: 0.875em;
+    text-align: center;
+    font-size: 0.875em;
 }
 
-.closediv{
-  position: absolute;
-  top: 8px;
-  right: 8px;
+.closediv {
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 .close {
-  text-align: center;
-  color: #fff;
-  font-size: 2em;
-  font-weight: bold;
-  padding: 8px;
-  text-shadow: 2px 2px 5px black;
+    text-align: center;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 8px;
+    text-shadow: 2px 2px 5px black;
 }
 
-.close:hover{
-  color: #cccccc;
-  text-decoration: none;
-  cursor: pointer;
+.close:hover {
+    color: #cccccc;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.close:active{
-  color: #99999a;
-  text-decoration: none;
-  cursor: pointer;
+.close:active {
+    color: #99999a;
+    text-decoration: none;
+    cursor: pointer;
 }

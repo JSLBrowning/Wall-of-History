@@ -1,30 +1,30 @@
 body,
-.maintext::before{
+.maintext::before {
     background: linear-gradient(0deg, #010203 0%, #537f89 100%);
 }
 
-header::before{
+header::before {
     background: #537f89;
 }
 
-header a:hover{
+header a:hover {
     color: #dce5e7;
 }
 
-header a:active{
+header a:active {
     color: #bacbcf;
 }
 
-.maintext a:hover{
+.maintext a:hover {
     color: #dce5e7;
 }
 
-.maintext a:active{
+.maintext a:active {
     color: #bacbcf;
 }
 
 .slidecontrols button,
-#slidelocationdiv{
+#slidelocationdiv {
     background-color: #7598a0;
 }
 
@@ -36,14 +36,14 @@ header a:active{
     background-color: #97b2b8;
 }
 
-.modalcontent{
+.modalcontent {
     background: linear-gradient(0deg, #010203 0%, #537f89 100%);
 }
 
-.close:hover{
+.close:hover {
     color: #dce5e7;
 }
 
-.close:active{
+.close:active {
     color: #bacbcf;
 }

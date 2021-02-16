@@ -1,19 +1,17 @@
 /* TO-DO: Combine into main.css */
 
-@font-face{
+@font-face {
     font-family: 'TradeMarker';
-    src: url('../../fonts/TradeMarker-Bold.woff2') format('woff2'),
-        url('../../fonts/TradeMarker-Bold.woff') format('woff');
+    src: url('../../fonts/TradeMarker-Bold.woff2') format('woff2'), url('../../fonts/TradeMarker-Bold.woff') format('woff');
     font-weight: bold;
 }
 
-@font-face{
+@font-face {
     font-family: 'Gill Sans Std';
-    src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'),
-        url('../../fonts/GillSansStd-Light.woff') format('woff');
+    src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'), url('../../fonts/GillSansStd-Light.woff') format('woff');
 }
 
-.contentsButton{
+.contentsButton {
     margin: 1em auto;
     display: flex;
     flex-direction: row;
@@ -24,20 +22,20 @@
     transition: all .2s ease-in-out;
 }
 
-.contentsButton:focus{
+.contentsButton:focus {
     outline: 0;
 }
 
-.contentsButton:hover{
+.contentsButton:hover {
     transform: scale(1.03125);
 }
 
-.contentsButton:active{
+.contentsButton:active {
     transform: scale(0.96875);
     background-color: #101010;
 }
 
-.contentsImg{
+.contentsImg {
     margin: auto;
     height: 100%;
     width: 100%;
@@ -47,7 +45,7 @@
     position: relative;
 }
 
-.contentsImg img{
+.contentsImg img {
     height: 100%;
     width: unset;
     overflow: hidden;
@@ -56,7 +54,7 @@
     border-radius: 0.5em 0em 0em 0.5em;
 }
 
-.contentsText{
+.contentsText {
     padding: 0.5em 1em;
     flex-basis: 80%;
     -webkit-user-select: none;
@@ -65,11 +63,11 @@
     user-select: none;
 }
 
-.contentsText p{
+.contentsText p {
     font-family: "Trademarker";
 }
 
-.contentsText p:last-of-type{
+.contentsText p:last-of-type {
     font-family: "Gill Sans Std";
     padding-top: 0em;
     padding-bottom: 0em;

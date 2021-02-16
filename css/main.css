@@ -204,13 +204,13 @@ main blockquote {
 }
 
 .social a {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
 }
 
 .social img {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
 }
 
 .slidecontrols,
@@ -427,12 +427,12 @@ main h2 a {
         width: 99.99%;
     }
     .social a {
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
     }
     .social img {
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
     }
     .savefile button {
         width: 128px;

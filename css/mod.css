@@ -21,81 +21,86 @@
 }
 */
 
-@font-face{
+@font-face {
     font-family: 'TradeMarker-Light';
     src: url('../../fonts/TradeMarker-Light.woff') format('woff');
 }
 
-@font-face{
+@font-face {
     font-family: 'Montserrat';
     src: url('../../fonts/Montserrat/Montserrat-Light.woff') format('woff');
 }
 
 body,
-main{
+main {
     background-image: none;
     background-color: #181818;
     font-size: 0.9375em;
     color: #F2F2F2;
 }
 
-header{
+header {
     background-color: #181818;
     color: #F2F2F2;
     box-shadow: none;
 }
 
 header,
-main{
+main {
     border: none;
 }
 
-main{
+main {
     background-color: #404040;
     box-shadow: none;
 }
 
-main h1, h2, h2{
+main h1,
+h2,
+h2 {
     font-family: 'TradeMarker-Light';
     letter-spacing: 0.1em;
 }
 
-p, ul, ol, li{
+p,
+ul,
+ol,
+li {
     font-family: 'Montserrat';
 }
 
 header a:hover,
-main a:hover{
+main a:hover {
     color: #F2F2F2;
 }
 
 header a:hover,
-header a:active{
+header a:active {
     background-color: #A40500;
 }
 
 main a:hover,
-main a:active{
+main a:active {
     text-shadow: 2px 2px #A40500;
 }
 
 header a:active,
-main a:active{
+main a:active {
     color: #F2F2F2;
 }
 
 header a:visited,
-main a:visited{
+main a:visited {
     color: #F2F2F2;
 }
 
-main button{
+main button {
     border: none;
     background-color: #828282;
     box-shadow: none;
 }
 
 main button:hover,
-main button:active{
+main button:active {
     background-color: #A40500;
 }

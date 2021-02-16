@@ -49,7 +49,7 @@ for (i = 0; i < referenceList.length; i++) {
     referenceItems.push(referenceList[i].innerText);
 }
 
-// Next thing.
+// Next thing. Add a regex for spaces and punctuation to fix the Makuta/Maku error on eba6c8.
 for (i = 0; i < referenceList.length; i++) {
     $("p:contains('" + referenceItems[i] + "')").html(function(_, html) {
         regex = new RegExp(referenceItems[i], "gi");

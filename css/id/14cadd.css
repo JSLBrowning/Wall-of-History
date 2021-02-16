@@ -1,34 +1,34 @@
 body,
-.maintext::before{
+.maintext::before {
     background: linear-gradient(0deg, #010203 0%, #003366 100%);
 }
 
-header::before{
+header::before {
     background: #003366;
 }
 
-header a:hover{
+header a:hover {
     color: #ccd6e0;
 }
 
-header a:active{
+header a:active {
     color: #99adc1;
 }
 
-.maintext a:hover{
+.maintext a:hover {
     color: #ccd6e0;
 }
 
-.maintext a:active{
+.maintext a:active {
     color: #99adc1;
 }
 
-audio{
+audio {
     background-color: #003366;
 }
 
 .slidecontrols button,
-#slidelocationdiv{
+#slidelocationdiv {
     background-color: #335b84;
 }
 
@@ -40,14 +40,14 @@ audio{
     background-color: #6684a3;
 }
 
-.modalcontent{
+.modalcontent {
     background: linear-gradient(0deg, #010203 0%, #003366 100%);
 }
 
-.close:hover{
+.close:hover {
     color: #ccd6e0;
 }
 
-.close:active{
+.close:active {
     color: #99adc1;
 }
