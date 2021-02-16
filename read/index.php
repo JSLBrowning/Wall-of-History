@@ -9,6 +9,18 @@
         include("..//php/populate.php");
         if(count($_GET)) {
             $id = $_GET["id"];
+            if (is_numeric($id)) {
+                if ((int)$id < 99999) {
+                    include("..//php/db_connect.php");
+
+                    $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
+                    $result = $mysqli->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        $id = $row["id"];
+                        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "'\" />\n";
+                    }
+                }
+            }
         } else {
             $id = "0";
         }
@@ -55,12 +67,26 @@
             </div>
         </div>
         <!-- DOWNLOAD BUTTON -->
-        <button id="downloadButton" style="display: none;">↓</button>
+        <button id="downloadButton" onclick="alert('Gun.');">↓</button>
     </aside>
     <main>
         <?php
         if(count($_GET)) {
             $id = $_GET["id"];
+            /* This shouldn't actually be necessary if the code in the head works.
+            But... Might be good to have it anyway, so the page won't be blank in the split second it's visible.
+            if (is_numeric($id)) {
+                if ((int)$id < 99999) {
+                    include("..//php/db_connect.php");
+
+                    $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
+                    $result = $mysqli->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        $id = $row["id"];
+                    }
+                }
+            }
+            */
         } else {
             $id = "0";
         }

@@ -20,7 +20,7 @@ MODRebrand();
 function initRead() {
     if (localStorage.getItem("WallofHistoryReadingOrder") === null || localStorage.getItem("WallofHistoryReadingOrderApplicationDate") != "08102020") {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
             }
@@ -39,7 +39,7 @@ initRead();
 
 function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
         }
@@ -178,7 +178,7 @@ function getParent() {
     let currentID = urlParams.get('id');
 
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             window.location.href = ("/read/?id=" + this.responseText);
         }
