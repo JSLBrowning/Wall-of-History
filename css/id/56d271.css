@@ -1,20 +1,20 @@
-body{
+body {
     background-color: #000500;
 }
 
 header,
-main{
+main {
     background-color: #000A00;
 }
 
-header{
-    border-bottom: 1px solid green;
+header {
+    box-shadow: green;
 }
 
-main{
-    border: 1px solid green;
+main {
+    box-shadow: green;
 }
 
-main button{
-    border: 1px solid green;
+main button {
+    box-shadow: green;
 }

@@ -31,6 +31,9 @@
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
     <link rel='stylesheet' type='text/css' href='/css/tahu.css'>
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
+    <?php
+        addCSS($id);
+    ?>
 </head>
 <body>
     <header>

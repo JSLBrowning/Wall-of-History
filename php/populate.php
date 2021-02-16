@@ -52,6 +52,16 @@
         }
     }
 
+    function addCSS($id) {
+        include("..//php/db_connect.php");
+        $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
+        $result = $mysqli->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            echo "<link rel='stylesheet' type='text/css' href='/css/type/" . $row["tag"] . ".css'>\n";
+        }
+        echo "    <link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>";
+    }
+
     function hasChildren($id) {
         // This function finds any and all children that a given piece of content has, then echoes them in a list format.
         include("..//php/db_connect.php");
