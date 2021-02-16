@@ -70,7 +70,8 @@
             </div>
         </div>
         <!-- DOWNLOAD BUTTON -->
-        <button id="downloadButton" onclick="alert('Gun.');">↓</button>
+        <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
+        <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">↓</button></a>
     </aside>
     <main>
         <?php
@@ -147,6 +148,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
+    <script>downloadContent()</script>
     <script src="/js/modal.js"></script>
     <script src="/js/indeterminate.js"></script>
     <script src="/js/language.js"></script>

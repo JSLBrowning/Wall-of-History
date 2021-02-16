@@ -186,3 +186,26 @@ function getParent() {
     xmlhttp.open("GET", "../php/getparent.php?q=" + currentID, true);
     xmlhttp.send();
 }
+
+function downloadContent() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentID = urlParams.get('id');
+
+    $.get("/doc/downloads/" + currentID + ".zip")
+        .done(function() {
+            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
+            document.getElementById("downloadLink").download = "Wall of History Download";
+            document.getElementById("downloadLink").style.display = "block";
+        }).fail(function() {
+            console.log("No downloads available for this content.");
+        })
+        /* Plan:
+        1. Make download button invisible by default.
+        2. On load page, check if download is available.
+        3. If download is available, make download button an a download for file.
+        4. Make download button visible. Maybe make it fade in? */
+}
+
+function readStandalone() {
+
+}
