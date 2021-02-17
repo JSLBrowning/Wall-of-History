@@ -1,4 +1,6 @@
 // TO-DO: Read as standalone overrides normal reading order until user exits or finishes.
+// if NOT ON page in tempReadingOrder, on LAST PAGE in temp, delete temp.
+// Temp saveplace?
 // Make navigation buttons hidden by default, appear when needed.
 
 function MODRebrand() {
