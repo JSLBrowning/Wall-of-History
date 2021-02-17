@@ -85,4 +85,6 @@ Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
 Cards shouldn't be chapters, their names are descriptive enough.
 Add images. Obviously.
+Chapter will be necessary for read as standalone. Add those to novels, at the VERY least, by launch.
+Maybe just delete CSS table entirely?
 */

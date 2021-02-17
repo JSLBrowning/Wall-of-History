@@ -37,7 +37,14 @@
 </head>
 <body>
     <header>
-        <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <?php
+            if(count($_GET)) {
+                $id = $_GET["id"];
+            } else {
+                $id = "0";
+            }
+            loadHeader($id);
+        ?>
     </header>
     <aside>
         <!-- MAIN NAVIGATION MENU MODAL -->
