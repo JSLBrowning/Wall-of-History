@@ -188,7 +188,7 @@
         while ($row_tags = $result_tags->fetch_assoc()) {
             echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["detailed_tag"] . "'</option>";
         }
-        echo "</select>";
+        echo "</select></form>";
 
         echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck' onchange = 'uncheckAll(this);' onfocus='this.selectedIndex = -1;'>";
         $result_tags->data_seek(0);
@@ -231,4 +231,3 @@
         }
         echo "</ol>";
     }
-?>
