@@ -19,10 +19,27 @@ function MODRebrand() {
 
 MODRebrand();
 
+function clearStandalone() {
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder")) !== null) {
+        console.log("A")
+        let tempReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder");
+        console.log(tempReadingOrder);
+        const urlParams = new URLSearchParams(window.location.search);
+        if (tempReadingOrder.includes(urlParams.get('id'))) {
+            null;
+        } else {
+            localStorage.clear("WallofHistoryTempReadingOrder");
+            console.log("Cleared.");
+        }
+    }
+}
+
+clearStandalone();
+
 function initRead() {
     if (localStorage.getItem("WallofHistoryReadingOrder") === null || localStorage.getItem("WallofHistoryReadingOrderApplicationDate") != "08102020") {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
             }
@@ -41,7 +58,7 @@ initRead();
 
 function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
         }
@@ -53,34 +70,63 @@ function resetReadingOrder() {
 }
 
 function findSelf() {
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
-    for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-        if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
-            result = index;
+
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
+            if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
+                result = index;
+            }
+        }
+    } else {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
+            if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
+                result = index;
+            }
         }
     }
     return (result);
 }
 
 function filteredSelf() {
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
     const urlParams = new URLSearchParams(window.location.search);
 
-    let index;
-    let goodValues = [];
-    for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-        value = WallofHistoryReadingOrder[index];
-        if (value.substring(value.length - 2, value.length) === ":1") {
-            goodValues.push(WallofHistoryReadingOrder[index]);
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        let index;
+        let goodValues = [];
+        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
+            value = WallofHistoryReadingOrder[index];
+            if (value.substring(value.length - 2, value.length) === ":1") {
+                goodValues.push(WallofHistoryReadingOrder[index]);
+            }
         }
-    }
 
-    let result;
-    for (index = 0; index < goodValues.length; index++) {
-        if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
-            result = index;
+        let result;
+        for (index = 0; index < goodValues.length; index++) {
+            if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
+                result = index;
+            }
+        }
+    } else {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        let index;
+        let goodValues = [];
+        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
+            value = WallofHistoryReadingOrder[index];
+            if (value.substring(value.length - 2, value.length) === ":1") {
+                goodValues.push(WallofHistoryReadingOrder[index]);
+            }
+        }
+
+        let result;
+        for (index = 0; index < goodValues.length; index++) {
+            if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
+                result = index;
+            }
         }
     }
     return ([result, goodValues.length]);
@@ -137,22 +183,52 @@ function jumpTo() {
 }
 
 function goBack() {
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
     let currentNumber = findSelf();
-    for (index = currentNumber - 1; index < WallofHistoryReadingOrder.length; index--) {
-        if (WallofHistoryReadingOrder[index].includes(":1")) {
-            window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+
+    // For temp reading orders.
+    const urlParams = new URLSearchParams(window.location.search);
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = currentNumber - 1; index < WallofHistoryReadingOrder.length; index--) {
+            if (WallofHistoryReadingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+                break;
+            }
+            break;
+        }
+    } else {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        for (index = currentNumber - 1; index < WallofHistoryReadingOrder.length; index--) {
+            if (WallofHistoryReadingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+                break;
+            }
             break;
         }
     }
 }
 
 function goForward() {
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
     let currentNumber = findSelf();
-    for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
-        if (WallofHistoryReadingOrder[index].includes(":1")) {
-            window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
+            console.log(index);
+            if (WallofHistoryReadingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+                break;
+            }
+            break;
+        }
+    } else {
+        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
+            if (WallofHistoryReadingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+                break;
+            }
             break;
         }
     }
@@ -180,7 +256,7 @@ function getParent() {
     let currentID = urlParams.get('id');
 
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             window.location.href = ("/read/?id=" + this.responseText);
         }
@@ -194,10 +270,10 @@ function downloadContent() {
     let currentID = urlParams.get('id');
 
     $.get("/doc/downloads/" + currentID + ".zip")
-        .done(function() {
+        .done(function () {
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
+            xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
                 }
@@ -205,11 +281,32 @@ function downloadContent() {
             xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
             xmlhttp.send();
             document.getElementById("downloadLink").style.display = "block";
-        }).fail(function() {
+        }).fail(function () {
             console.log("No downloads available for this content.");
         })
 }
 
-function readStandalone() {
+function getTempReadingOrder() {
+    return new Promise(resolve => {
+        console.log("Success 1.");
+        let currentID = new URLSearchParams(window.location.search).get('id');
+        console.log(currentID);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                localStorage.setItem("WallofHistoryTempReadingOrder", this.responseText);
+                resolve(1);
+            }
+        };
+        xmlhttp.open("GET", "../php/initreadstandalone.php?q=" + currentID, true);
+        xmlhttp.send();
+    })
+}
 
+async function readStandalone() {
+    let x = await getTempReadingOrder();
+    if (x = 1) {
+        let tempReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder");
+        window.location.href = "/read/?id=" + tempReadingOrder.split(':')[0];
+    }
 }

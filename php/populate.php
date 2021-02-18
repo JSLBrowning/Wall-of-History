@@ -84,6 +84,17 @@ function hasChildren($id)
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
+        // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
+        if ($id != "0") {
+            $sql_standalone = "SELECT child_id FROM woh_web JOIN woh_tags ON woh_web.child_id=woh_tags.id WHERE woh_web.parent_id = '$id' AND woh_tags.tag ='chapter'";
+            $result_standalone = $mysqli->query($sql_standalone);
+
+            if (mysqli_num_rows($result_standalone) != 0) {
+                echo "<nav><button class='standaloneButton' onclick='readStandalone()'>Read as Standalone</button></nav>";
+            }
+        }
+
+        // This loop echoes the individual children.
         while ($row = $result->fetch_assoc()) {
             echo "<button class='contentsButton' onclick='window.location.href=\"/read/?id=" . $row["cid"] . "\";'>";
             if (($row["small_image"] === NULL) && ($row["large_image"] === NULL)) {

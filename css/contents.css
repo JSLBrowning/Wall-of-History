@@ -22,14 +22,17 @@
     transition: all .2s ease-in-out;
 }
 
+.standaloneButton:focus,
 .contentsButton:focus {
     outline: 0;
 }
 
+.standaloneButton:hover,
 .contentsButton:hover {
     transform: scale(1.03125);
 }
 
+.standaloneButton:active,
 .contentsButton:active {
     transform: scale(0.96875);
     background-color: #101010;
