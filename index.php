@@ -32,7 +32,6 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="sckJu8Ly"></script>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
-        <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
     <!-- MAIN NAVIGATION MENU MODAL -->
     <aside>
@@ -59,7 +58,7 @@
             Your browser does not support the video tag.
         </video>
         <p style="text-align: center;">Welcome to <strong>Wall of History</strong>, a web archive of the entire BIONICLE legend, compiled into an accessible, easy-to-read format.</p>
-        <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can customize your reading experience <a href="/settings/">here</a>.</p>
+        <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking the menu icon on this.</p>
         <nav>
             <button onclick="jumpTo()">Read!</button>
         </nav>

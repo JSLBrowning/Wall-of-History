@@ -19,23 +19,6 @@ function MODRebrand() {
 
 MODRebrand();
 
-function clearStandalone() {
-    if ((localStorage.getItem("WallofHistoryTempReadingOrder")) !== null) {
-        console.log("A")
-        let tempReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder");
-        console.log(tempReadingOrder);
-        const urlParams = new URLSearchParams(window.location.search);
-        if (tempReadingOrder.includes(urlParams.get('id'))) {
-            null;
-        } else {
-            localStorage.clear("WallofHistoryTempReadingOrder");
-            console.log("Cleared.");
-        }
-    }
-}
-
-clearStandalone();
-
 function initRead() {
     if (localStorage.getItem("WallofHistoryReadingOrder") === null || localStorage.getItem("WallofHistoryReadingOrderApplicationDate") != "08102020") {
         var xmlhttp = new XMLHttpRequest();
@@ -54,8 +37,6 @@ function initRead() {
     }
 }
 
-initRead();
-
 function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
@@ -69,6 +50,46 @@ function resetReadingOrder() {
     alert("Your reading order has been reset.");
 }
 
+function clearStandalone() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentID = urlParams.get('id');
+
+    if (localStorage.getItem("WallofHistoryTempReadingOrder") !== null) {
+        console.log("Temp reading order not null.");
+        if (!(localStorage.getItem("WallofHistoryTempReadingOrder").includes(currentID))) {
+            console.log("Not using. Clearing.");
+            localStorage.clear("WallofHistoryTempReadingOrder");
+            localStorage.clear("WallofHistoryTempSavePlace");
+        } else {
+            console.log("Using. Not clearing.");
+        }
+    } else {
+        console.log("Temp reading order null.");
+    }
+    console.log("Temp clear check complete.");
+}
+
+function downloadContent() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentID = urlParams.get('id');
+
+    $.get("/doc/downloads/" + currentID + ".zip")
+        .done(function () {
+            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
+                }
+            };
+            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
+            xmlhttp.send();
+            document.getElementById("downloadLink").style.display = "block";
+        }).fail(function () {
+            console.log("No downloads are available for this content.");
+        })
+}
+
 function findSelf() {
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
@@ -78,6 +99,7 @@ function findSelf() {
         for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
             if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
+                return (result);
             }
         }
     } else {
@@ -85,10 +107,10 @@ function findSelf() {
         for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
             if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
+                return (result);
             }
         }
     }
-    return (result);
 }
 
 function filteredSelf() {
@@ -109,6 +131,7 @@ function filteredSelf() {
         for (index = 0; index < goodValues.length; index++) {
             if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
+                return ([result, goodValues.length]);
             }
         }
     } else {
@@ -126,14 +149,13 @@ function filteredSelf() {
         for (index = 0; index < goodValues.length; index++) {
             if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
+                return ([result, goodValues.length]);
             }
         }
     }
-    return ([result, goodValues.length]);
 }
 
 function hideButtons() {
-    initRead();
     if (filteredSelf()[0] === 0) {
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "none";
@@ -163,7 +185,20 @@ function hideButtons() {
     }
 }
 
-hideButtons();
+function savePlace() {
+    const urlParams = new URLSearchParams(window.location.search);
+    try {
+        if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
+            localStorage.setItem("WallofHistoryTempSavePlace", window.location);
+            alert("Your temporary place was saved successfully.")
+        } else {
+            localStorage.setItem("WallofHistorySavePlace", window.location);
+            alert("Your place was saved successfully.")
+        }
+    } catch {
+        alert("Your place was not saved successfully. Please try clearing your cache and trying again.")
+    }
+}
 
 function jumpTo() {
     if (localStorage.getItem("WallofHistorySavePlace") === null) {
@@ -179,6 +214,19 @@ function jumpTo() {
         }
     } else {
         window.location.href = localStorage.getItem("WallofHistorySavePlace");
+    }
+}
+
+function loadPlace() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id"))) && (localStorage.getItem("WallofHistoryTempSavePlace") !== null)) {
+        window.location.href = localStorage.getItem("WallofHistoryTempSavePlace");
+    } else {
+        if (localStorage.getItem("WallofHistorySavePlace") === null) {
+            jumpTo();
+        } else {
+            window.location.href = localStorage.getItem("WallofHistorySavePlace");
+        }
     }
 }
 
@@ -203,7 +251,6 @@ function goBack() {
                 window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
                 break;
             }
-            break;
         }
     }
 }
@@ -215,13 +262,14 @@ function goForward() {
     if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
         let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
         for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
-            console.log(index);
             if (WallofHistoryReadingOrder[index].includes(":1")) {
                 window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
                 break;
             }
             break;
         }
+    } else if ((localStorage.getItem("WallofHistoryReadingOrder") == null)) {
+        console.log("Reading order is null. This is not supposed to be possible.");
     } else {
         let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
         for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
@@ -229,61 +277,8 @@ function goForward() {
                 window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
                 break;
             }
-            break;
         }
     }
-}
-
-function savePlace() {
-    try {
-        localStorage.setItem("WallofHistorySavePlace", window.location);
-        alert("Your place was saved successfully.")
-    } catch {
-        alert("Your place was not saved successfully. Please try clearing your cache and trying again.")
-    }
-}
-
-function loadPlace() {
-    if (localStorage.getItem("WallofHistorySavePlace") === null) {
-        jumpTo();
-    } else {
-        window.location.href = localStorage.getItem("WallofHistorySavePlace");
-    }
-}
-
-function getParent() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentID = urlParams.get('id');
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            window.location.href = ("/read/?id=" + this.responseText);
-        }
-    };
-    xmlhttp.open("GET", "../php/getparent.php?q=" + currentID, true);
-    xmlhttp.send();
-}
-
-function downloadContent() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentID = urlParams.get('id');
-
-    $.get("/doc/downloads/" + currentID + ".zip")
-        .done(function () {
-            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
-                }
-            };
-            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
-            xmlhttp.send();
-            document.getElementById("downloadLink").style.display = "block";
-        }).fail(function () {
-            console.log("No downloads available for this content.");
-        })
 }
 
 function getTempReadingOrder() {
@@ -310,3 +305,18 @@ async function readStandalone() {
         window.location.href = "/read/?id=" + tempReadingOrder.split(':')[0];
     }
 }
+
+function readManagement() {
+    // Several of the functions in this file are concerned with making sure the reading applications works properly — checking certain values and then doing certain things.
+    // For the sake of organization, their calls will be organized here.
+    if (window.location.pathname.includes("read")) {
+        console.log("You're reading!");
+        initRead();
+        clearStandalone();
+        hideButtons();
+    } else {
+        console.log("You're not reading.");
+    }
+}
+
+readManagement();
