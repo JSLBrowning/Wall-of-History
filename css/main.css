@@ -14,9 +14,9 @@
     src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'), url('../../fonts/GillSansStd-Light.woff') format('woff');
 }
 
-body,
-main {
-    background: #080808;
+body {
+    background-color: #080808;
+    background: radial-gradient(circle, #181818 0%, #080808 100%);
 }
 
 html,

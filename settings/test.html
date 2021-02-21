@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style type="text/css">
+         :root {
+            --spacing: 1rem;
+            color: var(--col);
+            background-color: var(--bgcol);
+        }
+        
+        :root.white {
+            --bgcol: #FFF;
+            --col: #000;
+        }
+        
+        :root.black {
+            --bgcol: #000;
+            --col: #FFF;
+        }
+        
+        p {
+            margin: var(--spacing);
+            border: thin dashed;
+            padding: var(--spacing);
+        }
+    </style>
+</head>
+
+<body>
+    <section lang="en">
+        <section name="Standard Edition" data-default="false">
+            <p>Blah blah blah...</p>
+        </section>
+        <section name="Collector's Edition" data-default="true">
+            <p>Blah blah blah...</p>
+        </section>
+    </section>
+    <section lang="fr">
+        <section data-default="false">
+            <p>Blah blah blah...</p>
+        </section>
+        <section data-default="true">
+            <p>Blah blah blah...</p>
+        </section>
+    </section>
+    <button>Sun</button>
+    <script>
+        const root = document.documentElement;
+
+        // Default theme - should assign declaratively in markup, not JS
+        // For a classless default theme, move its custom properties to unqualified :root
+        // Again, keep it separate from the other :root rule that contains non-theme props
+        // Remember, the cascade is your friend, not the enemy
+        root.classList.add('white');
+
+        document.querySelector('button').addEventListener('click', function() {
+            root.classList.toggle('white');
+            root.classList.toggle('black');
+        });
+    </script>
+</body>
+
+</html>

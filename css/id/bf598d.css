@@ -1,3 +1,19 @@
+/*
+DARKS
+08: 080808 Background outer
+12: 0c0c0c Button active
+16: 101010 Main, buttons
+20: 141414 Button hover
+24: 181818 Background inner
+
+LIGHTS
+255: ffffff text
+251: fbfbfb
+247: f7f7f7 text hover
+243: f3f3f3
+239: efefef text active
+*/
+
 body {
     background-color: #080808;
     background: radial-gradient(circle, #181818 0%, #080808 100%);
@@ -11,7 +27,21 @@ body button,
 #navigationButton,
 #settingsButton,
 #downloadButton {
-    background-color: #181818;
+    background-color: #101010;
+}
+
+body button:hover,
+#navigationButton:hover,
+#settingsButton:hover,
+#downloadButton:hover {
+    background-color: #141414;
+}
+
+body button:active,
+#navigationButton:active,
+#settingsButton:active,
+#downloadButton:active {
+    background-color: #0c0c0c;
 }
 
 main,
@@ -19,5 +49,78 @@ body button,
 #navigationButton,
 #settingsButton,
 #downloadButton {
-    box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+}
+
+
+/* LIGHT MODE */
+
+body {
+    background-color: #ffffff;
+    background: radial-gradient(circle, #ffffff 0%, #efefef 100%);
+}
+
+main,
+body button,
+#navigationButton,
+#settingsButton,
+#downloadButton {
+    background-color: #f7f7f7;
+}
+
+body button:hover,
+#navigationButton:hover,
+#settingsButton:hover,
+#downloadButton:hover {
+    background-color: #fbfbfb;
+}
+
+body button:active,
+#navigationButton:active,
+#settingsButton:active,
+#downloadButton:active {
+    background-color: #f3f3f3;
+}
+
+main,
+body button,
+#navigationButton,
+#settingsButton,
+#downloadButton {
+    box-shadow: 0px 0px 4px rgba(255, 0, 0, 0.5);
+}
+
+main h2,
+main h1,
+main p,
+main a {
+    color: #080808;
+    text-shadow: none;
+}
+
+main h2,
+main h2 a,
+main h1,
+button {
+    color: white;
+    text-shadow: 0px 0px 2px black, 0px 0px 4px black;
+}
+
+main h2 a em {
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all .2s ease-in-out;
+}
+
+main h2 a em:hover {
+    font-size: 1.03125em;
+    color: #fbfbfb;
+}
+
+main h2 a em:active {
+    font-size: 0.96875em;
+    color: #f3f3f3;
 }

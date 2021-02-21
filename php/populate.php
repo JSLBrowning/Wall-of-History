@@ -130,6 +130,10 @@ function loadHeader($id)
     }
 }
 
+function populateSettingsButton($id) {
+    
+}
+
 function loadContent($id)
 {
     // This function is the most complicated, echoing the actuals contents of the page from the top (parent(s), title, author) down (content).

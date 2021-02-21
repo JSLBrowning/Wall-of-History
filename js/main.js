@@ -51,6 +51,16 @@ function resetReadingOrder() {
 }
 
 function clearStandalone() {
+    /*
+    clear standalone reading order and temp save place
+    if regular saveplace not null:
+        jumpTo(regular saveplace)
+    else:
+        jumpTo(page of reading order)
+    */
+}
+
+function autoClearStandalone() {
     const urlParams = new URLSearchParams(window.location.search);
     let currentID = urlParams.get('id');
 
@@ -283,7 +293,6 @@ function goForward() {
 
 function getTempReadingOrder() {
     return new Promise(resolve => {
-        console.log("Success 1.");
         let currentID = new URLSearchParams(window.location.search).get('id');
         console.log(currentID);
         var xmlhttp = new XMLHttpRequest();
@@ -291,6 +300,8 @@ function getTempReadingOrder() {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("WallofHistoryTempReadingOrder", this.responseText);
                 resolve(1);
+            } else {
+                resolve(0);
             }
         };
         xmlhttp.open("GET", "../php/initreadstandalone.php?q=" + currentID, true);
@@ -303,6 +314,8 @@ async function readStandalone() {
     if (x = 1) {
         let tempReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder");
         window.location.href = "/read/?id=" + tempReadingOrder.split(':')[0];
+    } else {
+        alert("We're sorry, something went wrong. Please contact the website administrator.");
     }
 }
 
