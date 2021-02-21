@@ -13,12 +13,12 @@
             background-color: var(--bgcol);
         }
         
-        :root.white {
+         :root.white {
             --bgcol: #FFF;
             --col: #000;
         }
         
-        :root.black {
+         :root.black {
             --bgcol: #000;
             --col: #FFF;
         }
@@ -59,7 +59,7 @@
         root.classList.add('white');
 
         document.querySelector('button').addEventListener('click', function() {
-            root.classList.toggle('white');
+            document.documentElement.classList.toggle('light');
             root.classList.toggle('black');
         });
     </script>

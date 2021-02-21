@@ -14,34 +14,68 @@ LIGHTS
 239: efefef text active
 */
 
+:root {
+    --back1: #080808; /* RGB08, background outer */
+    --back2: #0c0c0c; /* RGB12, button active */
+    --back3: #101010; /* RGB16, main, buttons */
+    --back4: #141414; /* RGB20, button hover */
+    --back5: #181818; /* RGB24, background inner */
+    --front1: #fafafa; /* RGB250, text */
+    --front2: #f6f6f6; /* RGB246 */
+    --front3: #f2f2f2; /* RGB242, text link hover */
+    --front4: #eeeeee; /* RGB238 */
+    --front5: #eaeaea; /* RGB234, text link active */
+    --shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+    --textshadow: none;
+    --fontweight: 600;
+}
+
+:root.light {
+    --back1: #eaeaea;
+    --back2: #eeeeee;
+    --back3: #f2f2f2;
+    --back4: #f6f6f6;
+    --back5: #fafafa;
+    --front1: #181818;
+    --front2: #141414;
+    --front3: #101010;
+    --front4: #0c0c0c;
+    --front5: #080808;
+    --shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+    /* --textshadow: 0px 0px 2px black, 0px 0px 4px black; */
+    --textshadow: none;
+    --fontweight: bold;
+}
+
 body {
-    background-color: #080808;
-    background: radial-gradient(circle, #181818 0%, #080808 100%);
+    background-color: var(--back1);
+    background: radial-gradient(circle, var(--back5) 0%, var(--back1) 100%);
 }
 
 main {
-    background-color: #101010;
+    background-color: var(--back3);
 }
 
 body button,
 #navigationButton,
 #settingsButton,
 #downloadButton {
-    background-color: #101010;
+    background-color: var(--back3);
+    box-shadow: var(--shadow);
 }
 
 body button:hover,
 #navigationButton:hover,
 #settingsButton:hover,
 #downloadButton:hover {
-    background-color: #141414;
+    background-color: var(--back4);
 }
 
 body button:active,
 #navigationButton:active,
 #settingsButton:active,
 #downloadButton:active {
-    background-color: #0c0c0c;
+    background-color: var(--back2);
 }
 
 main,
@@ -49,61 +83,23 @@ body button,
 #navigationButton,
 #settingsButton,
 #downloadButton {
-    box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+    color: var(--front1);
+    box-shadow: var(--shadow);
 }
 
-
-/* LIGHT MODE */
-
-body {
-    background-color: #ffffff;
-    background: radial-gradient(circle, #ffffff 0%, #efefef 100%);
-}
-
-main,
-body button,
-#navigationButton,
-#settingsButton,
-#downloadButton {
-    background-color: #f7f7f7;
-}
-
-body button:hover,
-#navigationButton:hover,
-#settingsButton:hover,
-#downloadButton:hover {
-    background-color: #fbfbfb;
-}
-
-body button:active,
-#navigationButton:active,
-#settingsButton:active,
-#downloadButton:active {
-    background-color: #f3f3f3;
-}
-
-main,
-body button,
-#navigationButton,
-#settingsButton,
-#downloadButton {
-    box-shadow: 0px 0px 4px rgba(255, 0, 0, 0.5);
-}
-
-main h2,
-main h1,
-main p,
-main a {
-    color: #080808;
+main p {
+    color: var(--front1);
     text-shadow: none;
+    font-weight: var(--fontweight);
 }
 
 main h2,
 main h2 a,
 main h1,
+main p a,
 button {
-    color: white;
-    text-shadow: 0px 0px 2px black, 0px 0px 4px black;
+    color: var(--front1);
+    text-shadow: var(--textshadow);
 }
 
 main h2 a em {
@@ -117,10 +113,10 @@ main h2 a em {
 
 main h2 a em:hover {
     font-size: 1.03125em;
-    color: #fbfbfb;
+    color: var(--front3);
 }
 
 main h2 a em:active {
     font-size: 0.96875em;
-    color: #f3f3f3;
+    color: var(--front5);
 }
