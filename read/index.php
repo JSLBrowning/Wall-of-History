@@ -79,7 +79,8 @@
         <!-- DOWNLOAD BUTTON -->
         <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
         <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">↓</button></a>
-        <button id="clearStandaloneButton">Clear Standalone</button>
+        <!-- <button id="clearStandaloneButton">Clear Standalone</button> -->
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀️</button>
     </aside>
     <main>
         <?php
@@ -168,6 +169,7 @@
             $(".nav").hide();
         }
     </script>
+    <script src="/js/palette.js"></script>
 </body>
 
 </html>

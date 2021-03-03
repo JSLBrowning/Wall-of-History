@@ -52,10 +52,6 @@
     <script>
         const root = document.documentElement;
 
-        // Default theme - should assign declaratively in markup, not JS
-        // For a classless default theme, move its custom properties to unqualified :root
-        // Again, keep it separate from the other :root rule that contains non-theme props
-        // Remember, the cascade is your friend, not the enemy
         root.classList.add('white');
 
         document.querySelector('button').addEventListener('click', function() {

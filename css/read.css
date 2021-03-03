@@ -17,7 +17,8 @@ aside {
 
 #navigationButton,
 #settingsButton,
-#downloadButton {
+#downloadButton,
+#paletteSwapButton {
     margin: 0.5em;
     width: 48px;
     height: 48px;
@@ -36,19 +37,22 @@ aside {
 
 #navigationButton:focus,
 #settingsButton:focus,
-#downloadButton:focus {
+#downloadButton:focus,
+#paletteSwapButton:focus {
     outline: 0;
 }
 
 #navigationButton:hover,
 #settingsButton:hover,
-#downloadButton:hover {
+#downloadButton:hover,
+#paletteSwapButton:hover {
     transform: scale(1.125);
 }
 
 #navigationButton:active,
 #settingsButton:active,
-#downloadButton:active {
+#downloadButton:active,
+#paletteSwapButton:active {
     transform: scale(0.95);
 }
 

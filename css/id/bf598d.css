@@ -1,33 +1,34 @@
-/*
-DARKS
-08: 080808 Background outer
-12: 0c0c0c Button active
-16: 101010 Main, buttons
-20: 141414 Button hover
-24: 181818 Background inner
-
-LIGHTS
-255: ffffff text
-251: fbfbfb
-247: f7f7f7 text hover
-243: f3f3f3
-239: efefef text active
-*/
+* {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all .2s ease-in-out;
+}
 
 :root {
-    --back1: #080808; /* RGB08, background outer */
-    --back2: #0c0c0c; /* RGB12, button active */
-    --back3: #101010; /* RGB16, main, buttons */
-    --back4: #141414; /* RGB20, button hover */
-    --back5: #181818; /* RGB24, background inner */
-    --front1: #fafafa; /* RGB250, text */
-    --front2: #f6f6f6; /* RGB246 */
-    --front3: #f2f2f2; /* RGB242, text link hover */
-    --front4: #eeeeee; /* RGB238 */
-    --front5: #eaeaea; /* RGB234, text link active */
+    --back1: #080808;
+    /* RGB08, background outer */
+    --back2: #0c0c0c;
+    /* RGB12, button active */
+    --back3: #101010;
+    /* RGB16, main, buttons */
+    --back4: #141414;
+    /* RGB20, button hover */
+    --back5: #181818;
+    /* RGB24, background inner */
+    --front1: #fafafa;
+    /* RGB250, text */
+    --front2: #f6f6f6;
+    /* RGB246 */
+    --front3: #f2f2f2;
+    /* RGB242, text link hover */
+    --front4: #eeeeee;
+    /* RGB238 */
+    --front5: #eaeaea;
+    /* RGB234, text link active */
     --shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
     --textshadow: none;
-    --fontweight: 600;
+    --fontweight: normal;
 }
 
 :root.light {
