@@ -22,10 +22,11 @@ aside {
     margin: 0.5em;
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    background-color: #101010;
     color: white;
-    box-shadow: 0 0 0.25em white;
+    border-radius: 0.5em;
+    background: #161616;
+    box-shadow: 5px 5px 10px #080808,
+                -5px -5px 10px #202020;
     border: none;
     padding: none;
     font-size: 1.5em;
@@ -54,6 +55,10 @@ aside {
 #downloadButton:active,
 #paletteSwapButton:active {
     transform: scale(0.95);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0),
+                -5px -5px 10px rgba(0, 0, 0, 0),
+                inset 5px 5px 10px #080808,
+                inset -5px -5px 10px #202020;
 }
 
 #navigationClose,

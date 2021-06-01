@@ -124,7 +124,6 @@ h2 {
     font-family: 'TradeMarker';
     font-weight: bold;
     color: #fff;
-    text-shadow: 2px 2px 5px black;
 }
 
 .modal-content h1,
@@ -141,7 +140,6 @@ h2 {
     font-family: 'Gill Sans Std';
     font-style: normal;
     line-height: 1.5;
-    text-shadow: 2px 2px 5px black;
     font-size: 1.125em;
     padding: 0.5em 0.5em;
 }
@@ -170,7 +168,6 @@ h2 {
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
-    text-shadow: 2px 2px 5px black;
 }
 
 .close:hover {

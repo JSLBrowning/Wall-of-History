@@ -1,3 +1,46 @@
+:root {
+    --back1: #080808;
+    /* RGB08, background outer */
+    --back2: #0c0c0c;
+    /* RGB12, button active */
+    --back3: #101010;
+    /* RGB16, main, buttons */
+    --back4: #141414;
+    /* RGB20, button hover */
+    --back5: #181818;
+    /* RGB24, background inner */
+    --front1: #fafafa;
+    /* RGB250, text */
+    --front2: #f6f6f6;
+    /* RGB246 */
+    --front3: #f2f2f2;
+    /* RGB242, text link hover */
+    --front4: #eeeeee;
+    /* RGB238 */
+    --front5: #eaeaea;
+    /* RGB234, text link active */
+    --shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+    --textshadow: none;
+    --fontweight: normal;
+}
+
+:root.light {
+    --back1: #eaeaea;
+    --back2: #eeeeee;
+    --back3: #f2f2f2;
+    --back4: #f6f6f6;
+    --back5: #fafafa;
+    --front1: #181818;
+    --front2: #141414;
+    --front3: #101010;
+    --front4: #0c0c0c;
+    --front5: #080808;
+    --shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+    /* --textshadow: 0px 0px 2px black, 0px 0px 4px black; */
+    --textshadow: none;
+    --fontweight: bold;
+}
+
 * {
     padding: 0px;
     margin: 0px;
@@ -15,8 +58,7 @@
 }
 
 body {
-    background-color: #080808;
-    background: radial-gradient(circle, #181818 0%, #080808 100%);
+    background-color: #161616;
 }
 
 html,
@@ -79,8 +121,11 @@ main {
     padding: 8px 0px;
     width: 90%;
     max-width: 640px;
-    box-shadow: 0 0 0.25em white;
-    border-radius: 0.5em;
+    border-radius: 50px;
+    background: #161616;
+    box-shadow: 5px 5px 10px #080808,
+                -5px -5px 10px #202020;
+    border-radius: 2em;
 }
 
 main h1,
@@ -223,15 +268,19 @@ nav {
 }
 
 main button {
+    font-family: 'Gill Sans Std';
     display: inline-block;
-    margin: 0.25em 8px;
+    margin: 0.5em 16px;
     border: none;
-    border-radius: 32px;
+    border-radius: 16px;
     background: none;
     color: #fff;
-    box-shadow: 0 0 0.125em white;
+    border-radius: 0.5em;
+    background: #161616;
+    box-shadow: 5px 5px 10px #080808,
+                -5px -5px 10px #202020;
     cursor: pointer;
-    transition: all .2s ease-in-out;
+    transition: all .15s ease-in-out;
 }
 
 #submit {
@@ -260,7 +309,6 @@ main button {
     width: 33.33%;
     height: 32px;
     font-size: 1.25em;
-    text-shadow: 2px 2px 5px #000;
     box-shadow: none;
 }
 
@@ -334,6 +382,10 @@ nav button:hover,
 nav button:active,
 .nav button:active {
     transform: scale(0.95);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0),
+                -5px -5px 10px rgba(0, 0, 0, 0),
+                inset 5px 5px 10px #080808,
+                inset -5px -5px 10px #202020;
 }
 
 .standaloneButton:focus,
@@ -374,7 +426,6 @@ main hr,
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
-    text-shadow: 2px 2px 5px black;
 }
 
 .close:hover {
@@ -531,7 +582,6 @@ main h2 a {
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
-    text-shadow: 2px 2px 5px black;
 }
 
 #gearbtn:hover {
