@@ -121,11 +121,10 @@ main {
     padding: 8px 0px;
     width: 90%;
     max-width: 640px;
-    border-radius: 50px;
     background: #161616;
     box-shadow: 5px 5px 10px #080808,
                 -5px -5px 10px #202020;
-    border-radius: 2em;
+    border-radius: 1.5em;
 }
 
 main h1,
