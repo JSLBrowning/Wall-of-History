@@ -29,16 +29,16 @@
 
 .modal-content,
 .modal-data {
-    background-color: #0A0A0A;
+    background: #161616;
     margin: 5% auto 5% auto;
     /* 15% from the top and centered */
     padding: 0em;
-    border: 1px solid #fff;
-    border-radius: 0.75em 0em 0.5em 0em;
+    border-radius: 1.5em;
     width: 80%;
     /* Could be more or less, depending on screen size */
     max-width: 720px;
-    box-shadow: 0.25em 0.25em #000;
+    box-shadow: 5px 5px 10px #000000,
+                -5px -5px 10px #202020;
 }
 
 .modal-content img,
@@ -98,12 +98,12 @@
 .modal-data {
     width: 90%;
     max-width: 640px;
-    border: 1px solid #fff;
-    border-radius: 8px;
-    background: #0A0A0A;
+    border-radius: 1.5em;
+    background: #161616;
     margin: 4% auto;
     padding: 8px 0px;
     position: relative;
+    transition: all .15s ease-in-out;
 }
 
 .modal-content img,

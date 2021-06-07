@@ -6,6 +6,24 @@ CREATE TABLE wall_of_history_reference
     content text NOT NULL
 );
 
+CREATE TABLE woh_reference (
+    id varchar(6) PRIMARY KEY,
+    title text,
+    snippet text
+);
+
+/* NOTES:
+For Greg discussion questions, maybe each question/answer with the title text in it should be a dot, which can be hovered over to reveal the original question/answer? And clicked on for a permalink?
+Possible scraper: https://realpython.com/beautiful-soup-web-scraper-python/
+*/
+
+CREATE TABLE woh_greg (
+    posted datetime PRIMARY KEY, /* Bad idea? */
+    question text NOT NULL,
+    answer text NOT NULL,
+    permalink text
+);
+
 INSERT INTO wall_of_history_reference
 VALUES
     (1, "Onua", "<section data-spoiler='1'>
