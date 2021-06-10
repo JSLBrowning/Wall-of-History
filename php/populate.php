@@ -130,8 +130,8 @@ function loadHeader($id)
     }
 }
 
-function populateSettingsButton($id) {
-    
+function populateSettingsButton($id)
+{
 }
 
 function loadContent($id)

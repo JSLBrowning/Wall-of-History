@@ -266,7 +266,8 @@ nav {
     align-items: center;
 }
 
-main button {
+main button,
+.modal-content button {
     font-family: 'Gill Sans Std';
     display: inline-block;
     margin: 0.5em 16px;
