@@ -141,11 +141,11 @@ h3 {
 /* Why don't these work? */
 
 main h2 a:hover {
-    transform: scale(1.125);
+    font-size: 1.01875em;
 }
 
 main h2 a:active {
-    transform: scale(0.95);
+    font-size: 0.98125em;
 }
 
 main h1 {
@@ -445,14 +445,14 @@ nav button,
 .savefile button:hover,
 nav button:hover,
 .nav button:hover {
-    transform: scale(1.05);
+    transform: scale(1.0625);
 }
 
 .standaloneButton:active,
 .savefile button:active,
 nav button:active,
 .nav button:active {
-    transform: scale(0.95);
+    transform: scale(0.9375);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
 }
 

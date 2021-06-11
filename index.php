@@ -62,8 +62,10 @@
         <nav>
             <button onclick="jumpTo()">Read!</button>
         </nav>
+        <hr>
         <p style="margin-top: 1em; text-align: center;">Find Us</p>
         <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <!-- Replace w/ text-based buttons. -->
             <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
                 <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
             </a>
@@ -85,6 +87,7 @@
         </div>
         <p style="text-align: center;">Share</p>
         <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <!-- Replace w/ text-based buttons. -->
             <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="24px" height="24px">
                 <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
             </a>
