@@ -23,11 +23,11 @@ aside {
     width: 48px;
     height: 48px;
     color: white;
-    border-radius: 0.5em;
+    border-radius: 0.375em;
     background: #161616;
     box-shadow: 5px 5px 10px #080808,
                 -5px -5px 10px #202020;
-    border: none;
+    border: 1px solid #202020;
     padding: none;
     font-size: 1.5em;
     font-weight: bolder;

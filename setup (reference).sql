@@ -1,4 +1,5 @@
 USE test;
+
 CREATE TABLE wall_of_history_reference
 (
     id int PRIMARY KEY,

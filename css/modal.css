@@ -106,6 +106,7 @@
     width: 90%;
     max-width: 560px;
     border-radius: 1em;
+    border: 1px solid #202020;
     background: #161616;
     margin: 5% auto;
     padding: 8px;
