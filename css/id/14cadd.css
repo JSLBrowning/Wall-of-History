@@ -1,7 +1,7 @@
 body,
 .maintext::before {
     background: #011B35;
-    background: linear-gradient(180deg, rgba(1,27,53,1) 0%, rgba(1,27,53,1) 80%, rgba(1,2,3,1) 100%);
+    background: linear-gradient(180deg, rgba(1, 27, 53, 1) 0%, rgba(1, 27, 53, 1) 80%, rgba(1, 2, 3, 1) 100%);
 }
 
 header::before {
@@ -19,32 +19,46 @@ header a:active {
 main,
 main button,
 #navigationButton,
-#settingsButton{
+#settingsButton {
     background-color: #011B35;
     border-color: #011f3d;
-    box-shadow:  5px 5px 10px #011122,
-             -5px -5px 10px #022549;
+    box-shadow: 5px 5px 10px #011122, -5px -5px 10px #022549;
 }
 
+
 /* Fix the shadow transition. */
+
 main button:active,
 .save button:active,
 .nav button:active,
 #navigationButton:active,
-#settingsButton:active{
+#settingsButton:active {
     background-color: #011B35;
     border-color: #011f3d;
-    box-shadow: inset 5px 5px 10px #011122,
-                inset -5px -5px 10px #022549;
+    box-shadow: inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
 }
 
-hr{
+.standaloneButton:hover,
+.savefile button:hover,
+nav button:hover,
+.nav button:hover {
+    transform: scale(1.0625);
+}
+
+.standaloneButton:active,
+.savefile button:active,
+nav button:active,
+.nav button:active {
+    transform: scale(0.9375);
+    box-shadow: 5px 5px 10px #01112200, -5px -5px 10px #02254900, inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
+}
+
+hr {
     border-color: #011f3d;
 }
 
-blockquote{
-    box-shadow: inset 5px 5px 10px #011122,
-                inset -5px -5px 10px #022549;
+blockquote {
+    box-shadow: inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
     border-color: #011f3d;
 }
 

@@ -93,6 +93,11 @@
             <input type="text" placeholder="Search…" name="q">
             <button type="submit">🔍</button>
         </form>
+        <!-- RESULTS ORDER:
+        Reference collections with exact name.
+        Story pages with name in title.
+        Story pages with name in content.
+        -->
         <hr>
         <?php
         if (count($_GET) == 1) {

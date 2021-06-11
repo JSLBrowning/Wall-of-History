@@ -288,7 +288,7 @@ blockquote p:nth-child(3) {
     text-align: right;
 }
 
-blockquote p a{
+blockquote p a {
     text-decoration: none;
 }
 
@@ -351,7 +351,7 @@ main button,
     border: 1px solid #202020;
     box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
     cursor: pointer;
-    transition: all .15s ease-in-out;
+    transition: all .2s ease-in-out;
 }
 
 #submit {
