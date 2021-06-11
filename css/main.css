@@ -123,8 +123,7 @@ main {
     max-width: 640px;
     border: 1px solid #202020;
     background: #161616;
-    box-shadow: 5px 5px 10px #080808,
-                -5px -5px 10px #202020;
+    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
     border-radius: 1em;
 }
 
@@ -231,6 +230,7 @@ main iframe {
     padding: 8px 0px 8px 0px;
 }
 
+
 /*
 main blockquote {
     margin: auto;
@@ -239,24 +239,23 @@ main blockquote {
 }
 */
 
-blockquote{
+blockquote {
     margin: 1em;
     border: 1px solid #202020;
     border-radius: 0.375em;
-    box-shadow: inset 5px 5px 10px #080808,
-                inset -5px -5px 10px #202020;
+    box-shadow: inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
 }
 
-blockquote p{
+blockquote p {
     font-size: 1.25em;
 }
 
-blockquote p:nth-child(2){
+blockquote p:nth-child(2) {
     padding-top: 0em;
     text-align: right;
 }
 
-blockquote p:before {
+.quotation:before {
     content: open-quote;
     display: inline;
     height: 0;
@@ -265,8 +264,10 @@ blockquote p:before {
     top: 0.25em;
     color: #969696;
     font-size: 2em;
-  }
-  blockquote p::after {
+    padding-right: 0.125em;
+}
+
+.quotation:after {
     content: close-quote;
     display: inline;
     height: 0;
@@ -275,7 +276,36 @@ blockquote p:before {
     top: 0.25em;
     color: #969696;
     font-size: 2em;
-  }
+    padding-left: 0.125em;
+}
+
+blockquote p:nth-child(3) {
+    margin-top: -0.75em;
+    padding-top: 0em;
+    padding-right: 2.5em;
+    font-family: monospace;
+    font-size: 1em;
+    text-align: right;
+}
+
+blockquote p a{
+    text-decoration: none;
+}
+
+blockquote p a:hover {
+    color: #cccccc;
+    text-decoration: none;
+}
+
+blockquote p a:active {
+    color: #99999a;
+    text-decoration: none;
+}
+
+blockquote p a:visited {
+    color: #fff;
+    text-decoration: none;
+}
 
 #indeximg {
     margin: 0px 0px -18px 0px;
@@ -319,8 +349,7 @@ main button,
     border-radius: 0.375em;
     background: #161616;
     border: 1px solid #202020;
-    box-shadow: 5px 5px 10px #080808,
-                -5px -5px 10px #202020;
+    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
     cursor: pointer;
     transition: all .15s ease-in-out;
 }
@@ -424,10 +453,7 @@ nav button:hover,
 nav button:active,
 .nav button:active {
     transform: scale(0.95);
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0),
-                -5px -5px 10px rgba(0, 0, 0, 0),
-                inset 5px 5px 10px #080808,
-                inset -5px -5px 10px #202020;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
 }
 
 .standaloneButton:focus,
