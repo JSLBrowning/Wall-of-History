@@ -41,14 +41,22 @@ main button:active,
 .standaloneButton:hover,
 .savefile button:hover,
 nav button:hover,
-.nav button:hover {
+.nav button:hover,
+#navigationButton:hover,
+#settingsButton:hover,
+#downloadButton:hover,
+#paletteSwapButton:hover {
     transform: scale(1.0625);
 }
 
 .standaloneButton:active,
 .savefile button:active,
 nav button:active,
-.nav button:active {
+.nav button:active,
+#navigationButton:active,
+#settingsButton:active,
+#downloadButton:active,
+#paletteSwapButton:active {
     transform: scale(0.9375);
     box-shadow: 5px 5px 10px #01112200, -5px -5px 10px #02254900, inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
 }

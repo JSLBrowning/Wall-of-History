@@ -1,27 +1,28 @@
 USE test;
 
-CREATE TABLE wall_of_history_reference
-(
-    id int PRIMARY KEY,
-    name text,
-    content text NOT NULL
+CREATE TABLE reference_metadata (
+    id varchar(6) PRIMARY KEY,
+    snippet text,
+    small_image text,
+    publication_date date
 );
 
 CREATE TABLE reference_content (
     id varchar(6) PRIMARY KEY,
-    snippet text
+    css int,
+    header int NOT NULL,
+    main longtext,
+    word_count int
 );
 
-CREATE TABLE reference_names (
-    title text NOT NULL,
-    id varchar(6) NOT NULL
+CREATE TABLE reference_titles (
+    id varchar(6) NOT NULL,
+    title text NOT NULL
 );
 
-CREATE TABLE collected_metadata (
-    /* Metadata for collected pages on places, characters, or items, which feature information compiled from multiple guides. */
-    title text NOT NULL,
-    snippet text NOT NULL
-    /* This is what will show up underneath the title of the collected page. */
+CREATE TABLE reference_images (
+    id varchar(6) NOT NULL,
+    image_path text NOT NULL
 );
 
 CREATE TABLE reference_web (
