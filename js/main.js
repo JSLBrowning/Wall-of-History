@@ -22,7 +22,7 @@ MODRebrand();
 function initRead() {
     if (localStorage.getItem("WallofHistoryReadingOrder") === null || localStorage.getItem("WallofHistoryReadingOrderApplicationDate") != "08102020") {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
             }
@@ -39,7 +39,7 @@ function initRead() {
 
 function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
         }
@@ -84,10 +84,10 @@ function downloadContent() {
     let currentID = urlParams.get('id');
 
     $.get("/doc/downloads/" + currentID + ".zip")
-        .done(function () {
+        .done(function() {
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
+            xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
                 }
@@ -95,7 +95,7 @@ function downloadContent() {
             xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
             xmlhttp.send();
             document.getElementById("downloadLink").style.display = "block";
-        }).fail(function () {
+        }).fail(function() {
             console.log("No downloads are available for this content.");
         })
 }
@@ -291,12 +291,21 @@ function goForward() {
     }
 }
 
+/*
+On-site read button will always prompt for reading order selection (if multiple reading orders).
+If only one, always make active.
+If on reader without active, prompt for active choice when buttons are pressed.
+Progress bars? Save places by ID and active reading order?
+
+MASTER RESET BUTTON ON SETTINGS PAGE!!
+*/
+
 function getTempReadingOrder() {
     return new Promise(resolve => {
         let currentID = new URLSearchParams(window.location.search).get('id');
         console.log(currentID);
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("WallofHistoryTempReadingOrder", this.responseText);
                 resolve(1);

@@ -15,6 +15,8 @@ CREATE TABLE WoH_metadata(
     /* This can be ignored — the front end doesn't currently do anything with it anyway, but the idea is that it'll eventually display the publication dates of anything that has one. */
     chronology int,
     /* This number, along with the boolean below, defines the default reading order for contents of the site. Only the actual contents of the site should have a chronology value — Tale of the Toa as a whole does not have one, for example, but the individual chapters of Tale of the Toa do. */
+    spoiler_level int,
+    /* This number determines what information will display by default when reference modals are opened. */
     recommended boolean
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
 );
@@ -87,5 +89,5 @@ Cards shouldn't be chapters, their names are descriptive enough.
 Add images. Obviously.
 Chapter will be necessary for read as standalone. Add those to novels, at the VERY least, by launch.
 Maybe just delete CSS table entirely?
-First MNOG cutscene has a duplicate animation tag.
+First MNOG cutscene has a duplicate animation tag. Fix that.
 */
