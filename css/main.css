@@ -135,6 +135,7 @@ h3 {
     line-height: 1em;
     font-family: 'TradeMarker';
     font-weight: bold;
+    color: var(--front1);
 }
 
 
@@ -451,7 +452,8 @@ nav button:hover,
 .standaloneButton:active,
 .savefile button:active,
 nav button:active,
-.nav button:active {
+.nav button:active,
+.contentsButton:active {
     transform: scale(0.9375);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
 }
@@ -464,7 +466,6 @@ nav button:focus,
 }
 
 .modalbtn {
-    text-decoration: underline;
     cursor: pointer;
 }
 

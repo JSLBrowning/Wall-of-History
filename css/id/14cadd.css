@@ -19,7 +19,8 @@ header a:active {
 main,
 main button,
 #navigationButton,
-#settingsButton {
+#settingsButton,
+.contentsButton {
     background-color: #011B35;
     border-color: #011f3d;
     box-shadow: 5px 5px 10px #011122, -5px -5px 10px #022549;
@@ -32,8 +33,9 @@ main button:active,
 .save button:active,
 .nav button:active,
 #navigationButton:active,
-#settingsButton:active {
-    background-color: #011B35;
+#settingsButton:active,
+.contentsButton:active {
+    background-color: #00172e;
     border-color: #011f3d;
     box-shadow: inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
 }
@@ -45,7 +47,8 @@ nav button:hover,
 #navigationButton:hover,
 #settingsButton:hover,
 #downloadButton:hover,
-#paletteSwapButton:hover {
+#paletteSwapButton:hover,
+.contentsButton:hover {
     transform: scale(1.0625);
 }
 
@@ -56,9 +59,18 @@ nav button:active,
 #navigationButton:active,
 #settingsButton:active,
 #downloadButton:active,
-#paletteSwapButton:active {
+#paletteSwapButton:active,
+.contentsButton:active {
     transform: scale(0.9375);
     box-shadow: 5px 5px 10px #01112200, -5px -5px 10px #02254900, inset 5px 5px 10px #011122, inset -5px -5px 10px #022549;
+}
+
+.contentsButton:hover {
+    transform: scale(1.03125);
+}
+
+.contentsButton:active {
+    transform: scale(0.96875);
 }
 
 hr {
@@ -105,6 +117,10 @@ audio {
 
 .close:active {
     color: #99adc1;
+}
+
+.modalbtn{
+    font-weight: bold;
 }
 
 /*

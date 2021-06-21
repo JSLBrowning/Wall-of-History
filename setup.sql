@@ -3,19 +3,11 @@ USE test;
 CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
-    title text NOT NULL,
-    /* Self-explantory, I'm sure. Titles should be minimal — the first chapter of Tale of the Toa is simply titled “Tahu — Toa of Fire,” not “BIONICLE Chronicles #1: Tale of the Toa: ‘Tahu — Toa of Fire.’” */
-    snippet text,
-    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
-    small_image text,
-    /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
-    large_image text,
-    /* This is the image that will appear in the summary cards generated for the work in question, so they should be banners. Twitter, for example, uses a 2:1 aspect ratio for these. */
     publication_date date,
     /* This can be ignored — the front end doesn't currently do anything with it anyway, but the idea is that it'll eventually display the publication dates of anything that has one. */
     chronology int,
     /* This number, along with the boolean below, defines the default reading order for contents of the site. Only the actual contents of the site should have a chronology value — Tale of the Toa as a whole does not have one, for example, but the individual chapters of Tale of the Toa do. */
-    spoiler_level int,
+    spoiler_level int DEFAULT 1,
     /* This number determines what information will display by default when reference modals are opened. */
     recommended boolean
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
@@ -24,8 +16,18 @@ CREATE TABLE WoH_metadata(
 CREATE TABLE WoH_content(
     id varchar(6) PRIMARY KEY,
     /* Self-explantory — it's the same ID as above. */
-    css int,
-    /* If you want special CSS for a certain work, include the ID of the CSS here (see below for more details). If not, this can be NULL. */
+    content_language varchar (2) DEFAULT "en",
+    /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
+    content_version int DEFAULT 1,
+    /* If there are multiple versions of a given piece of content, they can be identified here with an int, which points to the WoH_versions table (1 is the default, for “standard” versions.) */
+    small_image text,
+    /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
+    large_image text,
+    /* This is the image that will appear in the summary cards generated for the work in question, so they should be banners. Twitter, for example, uses a 2:1 aspect ratio for these. */
+    title text NOT NULL,
+    /* Self-explantory, I'm sure. Titles should be minimal — the first chapter of Tale of the Toa is simply titled “Tahu — Toa of Fire,” not “BIONICLE Chronicles #1: Tale of the Toa: ‘Tahu — Toa of Fire.’” */
+    snippet text,
+    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
     header int NOT NULL,
     /* This defines which header HTML will be displayed on the page for this content — for example, the regular BIONICLE logo is used for most Wall of History pages, but the 2002 version is used for pages of Beware the Bohrok. */
     main longtext,
@@ -34,12 +36,9 @@ CREATE TABLE WoH_content(
     /* Can be ignored — as with the publication date, the front end doesn't do anything with this yet. */
 );
 
-CREATE TABLE WoH_css(
-    css_id int PRIMARY KEY,
-    /* Self-explanatory. */
-    html mediumtext
-    /* This is the HTML that includes the link to the CSS sheet(s) you want */
-    /* Example: <link rel="stylesheet" href="mystyle.css"> */
+CREATE TABLE WoH_versions(
+    version_id int NOT NULL,
+    version_name text NOT NULL
 );
 
 CREATE TABLE WoH_headers(
