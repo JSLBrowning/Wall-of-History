@@ -106,3 +106,17 @@ audio {
 .close:active {
     color: #99adc1;
 }
+
+/*
+@media (prefers-color-scheme: dark) {
+    main h1 {
+        color: gray;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    main h1 {
+        color: orange;
+    }
+}
+*/

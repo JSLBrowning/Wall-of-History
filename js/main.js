@@ -9,19 +9,41 @@ function initialize() {
     }
 
     if (localStorage.getItem("colorScheme") === null) {
-        localStorage.setItem("colorScheme", "dark");
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+            localStorage.setItem("colorScheme", "light");
+        } else {
+            localStorage.setItem("colorScheme", "dark");
+        }
     }
 
-    if (localStorage.getItem("readingOrder") === null || localStorage.getItem("version") === null) {
+    if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                localStorage.setItem("readingOrder", this.responseText);
+                localStorage.setItem("readingOrder:0", this.responseText);
             }
         };
         xmlhttp.open("GET", "../php/initread.php", true);
         xmlhttp.send();
     }
+
+    if (localStorage.getItem("spoilerLevel") === null) {
+        localStorage.setItem("spoilerLevel", "1");
+    }
 };
 
 initialize();
+
+function activateReadingOrder() {
+    if (sessionStorage.getItem("activeReadingOrder") === null) {
+        const keyArray = Object.keys(localStorage);
+        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
+        if (readingOrders.length == 1) {
+            sessionStorage.setItem("activeReadingOrder", readingOrders[0]);
+        } else {
+            alert("Hmm…");
+        }
+    }
+}
+
+activateReadingOrder();

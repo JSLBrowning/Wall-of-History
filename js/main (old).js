@@ -29,7 +29,7 @@ function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            localStorage.setItem("WallofHistoryReadingOrder", this.responseText);
+            localStorage.setItem("readingOrder", this.responseText);
         }
     };
     xmlhttp.open("GET", "../php/initread.php", true);
@@ -64,17 +64,17 @@ function findSelf() {
     const urlParams = new URLSearchParams(window.location.search);
 
     if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
-        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-            if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
+        let readingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = 0; index < readingOrder.length; index++) {
+            if ((readingOrder[index].substring(0, readingOrder[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
                 return (result);
             }
         }
     } else {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
-        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-            if ((WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":"))) == urlParams.get('id')) {
+        let readingOrder = localStorage.getItem("readingOrder").split(",");
+        for (index = 0; index < readingOrder.length; index++) {
+            if ((readingOrder[index].substring(0, readingOrder[index].indexOf(":"))) == urlParams.get('id')) {
                 result = index;
                 return (result);
             }
@@ -86,13 +86,13 @@ function filteredSelf() {
     const urlParams = new URLSearchParams(window.location.search);
 
     if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        let readingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
         let index;
         let goodValues = [];
-        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-            value = WallofHistoryReadingOrder[index];
+        for (index = 0; index < readingOrder.length; index++) {
+            value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
-                goodValues.push(WallofHistoryReadingOrder[index]);
+                goodValues.push(readingOrder[index]);
             }
         }
 
@@ -104,13 +104,13 @@ function filteredSelf() {
             }
         }
     } else {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        let readingOrder = localStorage.getItem("readingOrder").split(",");
         let index;
         let goodValues = [];
-        for (index = 0; index < WallofHistoryReadingOrder.length; index++) {
-            value = WallofHistoryReadingOrder[index];
+        for (index = 0; index < readingOrder.length; index++) {
+            value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
-                goodValues.push(WallofHistoryReadingOrder[index]);
+                goodValues.push(readingOrder[index]);
             }
         }
 
@@ -133,12 +133,12 @@ function hideButtons() {
         forwardButton.style.display = "none";
     }
 
-    let WoHReadingOrder = localStorage.getItem("WallofHistoryReadingOrder");
-    let WallofHistoryReadingOrder = WoHReadingOrder.split(",");
+    let WoHReadingOrder = localStorage.getItem("readingOrder");
+    let readingOrder = WoHReadingOrder.split(",");
     if (findSelf() === 0) {
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "none";
-    } else if (findSelf() === WallofHistoryReadingOrder.length - 1) {
+    } else if (findSelf() === readingOrder.length - 1) {
         let forwardButton = document.getElementById("forwardbutton");
         forwardButton.style.display = "none";
     }
@@ -171,13 +171,13 @@ function savePlace() {
 
 function jumpTo() {
     if (localStorage.getItem("WallofHistorySavePlace") === null) {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+        let readingOrder = localStorage.getItem("readingOrder").split(",");
         let index, value;
-        for (index = 0; index < WallofHistoryReadingOrder.length; ++index) {
-            value = WallofHistoryReadingOrder[index];
+        for (index = 0; index < readingOrder.length; ++index) {
+            value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
-                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
                 break;
             }
         }
@@ -205,19 +205,19 @@ function goBack() {
     // For temp reading orders.
     const urlParams = new URLSearchParams(window.location.search);
     if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
-        for (index = currentNumber - 1; index < WallofHistoryReadingOrder.length; index--) {
-            if (WallofHistoryReadingOrder[index].includes(":1")) {
-                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+        let readingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = currentNumber - 1; index < readingOrder.length; index--) {
+            if (readingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
                 break;
             }
             break;
         }
     } else {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
-        for (index = currentNumber - 1; index < WallofHistoryReadingOrder.length; index--) {
-            if (WallofHistoryReadingOrder[index].includes(":1")) {
-                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+        let readingOrder = localStorage.getItem("readingOrder").split(",");
+        for (index = currentNumber - 1; index < readingOrder.length; index--) {
+            if (readingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
                 break;
             }
         }
@@ -229,21 +229,21 @@ function goForward() {
 
     const urlParams = new URLSearchParams(window.location.search);
     if ((localStorage.getItem("WallofHistoryTempReadingOrder") !== null) && (localStorage.getItem("WallofHistoryTempReadingOrder").includes(urlParams.get("id")))) {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
-        for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
-            if (WallofHistoryReadingOrder[index].includes(":1")) {
-                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+        let readingOrder = localStorage.getItem("WallofHistoryTempReadingOrder").split(",");
+        for (index = currentNumber + 1; index < readingOrder.length; index++) {
+            if (readingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
                 break;
             }
             break;
         }
-    } else if ((localStorage.getItem("WallofHistoryReadingOrder") == null)) {
+    } else if ((localStorage.getItem("readingOrder") == null)) {
         console.log("Reading order is null. This is not supposed to be possible.");
     } else {
-        let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
-        for (index = currentNumber + 1; index < WallofHistoryReadingOrder.length; index++) {
-            if (WallofHistoryReadingOrder[index].includes(":1")) {
-                window.location.href = ("/read/?id=" + WallofHistoryReadingOrder[index].substring(0, WallofHistoryReadingOrder[index].indexOf(":")));
+        let readingOrder = localStorage.getItem("readingOrder").split(",");
+        for (index = currentNumber + 1; index < readingOrder.length; index++) {
+            if (readingOrder[index].includes(":1")) {
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
                 break;
             }
         }
