@@ -1,5 +1,25 @@
 USE test;
 
+/* OLD VERSION:
+CREATE TABLE WoH_metadata(
+    id text PRIMARY KEY,     hashes[i][1]
+    title text NOT NULL,     str(myresult[2])
+    snippet text,            str(myresult[4])
+    publish_date date,       NULL
+    chronology int NOT NULL, str(hashes[i][2]) OR NULL
+    recommended boolean      str(myresult[6])
+);
+
+CREATE TABLE WoH_content(
+    id text PRIMARY KEY,
+    content_language text NOT NULL,
+    head mediumtext,
+    header int NOT NULL,
+    main longtext,
+    word_count int
+)
+*/
+
 CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
