@@ -97,16 +97,14 @@ CREATE TABLE WoH_adaptations(
 );
 
 /*
-TO-DO:
+TO-DO AFTER:
 Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
-Remove headings from contents (existing h2s and h1s, since those are generated programmatically).
-Remove the accidental recommended booleans from parent items (ex. Trial by Fire (0a63b4)). (This isn't really NECESSARY but it's good to do it anyway.)
+Remove the accidental recommended booleans from parent items (ex. Trial by Fire). (This isn't really NECESSARY but it's good to do it anyway.)
 Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
 Cards shouldn't be chapters, their names are descriptive enough.
 Add images. Obviously.
 Chapter will be necessary for read as standalone. Add those to novels, at the VERY least, by launch.
-Maybe just delete CSS table entirely?
-First MNOG cutscene has a duplicate animation tag. Fix that.
+Add semantic tags, accessible with an "s" URL parameter.
 */
