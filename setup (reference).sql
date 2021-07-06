@@ -25,6 +25,11 @@ CREATE TABLE reference_images (
     image_path text NOT NULL
 );
 
+CREATE TABLE reference_quotes (
+    title text NOT NULL,
+    quote text NOT NULL
+);
+
 CREATE TABLE reference_web (
     parent_id varchar(6) NOT NULL,
     child_id varchar(6) NOT NULL

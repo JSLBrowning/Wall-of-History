@@ -167,6 +167,7 @@ audio {
 }
 
 main p {
+    margin-right: 0.25em;
     padding: 0.5em 0.5em;
     font-size: 1.125em;
     text-align: justify;
@@ -467,6 +468,7 @@ nav button:focus,
 
 .modalbtn {
     cursor: pointer;
+    font-weight: bold;
 }
 
 main hr,
@@ -669,4 +671,27 @@ main h2 a {
     text-align: center;
     padding: 0em 0.5em;
     line-height: 1.25em;
+}
+
+.anchors{
+    display: flex;
+    flex-direction: row;
+}
+
+.anchor,
+.anchor:visited{
+    padding: 0.5em;
+    flex-basis: 1.25%;
+    color: rgb(160, 160, 160);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.anchors p{
+    flex-basis: 98.75;
+}
+
+.anchors:target p{
+    background-color: rgb(42, 42, 42);
+    border-radius: 0.125em;
 }

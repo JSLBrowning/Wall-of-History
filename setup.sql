@@ -39,7 +39,9 @@ CREATE TABLE WoH_content(
     content_language varchar (2) DEFAULT "en",
     /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     content_version int DEFAULT 1,
-    /* If there are multiple versions of a given piece of content, they can be identified here with an int, which points to the WoH_versions table (1 is the default, for “standard” versions.) */
+    /* This integer identifies the version of the content in the URL parameters... */
+    version_title text DEFAULT "Standard",
+    /* ...and this string is the actual name of the version in question, which is displayed to the user on the page. */
     small_image text,
     /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
     large_image text,
@@ -54,11 +56,6 @@ CREATE TABLE WoH_content(
     /* The actual contents of the page (in HTML) go here. */
     word_count int
     /* Can be ignored — as with the publication date, the front end doesn't do anything with this yet. */
-);
-
-CREATE TABLE WoH_versions(
-    version_id int NOT NULL,
-    version_name text NOT NULL
 );
 
 CREATE TABLE WoH_headers(
