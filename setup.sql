@@ -40,7 +40,7 @@ CREATE TABLE WoH_content(
     /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
-    version_title text DEFAULT "Standard",
+    version_title text,
     /* ...and this string is the actual name of the version in question, which is displayed to the user on the page. */
     small_image text,
     /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
