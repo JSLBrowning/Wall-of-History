@@ -40,11 +40,18 @@ For Greg discussion questions, maybe each question/answer with the title text in
 Possible scraper: https://realpython.com/beautiful-soup-web-scraper-python/
 */
 
-CREATE TABLE woh_greg (
+CREATE TABLE reference_greg (
     posted datetime PRIMARY KEY, /* Bad idea? */
     question text NOT NULL,
     answer text NOT NULL,
     permalink text
+);
+
+/* DELETE THIS LATER. [DOWN ARROW] */
+CREATE TABLE wall_of_history_reference (
+    id int PRIMARY KEY,
+    name text,
+    content text
 );
 
 INSERT INTO wall_of_history_reference

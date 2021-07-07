@@ -9,8 +9,11 @@
         include("..//php/populate.php");
         if(count($_GET)) {
             $id = $_GET["id"];
-            $id = $_GET["lang"];
-            $id = $_GET["v"];
+            if(!($_GET["lang"])){
+                echo "<meta http-equiv='refresh' content='time; URL=http://localhost:8080/' />";
+            }
+            $lang = $_GET["lang"];
+            $v = $_GET["v"];
             if (is_numeric($id)) {
                 if ((int)$id < 99999) {
                     include("..//php/db_connect.php");
@@ -33,10 +36,9 @@
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
-    <link rel='stylesheet' type='text/css' href='/css/tahu.css'>
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <?php
-        addCSS($id);
+        addCSS($id, $lang, $v);
     ?>
 </head>
 <body>
@@ -48,7 +50,8 @@
                 $v = $_GET["v"];
             } else {
                 $id = "0";
-                $lang = $_GET[""];
+                $lang = "en";
+                $v = "1";
             }
             loadHeader($id, $lang, $v);
         ?>
@@ -110,7 +113,7 @@
         } else {
             $id = "0";
         }
-        loadContent($id);
+        loadContent($id, $lang, $v);
         ?>
 
         <?php

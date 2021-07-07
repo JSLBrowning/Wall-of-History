@@ -12,7 +12,7 @@
         IF EXIT PAGE OR RELOAD TO PAGE OUTSIDE READING ORDER, DELETE TEMP ORDER.
         IF LAST CHAP, DELETE TEMP ORDER.
         IF SAVE ON TEMP CHAPTER... PRESERVE TEMP ORDER UNTIL NEXT RELOAD. */
-function populateHead($id)
+function populateHead($id, $lang, $v)
 {
     // This function is pretty straightforward — it populates the head of the page with content-specific OGP data.
     include("..//php/db_connect.php");
@@ -53,7 +53,7 @@ function populateHead($id)
     }
 }
 
-function addCSS($id)
+function addCSS($id, $lang, $v)
 {
     include("..//php/db_connect.php");
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
@@ -64,12 +64,12 @@ function addCSS($id)
     echo "    <link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>";
 }
 
-function hasChildren($id)
+function hasChildren($id, $lang, $v)
 {
     // This function finds any and all children that a given piece of content has, then echoes them in a list format.
     include("..//php/db_connect.php");
 
-    $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+    $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
     /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
 
     // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
@@ -113,7 +113,7 @@ function hasChildren($id)
     }
 }
 
-function loadHeader($id)
+function loadHeader($id, $lang, $v)
 {
     include("..//php/db_connect.php");
     $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
@@ -130,11 +130,11 @@ function loadHeader($id)
     }
 }
 
-function populateSettingsButton($id)
+function populateSettingsButton($id, $lang, $v)
 {
 }
 
-function loadContent($id)
+function loadContent($id, $lang, $v)
 {
     // This function is the most complicated, echoing the actuals contents of the page from the top (parent(s), title, author) down (content).
     include("..//php/db_connect.php");
@@ -150,7 +150,7 @@ function loadContent($id)
     } else {
         while ($row = $result->fetch_assoc()) {
             if ($num_rows == 1) {
-                $sql_title = "SELECT title FROM woh_metadata WHERE id = \"" . $row["parent_id"] . "\"";
+                $sql_title = "SELECT title FROM woh_content WHERE id = \"" . $row["parent_id"] . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
                     echo "<h2><a onClick='location.href=\"/read/?id=" . $row["parent_id"] . "\"'>" . $row_title["title"] . "</a></h2>";
@@ -162,7 +162,7 @@ function loadContent($id)
     }
 
     // GET AND DISPLAY TITLE
-    $sql = "SELECT title FROM woh_metadata WHERE id = \"" . $id . "\"";
+    $sql = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
 
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
@@ -204,7 +204,7 @@ function loadContent($id)
         // Okay, we'll come back to page numbers later.
         echo $row["main"];
     }
-    hasChildren($id);
+    hasChildren($id, $lang, $v);
 }
 
 function populateSettings()
