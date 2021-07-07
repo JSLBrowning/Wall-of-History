@@ -9,6 +9,8 @@
         include("..//php/populate.php");
         if(count($_GET)) {
             $id = $_GET["id"];
+            $id = $_GET["lang"];
+            $id = $_GET["v"];
             if (is_numeric($id)) {
                 if ((int)$id < 99999) {
                     include("..//php/db_connect.php");
@@ -23,8 +25,10 @@
             }
         } else {
             $id = "0";
+            $lang = "en";
+            $v = "1";
         }
-        populateHead($id);
+        populateHead($id, $lang, $v);
     ?>
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
@@ -40,10 +44,13 @@
         <?php
             if(count($_GET)) {
                 $id = $_GET["id"];
+                $lang = $_GET["lang"];
+                $v = $_GET["v"];
             } else {
                 $id = "0";
+                $lang = $_GET[""];
             }
-            loadHeader($id);
+            loadHeader($id, $lang, $v);
         ?>
     </header>
     <aside>

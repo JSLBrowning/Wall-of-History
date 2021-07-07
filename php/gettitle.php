@@ -6,7 +6,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-$sql = "SELECT title FROM woh_metadata WHERE id = \"" . $q . "\"";
+$sql = "SELECT title FROM woh_content WHERE id = \"" . $q . "\"";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

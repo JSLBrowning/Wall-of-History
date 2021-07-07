@@ -53,12 +53,12 @@
     </aside>
     <main>
         <!-- TO-DO: Make this only autoplay the FIRST time someone visits the site. -->
-        <video style="margin-top: -0.75em;" controls autoplay>
+        <video style="margin-top: -0.75em;" poster="img/ogp.png" controls autoplay>
             <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <p style="text-align: center;">Welcome to <strong>Wall of History</strong>, a web archive of the entire BIONICLE legend, compiled into an accessible, easy-to-read format.</p>
-        <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking the menu icon on this.</p>
+        <p style="text-align: center;">Welcome to <strong>Wall of History</strong>, a web archive of the entire BIONICLE legend — compiled into an accessible, easy-to-read format.</p>
+        <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking <a href="/read/">here</a>.</p>
         <nav>
             <button onclick="jumpTo()">Read!</button>
         </nav>

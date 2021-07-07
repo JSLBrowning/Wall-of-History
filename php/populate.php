@@ -23,7 +23,7 @@ function populateHead($id)
     // Another idea: make the names of CSS files match their associated type tags or pieces of content, then have them automatically be loaded.
     // Load CSS files of parents first, then self, so self always takes precedence.
 
-    $sql = "SELECT title, snippet, large_image FROM woh_metadata WHERE woh_metadata.id = \"" . $id . "\"";
+    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content WHERE woh_metadata.id = \"" . $id . "\"";
     // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
     // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
     // Need to work on it.

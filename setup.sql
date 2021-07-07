@@ -1,25 +1,5 @@
 USE test;
 
-/* OLD VERSION:
-CREATE TABLE WoH_metadata(
-    id text PRIMARY KEY,     hashes[i][1]
-    title text NOT NULL,     str(myresult[2])
-    snippet text,            str(myresult[4])
-    publish_date date,       NULL
-    chronology int NOT NULL, str(hashes[i][2]) OR NULL
-    recommended boolean      str(myresult[6])
-);
-
-CREATE TABLE WoH_content(
-    id text PRIMARY KEY,
-    content_language text NOT NULL,
-    head mediumtext,
-    header int NOT NULL,
-    main longtext,
-    word_count int
-)
-*/
-
 CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
@@ -34,7 +14,7 @@ CREATE TABLE WoH_metadata(
 );
 
 CREATE TABLE WoH_content(
-    id varchar(6) PRIMARY KEY,
+    id varchar(6),
     /* Self-explantory — it's the same ID as above. */
     content_language varchar (2) DEFAULT "en",
     /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
@@ -54,8 +34,9 @@ CREATE TABLE WoH_content(
     /* This defines which header HTML will be displayed on the page for this content — for example, the regular BIONICLE logo is used for most Wall of History pages, but the 2002 version is used for pages of Beware the Bohrok. */
     main longtext,
     /* The actual contents of the page (in HTML) go here. */
-    word_count int
+    word_count int,
     /* Can be ignored — as with the publication date, the front end doesn't do anything with this yet. */
+    PRIMARY KEY (id, content_language, content_version)
 );
 
 CREATE TABLE WoH_headers(
