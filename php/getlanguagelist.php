@@ -2,7 +2,7 @@
 include("..//php/db_connect.php");
 
 // Create selection statement.
-$sql = "SELECT DISTINCT content_language FROM woh_content ORDER BY count(content_language)";
+$sql = "SELECT GROUP_CONCAT(DISTINCT content_language /* ORDER BY COUNT(content_language) DESC */ SEPARATOR ',') FROM woh_content";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

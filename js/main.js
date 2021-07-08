@@ -3,14 +3,28 @@ function initialize() {
         localStorage.setItem("version", "1.0");
     }
 
-    if (localStorage.getItem("languagePreference") === null) {
-        // Get all language codes in use from DB.
-        // Initially order according to volume.
-        // If nav.lang in list, float to top.
-        // Set.
-
+    if ((localStorage.getItem("languagePreference") === null) || (localStorage.getItem("languageList") === null)) {
+        // Step 1: Get preferred language.
         const lang = navigator.language;
         localStorage.setItem("languagePreference", lang.substring(0, 2));
+
+        // Step 2: Get all languages and put them in a list.
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                localStorage.setItem("languageList", this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/getlanguagelist.php", true);
+        xmlhttp.send();
+    }
+
+    // Step 3: If preferred language is in language list, bring it to the front.
+    if (localStorage.getItem("languageList").includes(localStorage.getItem("languagePreference"))) {
+        let languageList = localStorage.getItem("languageList").split(",");
+        let preferred = localStorage.getItem("languagePreference");
+        languageList.sort(function(x,y){ return x == preferred ? -1 : y == preferred ? 1 : 0; });
+        localStorage.setItem("languageList", languageList);
     }
 
     if (localStorage.getItem("colorScheme") === null) {
@@ -129,7 +143,7 @@ function jumpTo() {
             value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
-                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
+                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")) + "&lang=" + localStorage.getItem("languageList").substring(0, 2) + "&v=1");
                 break;
             }
         }
@@ -150,6 +164,9 @@ function goBack() {
 }
 
 function goForward() {
+    // Get language list from localStorage, get available languages for next item.
+    // Find highest match.
+    // Go.
     let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
