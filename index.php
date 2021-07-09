@@ -52,8 +52,7 @@
         <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
     </aside>
     <main>
-        <!-- TO-DO: Make this only autoplay the FIRST time someone visits the site. -->
-        <video style="margin-top: -0.75em;" poster="img/ogp.png" controls autoplay>
+        <video style="margin-top: -0.75em;" poster="img/Video Thumbnail.png" controls>
             <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>

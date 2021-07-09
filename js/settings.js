@@ -1,5 +1,5 @@
 function fixSettings() {
-    let WallofHistoryReadingOrder = localStorage.getItem("WallofHistoryReadingOrder").split(",");
+    let WallofHistoryReadingOrder = localStorage.getItem("readingOrder:0").split(",");
     let settingsList = document.getElementById("sortable");
 
     for (index = 0; index < WallofHistoryReadingOrder.length; ++index) {
@@ -15,7 +15,7 @@ function fixSettings() {
     }
 }
 
-if (localStorage.getItem("WallofHistoryReadingOrder") != null) {
+if (localStorage.getItem("readingOrder:0") != null) {
     fixSettings();
 }
 

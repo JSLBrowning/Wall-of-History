@@ -209,6 +209,8 @@ function loadContent($id, $lang, $v)
 
 function populateSettings()
 {
+    // Each ID should only be fetched once, with the title being that of the language of the... ya know, closest to the top of the list. And... version 1.
+
     // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
     include("..//php/db_connect.php");
 
@@ -229,7 +231,7 @@ function populateSettings()
     }
     echo "</select></fieldset>";
 
-    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
+    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
 
     echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
