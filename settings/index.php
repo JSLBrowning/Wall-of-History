@@ -30,7 +30,7 @@
         <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
     <main>
-        <h2><a onclick="resetReadingOrder()">Reset to Default</a></h2>
+        <h2><a onclick="resetReader()">Reset to Default</a></h2>
         <!--
         <div class="checkbuttons">
             <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'en,es');

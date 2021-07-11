@@ -23,7 +23,7 @@ function initialize() {
     if (localStorage.getItem("languageList").includes(localStorage.getItem("languagePreference"))) {
         let languageList = localStorage.getItem("languageList").split(",");
         let preferred = localStorage.getItem("languagePreference");
-        languageList.sort(function(x,y){ return x == preferred ? -1 : y == preferred ? 1 : 0; });
+        languageList.sort(function(x, y) { return x == preferred ? -1 : y == preferred ? 1 : 0; });
         localStorage.setItem("languageList", languageList);
     }
 
@@ -63,6 +63,59 @@ function initialize() {
 };
 
 initialize();
+
+function resetReader() {
+    localStorage.clear();
+    localStorage.setItem("version", "1.0");
+
+    // Step 1: Get preferred language.
+    const lang = navigator.language;
+    localStorage.setItem("languagePreference", lang.substring(0, 2));
+
+    // Step 2: Get all languages and put them in a list.
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // localStorage.setItem("languageList", this.responseText);
+            localStorage.setItem("languageList", "es,en");
+
+            // Step 3: If preferred language is in language list, bring it to the front.
+            let languageList = localStorage.getItem("languageList").split(",");
+            let preferred = localStorage.getItem("languagePreference");
+            languageList.sort(function(x, y) { return x == preferred ? -1 : y == preferred ? 1 : 0; });
+            localStorage.setItem("languageList", languageList);
+        }
+    };
+    xmlhttp.open("GET", "../php/getlanguagelist.php", true);
+    xmlhttp.send();
+
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        localStorage.setItem("colorScheme", "light");
+    } else {
+        localStorage.setItem("colorScheme", "dark");
+    }
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            localStorage.setItem("readingOrder:0", this.responseText);
+            alert("Reset complete.");
+        }
+    };
+    xmlhttp.open("GET", "../php/initread.php", true);
+    xmlhttp.send();
+
+    localStorage.setItem("spoilerLevel", "1");
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            localStorage.setItem("referenceTerms", this.responseText);
+        }
+    };
+    xmlhttp.open("GET", "../php/getreferenceterms.php", true);
+    xmlhttp.send();
+}
 
 function activateReadingOrder() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {

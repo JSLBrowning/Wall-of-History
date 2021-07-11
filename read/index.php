@@ -8,22 +8,38 @@
     <?php 
         include("..//php/populate.php");
         if(count($_GET)) {
-            $id = $_GET["id"];
-            if(!($_GET["lang"])){
-                echo "<meta http-equiv='refresh' content='time; URL=http://localhost:8080/' />";
-            }
-            $lang = $_GET["lang"];
-            $v = $_GET["v"];
-            if (is_numeric($id)) {
-                if ((int)$id < 99999) {
-                    include("..//php/db_connect.php");
+            if($_GET["s"]) {
+                echo "Working on it…";
+            } else {
+                if($_GET["id"]) {
+                    $id = $_GET["id"];
 
-                    $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
-                    $result = $mysqli->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        $id = $row["id"];
-                        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "'\" />\n";
+                    if (is_numeric($id)) {
+                        if ((int)$id < 99999) {
+                            include("..//php/db_connect.php");
+        
+                            $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
+                            $result = $mysqli->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                $id = $row["id"];
+                                echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "'\" />\n";
+                            }
+                        }
                     }
+                } else {
+                    $id = "0";
+                }
+
+                if($_GET["lang"]){
+                    $lang = $_GET["lang"];
+                } else {
+                    $lang = "en";
+                }
+                
+                if($_GET["v"]) {
+                    $v = $_GET["v"];
+                } else {
+                    $v = "1";
                 }
             }
         } else {
@@ -44,15 +60,6 @@
 <body>
     <header>
         <?php
-            if(count($_GET)) {
-                $id = $_GET["id"];
-                $lang = $_GET["lang"];
-                $v = $_GET["v"];
-            } else {
-                $id = "0";
-                $lang = "en";
-                $v = "1";
-            }
             loadHeader($id, $lang, $v);
         ?>
     </header>
@@ -64,7 +71,7 @@
                 <span id="navigationClose">&times;</span>
                 <p>
                 <?php
-                    if (count($_GET) == 1) {
+                    if (count($_GET)) {
                         echo "<a href=\"/read/\">Contents</a>";
                     } else {
                         echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
@@ -94,25 +101,6 @@
     </aside>
     <main>
         <?php
-        if(count($_GET)) {
-            $id = $_GET["id"];
-            /* This shouldn't actually be necessary if the code in the head works.
-            But... Might be good to have it anyway, so the page won't be blank in the split second it's visible.
-            if (is_numeric($id)) {
-                if ((int)$id < 99999) {
-                    include("..//php/db_connect.php");
-
-                    $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
-                    $result = $mysqli->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        $id = $row["id"];
-                    }
-                }
-            }
-            */
-        } else {
-            $id = "0";
-        }
         loadContent($id, $lang, $v);
         ?>
 

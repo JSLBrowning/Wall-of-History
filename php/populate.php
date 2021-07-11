@@ -74,13 +74,16 @@ function hasChildren($id, $lang, $v)
 
     // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
     if ($id == "0") {
-        $sql = "SELECT id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT MIN(chronology) FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid AND chronology IS NOT NULL)), title ASC";
+        // $sql = "SELECT id AS cid, title, snippet, small_image, large_image, chronology FROM (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) WHERE id NOT IN (SELECT child_id FROM woh_web) ORDER BY title ASC";
+        $sql = "SELECT id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE id NOT IN (SELECT child_id FROM woh_web)";
+        // IFNULL(chronology, (SELECT MIN(chronology) FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid AND chronology IS NOT NULL)),
         echo "<h1>Table of Contents</h1>";
     }
     // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
 
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
+    echo "<p>" . $num_rows . "</p>";
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
