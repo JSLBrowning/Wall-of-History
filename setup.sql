@@ -76,6 +76,9 @@ CREATE TABLE WoH_adaptations(
 
 /*
 TO-DO AFTER:
+Remove paragraph numbers from blank paragraphs (may have to do this one by hand).a
+Remove paragraph numbers from card pages (which have just one paragraph).
+Need to add chapter tags.
 Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire). (This isn't really NECESSARY but it's good to do it anyway.)

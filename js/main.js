@@ -1,5 +1,6 @@
 function initialize() {
     if (localStorage.getItem("version") != "1.0") {
+        // Try to convert saved place first.
         localStorage.setItem("version", "1.0");
     }
 

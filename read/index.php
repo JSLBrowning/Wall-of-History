@@ -8,10 +8,10 @@
     <?php 
         include("..//php/populate.php");
         if(count($_GET)) {
-            if($_GET["s"]) {
+            if(isset($_GET["s"])) {
                 echo "Working on it…";
             } else {
-                if($_GET["id"]) {
+                if(isset($_GET["id"])) {
                     $id = $_GET["id"];
 
                     if (is_numeric($id)) {
@@ -30,13 +30,13 @@
                     $id = "0";
                 }
 
-                if($_GET["lang"]){
+                if(isset($_GET["lang"])){
                     $lang = $_GET["lang"];
                 } else {
                     $lang = "en";
                 }
                 
-                if($_GET["v"]) {
+                if(isset($_GET["v"])) {
                     $v = $_GET["v"];
                 } else {
                     $v = "1";
