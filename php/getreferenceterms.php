@@ -13,5 +13,5 @@ if ($result->num_rows > 0) {
         echo array_shift($row);
     }
 } else {
-    echo "That's not good.";
+    echo "ERROR: Query failed. Please report to admin@wallofhistory.com.";
 }

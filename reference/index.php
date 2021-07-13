@@ -84,7 +84,7 @@
                 }
                 echo "</ol>";
             } else {
-                echo "That's not good.";
+                echo "ERROR: Query failed. Please report to admin@wallofhistory.com.";
             }
 
             "<p><a href='/reference/?id=" . $row["name"] . "'>";

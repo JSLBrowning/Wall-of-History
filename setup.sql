@@ -76,8 +76,6 @@ CREATE TABLE WoH_adaptations(
 
 /*
 TO-DO AFTER:
-Remove paragraph numbers from blank paragraphs (may have to do this one by hand).a
-Remove paragraph numbers from card pages (which have just one paragraph).
 Need to add chapter tags.
 Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
@@ -88,4 +86,5 @@ Cards shouldn't be chapters, their names are descriptive enough.
 Add images. Obviously.
 Chapter will be necessary for read as standalone. Add those to novels, at the VERY least, by launch.
 Add semantic tags, accessible with an "s" URL parameter.
+Add images table with unique tags like "cover", "OGP", "banner", "table of contents card"... et cetera.
 */

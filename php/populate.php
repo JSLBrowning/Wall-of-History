@@ -74,7 +74,6 @@ function hasChildren($id, $lang, $v)
 
     // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
     if ($id == "0") {
-        // Fuck…
         echo "<h1>Table of Contents</h1>";
     }
     // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.

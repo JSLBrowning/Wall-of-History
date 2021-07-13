@@ -132,6 +132,30 @@ function activateReadingOrder() {
 
 activateReadingOrder();
 
+/* READER NAVIGATION HELPERS */
+
+function getOptimalLanguage(id) {
+    let languageList = localStorage.getItem("languageList").split(",");
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            availableLanguages = this.responseText.split(",");
+
+            if (availableLanguages.length >= 1) {
+                let a = []
+                for (i = 0; i < available.length; i++) {
+                    a.push(available[i].lang);
+                }
+
+                let intersection = languageList.filter(x => a.includes(x));
+                return intersection[0];
+            }
+        }
+    };
+    xmlhttp.open("GET", "../php/getreferenceterms.php?q=" + id, true);
+    xmlhttp.send();
+}
+
 /* READER NAVIGATION */
 
 function findSelf() {

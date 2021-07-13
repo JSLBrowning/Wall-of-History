@@ -14,5 +14,5 @@ if ($result->num_rows > 0) {
     }
     echo substr($r, 0, -1);
 } else {
-    echo "That's not good.";
+    echo "ERROR: Query failed. Please report to admin@wallofhistory.com.";
 }

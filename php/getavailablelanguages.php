@@ -5,8 +5,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-// TO-DO: Ensure this is capitalization blind (this may have to be implemented in the JS).
-$sql = "SELECT content FROM wall_of_history_reference WHERE name = '$q'";
+$sql = "SELECT GROUP_CONCAT(DISTINCT content_language SEPARATOR ',') FROM woh_content WHERE id = \"" . $q . "\"";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
