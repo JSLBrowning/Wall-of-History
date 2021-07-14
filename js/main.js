@@ -141,18 +141,16 @@ function getOptimalLanguage(id) {
         if (this.readyState == 4 && this.status == 200) {
             availableLanguages = this.responseText.split(",");
 
-            if (availableLanguages.length >= 1) {
-                let a = []
-                for (i = 0; i < available.length; i++) {
-                    a.push(available[i].lang);
-                }
-
-                let intersection = languageList.filter(x => a.includes(x));
-                return intersection[0];
+            let a = [];
+            for (i = 0; i < availableLanguages.length; i++) {
+                a.push(availableLanguages[i]);
             }
+
+            let intersection = languageList.filter(x => a.includes(x));
+            return intersection[0];
         }
     };
-    xmlhttp.open("GET", "../php/getreferenceterms.php?q=" + id, true);
+    xmlhttp.open("GET", "../php/getavailablelanguages.php?q=" + id, true);
     xmlhttp.send();
 }
 
@@ -221,7 +219,8 @@ function jumpTo() {
             value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
-                window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")) + "&lang=" + localStorage.getItem("languageList").substring(0, 2) + "&v=1");
+                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
+                window.location.href = ("/read/?id=" + newID + "&lang=" + getOptimalLanguage(newID) + "&v=1");
                 break;
             }
         }
@@ -235,7 +234,8 @@ function goBack() {
     let currentNumber = findSelf();
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
         if (readingOrder[index].includes(":1")) {
-            window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
+            newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
+            window.location.href = ("/read/?id=" + newID + "&lang=" + getOptimalLanguage(newID));
             break;
         }
     }

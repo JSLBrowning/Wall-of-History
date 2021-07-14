@@ -61,6 +61,15 @@ CREATE TABLE WoH_tags(
     /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Carlos D’Anda” above, you would put “Illustrated by Carlos D’Anda” here. */
 );
 
+CREATE TABLE WoH_images(
+    content_id varchar(6),
+    content_language varchar(2),
+    content_version int,
+    image_type text,
+    image_url text
+    /* Examples: "cover", "banner", "OGP" */
+);
+
 CREATE TABLE WoH_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */

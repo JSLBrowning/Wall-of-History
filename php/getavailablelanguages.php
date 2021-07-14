@@ -5,7 +5,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-$sql = "SELECT GROUP_CONCAT(DISTINCT content_language SEPARATOR ',') FROM woh_content WHERE id = \"" . $q . "\"";
+$sql = "SELECT GROUP_CONCAT(DISTINCT content_language SEPARATOR ',') FROM woh_content WHERE id=\"" . $q . "\"";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
