@@ -134,6 +134,7 @@ activateReadingOrder();
 
 /* READER NAVIGATION HELPERS */
 
+/*
 function getOptimalLanguage(id) {
     let languageList = localStorage.getItem("languageList").split(",");
     var xmlhttp = new XMLHttpRequest();
@@ -152,6 +153,29 @@ function getOptimalLanguage(id) {
     };
     xmlhttp.open("GET", "../php/getavailablelanguages.php?q=" + id, true);
     xmlhttp.send();
+}
+*/
+
+function getOptimalLanguage(id) {
+    return new Promise(resolve => {
+        let languageList = localStorage.getItem("languageList").split(",");
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                availableLanguages = this.responseText.split(",");
+
+                let a = [];
+                for (i = 0; i < availableLanguages.length; i++) {
+                    a.push(availableLanguages[i]);
+                }
+
+                let intersection = languageList.filter(x => a.includes(x));
+                resolve(intersection[0]);
+            }
+        };
+        xmlhttp.open("GET", "../php/getavailablelanguages.php?q=" + id, true);
+        xmlhttp.send();
+    });
 }
 
 /* READER NAVIGATION */
@@ -211,7 +235,7 @@ function hideButtons() {
 
 hideButtons();
 
-function jumpTo() {
+async function jumpTo() {
     if (localStorage.getItem("savePlace") === null) {
         let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
         let index, value;
@@ -220,7 +244,8 @@ function jumpTo() {
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
                 newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
-                window.location.href = ("/read/?id=" + newID + "&lang=" + getOptimalLanguage(newID) + "&v=1");
+                newLang = await getOptimalLanguage(newID);
+                window.location.href = ("/read/?id=" + newID + "&lang=" + newLang + "&v=1");
                 break;
             }
         }
