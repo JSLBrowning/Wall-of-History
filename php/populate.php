@@ -69,8 +69,12 @@ function hasChildren($id, $lang, $v)
     // This function finds any and all children that a given piece of content has, then echoes them in a list format.
     include("..//php/db_connect.php");
 
-    $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-    /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
+    if ($id === "0") {
+        $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
+    } else {
+        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
+    }
 
     // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
     if ($id == "0") {
@@ -96,11 +100,8 @@ function hasChildren($id, $lang, $v)
         // This loop echoes the individual children.
         while ($row = $result->fetch_assoc()) {
             echo "<button class='contentsButton' onclick='window.location.href=\"/read/?id=" . $row["cid"] . "\";'>";
-            if (($row["small_image"] === NULL) && ($row["large_image"] === NULL)) {
-            } elseif (!($row["small_image"] === NULL)) {
+            if ($row["small_image"] != NULL) {
                 echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
-            } else {
-                echo "<div class='contentsImg'><img src='" . $row["large_image"] . "'></div>";
             }
             $snippet = (string) $row["snippet"];
             if (strlen($snippet) > 196) {
@@ -161,12 +162,13 @@ function loadContent($id, $lang, $v)
     }
 
     // GET AND DISPLAY IMAGE
-    $sql = "SELECT large_image FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
+    /* $sql = "SELECT large_image FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
 
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
         echo "<img src=\"" . $row["large_image"] . "\">";
     }
+    */
 
     // GET AND DISPLAY TITLE
     $sql = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";

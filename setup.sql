@@ -88,7 +88,7 @@ TO-DO AFTER:
 Need to add chapter tags.
 Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
-Remove the accidental recommended booleans from parent items (ex. Trial by Fire). (This isn't really NECESSARY but it's good to do it anyway.)
+Remove the accidental recommended booleans from parent items (ex. Trial by Fire).
 Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
 Cards shouldn't be chapters, their names are descriptive enough.
