@@ -255,6 +255,8 @@ async function jumpTo() {
 }
 
 function goBack() {
+    // If active reading order not 0, attempt to maintain version number (so GNs work).
+    // Or do them like this... IDIDID.2:0 (ID.version:recommended)
     let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
@@ -267,9 +269,6 @@ function goBack() {
 }
 
 function goForward() {
-    // Get language list from localStorage, get available languages for next item.
-    // Find highest match.
-    // Go.
     let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
