@@ -295,3 +295,9 @@ function loadPlace() {
         window.location.href = localStorage.getItem("savePlace");
     }
 }
+
+// For each ID, only make one version (in each language) the "recommended" one, and that'll be the one that gets put in the recommended reading order.
+// Make items with multiple versions have dropdown menus in the sort thing?
+// For read as standalone... make versions map the web.
+
+// On settings page: if more than one version and recommended, check recommended version. Else... else.
