@@ -134,28 +134,6 @@ activateReadingOrder();
 
 /* READER NAVIGATION HELPERS */
 
-/*
-function getOptimalLanguage(id) {
-    let languageList = localStorage.getItem("languageList").split(",");
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            availableLanguages = this.responseText.split(",");
-
-            let a = [];
-            for (i = 0; i < availableLanguages.length; i++) {
-                a.push(availableLanguages[i]);
-            }
-
-            let intersection = languageList.filter(x => a.includes(x));
-            return intersection[0];
-        }
-    };
-    xmlhttp.open("GET", "../php/getavailablelanguages.php?q=" + id, true);
-    xmlhttp.send();
-}
-*/
-
 function getOptimalLanguage(id) {
     return new Promise(resolve => {
         let languageList = localStorage.getItem("languageList").split(",");
@@ -236,7 +214,10 @@ function hideButtons() {
 hideButtons();
 
 async function jumpTo() {
-    if (localStorage.getItem("savePlace") === null) {
+    if (localStorage.getItem("activeReadingOrder") === null) {
+        generateSelectionModal();
+    }
+    else if (localStorage.getItem("savePlace") === null) {
         let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
         let index, value;
         for (index = 0; index < readingOrder.length; ++index) {
