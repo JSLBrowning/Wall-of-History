@@ -1,4 +1,4 @@
-function initialize() {
+async function initialize() {
     if (localStorage.getItem("version") != "1.0") {
         // Try to convert saved place first.
         localStorage.setItem("version", "1.0");
@@ -10,14 +10,8 @@ function initialize() {
         localStorage.setItem("languagePreference", lang.substring(0, 2));
 
         // Step 2: Get all languages and put them in a list.
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                localStorage.setItem("languageList", this.responseText);
-            }
-        };
-        xmlhttp.open("GET", "../php/getlanguagelist.php", true);
-        xmlhttp.send();
+        languageList = await getLanguageList();
+        localStorage.setItem("languageList", languageList);
     }
 
     // Step 3: If preferred language is in language list, bring it to the front.
@@ -37,14 +31,16 @@ function initialize() {
     }
 
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                localStorage.setItem("readingOrder:0", this.responseText);
-            }
-        };
-        xmlhttp.open("GET", "../php/initread.php", true);
-        xmlhttp.send();
+        let recommendedReadingOrder = await getRecommendedReadingOrder();
+        localStorage.setItem("readingOrder:0", recommendedReadingOrder);
+    }
+
+    if (sessionStorage.getItem("activeReadingOrder") === null) {
+        const keyArray = Object.keys(localStorage);
+        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
+        if (readingOrders.length == 1) {
+            sessionStorage.setItem("activeReadingOrder", readingOrders[0].split(":")[1]);
+        }
     }
 
     if (localStorage.getItem("spoilerLevel") === null) {
@@ -62,6 +58,32 @@ function initialize() {
         xmlhttp.send();
     }
 };
+
+function getLanguageList() {
+    return new Promise(resolve => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/getlanguagelist.php", true);
+        xmlhttp.send();
+    });
+}
+
+function getRecommendedReadingOrder() {
+    return new Promise(resolve => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/initread.php", true);
+        xmlhttp.send();
+    });
+}
 
 initialize();
 
@@ -117,20 +139,6 @@ function resetReader() {
     xmlhttp.open("GET", "../php/getreferenceterms.php", true);
     xmlhttp.send();
 }
-
-function activateReadingOrder() {
-    if (sessionStorage.getItem("activeReadingOrder") === null) {
-        const keyArray = Object.keys(localStorage);
-        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
-        if (readingOrders.length == 1) {
-            sessionStorage.setItem("activeReadingOrder", readingOrders[0]);
-        } else {
-            alert("Hmm…");
-        }
-    }
-}
-
-activateReadingOrder();
 
 /* READER NAVIGATION HELPERS */
 
@@ -216,8 +224,7 @@ hideButtons();
 async function jumpTo() {
     if (localStorage.getItem("activeReadingOrder") === null) {
         generateSelectionModal();
-    }
-    else if (localStorage.getItem("savePlace") === null) {
+    } else if (localStorage.getItem("savePlace") === null) {
         let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
         let index, value;
         for (index = 0; index < readingOrder.length; ++index) {
@@ -232,6 +239,27 @@ async function jumpTo() {
         }
     } else {
         window.location.href = localStorage.getItem("savePlace");
+    }
+}
+
+async function jumpTo() {
+    if (sessionStorage.getItem("activeReadingOrder") === null) {
+        generateSelectionModal();
+    } else if ((sessionStorage.getItem("activeReadingOrder") != null) && (localStorage.getItem("savePlace:" + (sessionStorage.getItem("activeReadingOrder"))) === null)) {
+        let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+        let index, value;
+        for (index = 0; index < readingOrder.length; ++index) {
+            value = readingOrder[index];
+            if (value.substring(value.length - 2, value.length) === ":1") {
+                result = value;
+                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
+                newLang = await getOptimalLanguage(newID);
+                window.location.href = ("/read/?id=" + newID + "&lang=" + newLang + "&v=1");
+                break;
+            }
+        }
+    } else {
+        window.location.href = localStorage.getItem("savePlace:" + (sessionStorage.getItem("activeReadingOrder")));
     }
 }
 

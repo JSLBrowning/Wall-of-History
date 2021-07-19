@@ -41,16 +41,10 @@ window.onclick = function(event) {
     }
 }
 
-// Replace this shit with an AJAX request.
-let referenceList = document.getElementById("referenceitems").children;
-let referenceItems = []
-
-for (i = 0; i < referenceList.length; i++) {
-    referenceItems.push(referenceList[i].innerText);
-}
+let referenceItems = localStorage.getItem("referenceTerms").split(",");
 
 // Next thing. Add a regex for spaces and punctuation to fix the Makuta/Maku error on eba6c8.
-for (i = 0; i < referenceList.length; i++) {
+for (i = 0; i < referenceItems.length; i++) {
     $("p:contains('" + referenceItems[i] + "')").html(function(_, html) {
         regex = new RegExp(referenceItems[i], "gi");
         return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>');

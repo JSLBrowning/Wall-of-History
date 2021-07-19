@@ -19,10 +19,11 @@
                             include("..//php/db_connect.php");
         
                             $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
+                            // If no content, get most recent one closest that does?
                             $result = $mysqli->query($sql);
                             while ($row = $result->fetch_assoc()) {
                                 $id = $row["id"];
-                                echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "'\" />\n";
+                                echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "&lang=en&v=1'\" />\n";
                             }
                         }
                     }

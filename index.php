@@ -94,10 +94,21 @@
                 <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
             </a>
         </div>
+        <!-- modal -->
+        <div id="myModal" class="modal">
+            <!-- modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modal-data">
+                    <p>No information is available at this time.</p>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
     <script src="js/modal.js"></script>
+    <script src="js/readingorders.js"></script>
 </body>
 </html>

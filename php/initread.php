@@ -2,7 +2,7 @@
 include("..//php/db_connect.php");
 
 // Create selection statement.
-$sql = "SELECT id, chronology, recommended FROM woh_metadata WHERE (recommended IS NOT NULL AND chronology IS NOT NULL) ORDER BY chronology ASC";
+$sql = "SELECT id, chronology, recommended FROM woh_metadata WHERE (recommended IS NOT NULL AND chronology IS NOT NULL AND id NOT IN (SELECT parent_id FROM woh_web)) ORDER BY chronology ASC";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

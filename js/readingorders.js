@@ -1,4 +1,4 @@
-function generateSelectionModal() {
+async function generateSelectionModal() {
     // Get the modal
     let modal = document.getElementById("myModal");
     // Get the <span> element that closes the modal
@@ -6,12 +6,13 @@ function generateSelectionModal() {
 
     for (let key in localStorage) {
         if (key.includes("readingOrder")) {
-            let ID = key.split(".")[0];
+            let ID = key.split(":")[1];
 
             if (ID = 0) {
-                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\"" + id + "\")\" id=\"" + key.split(".")[0] + "\">BIONICLE</button>";
+                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID + "\')\" id=\"" + ID + "\">BIONICLE</button>";
             } else {
-                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\"" + id + "\")\" id=\"" + key.split(".")[0] + "\">" + getTitle + "</button>";
+                let title = await getTitle(ID);
+                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID + "\')\" id=\"" + ID + "\">" + title + "</button>";
             }
         }
     }
@@ -30,30 +31,26 @@ function generateSelectionModal() {
     </button>
     */
 
-    modal.style.display;
+    modal.style.display = "block";
+}
+
+function getTitle(id) {
+    return new Promise(resolve => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/gettitle.php?q=" + id, true);
+        xmlhttp.send();
+    });
 }
 
 function jumpToSelection(id) {
+    console.log("1");
     sessionStorage.setItem("activeReadingOrder", id);
     jumpTo();
-    /*
-    if (localStorage.getItem("savePlace") === null) {
-        let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
-        let index, value;
-        for (index = 0; index < readingOrder.length; ++index) {
-            value = readingOrder[index];
-            if (value.substring(value.length - 2, value.length) === ":1") {
-                result = value;
-                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
-                newLang = await getOptimalLanguage(newID);
-                window.location.href = ("/read/?id=" + newID + "&lang=" + newLang + "&v=1");
-                break;
-            }
-        }
-    } else {
-        window.location.href = localStorage.getItem("savePlace");
-    }
-    */
 }
 
 // Read as standalone option will appear on pages with ID, lang, and version.
