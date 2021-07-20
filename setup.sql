@@ -54,31 +54,33 @@ CREATE TABLE WoH_tags(
     tag text,
     /* Examples: */
     /* Types: animation, blog, card, comic, diary, game, growing_reader, movie, novel, podcast, serial, short_story, web_fiction */
-    /* Language: en, es, fr */
     /* Organizational: chapter */
     /* Authors: C.A. Hapka, Greg Farshtey, Carlos D’Anda, Staurt Sayger, etc. */
     detailed_tag text
     /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Carlos D’Anda” above, you would put “Illustrated by Carlos D’Anda” here. */
 );
 
+/* To be used eventually. Examples: "cover", "banner", "OGP"
 CREATE TABLE WoH_images(
     content_id varchar(6),
     content_language varchar(2),
     content_version int,
     image_type text,
     image_url text
-    /* Examples: "cover", "banner", "OGP" */
 );
+*/
 
 CREATE TABLE WoH_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
+    parent_version int DEFAULT 1;
+    /* Version specificity here is necessary for things like graphic novels compiling comics that were originally published as separate works (especially if multiple graphic novels might contain the same comics). */
     child_id varchar(6) NOT NULL
     /* You'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
+    child_version int DEFAULT 1;
 );
 
 CREATE TABLE WoH_adaptations(
-    /* You can probably ignore this one, since everything that'll be on your site is original (and because I haven't implemented any use for this yet). */
     original_id varchar(6) NOT NULL,
     adaptation_id varchar(6) NOT NULL
 );
@@ -93,7 +95,5 @@ Try and standardize single quotes, double quotes, escapes, et cetera.
 Remove em tags from MNOG chapter titles. Blah blah blah.
 Cards shouldn't be chapters, their names are descriptive enough.
 Add images. Obviously.
-Chapter will be necessary for read as standalone. Add those to novels, at the VERY least, by launch.
 Add semantic tags, accessible with an "s" URL parameter.
-Add images table with unique tags like "cover", "OGP", "banner", "table of contents card"... et cetera.
 */

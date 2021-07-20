@@ -4,15 +4,16 @@ async function generateSelectionModal() {
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
 
+    document.getElementById("modal-data").innerHTML = "";
     for (let key in localStorage) {
         if (key.includes("readingOrder")) {
-            let ID = key.split(":")[1];
+            let ID = key.split(":");
 
-            if (ID = 0) {
-                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID + "\')\" id=\"" + ID + "\">BIONICLE</button>";
+            if (ID[1] == "0") {
+                document.getElementById("modal-data").innerHTML += "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID[1] + "\')\" id=\"" + ID[1] + "\">BIONICLE</button>";
             } else {
-                let title = await getTitle(ID);
-                document.getElementById("modal-data").innerHTML = "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID + "\')\" id=\"" + ID + "\">" + title + "</button>";
+                let title = await getTitle(ID[1]);
+                document.getElementById("modal-data").innerHTML += "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID[1] + "\')\" id=\"" + ID[1] + "\">" + title + "</button>";
             }
         }
     }
@@ -48,7 +49,6 @@ function getTitle(id) {
 }
 
 function jumpToSelection(id) {
-    console.log("1");
     sessionStorage.setItem("activeReadingOrder", id);
     jumpTo();
 }

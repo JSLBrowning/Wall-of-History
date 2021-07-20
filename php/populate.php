@@ -89,11 +89,11 @@ function hasChildren($id, $lang, $v)
     if ($num_rows != 0) {
         // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
         if ($id != "0") {
-            $sql_standalone = "SELECT child_id FROM woh_web JOIN woh_tags ON woh_web.child_id=woh_tags.id WHERE woh_web.parent_id = '$id' AND woh_tags.tag ='chapter'";
+            $sql_standalone = "SELECT child_id FROM woh_web";
             $result_standalone = $mysqli->query($sql_standalone);
 
             if (mysqli_num_rows($result_standalone) != 0) {
-                echo "<nav><button class='standaloneButton' onclick='readStandalone()'>Read as Standalone</button></nav>";
+                echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
             }
         }
 
@@ -219,7 +219,6 @@ function loadContent($id, $lang, $v)
 function populateSettings()
 {
     // Each ID should only be fetched once, with the title being that of the language of the... ya know, closest to the top of the list. And... version 1.
-
     // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
     include("..//php/db_connect.php");
 
@@ -240,7 +239,7 @@ function populateSettings()
     }
     echo "</select></fieldset>";
 
-    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
+    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.version = 1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
 
     echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -259,15 +258,15 @@ function populateSettings()
             while ($row_nexttags = $result_nexttags->fetch_assoc()) {
                 $itemtags = $row_nexttags["tags"];
             }
-            echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
-            echo "              <label for='" . $row["cid"] . "'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
+            echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
+            echo "              <label for='" . $row["cid"] . ".1'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
         } else {
             $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
-                echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . "' id='" . $row["cid"] . "' value='" . $row["cid"] . "'>\n";
-                echo "              <label for='" . $row["cid"] . "'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "'>↗</a></label>\n";
+                echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
+                echo "              <label for='" . $row["cid"] . ".1'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
             }
         }
         echo "          </li>\n";

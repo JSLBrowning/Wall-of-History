@@ -6,7 +6,7 @@ include("..//php/db_connect.php");
 $q = $_REQUEST["q"];
 
 // Create selection statement.
-$sql = "SELECT title FROM woh_content WHERE id = \"" . $q . "\" LIMIT 1";
+$sql = "SELECT title FROM woh_content WHERE id='$q' LIMIT 1";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

@@ -89,55 +89,7 @@ initialize();
 
 function resetReader() {
     localStorage.clear();
-    localStorage.setItem("version", "1.0");
-
-    // Step 1: Get preferred language.
-    const lang = navigator.language;
-    localStorage.setItem("languagePreference", lang.substring(0, 2));
-
-    // Step 2: Get all languages and put them in a list.
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            // localStorage.setItem("languageList", this.responseText);
-            localStorage.setItem("languageList", "es,en");
-
-            // Step 3: If preferred language is in language list, bring it to the front.
-            let languageList = localStorage.getItem("languageList").split(",");
-            let preferred = localStorage.getItem("languagePreference");
-            languageList.sort(function(x, y) { return x == preferred ? -1 : y == preferred ? 1 : 0; });
-            localStorage.setItem("languageList", languageList);
-        }
-    };
-    xmlhttp.open("GET", "../php/getlanguagelist.php", true);
-    xmlhttp.send();
-
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-        localStorage.setItem("colorScheme", "light");
-    } else {
-        localStorage.setItem("colorScheme", "dark");
-    }
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            localStorage.setItem("readingOrder:0", this.responseText);
-            alert("Reset complete.");
-        }
-    };
-    xmlhttp.open("GET", "../php/initread.php", true);
-    xmlhttp.send();
-
-    localStorage.setItem("spoilerLevel", "1");
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            localStorage.setItem("referenceTerms", this.responseText);
-        }
-    };
-    xmlhttp.open("GET", "../php/getreferenceterms.php", true);
-    xmlhttp.send();
+    initialize();
 }
 
 /* READER NAVIGATION HELPERS */
@@ -164,10 +116,8 @@ function getOptimalLanguage(id) {
     });
 }
 
-/* READER NAVIGATION */
-
 function findSelf() {
-    let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
+    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
     for (index = 0; index < readingOrder.length; index++) {
@@ -179,7 +129,7 @@ function findSelf() {
 }
 
 function filteredSelf() {
-    let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
+    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     const urlParams = new URLSearchParams(window.location.search);
 
     let index;
@@ -209,7 +159,8 @@ function hideButtons() {
         forwardButton.style.display = "none";
     }
 
-    let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
+    // There has to be a better way to do this.
+    let readingOrder = localStorage.getItem("readingOrder:0");
     if (findSelf() === 0) {
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "none";
@@ -221,26 +172,7 @@ function hideButtons() {
 
 hideButtons();
 
-async function jumpTo() {
-    if (localStorage.getItem("activeReadingOrder") === null) {
-        generateSelectionModal();
-    } else if (localStorage.getItem("savePlace") === null) {
-        let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
-        let index, value;
-        for (index = 0; index < readingOrder.length; ++index) {
-            value = readingOrder[index];
-            if (value.substring(value.length - 2, value.length) === ":1") {
-                result = value;
-                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
-                newLang = await getOptimalLanguage(newID);
-                window.location.href = ("/read/?id=" + newID + "&lang=" + newLang + "&v=1");
-                break;
-            }
-        }
-    } else {
-        window.location.href = localStorage.getItem("savePlace");
-    }
-}
+/* READER NAVIGATION */
 
 async function jumpTo() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -252,9 +184,9 @@ async function jumpTo() {
             value = readingOrder[index];
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
-                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
+                newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
                 newLang = await getOptimalLanguage(newID);
-                window.location.href = ("/read/?id=" + newID + "&lang=" + newLang + "&v=1");
+                window.location.href = ("/read/?id=" + newID.split(".")[0] + "&lang=" + newLang + "&v=1");
                 break;
             }
         }
@@ -266,7 +198,7 @@ async function jumpTo() {
 function goBack() {
     // If active reading order not 0, attempt to maintain version number (so GNs work).
     // Or do them like this... IDIDID.2:0 (ID.version:recommended)
-    let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
+    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
         if (readingOrder[index].includes(":1")) {
@@ -278,11 +210,12 @@ function goBack() {
 }
 
 function goForward() {
-    let readingOrder = localStorage.getItem(sessionStorage.getItem("activeReadingOrder")).split(",");
+    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
         if (readingOrder[index].includes(":1")) {
-            window.location.href = ("/read/?id=" + readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
+            next = readingOrder[index].split(".");
+            window.location.href = ("/read/?id=" + next[0] + "&v=" + next[1] + "&lang=" + getOptimalLanguage(next[0]));
             break;
         }
     }
@@ -290,7 +223,7 @@ function goForward() {
 
 function savePlace() {
     try {
-        localStorage.setItem("savePlace", window.location);
+        localStorage.setItem("savePlace:" + sessionStorage.getItem("activeReadingOrder"), window.location);
         alert("Your place was saved successfully.")
     } catch {
         alert("Your place was not saved successfully. Please try clearing your cache and trying again.")
@@ -298,11 +231,34 @@ function savePlace() {
 }
 
 function loadPlace() {
-    if (localStorage.getItem("savePlace") === null) {
+    if (localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder")) === null) {
         jumpTo();
     } else {
-        window.location.href = localStorage.getItem("savePlace");
+        window.location.href = localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder"));
     }
+}
+
+/* READ AS STANDALONE */
+
+function readAsStandaloneSetup(id) {
+    return new Promise(resolve => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/initreadstandalone.php?id=" + id + "&v=" + "1", true);
+        xmlhttp.send();
+    });
+}
+
+async function readAsStandalone() {
+    let currentID = new URLSearchParams(window.location.search).get('id');
+    let newOrder = await readAsStandaloneSetup(currentID);
+    localStorage.setItem("readingOrder:" + currentID, newOrder);
+    sessionStorage.setItem("activeReadingOrder", currentID);
+    jumpTo();
 }
 
 // For each ID, only make one version (in each language) the "recommended" one, and that'll be the one that gets put in the recommended reading order.
@@ -310,3 +266,8 @@ function loadPlace() {
 // For read as standalone... make versions map the web.
 
 // On settings page: if more than one version and recommended, check recommended version. Else... else.
+
+// localStorage.setItem("WallofHistorySpoilerLevel", $("section").data("spoiler"));
+
+// Children on tables of contents need a version matching the parent, so comics aren't displayed multiple times.
+// Chapters may get weird here — a GN itself would need to be version 1, for example, so it'll display in the appropriate spot on the ToC, but the chapters of it need to be version 2.
