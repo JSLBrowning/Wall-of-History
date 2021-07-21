@@ -275,11 +275,5 @@ async function readAsStandalone() {
 
 // For each ID, only make one version (in each language) the "recommended" one, and that'll be the one that gets put in the recommended reading order.
 // Make items with multiple versions have dropdown menus in the sort thing?
-// For read as standalone... make versions map the web.
-
-// On settings page: if more than one version and recommended, check recommended version. Else... else.
 
 // localStorage.setItem("WallofHistorySpoilerLevel", $("section").data("spoiler"));
-
-// Children on tables of contents need a version matching the parent, so comics aren't displayed multiple times.
-// Chapters may get weird here — a GN itself would need to be version 1, for example, so it'll display in the appropriate spot on the ToC, but the chapters of it need to be version 2.
