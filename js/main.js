@@ -125,7 +125,8 @@ function findSelf() {
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
     for (index = 0; index < readingOrder.length; index++) {
-        if ((readingOrder[index].substring(0, readingOrder[index].indexOf(":"))) == urlParams.get('id')) {
+        let thing = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
+        if (thing == urlParams.get('id')) {
             result = index;
         }
     }
@@ -178,10 +179,10 @@ hideButtons();
 
 /* READER NAVIGATION */
 
-function goHome() {
+/*
+goHome()
     // if sessionStorage != null, clear
     // jump to home page
-}
 
 function goTo(combo) {
     target = combo.split(".");
@@ -190,6 +191,7 @@ function goTo(combo) {
     let lang = await getOptimalLanguage(combo);
     window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
 }
+*/
 
 async function jumpTo() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -226,13 +228,14 @@ function goBack() {
     }
 }
 
-function goForward() {
+async function goForward() {
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
         if (readingOrder[index].includes(":1")) {
             next = readingOrder[index].split(".");
-            window.location.href = ("/read/?id=" + next[0] + "&v=" + next[1] + "&lang=" + getOptimalLanguage(next[0]));
+            nextLang = await getOptimalLanguage(next[0]);
+            window.location.href = ("/read/?id=" + next[0] + "&v=" + next[1] + "&lang=" + nextLang);
             break;
         }
     }
