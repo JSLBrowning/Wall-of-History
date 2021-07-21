@@ -90,13 +90,17 @@ initialize();
 function resetReader() {
     localStorage.clear();
     initialize();
+    alert("Reset complete.");
 }
 
 /* READER NAVIGATION HELPERS */
 
-function getOptimalLanguage(id) {
+function getOptimalLanguage(combo) {
     return new Promise(resolve => {
         let languageList = localStorage.getItem("languageList").split(",");
+        let target = combo.split(".");
+        let id = target[0];
+        let v = target[1];
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -111,7 +115,7 @@ function getOptimalLanguage(id) {
                 resolve(intersection[0]);
             }
         };
-        xmlhttp.open("GET", "../php/getavailablelanguages.php?q=" + id, true);
+        xmlhttp.open("GET", "../php/getavailablelanguages.php?id=" + id + "&v=" + v, true);
         xmlhttp.send();
     });
 }
@@ -173,6 +177,19 @@ function hideButtons() {
 hideButtons();
 
 /* READER NAVIGATION */
+
+function goHome() {
+    // if sessionStorage != null, clear
+    // jump to home page
+}
+
+function goTo(combo) {
+    target = combo.split(".");
+    let id = target[0];
+    let v = target[1];
+    let lang = await getOptimalLanguage(combo);
+    window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+}
 
 async function jumpTo() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {
