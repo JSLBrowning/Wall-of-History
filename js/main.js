@@ -179,19 +179,13 @@ hideButtons();
 
 /* READER NAVIGATION */
 
-/*
-goHome()
-    // if sessionStorage != null, clear
-    // jump to home page
-
-function goTo(combo) {
+async function goTo(combo) {
     target = combo.split(".");
     let id = target[0];
     let v = target[1];
     let lang = await getOptimalLanguage(combo);
     window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
 }
-*/
 
 async function jumpTo() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -204,8 +198,9 @@ async function jumpTo() {
             if (value.substring(value.length - 2, value.length) === ":1") {
                 result = value;
                 newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
-                newLang = await getOptimalLanguage(newID);
-                window.location.href = ("/read/?id=" + newID.split(".")[0] + "&lang=" + newLang + "&v=1");
+                newVersion = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[1];
+                newLang = await getOptimalLanguage(readingOrder[index].substring(0, readingOrder[index].indexOf(":")));
+                window.location.href = ("/read/?id=" + newID + "&v=" + newVersion + "&lang=" + newLang);
                 break;
             }
         }
@@ -214,15 +209,13 @@ async function jumpTo() {
     }
 }
 
-function goBack() {
-    // If active reading order not 0, attempt to maintain version number (so GNs work).
-    // Or do them like this... IDIDID.2:0 (ID.version:recommended)
+async function goBack() {
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let currentNumber = findSelf();
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
         if (readingOrder[index].includes(":1")) {
-            newID = readingOrder[index].substring(0, readingOrder[index].indexOf(":"));
-            window.location.href = ("/read/?id=" + newID + "&lang=" + getOptimalLanguage(newID));
+            next = readingOrder[index].split(":")[0];
+            goTo(next);
             break;
         }
     }
@@ -233,9 +226,8 @@ async function goForward() {
     let currentNumber = findSelf();
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
         if (readingOrder[index].includes(":1")) {
-            next = readingOrder[index].split(".");
-            nextLang = await getOptimalLanguage(next[0]);
-            window.location.href = ("/read/?id=" + next[0] + "&v=" + next[1] + "&lang=" + nextLang);
+            next = readingOrder[index].split(":")[0];
+            goTo(next);
             break;
         }
     }
@@ -268,7 +260,7 @@ function readAsStandaloneSetup(id) {
                 resolve(this.responseText);
             }
         };
-        xmlhttp.open("GET", "../php/initreadstandalone.php?id=" + id + "&v=" + "1", true);
+        xmlhttp.open("GET", "../php/initreadstandalone.php?id=" + id + "&v=1", true);
         xmlhttp.send();
     });
 }

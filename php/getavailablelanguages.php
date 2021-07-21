@@ -2,10 +2,11 @@
 include("..//php/db_connect.php");
 
 // get the q parameter from URL
-$q = $_REQUEST["q"];
+$id = $_REQUEST["id"];
+$v = $_REQUEST["v"];
 
 // Create selection statement.
-$sql = "SELECT GROUP_CONCAT(DISTINCT content_language SEPARATOR ',') FROM woh_content WHERE id=\"" . $q . "\"";
+$sql = "SELECT GROUP_CONCAT(DISTINCT content_language SEPARATOR ',') FROM woh_content WHERE id='$id' AND content_version='$v'";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
