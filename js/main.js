@@ -137,6 +137,28 @@ function findSelf() {
     return (result);
 }
 
+function filteredSelf() {
+    // THIS FUNCTION INCOMPLETE.
+    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+    let index;
+    let goodValues = [];
+    const urlParams = new URLSearchParams(window.location.search);
+    for (index = 0; index < readingOrder.length; index++) {
+        let value = readingOrder[index];
+        if (value.substring(value.length - 2, value.length) === ":1") {
+            goodValues.push(readingOrder[index]);
+        }
+    }
+
+    let result;
+    for (index = 0; index < goodValues.length; index++) {
+        if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
+            result = index;
+        }
+    }
+    return ([result, goodValues.length]);
+}
+
 async function showButtons() {
     if (findSelf() != undefined) {
         let savebutton = document.getElementsByClassName("savefile")[0].childNodes;
@@ -154,9 +176,9 @@ async function showButtons() {
     }
 }
 
-let intervalID = window.setInterval(myCallback, 500);
+let showInterval = window.setInterval(showCallback, 500);
 
-function myCallback() {
+function showCallback() {
     // Make this stop eventually.
     // Also, make the buttons appearing animated?
     showButtons();
