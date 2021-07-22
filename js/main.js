@@ -180,10 +180,12 @@ async function showButtons() {
         savebutton[3].style.display = "block";
         let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
         if (findSelf() != 0) {
+            // Update to... "if find self AND not first good value"
             let backButton = document.getElementById("backbutton");
             backButton.style.display = "block";
         }
         if (findSelf() != (readingOrder.length - 1)) {
+            // "if find self AND not LAST good value"
             let forwardButton = document.getElementById("forwardbutton");
             forwardButton.style.display = "block";
         }
