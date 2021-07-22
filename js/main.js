@@ -139,6 +139,7 @@ function findSelf() {
 
 function filteredSelf() {
     // THIS FUNCTION INCOMPLETE.
+    // Needs to account for the fact that certain IDs may not BE in the active reading order anymore, if that's even feasible.
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let index;
     let goodValues = [];
@@ -152,15 +153,28 @@ function filteredSelf() {
 
     let result;
     for (index = 0; index < goodValues.length; index++) {
-        if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
+        if ((goodValues[index].substring(0, goodValues[index].indexOf(":")).split(".")) == urlParams.get('id')) {
             result = index;
         }
     }
+    
+    // Result is returning undefined for some reason, even when a given ID *is* in the reading order.
+    // Really need to restore original functionality (preventing the back button from appearing if you're on the second item in a reading order and the first was unselected).
     return ([result, goodValues.length]);
 }
 
 async function showButtons() {
     if (findSelf() != undefined) {
+        /* BEGIN EXPERIMENTAL
+        if (filteredSelf()[0] != 0) {
+            let backButton = document.getElementById("backbutton");
+            backButton.style.display = "block";
+        } else if (filteredSelf()[0] != (filteredSelf()[1]) - 1) {
+            let forwardButton = document.getElementById("forwardbutton");
+            forwardButton.style.display = "block";
+        }
+        END EXPERIMENTAL */
+
         let savebutton = document.getElementsByClassName("savefile")[0].childNodes;
         savebutton[1].style.display = "block";
         savebutton[3].style.display = "block";
