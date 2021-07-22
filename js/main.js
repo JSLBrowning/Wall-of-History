@@ -287,7 +287,7 @@ function readAsStandaloneSetup(id) {
 }
 
 async function readAsStandalone() {
-    let currentID = new URLSearchParams(window.location.search).get('id');
+    let currentID = new URLSearchParams(window.location.search).get("id");
     let newOrder = await readAsStandaloneSetup(currentID);
     localStorage.setItem("readingOrder:" + currentID, newOrder);
     sessionStorage.setItem("activeReadingOrder", currentID);
@@ -298,7 +298,7 @@ async function readAsStandalone() {
 
 function downloadContent() {
     const urlParams = new URLSearchParams(window.location.search);
-    let currentID = urlParams.get('id');
+    let currentID = urlParams.get("id");
 
     $.get("/doc/downloads/" + currentID + ".zip")
         .done(function() {
@@ -307,14 +307,14 @@ function downloadContent() {
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
-                    // Fix the above regex to strip to alphanumeric.
-                    // Other than that... this still works! Nice.
+                        // Fix the above regex to strip to alphanumeric.
+                        // Other than that... this still works! Nice.
                     document.getElementById("downloadLink").download = filename;
                 }
             };
             xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
             xmlhttp.send();
-            document.getElementById("downloadLink").style.display = "block";
+            $(document.getElementById("downloadLink")).fadeIn("slow");
         }).fail(function() {
             console.log("No downloads are available for this content.");
         })
