@@ -1,29 +1,8 @@
-// TO-DO: Read as standalone overrides normal reading order until user exits or finishes.
 // if NOT ON page in tempReadingOrder, on LAST PAGE in temp, delete temp.
-// Temp saveplace?
-// Make navigation buttons hidden by default, appear when needed.
 /*
 NEEDS TO:
 Set default color scheme, then match whatever's set.
-Language?? Language is in cookies for most pages, goes from cookies to URL params for reader app.
-Make active reading order... a session variable.
 */
-
-function MODRebrand() {
-    if (window.location !== window.parent.location) {
-        var head = document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'https://wallofhistory.com/css/mod.css';
-        head.appendChild(link);
-
-        let headerimg = document.getElementsByTagName('header')[0].getElementsByTagName('img')[0];
-        headerimg.remove();
-    }
-}
-
-MODRebrand();
 
 function resetReadingOrder() {
     var xmlhttp = new XMLHttpRequest();

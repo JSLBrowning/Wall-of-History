@@ -133,49 +133,24 @@ function findSelf() {
     return (result);
 }
 
-function filteredSelf() {
-    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
-    const urlParams = new URLSearchParams(window.location.search);
-
-    let index;
-    let goodValues = [];
-    for (index = 0; index < readingOrder.length; index++) {
-        value = readingOrder[index];
-        if (value.substring(value.length - 2, value.length) === ":1") {
-            goodValues.push(readingOrder[index]);
+function showButtons() {
+    if (findSelf() != undefined) {
+        let savebutton = document.getElementsByClassName("savefile")[0].childNodes;
+        savebutton[1].style.display = "block";
+        savebutton[3].style.display = "block";
+        let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+        if (findSelf() != 0) {
+            let backButton = document.getElementById("backbutton");
+            backButton.style.display = "block";
         }
-    }
-
-    let result;
-    for (index = 0; index < goodValues.length; index++) {
-        if ((goodValues[index].substring(0, goodValues[index].indexOf(":"))) == urlParams.get('id')) {
-            result = index;
+        if (findSelf() != (readingOrder.length - 1)) {
+            let forwardButton = document.getElementById("forwardbutton");
+            forwardButton.style.display = "block";
         }
-    }
-    return ([result, goodValues.length]);
-}
-
-function hideButtons() {
-    if (filteredSelf()[0] === 0) {
-        let backButton = document.getElementById("backbutton");
-        backButton.style.display = "none";
-    } else if (filteredSelf()[0] === (filteredSelf()[1]) - 1) {
-        let forwardButton = document.getElementById("forwardbutton");
-        forwardButton.style.display = "none";
-    }
-
-    // There has to be a better way to do this.
-    let readingOrder = localStorage.getItem("readingOrder:0");
-    if (findSelf() === 0) {
-        let backButton = document.getElementById("backbutton");
-        backButton.style.display = "none";
-    } else if (findSelf() === readingOrder.length - 1) {
-        let forwardButton = document.getElementById("forwardbutton");
-        forwardButton.style.display = "none";
     }
 }
 
-hideButtons();
+showButtons();
 
 /* READER NAVIGATION */
 
@@ -273,7 +248,25 @@ async function readAsStandalone() {
     jumpTo();
 }
 
-// For each ID, only make one version (in each language) the "recommended" one, and that'll be the one that gets put in the recommended reading order.
-// Make items with multiple versions have dropdown menus in the sort thing?
+/* DOWNLOAD FUNCTIONS */
 
-// localStorage.setItem("WallofHistorySpoilerLevel", $("section").data("spoiler"));
+function downloadContent() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentID = urlParams.get('id');
+
+    $.get("/doc/downloads/" + currentID + ".zip")
+        .done(function() {
+            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
+                }
+            };
+            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
+            xmlhttp.send();
+            document.getElementById("downloadLink").style.display = "block";
+        }).fail(function() {
+            console.log("No downloads are available for this content.");
+        })
+}
