@@ -129,74 +129,72 @@ function findSelf() {
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
     for (index = 0; index < readingOrder.length; index++) {
-        let thing = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
-        if (thing == urlParams.get('id')) {
+        let candidate = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
+        if (candidate == urlParams.get('id')) {
             result = index;
         }
     }
     return (result);
 }
 
-function filteredSelf() {
-    // THIS FUNCTION INCOMPLETE.
-    // Needs to account for the fact that certain IDs may not BE in the active reading order anymore, if that's even feasible.
-    let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+function filteredSelf(readingOrder) {
+    // This returns the indexes of the first and last active pages in the reading order.
     let index;
-    let goodValues = [];
-    const urlParams = new URLSearchParams(window.location.search);
+    let returns = [];
     for (index = 0; index < readingOrder.length; index++) {
         let value = readingOrder[index];
         if (value.substring(value.length - 2, value.length) === ":1") {
-            goodValues.push(readingOrder[index]);
+            returns.push(index);
         }
     }
 
-    let result;
-    for (index = 0; index < goodValues.length; index++) {
-        if ((goodValues[index].substring(0, goodValues[index].indexOf(":")).split(".")) == urlParams.get('id')) {
-            result = index;
-        }
-    }
-    
-    // Result is returning undefined for some reason, even when a given ID *is* in the reading order.
-    // Really need to restore original functionality (preventing the back button from appearing if you're on the second item in a reading order and the first was unselected).
-    return ([result, goodValues.length]);
+    return ([returns[0], returns[returns.length - 1]]);
 }
 
-async function showButtons() {
-    if (findSelf() != undefined) {
-        /* BEGIN EXPERIMENTAL
-        if (filteredSelf()[0] != 0) {
-            let backButton = document.getElementById("backbutton");
-            backButton.style.display = "block";
-        } else if (filteredSelf()[0] != (filteredSelf()[1]) - 1) {
-            let forwardButton = document.getElementById("forwardbutton");
-            forwardButton.style.display = "block";
-        }
-        END EXPERIMENTAL */
+function showButtons() {
+    let backButton = document.getElementById("backbutton");
+    let forwardButton = document.getElementById("forwardbutton");
 
-        let savebutton = document.getElementsByClassName("savefile")[0].childNodes;
-        savebutton[1].style.display = "block";
-        savebutton[3].style.display = "block";
+    if (findSelf() != undefined) {
+        // Display save/load place buttons.
+        $(document.getElementsByClassName("savefile")[0]).slideDown("slow");
+
+        // Display appropriate navigation buttons.
         let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
-        if (findSelf() != 0) {
-            // Update to... "if find self AND not first good value"
-            let backButton = document.getElementById("backbutton");
-            backButton.style.display = "block";
-        }
-        if (findSelf() != (readingOrder.length - 1)) {
-            // "if find self AND not LAST good value"
-            let forwardButton = document.getElementById("forwardbutton");
+        let inners = filteredSelf(readingOrder);
+
+        /**
+         * There are five values that are important here:
+         * The first item in a reading order, the first active item in that reading order...
+         * ...the current place, the last active item, and the last active item.
+         * The functions below ensure that you can always navigate the active items.
+         * If you're within the "inner start" and "inner end," both nav buttons appear.
+         * If you're outside of that range, only one nav button will appear —
+         * — whichever one will get you closer to the active range.
+         */
+        if (findSelf() <= inners[0]) {
             forwardButton.style.display = "block";
+            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
         }
+        if (findSelf() >= inners[1]) {
+            backButton.style.display = "block";
+            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+        }
+        if ((inners[0] < findSelf()) && (findSelf() < inners[1])) {
+            backButton.style.display = "block";
+            forwardButton.style.display = "block";
+            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+        }
+    } else {
+        document.getElementsByClassName("savefile")[0].remove();
+        document.getElementsByClassName("nav")[0].remove();
     }
 }
 
 let showInterval = window.setInterval(showCallback, 500);
 
 function showCallback() {
-    // Make this stop eventually.
-    // Also, make the buttons appearing animated?
+    // Find a better way to do this (probably involving async functions).
     showButtons();
 }
 
@@ -308,7 +306,10 @@ function downloadContent() {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("downloadLink").download = this.responseText.replace(/<\/?[^>]+(>|$)/g, "");
+                    filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
+                    // Fix the above regex to strip to alphanumeric.
+                    // Other than that... this still works! Nice.
+                    document.getElementById("downloadLink").download = filename;
                 }
             };
             xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);

@@ -134,11 +134,11 @@
         $mysqli->close();
         ?>
         <div style="padding: 4px;"></div>
-        <div class="savefile">
-            <button type="savefilebutton" onclick="savePlace()" style="display:none">Save Place</button>
-            <button type="savefilebutton" onclick="loadPlace()" style="display:none">Load Place</button>
+        <div class="savefile" style="display:none;">
+            <button type="savefilebutton" onclick="savePlace()">Save Place</button>
+            <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
         </div>
-        <div class="nav">
+        <div class="nav" style="display:none">
             <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
             <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
         </div>
