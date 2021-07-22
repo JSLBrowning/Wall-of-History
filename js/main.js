@@ -87,10 +87,14 @@ function getRecommendedReadingOrder() {
 
 initialize();
 
-function resetReader() {
+async function resetReader() {
     localStorage.clear();
-    initialize();
-    alert("Reset complete.");
+    let success = await initialize();
+    if (success == true) {
+        alert("Reset complete.");
+    } else {
+        alert("ERROR: Reset failed. Please report to admin@wallofhistory.com.")
+    }
 }
 
 /* READER NAVIGATION HELPERS */
@@ -133,7 +137,7 @@ function findSelf() {
     return (result);
 }
 
-function showButtons() {
+async function showButtons() {
     if (findSelf() != undefined) {
         let savebutton = document.getElementsByClassName("savefile")[0].childNodes;
         savebutton[1].style.display = "block";
@@ -150,7 +154,13 @@ function showButtons() {
     }
 }
 
-showButtons();
+let intervalID = window.setInterval(myCallback, 500);
+
+function myCallback() {
+    // Make this stop eventually.
+    // Also, make the buttons appearing animated?
+    showButtons();
+}
 
 /* READER NAVIGATION */
 
