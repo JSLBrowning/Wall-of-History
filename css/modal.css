@@ -138,7 +138,6 @@
 .modal-data img {
     width: 100%;
     max-width: 640px;
-    margin-top: -8px;
     border-radius: 8px 8px 0px 0px;
 }
 
@@ -196,6 +195,9 @@ h2 {
 }
 
 .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     text-align: center;
     color: #fff;
     font-size: 2em;

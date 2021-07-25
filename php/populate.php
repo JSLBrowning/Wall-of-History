@@ -140,20 +140,20 @@ function loadContent($id, $lang, $v)
     include("..//php/db_connect.php");
 
     // GET PARENT(S), IF ANY, AND DISPLAY AT THE TOP OF <MAIN>
-    $sql = "SELECT * FROM woh_web WHERE child_id = \"" . $id . "\"";
+    $sql = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
 
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
-    if ((!($id == 0)) && ($num_rows == 0)) {
+    if ((!($id == "0")) && ($num_rows == 0)) {
         // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
         echo "<h2><a onClick='location.href=\"/read/\"'>Table of Contents</a></h2>";
     } else {
         while ($row = $result->fetch_assoc()) {
             if ($num_rows == 1) {
-                $sql_title = "SELECT title FROM woh_content WHERE id = \"" . $row["parent_id"] . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
+                $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
-                    echo "<h2><a onClick='location.href=\"/read/?id=" . $row["parent_id"] . "\"'>" . $row_title["title"] . "</a></h2>";
+                    echo "<h2><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h2>";
                 }
             } else {
                 echo "<h2>↑</h2>";

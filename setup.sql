@@ -16,12 +16,12 @@ CREATE TABLE WoH_metadata(
 CREATE TABLE WoH_content(
     id varchar(6),
     /* Self-explantory — it's the same ID as above. */
-    content_language varchar (2) DEFAULT "en",
-    /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
     version_title text,
     /* ...and this string is the actual name of the version in question, which is displayed to the user on the page. */
+    content_language varchar (2) DEFAULT "en",
+    /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     small_image text,
     /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
     large_image text,
@@ -73,11 +73,11 @@ CREATE TABLE WoH_images(
 CREATE TABLE WoH_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
-    parent_version int DEFAULT 1;
+    parent_version int DEFAULT 1,
     /* Version specificity here is necessary for things like graphic novels compiling comics that were originally published as separate works (especially if multiple graphic novels might contain the same comics). */
-    child_id varchar(6) NOT NULL
+    child_id varchar(6) NOT NULL,
     /* You'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
-    child_version int DEFAULT 1;
+    child_version int DEFAULT 1
 );
 
 CREATE TABLE WoH_adaptations(
