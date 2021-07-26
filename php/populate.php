@@ -132,6 +132,19 @@ function loadHeader($id, $lang, $v)
 
 function populateSettingsButton($id, $lang, $v)
 {
+    include("..//php/db_connect.php");
+    $sql = "SELECT content_language FROM woh_content WHERE id=\"$id\"";
+    $result = $mysqli->query($sql);
+    $num_rows = mysqli_num_rows($result);
+    if ($num_rows == 0) {
+        echo "<p>This content isn't available in any other languages.</p>";
+    } else {
+        echo "<p>";
+        while ($row = $result->fetch_assoc()) {
+            echo $row["content_language"];
+        }
+        echo "</p>";
+    }
 }
 
 function loadContent($id, $lang, $v)
@@ -239,7 +252,7 @@ function populateSettings()
     }
     echo "</select></fieldset>";
 
-    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.version = 1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
+    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.content_version = 1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
 
     echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -253,7 +266,7 @@ function populateSettings()
         $result_chapter = $mysqli->query($sql_chapter);
         $num_chap = mysqli_num_rows($result_chapter);
         if ($num_chap == 0) {
-            $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') AND id = '" . $row["cid"] . "'";
+            $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') AND id = '" . $row["cid"] . "'";
             $result_nexttags = $mysqli->query($sql_nexttags);
             while ($row_nexttags = $result_nexttags->fetch_assoc()) {
                 $itemtags = $row_nexttags["tags"];
@@ -261,7 +274,7 @@ function populateSettings()
             echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
             echo "              <label for='" . $row["cid"] . ".1'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
         } else {
-            $sql_title = "SELECT title FROM woh_metadata JOIN woh_web ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
+            $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["cid"] . "'";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {

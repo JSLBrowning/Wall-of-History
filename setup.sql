@@ -87,7 +87,10 @@ CREATE TABLE WoH_adaptations(
 
 /*
 TO-DO AFTER:
-Need to add chapter tags.
+
+1. Need to add chapter tags:
+INSERT INTO WoH_tags VALUES ("5TFFSE", "organizational", "chapter", NULL);
+
 Remove author tags from chapters (the twelve big chapters, I mean).
 Correct author tags for works not written/created by Farshtey (namely those on Hapka's books).
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire).

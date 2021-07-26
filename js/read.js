@@ -4,8 +4,7 @@ function check() {
     } else if (sessionStorage.getItem("activeReadingOrder") === null) {
         sessionStorage.setItem("activeReadingOrder", "0");
     }
+    // If not on reader... empty sessionStorage.
 }
 
-check();
-
-// If not on reader... empty sessionStorage.
+let checkInterval = window.setInterval(check(), 500);

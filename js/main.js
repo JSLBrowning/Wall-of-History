@@ -198,14 +198,40 @@ function showCallback() {
     showButtons();
 }
 
+/* LANGUAGE STUFF (INCOMPLETE) */
+
+let full = localStorage.getItem("languageList").split(",");
+let available = document.getElementsByTagName("section");
+
+if (available.length >= 1) {
+    let a = []
+    for (i = 0; i < available.length; i++) {
+        a.push(available[i].lang);
+    }
+
+    let intersection = full.filter(x => a.includes(x));
+
+    $("section:lang(" + intersection[0] + ")").css("display", "block");
+}
+
 /* READER NAVIGATION */
 
 async function goTo(combo) {
     target = combo.split(".");
-    let id = target[0];
-    let v = target[1];
-    let lang = await getOptimalLanguage(combo);
-    window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    if (target.length == 2) {
+        let id = target[0];
+        let v = target[1];
+        let lang = await getOptimalLanguage(combo);
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    } else if (target.length == 3) {
+        let id = target[0];
+        let v = target[1];
+        let lang = target[2];
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    } else {
+        alert("ERROR: Redirection failed. Please report to admin@wallofhistory.com.");
+        window.location.href = "/";
+    }
 }
 
 async function jumpTo() {

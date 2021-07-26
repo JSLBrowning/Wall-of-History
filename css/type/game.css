@@ -1,4 +1,119 @@
 /* TO-DO: Abuse vh to ensure that GBA pages don't have a scrollbar. */
 /* Make header image small (or remove entirely) to help w/ this. */
 /* Just disable the game entirely if on mobile. */
-/* Make controls a modal? */
+/* Remove "game" tag from MNOG. */
+
+main{
+    all: initial;
+    display:block;
+    margin: auto;
+    border: solid #202020;
+    border-width: 0px 1px 1px 1px;
+    border-radius: 0em 0em 1em 1em;
+    width: 639px;
+    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+
+    font-family: "Gill Sans Std";
+    color: white;
+}
+
+header{
+    display: none;
+}
+
+main h2{
+    font-size: initial;
+    font-size: 1em;
+}
+
+main h2 a:hover {
+    font-size: 1em;
+}
+
+main h2 a:active {
+    font-size: 1em;
+}
+
+main h1{
+    font-size: initial;
+    font-size: 1.5em;
+}
+
+main object{
+    max-height: 426px;
+    max-width: 639px;
+}
+
+#warning{
+    text-align: center;
+    display: none;
+}
+
+#controls{
+    display: flex;
+    flex-direction: column;
+}
+
+#gbabuttons,
+#userbuttons{
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 0px;
+    flex-basis: 16.66%;
+}
+
+#gbabuttons{
+    font-weight: bold;
+}
+
+#gbabuttons p{
+    padding-bottom: 0.25em;
+}
+
+#userbuttons{
+    margin-top: 0em;
+    font-size: 0.75em;
+    color: gray;
+}
+
+#gbabuttons p,
+#userbuttons p{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1280px) {
+    main{
+        width: 480px;
+    }
+
+    main object{
+        max-height: 320px;
+        max-width: 480px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    main{
+        width: 90%;
+        border: 1px solid #202020;
+        box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+        border-radius: 1em;
+    }
+
+    main object,
+    #controls{
+        display: none;
+    }
+
+    #warning{
+        display: block;
+    }
+}
+
+.nav button {
+    font-size: 1.25em;
+    border-radius: 0.375em;
+    height: 32px;
+}

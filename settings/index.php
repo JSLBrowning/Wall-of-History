@@ -31,20 +31,12 @@
     </header>
     <main>
         <h2><a onclick="resetReader()">Reset to Default</a></h2>
-        <!--
-        <div class="checkbuttons">
-            <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'en,es');
-            alert('Your language preference has been updated!')">English</button>
-            <button onclick="localStorage.setItem('WallofHistoryLanguageList', 'es,en');
-            alert('¡Tu preferencia de idioma ha sido actualizada!')">Español</button>
-        </div>
-        -->
         <?php
             include("..//php/populate.php");
             populateSettings();
         ?>
         <button id="submit" style="background-color: #0A0A0A; position: fixed; bottom: 1em; right: 1em;">Submit!</button>
-        </main>
+    </main>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>

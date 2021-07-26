@@ -673,13 +673,13 @@ main h2 a {
     line-height: 1.25em;
 }
 
-.anchors{
+.anchors {
     display: flex;
     flex-direction: row;
 }
 
 .anchor,
-.anchor:visited{
+.anchor:visited {
     padding: 0.5em;
     flex-basis: 1.25%;
     color: rgb(160, 160, 160);
@@ -687,11 +687,35 @@ main h2 a {
     text-decoration: none;
 }
 
-.anchors p{
+.anchors p {
     flex-basis: 98.75;
 }
 
-.anchors:target p{
+.anchors:target p {
     background-color: rgb(42, 42, 42);
     border-radius: 0.125em;
+}
+
+fieldset {
+    border: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+fieldset label {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    flex-basis: 20%;
+}
+
+fieldset select {
+    flex-basis: 75%;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #202020;
+    background: #161616;
+    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    border-radius: 1em;
+    color: white;
 }
