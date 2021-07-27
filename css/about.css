@@ -1,0 +1,24 @@
+main{
+    width: 90%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: row;
+}
+
+main article{
+    width: 66.66%;
+}
+
+main article img{
+    margin: 1em auto;
+    padding: 0em;
+    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+}
+
+main aside{
+    width: 33.33%;
+    padding: 0.5em 1em;
+}

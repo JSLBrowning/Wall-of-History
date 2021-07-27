@@ -95,6 +95,8 @@
             </div>
         </div>
         <button id="paletteSwapButton" onclick="swapPalettes()">☀️</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
         <!-- DOWNLOAD BUTTON -->
         <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
         <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">↓</button></a>

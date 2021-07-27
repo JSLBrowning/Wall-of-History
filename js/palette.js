@@ -6,3 +6,6 @@ function swapPalettes() {
     document.documentElement.classList.toggle('light');
     root.classList.toggle('black');
 }
+
+// https://academind.com/tutorials/adding-dark-mode/
+// https://codepen.io/fiszer/pen/MVoPdL
