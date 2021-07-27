@@ -23,6 +23,7 @@
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/about.css">
     <title>About | Wall of History</title>
 </head>
@@ -31,13 +32,30 @@
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
+    <aside id="mainmenu">
+        <button id="navigationButton">&#9776;</button>
+        <div id="navigationModal" class="modal">
+            <div class="modal-content">
+                <span id="navigationClose">&times;</span>
+                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
+                <p><a href="/read/">Contents</a></p>
+                <p><a href="/reference/">Reference</a></p>
+                <p><a href="/search/">Search</a></p>
+                <p><a href="/about/">About</a></p>
+                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                <p><a href="/contact/">Contact</a></p>
+            </div>
+        </div>
+        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
+    </aside>
     <main>
         <article>
             <img src="https://wallofhistory.com/img/Profile%20Picture.png">
             <h1>About BIONICLE</h1>
             <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama, and action, it has inspired movies,
                 novels, [and] web fiction.” — Greg Farshtey</p>
-                <hr>
+            <hr>
             <h1>About Wall of History</h1>
             <p>Wall of History is a web archive of the entire BIONICLE legend, created by a fan who wanted to provide others with an accessible way to experience it. The website is an eternal work in progress, so if you have any comments or suggestions,
                 please contact us using one of the methods on the <a href="/contact/">contact</a> page.</p>
@@ -46,10 +64,11 @@
             <p>Inspired by multimedia web comics like <em>Homestuck</em>, the earliest version of Wall of History began development on October 1<sup>st</sup>, 2017, with a fan transcription of <a class="nonblock" href="/read/?id=3ab89c"><em>BIONICLE Chronicles #1: Tale of the Toa</em></a>.
                 The earliest build of the website went live on February 23<span class="superscript">rd</span>, 2019, at about 7:00 AM UTC, and regular content updates continued until July of that same year.</p>
             <p>To learn more about our history, check out <a class="nonblock" href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of History”</a> on MaskOfDestiny.</p>
-            <p style="margin-top: 1em; font-size: small; text-align: center;">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO Group.</p>
+            <p class="footer">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO Group.</p>
         </article>
         <aside>
-            <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             <hr>
             <iframe src="https://discord.com/widget?id=578079637356150785&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
         </aside>
@@ -57,6 +76,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/modal.js"></script>
 </body>
 
 </html>

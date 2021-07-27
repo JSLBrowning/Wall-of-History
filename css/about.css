@@ -1,6 +1,6 @@
 main{
     width: 90%;
-    max-width: 1280px;
+    max-width: 1080px;
     display: flex;
     flex-direction: row;
 }
@@ -13,12 +13,127 @@ main article img{
     margin: 1em auto;
     padding: 0em;
     box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
-    height: 150px;
-    width: 150px;
+    height: 8em;
+    width: 8em;
     border-radius: 50%;
 }
 
+.footer{
+    margin-top: 1em;
+    font-size: small;
+    text-align: center;
+}
+
 main aside{
+    all: initial;
     width: 33.33%;
     padding: 0.5em 1em;
+}
+
+main aside a{
+    font-family: "Gill Sans Std";
+    text-align: center;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 960px) {
+    main article{
+        width: 100%;
+    }
+
+    main article img{
+        height: 4em;
+        width: 4em;
+    }
+    
+    main aside{
+        display: none;
+    }
+}
+
+/* MENU (NEED TO STANDARDIZE) */
+/* BUTTONS NEVER BECOME MOBILE. */
+
+#mainmenu {
+    position: absolute;
+    z-index: 1;
+    top: 1em;
+    right: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+#navigationButton,
+#settingsButton,
+#downloadButton,
+#paletteSwapButton {
+    margin: 0.5em;
+    width: 48px;
+    height: 48px;
+    color: white;
+    border-radius: 0.375em;
+    background: #161616;
+    box-shadow: 5px 5px 10px #080808,
+                -5px -5px 10px #202020;
+    border: 1px solid #202020;
+    padding: none;
+    font-size: 1.5em;
+    font-weight: bolder;
+    z-index: 1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+#navigationButton:focus,
+#settingsButton:focus,
+#downloadButton:focus,
+#paletteSwapButton:focus {
+    outline: 0;
+}
+
+#navigationButton:hover,
+#settingsButton:hover,
+#downloadButton:hover,
+#paletteSwapButton:hover {
+    transform: scale(1.125);
+}
+
+#navigationButton:active,
+#settingsButton:active,
+#downloadButton:active,
+#paletteSwapButton:active {
+    transform: scale(0.95);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0),
+                -5px -5px 10px rgba(0, 0, 0, 0),
+                inset 5px 5px 10px #080808,
+                inset -5px -5px 10px #202020;
+}
+
+#navigationClose,
+#settingsClose {
+    color: white;
+    top: 8px;
+    right: 8px;
+}
+
+
+/* May want to change the max-width here so that the aside buttons never overlap with the main block. */
+@media only screen and (max-width: 640px) {
+    aside{
+        /* REMOVE PREVIOUS SETTINGS */
+        position: relative;
+        z-index: auto;
+        top: auto;
+        right: auto;
+
+        /* NEW SETTINGS */
+        margin: auto 1em;
+        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    aside button{
+        flex-grow: 1;
+    }
 }
