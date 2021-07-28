@@ -1,44 +1,69 @@
 :root {
     --back1: #080808;
-    /* RGB08, background outer */
-    --back2: #0c0c0c;
-    /* RGB12, button active */
-    --back3: #101010;
-    /* RGB16, main, buttons */
-    --back4: #141414;
-    /* RGB20, button hover */
-    --back5: #181818;
-    /* RGB24, background inner */
-    --front1: #fafafa;
-    /* RGB250, text */
-    --front2: #f6f6f6;
-    /* RGB246 */
-    --front3: #f2f2f2;
-    /* RGB242, text link hover */
-    --front4: #eeeeee;
-    /* RGB238 */
-    --front5: #eaeaea;
-    /* RGB234, text link active */
-    --shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
-    --textshadow: none;
+    /* RGB08, drop shadow */
+    --back2: #161616;
+    /* RGB22, main background, button:active */
+    --back3: #202020;
+    /* RGB32, borders, button:hover, etc. */
+
+    --border: #202020;
+
+    --front1: #ffffff;
+    /* RGB255, text */
+    --front2: #cfcfcf;
+    /* RGB207, a:hover */
+    --front3: #9f9f9f;
+    /* RGB159, a:active */
+
     --fontweight: normal;
+
+    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
+    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
 
 :root.light {
-    --back1: #eaeaea;
-    --back2: #eeeeee;
-    --back3: #f2f2f2;
-    --back4: #f6f6f6;
-    --back5: #fafafa;
-    --front1: #181818;
-    --front2: #141414;
-    --front3: #101010;
-    --front4: #0c0c0c;
-    --front5: #080808;
-    --shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
-    /* --textshadow: 0px 0px 2px black, 0px 0px 4px black; */
-    --textshadow: none;
+    --front1: #080808;
+    --front2: #161616;
+    --front3: #202020;
+
+    --border: #CBCCCF;
+
+    --back3: #F9F9FA;
+    --back2: #E5E6EB;
+    --back1: #B1B1B2;
+
     --fontweight: bold;
+
+    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
+    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+}
+
+:root.smallest {
+    --pfontsize: 0.75em;
+}
+
+:root.smaller {
+    --pfontsize: 0.875em;
+}
+
+:root.small {
+    --pfontsize: 1em;
+}
+
+:root {
+    --pfontsize: 1.125em;
+}
+
+:root.big {
+    --pfontsize: 1.25em;
+}
+
+:root.bigger {
+    --pfontsize: 1.375em;
+}
+
+:root.biggest {
+    --pfontsize: 1.5em;
 }
 
 * {
@@ -58,7 +83,7 @@
 }
 
 body {
-    background-color: #161616;
+    background-color: var(--back2);
 }
 
 html,
@@ -75,9 +100,9 @@ img {
 header,
 main {
     position: relative;
-    background: #161616;
+    background: var(--back2);
     overflow: hidden;
-    color: #fff;
+    color: var(--front1);
     font-family: 'Gill Sans Std';
     font-style: normal;
     line-height: 1.5;
@@ -97,22 +122,22 @@ header p {
 }
 
 header a {
-    color: #fff;
+    color: var(--front1);
     text-decoration: none;
 }
 
 header a:hover {
-    color: #cccccc;
+    color: var(--front2);
     text-decoration: none;
 }
 
 header a:active {
-    color: #99999a;
+    color: var(--front3);
     text-decoration: none;
 }
 
 header a:visited {
-    color: #fff;
+    color: var(--front1);
     text-decoration: none;
 }
 
@@ -121,9 +146,9 @@ main {
     padding: 8px 0px;
     width: 90%;
     max-width: 640px;
-    border: 1px solid #202020;
-    background: #161616;
-    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    border: 1px solid var(--border);
+    background: var(--back2);
+    box-shadow: var(--outershadow);
     border-radius: 1em;
 }
 
@@ -137,7 +162,6 @@ h3 {
     font-weight: bold;
     color: var(--front1);
 }
-
 
 /* Why don't these work? */
 
@@ -169,7 +193,7 @@ audio {
 main p {
     margin-right: 0.25em;
     padding: 0.5em 0.5em;
-    font-size: 1.125em;
+    font-size: var(--pfontsize);
     text-align: justify;
     text-justify: inter-word;
 }
@@ -206,22 +230,22 @@ label input {
 
 main a,
 .modal-content a {
-    color: #fff;
+    color: var(--front1);
 }
 
 main a:hover,
 .modal-content a:hover {
-    color: #cccccc;
+    color: var(--front2);
 }
 
 main a:active,
 .modal-content a:active {
-    color: #99999a;
+    color: var(--front3);
 }
 
 main a:visited,
 .modal-content a:visited {
-    color: #fff;
+    color: var(--front1);
 }
 
 main img,
@@ -243,9 +267,9 @@ main blockquote {
 
 blockquote {
     margin: 1em;
-    border: 1px solid #202020;
+    border: 1px solid var(--border);
     border-radius: 0.375em;
-    box-shadow: inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
+    box-shadow: var(--innershadow);
 }
 
 blockquote p {
@@ -295,17 +319,17 @@ blockquote p a {
 }
 
 blockquote p a:hover {
-    color: #cccccc;
+    color: var(--front2);
     text-decoration: none;
 }
 
 blockquote p a:active {
-    color: #99999a;
+    color: var(--front3);
     text-decoration: none;
 }
 
 blockquote p a:visited {
-    color: #fff;
+    color: var(--front1);
     text-decoration: none;
 }
 
@@ -347,11 +371,11 @@ main button,
     border: none;
     border-radius: 16px;
     background: none;
-    color: #fff;
+    color: var(--front1);
     border-radius: 0.375em;
-    background: #161616;
-    border: 1px solid #202020;
-    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    background: var(--back2);
+    border: 1px solid var(--border);
+    box-shadow: var(--outershadow);
     cursor: pointer;
     transition: all .2s ease-in-out;
 }
@@ -378,7 +402,7 @@ main button,
     margin: -8px 0px 0px 0px;
     border: none;
     border-radius: 0px;
-    background-color: #161616;
+    background-color: var(--back2);
     width: 33.33%;
     height: 32px;
     font-size: 1.25em;
@@ -389,15 +413,15 @@ main button,
     height: 34px;
     color: #fff;
     cursor: pointer;
-    border-top: 1px solid #202020;
-    border-bottom: 1px solid #202020;
+    border-top: 1px solid var(--back3);
+    border-bottom: 1px solid var(--back3);
 }
 
 #slidelocationdiv {
     line-height: 32px;
     text-align: center;
-    border-top: 1px solid #202020;
-    border-bottom: 1px solid #202020;
+    border-top: 1px solid var(--back3);
+    border-bottom: 1px solid var(--back3);
 }
 
 #slidelocation {
@@ -411,12 +435,12 @@ main button,
 
 .slidecontrols button:hover,
 .checkbuttons button:hover {
-    background-color: #202020;
+    background-color: var(--back3);
 }
 
 .slidecontrols button:active,
 .checkbuttons button:active {
-    background-color: #080808;
+    background-color: var(--back1);
 }
 
 .checkbuttons {
@@ -461,7 +485,7 @@ nav button:active,
 .nav button:active,
 .contentsButton:active {
     transform: scale(0.9375);
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), inset 5px 5px 10px #080808, inset -5px -5px 10px #202020;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), var(--innershadow);
 }
 
 .standaloneButton:focus,
@@ -480,8 +504,9 @@ main hr,
 .maintext hr,
 .modalcontent hr {
     margin-left: 0em;
-    margin-right: 0em;
-    color: #202020;
+    margin-right: 0.25em;
+    border: 0px;
+    border-top: 1px solid var(--border);
 }
 
 main hr,
@@ -498,20 +523,20 @@ main hr,
 
 .close {
     text-align: center;
-    color: #fff;
+    color: var(--front1);
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
 }
 
 .close:hover {
-    color: #cccccc;
+    color: var(--front2);
     text-decoration: none;
     cursor: pointer;
 }
 
 .close:active {
-    color: #99999a;
+    color: var(--front3);
     text-decoration: none;
     cursor: pointer;
 }
@@ -550,7 +575,7 @@ main h2 a {
 .standaloneButton:active,
 .contentsButton:active {
     transform: scale(0.96875);
-    background-color: #101010;
+    background-color: var(--back1);
 }
 
 .contentsImg {
@@ -654,20 +679,20 @@ main h2 a {
 
 #gearbtn {
     text-align: center;
-    color: #fff;
+    color: var(--front1);
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
 }
 
 #gearbtn:hover {
-    color: #cdcfd0;
+    color: var(--front2);
     text-decoration: none;
     cursor: pointer;
 }
 
 #gearbtn:active {
-    color: #9ca0a2;
+    color: var(--front3);
     text-decoration: none;
     cursor: pointer;
 }
@@ -687,7 +712,7 @@ main h2 a {
 .anchor:visited {
     padding: 0.5em;
     flex-basis: 1.25%;
-    color: rgb(160, 160, 160);
+    color: var(--front3);
     font-weight: bold;
     text-decoration: none;
 }
@@ -697,7 +722,7 @@ main h2 a {
 }
 
 .anchors:target p {
-    background-color: rgb(42, 42, 42);
+    background-color: var(--back3);
     border-radius: 0.125em;
 }
 
@@ -718,9 +743,9 @@ fieldset select {
     flex-basis: 75%;
     margin-top: 0.5em;
     margin-bottom: 1em;
-    border: 1px solid #202020;
-    background: #161616;
-    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    border: 1px solid var(--border);
+    background: var(--back2);
+    box-shadow: var(--outershadow);
     border-radius: 1em;
-    color: white;
+    color: var(--front1);
 }

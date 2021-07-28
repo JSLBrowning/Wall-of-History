@@ -321,26 +321,6 @@ async function readAsStandalone() {
     jumpTo();
 }
 
-/* FONT STUFF */
-
-function increaseFontSize() {
-    let children = document.getElementsByTagName("p");
-    for (let i = 0; i < children.length; i++) {
-        style = window.getComputedStyle(children[i]);
-        current = style.getPropertyValue("font-size");
-        children[i].style.fontSize = String(parseInt(current.substring(0, current.length-2)) * 1.125) + "px";
-    }
-}
-
-function decreaseFontSize() {
-    let children = document.getElementsByTagName("p");
-    for (let i = 0; i < children.length; i++) {
-        style = window.getComputedStyle(children[i]);
-        current = style.getPropertyValue("font-size");
-        children[i].style.fontSize = String(parseInt(current.substring(0, current.length-2)) * 0.875) + "px";
-    }
-}
-
 /* DOWNLOAD FUNCTIONS */
 
 function downloadContent() {

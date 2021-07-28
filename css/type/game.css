@@ -7,14 +7,14 @@ main{
     all: initial;
     display:block;
     margin: auto;
-    border: solid #202020;
+    border: solid var(--border);
     border-width: 0px 1px 1px 1px;
     border-radius: 0em 0em 1em 1em;
     width: 639px;
-    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    box-shadow: var(--outershadow);
 
     font-family: "Gill Sans Std";
-    color: white;
+    color: var(--front1);
 }
 
 header{
@@ -40,6 +40,7 @@ main h1{
 }
 
 main object{
+    padding-top: 8px;
     max-height: 426px;
     max-width: 639px;
 }
@@ -73,7 +74,7 @@ main object{
 #userbuttons{
     margin-top: 0em;
     font-size: 0.75em;
-    color: gray;
+    color: var(--front3);
 }
 
 #gbabuttons p,
@@ -97,8 +98,8 @@ main object{
 @media only screen and (max-width: 640px) {
     main{
         width: 90%;
-        border: 1px solid #202020;
-        box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+        border: 1px solid var(--border);
+        box-shadow: var(--outershadow);
         border-radius: 1em;
     }
 

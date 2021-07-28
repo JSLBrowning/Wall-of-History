@@ -31,6 +31,8 @@ function correct() {
                 document.documentElement.classList.toggle('biggest');
                 break;
         }
+    } else {
+        localStorage.setItem("fontSize", "normal");
     }
 }
 
@@ -54,26 +56,78 @@ function swapPalettes() {
 
 function increaseFontSize() {
     let currentFontSize = localStorage.getItem("fontSize");
-    document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
 
-    switch (fontSize) {
+    switch (currentFontSize) {
         case "smallest":
-            document.documentElement.classList.toggle('smallest');
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("smaller");
+            localStorage.setItem("fontSize", "smaller");
             break;
         case "smaller":
-            document.documentElement.classList.toggle('smaller');
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("small");
+            localStorage.setItem("fontSize", "small");
             break;
         case "small":
-            document.documentElement.classList.toggle('small');
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            localStorage.setItem("fontSize", "normal");
+            break;
+        case "normal":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("big");
+            localStorage.setItem("fontSize", "big");
             break;
         case "big":
-            document.documentElement.classList.toggle('big');
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("bigger");
+            localStorage.setItem("fontSize", "bigger");
             break;
         case "bigger":
-            document.documentElement.classList.toggle('bigger');
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("biggest");
+            localStorage.setItem("fontSize", "biggest");
             break;
         case "biggest":
-            document.documentElement.classList.toggle('biggest');
+            alert("Font is already at maximum size.");
+            break;
+    }
+}
+
+function decreaseFontSize() {
+    let currentFontSize = localStorage.getItem("fontSize");
+
+    switch (currentFontSize) {
+        case "smallest":
+            alert("Font is already at minimum size.");
+            break;
+        case "smaller":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("smallest");
+            localStorage.setItem("fontSize", "smallest");
+            break;
+        case "small":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("smaller");
+            localStorage.setItem("fontSize", "smaller");
+            break;
+        case "normal":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("small");
+            localStorage.setItem("fontSize", "small");
+            break;
+        case "big":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            localStorage.setItem("fontSize", "normal");
+            break;
+        case "bigger":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("big");
+            localStorage.setItem("fontSize", "big");
+            break;
+        case "biggest":
+            document.documentElement.classList.remove("smallest", "smaller", "small", "big", "bigger", "biggest");
+            document.documentElement.classList.toggle("bigger");
+            localStorage.setItem("fontSize", "bigger");
             break;
     }
 }

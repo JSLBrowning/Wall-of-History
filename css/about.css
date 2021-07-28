@@ -12,10 +12,11 @@ main article{
 main article img{
     margin: 1em auto;
     padding: 0em;
-    box-shadow: 5px 5px 10px #080808, -5px -5px 10px #202020;
+    box-shadow: var(--outershadow);
     height: 8em;
     width: 8em;
     border-radius: 50%;
+    border: 2px solid var(--border);
 }
 
 .footer{
@@ -34,6 +35,10 @@ main aside a{
     font-family: "Gill Sans Std";
     text-align: center;
     text-decoration: none;
+}
+
+main aside hr{
+    margin-right: 0em;
 }
 
 @media only screen and (max-width: 960px) {
@@ -70,12 +75,11 @@ main aside a{
     margin: 0.5em;
     width: 48px;
     height: 48px;
-    color: white;
+    color: var(--front1);
     border-radius: 0.375em;
-    background: #161616;
-    box-shadow: 5px 5px 10px #080808,
-                -5px -5px 10px #202020;
-    border: 1px solid #202020;
+    background: var(--back2);
+    box-shadow: var(--outershadow);
+    border: 1px solid var(--border);
     padding: none;
     font-size: 1.5em;
     font-weight: bolder;
@@ -105,13 +109,12 @@ main aside a{
     transform: scale(0.95);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0),
                 -5px -5px 10px rgba(0, 0, 0, 0),
-                inset 5px 5px 10px #080808,
-                inset -5px -5px 10px #202020;
+                var(--innershadow);
 }
 
 #navigationClose,
 #settingsClose {
-    color: white;
+    color: var(--front1);
     top: 8px;
     right: 8px;
 }
