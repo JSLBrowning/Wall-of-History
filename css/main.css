@@ -378,7 +378,7 @@ main button,
     margin: -8px 0px 0px 0px;
     border: none;
     border-radius: 0px;
-    background-color: #333435;
+    background-color: #161616;
     width: 33.33%;
     height: 32px;
     font-size: 1.25em;
@@ -386,13 +386,18 @@ main button,
 }
 
 .slidecontrols button {
+    height: 34px;
     color: #fff;
     cursor: pointer;
+    border-top: 1px solid #202020;
+    border-bottom: 1px solid #202020;
 }
 
 #slidelocationdiv {
     line-height: 32px;
     text-align: center;
+    border-top: 1px solid #202020;
+    border-bottom: 1px solid #202020;
 }
 
 #slidelocation {
@@ -406,12 +411,12 @@ main button,
 
 .slidecontrols button:hover,
 .checkbuttons button:hover {
-    background-color: #99999a;
+    background-color: #202020;
 }
 
 .slidecontrols button:active,
 .checkbuttons button:active {
-    background-color: #666767;
+    background-color: #080808;
 }
 
 .checkbuttons {
