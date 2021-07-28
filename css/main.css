@@ -69,6 +69,7 @@
 * {
     padding: 0px;
     margin: 0px;
+    transition: all .2s ease-in-out;
 }
 
 @font-face {
@@ -504,7 +505,7 @@ main hr,
 .maintext hr,
 .modalcontent hr {
     margin-left: 0em;
-    margin-right: 0.25em;
+    margin-right: 0em;
     border: 0px;
     border-top: 1px solid var(--border);
 }
@@ -575,7 +576,7 @@ main h2 a {
 .standaloneButton:active,
 .contentsButton:active {
     transform: scale(0.96875);
-    background-color: var(--back1);
+    background-color: var(--back2);
 }
 
 .contentsImg {
@@ -715,6 +716,7 @@ main h2 a {
     color: var(--front3);
     font-weight: bold;
     text-decoration: none;
+    font-size: var(--pfontsize);
 }
 
 .anchors p {

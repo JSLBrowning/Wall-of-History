@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="/js/palette.js"></script>
     <meta charset='UTF-8'>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
@@ -94,7 +95,7 @@
                 <p>Blah blah blah…</p>
             </div>
         </div>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀️</button>
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
         <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
         <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
         <!-- DOWNLOAD BUTTON -->
@@ -172,7 +173,7 @@
             $(".nav").hide();
         }
     </script>
-    <script src="/js/palette.js"></script>
+    <!-- <script src="/js/palette.js"></script> -->
 </body>
 
 </html>

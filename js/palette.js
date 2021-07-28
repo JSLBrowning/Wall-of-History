@@ -1,4 +1,5 @@
 function correct() {
+    /*
     if (localStorage.getItem("colorScheme") === "light") {
         document.documentElement.classList.toggle('light');
         document.getElementById("paletteSwapButton").innerHTML = "☽";
@@ -8,31 +9,67 @@ function correct() {
             console.log("No Twitter timeline is embedded on this page.");
         }
     }
+    */
 
     if (localStorage.getItem("fontSize") != null) {
-        let fontSize = localStorage.getItem("fontSize");
-        switch (fontSize) {
-            case "smallest":
-                document.documentElement.classList.toggle('smallest');
-                break;
-            case "smaller":
-                document.documentElement.classList.toggle('smaller');
-                break;
-            case "small":
-                document.documentElement.classList.toggle('small');
-                break;
-            case "big":
-                document.documentElement.classList.toggle('big');
-                break;
-            case "bigger":
-                document.documentElement.classList.toggle('bigger');
-                break;
-            case "biggest":
-                document.documentElement.classList.toggle('biggest');
-                break;
+        if (localStorage.getItem("colorScheme") === "light") {
+            let colors = "light";
+            let fontSize = localStorage.getItem("fontSize");
+            switch (fontSize) {
+                case "smallest":
+                    document.documentElement.classList.add('smallest');
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "smaller":
+                    document.documentElement.classList.add('smaller');
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "small":
+                    document.documentElement.classList.add('small');
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "normal":
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "big":
+                    document.documentElement.classList.add('big');
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "bigger":
+                    document.documentElement.classList.add('bigger');
+                    document.documentElement.classList.add(colors);
+                    break;
+                case "biggest":
+                    document.documentElement.classList.add('biggest');
+                    document.documentElement.classList.add(colors);
+                    break;
+            }
+        } else {
+            let fontSize = localStorage.getItem("fontSize");
+            switch (fontSize) {
+                case "smallest":
+                    document.documentElement.classList.add('smallest');
+                    break;
+                case "smaller":
+                    document.documentElement.classList.add('smaller');
+                    break;
+                case "small":
+                    document.documentElement.classList.add('small');
+                    break;
+                case "normal":
+                    console.log("Page ready.");
+                    break;
+                case "big":
+                    document.documentElement.classList.add('big');
+                    break;
+                case "bigger":
+                    document.documentElement.classList.add('bigger');
+                    break;
+                case "biggest":
+                    document.documentElement.classList.add('biggest');
+                    break;
+            }
         }
-    } else {
-        localStorage.setItem("fontSize", "normal");
     }
 }
 

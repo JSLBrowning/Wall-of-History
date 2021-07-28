@@ -35,7 +35,7 @@
 .standaloneButton:active,
 .contentsButton:active {
     transform: scale(0.96875);
-    background-color: #101010;
+    background-color: var(--back2);
 }
 
 .contentsImg {
