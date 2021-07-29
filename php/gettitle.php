@@ -7,6 +7,7 @@ $q = $_REQUEST["q"];
 
 // Create selection statement.
 $sql = "SELECT title FROM woh_content WHERE id='$q' LIMIT 1";
+// Find out where this is used.
 
 // Perfom selection.
 $result = $mysqli->query($sql);
@@ -17,4 +18,5 @@ if ($result->num_rows > 0) {
     }
 } else {
     echo "Wall of History Download";
+    // Why?
 }

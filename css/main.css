@@ -729,6 +729,7 @@ main h2 a {
 }
 
 fieldset {
+    margin: 1em 0.5em;
     border: 0px;
     display: flex;
     flex-direction: row;

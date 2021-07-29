@@ -92,7 +92,10 @@
         <div id="settingsModal" class="modal">
             <div class="modal-content">
                 <span id="settingsClose">&times;</span>
-                <p>Blah blah blah…</p>
+                <?php
+                    include("..//php/populatesettingsmodal.php");
+                    populateSettingsModal($id, $v, $lang);
+                ?>
             </div>
         </div>
         <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>

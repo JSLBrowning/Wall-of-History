@@ -72,8 +72,9 @@ function hasChildren($id, $lang, $v)
     if ($id === "0") {
         $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
     } else {
-        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"" . $id . "\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
+        /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
     }
 
     // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
@@ -215,7 +216,7 @@ function loadContent($id, $lang, $v)
     }
 
     // GET AND DISPLAY CONTENT
-    $sql = "SELECT main FROM woh_content WHERE id = \"" . $id . "\"";
+    $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
 
     // Display snippet in place of main if main empty (for parent works)?
 
