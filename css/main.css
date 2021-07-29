@@ -752,3 +752,10 @@ fieldset select {
     border-radius: 1em;
     color: var(--front1);
 }
+
+fieldset select {
+    margin-left: auto;
+    margin-right: auto;
+    height: 3em;
+    width: 100%;
+}
