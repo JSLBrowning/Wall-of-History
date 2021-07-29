@@ -8,6 +8,7 @@ async function generateSelectionModal() {
             let ID = key.split(":");
 
             if (ID[1] == "0") {
+                // Change this to just go back to page you were on?
                 document.getElementById("modal-data").innerHTML += "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + ID[1] + "\')\" id=\"" + ID[1] + "\">BIONICLE</button>";
             } else {
                 let title = await getTitle(ID[1]);
@@ -20,15 +21,6 @@ async function generateSelectionModal() {
     // Upon being clicked, it will...
     // 1. Load that reading order title into the ActiveReadingOrder session storage item.
     // 2. Jump to a saved place or first page of the relevant items.
-    /*
-    <button class='contentsButton' onclick='window.location.href="/read/?id=0343U0";'>
-        <div class='contentsImg'><img src='https://wallofhistory.com/img/test/1.png'></div>
-        <div class='contentsText'>
-            <p>Chapter 1: Quest for the Masks</p>
-            <p>Six Toa heroes must discover how to work together to save the island paradise of Mata Nui from destruction by the shadows of the Makuta. Only hidden golden Kanohi masks of power will let the Toa t…</p>
-        </div>
-    </button>
-    */
 
     modal.style.display = "block";
 }
