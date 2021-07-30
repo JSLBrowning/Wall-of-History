@@ -1,16 +1,4 @@
 function correct() {
-    /*
-    if (localStorage.getItem("colorScheme") === "light") {
-        document.documentElement.classList.toggle('light');
-        document.getElementById("paletteSwapButton").innerHTML = "☽";
-        try {
-            $(".twitter-timeline").attr("data-theme", "light");
-        } catch (error) {
-            console.log("No Twitter timeline is embedded on this page.");
-        }
-    }
-    */
-
     if (localStorage.getItem("fontSize") != null) {
         if (localStorage.getItem("colorScheme") === "light") {
             let colors = "light";
@@ -69,6 +57,10 @@ function correct() {
                     document.documentElement.classList.add('biggest');
                     break;
             }
+        }
+    } else {
+        if (localStorage.getItem("colorScheme") === "light") {
+            document.documentElement.classList.toggle("light");
         }
     }
 }

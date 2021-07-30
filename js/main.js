@@ -29,6 +29,8 @@ async function initialize() {
         } else {
             localStorage.setItem("colorScheme", "dark");
         }
+    } else if (localStorage.getItem("colorScheme") === "light") {
+        document.getElementById("paletteSwapButton").innerHTML = "☽";
     }
 
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
@@ -57,6 +59,10 @@ async function initialize() {
         };
         xmlhttp.open("GET", "../php/getreferenceterms.php", true);
         xmlhttp.send();
+    }
+
+    if (localStorage.getItem("fontSize") === null) {
+        localStorage.setItem("fontSize", "normal");
     }
 };
 

@@ -751,11 +751,14 @@ fieldset select {
     box-shadow: var(--outershadow);
     border-radius: 1em;
     color: var(--front1);
-}
 
-fieldset select {
+    /* NEWER STUFF */
     margin-left: auto;
     margin-right: auto;
     height: 3em;
     width: 100%;
+}
+
+main p a {
+    font-weight: 600;
 }
