@@ -22,6 +22,7 @@ CREATE TABLE reference_titles (
 
 CREATE TABLE reference_images (
     id varchar(6) NOT NULL,
+    spoiler_level int, /* Necessary? */
     image_path text NOT NULL
 );
 
