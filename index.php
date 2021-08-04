@@ -36,6 +36,10 @@
     <!-- MAIN NAVIGATION MENU MODAL -->
     <aside>
         <button id="navigationButton">&#9776;</button>
+        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
         <div id="navigationModal" class="modal">
             <div class="modal-content">
                 <span id="navigationClose">&times;</span>
@@ -49,7 +53,6 @@
             </div>
         </div>
         <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
     </aside>
     <main>
         <video style="margin-top: -0.75em;" poster="img/Video Thumbnail.png" controls>
@@ -119,5 +122,6 @@
     <script src="js/main.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/readingorders.js"></script>
+    <script src="js/palette.js"></script>
 </body>
 </html>
