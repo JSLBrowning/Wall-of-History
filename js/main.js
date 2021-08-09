@@ -64,6 +64,11 @@ async function initialize() {
     if (localStorage.getItem("fontSize") === null) {
         localStorage.setItem("fontSize", "normal");
     }
+
+    if (localStorage.getItem("WallofHistorySavePlace") != null) {
+        localStorage.setItem("savePlace:0", localStorage.getItem("WallofHistorySavePlace"));
+        localStorage.removeItem("WallofHistorySavePlace");
+    }
 };
 
 function getLanguageList() {

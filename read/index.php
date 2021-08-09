@@ -8,17 +8,23 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <?php 
         include("..//php/populate.php");
+        include("..//php/db_connect.php");
         if(count($_GET)) {
             if(isset($_GET["s"])) {
-                echo "Working on it…";
+                $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
+                $result = $mysqli->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    $arr = explode(".", $row["tag"]);
+                    $id = $arr[0];
+                    $v = $arr[1];
+                    $lang = $arr[2];
+                }
             } else {
                 if(isset($_GET["id"])) {
                     $id = $_GET["id"];
 
                     if (is_numeric($id)) {
                         if ((int)$id < 99999) {
-                            include("..//php/db_connect.php");
-        
                             $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
                             // If no content, get most recent one closest that does?
                             $result = $mysqli->query($sql);
@@ -69,8 +75,11 @@
         <button id="navigationButton">&#9776;</button>
         <button id="settingsButton">&#9881;</button>
         <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">⮝</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">⮟</button>
+        <!-- DOWNLOAD BUTTON -->
+        <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
+        <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">🡳</button></a>
         <!-- MAIN NAVIGATION MENU MODAL -->
         <div id="navigationModal" class="modal">
             <div class="modal-content">
@@ -101,10 +110,6 @@
                 ?>
             </div>
         </div>
-        <!-- DOWNLOAD BUTTON -->
-        <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
-        <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">↓</button></a>
-        <!-- <button id="clearStandaloneButton">Clear Standalone</button> -->
     </aside>
     <main>
         <?php
@@ -176,7 +181,6 @@
             $(".nav").hide();
         }
     </script>
-    <!-- <script src="/js/palette.js"></script> -->
 </body>
 
 </html>

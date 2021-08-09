@@ -46,7 +46,7 @@ function populateSettingsModal($id, $v, $lang)
         echo "<fieldset>";
         echo "<select onchange=\"goTo(this.options[this.selectedIndex].value)\">";
         while ($row = $result->fetch_assoc()) {
-            $newlang = $row["content_language"];
+            $newlang = strtoupper($row["content_language"]);
             if ($newlang == $lang) {
                 echo "<option value=\"" . $id . "." . $v . "." . $newlang . "\" selected><strong>" . $newlang . "</strong></option>";
             } else {

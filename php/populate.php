@@ -70,9 +70,9 @@ function hasChildren($id, $lang, $v)
     include("..//php/db_connect.php");
 
     if ($id === "0") {
-        $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
+        $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
     } else {
-        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
         /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
     }
@@ -100,7 +100,7 @@ function hasChildren($id, $lang, $v)
 
         // This loop echoes the individual children.
         while ($row = $result->fetch_assoc()) {
-            echo "<button class='contentsButton' onclick='window.location.href=\"/read/?id=" . $row["cid"] . "\";'>";
+            echo "<button class='contentsButton' onclick='goTo(\"" . $row["cid"] . "." . $row["content_version"] . "\")'>";
             if ($row["small_image"] != NULL) {
                 echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
             }
@@ -237,7 +237,7 @@ function populateSettings()
     include("..//php/db_connect.php");
 
     // First, find all the unique tags with which we select items, and make the selector.
-    $sql_tags = "SELECT DISTINCT(tag) AS tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'organizational' OR tag_type = 'author') ORDER BY tag_type";
+    $sql_tags = "SELECT DISTINCT(tag) AS tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') ORDER BY tag_type";
     $result_tags = $mysqli->query($sql_tags);
 
     echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = -1;'>";
@@ -251,7 +251,7 @@ function populateSettings()
     while ($row_tags = $result_tags->fetch_assoc()) {
         echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
     }
-    echo "</select></fieldset>";
+    echo "</select><label for='lang'>Language…</label><select name=\"lang\" id=\"lang\" onchange=\"localStorage.setItem('languagePreference', this)\" onfocus=\"this.selectedIndex = -1;\"><option value=\"en\">English</option><option value=\"es\">Español</option></select></fieldset>";
 
     $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.content_version = 1 ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);

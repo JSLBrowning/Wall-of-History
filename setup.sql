@@ -19,7 +19,7 @@ CREATE TABLE WoH_content(
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
     version_title text,
-    /* ...and this string is the actual name of the version in question, which is displayed to the user on the page. */
+    /* ...and this string identifies the version (for example, "standard"). */
     content_language varchar (2) DEFAULT "en",
     /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     small_image text,

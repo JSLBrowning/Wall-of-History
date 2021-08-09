@@ -22,7 +22,12 @@ async function generateSelectionModal() {
     // 1. Load that reading order title into the ActiveReadingOrder session storage item.
     // 2. Jump to a saved place or first page of the relevant items.
 
-    modal.style.display = "block";
+    var field = 's';
+    var url = window.location.href;
+    if(url.indexOf('?' + field + '=') != -1)
+        sessionStorage.setItem("activeReadingOrder", "0");
+    else if(url.indexOf('&' + field + '=') == -1)
+        modal.style.display = "block";
 }
 
 function getTitle(id) {
