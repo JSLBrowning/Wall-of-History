@@ -29,7 +29,7 @@
 
 .modal-content,
 .modal-data {
-    background: #161616;
+    background: var(--back2);
     margin: 5% auto 5% auto;
     /* 15% from the top and centered */
     padding: 0em;
@@ -37,8 +37,7 @@
     width: 80%;
     /* Could be more or less, depending on screen size */
     max-width: 720px;
-    box-shadow: inset 5px 5px 10px #080808,
-                inset -5px -5px 10px #202020;
+    box-shadow: var(--innershadow);
 }
 
 .modal-content img,
@@ -55,7 +54,7 @@
 .modal-content p,
 .modal-data img {
     font-family: 'Gill Sans Std';
-    color: #fff;
+    color: var(--front1);
     font-size: 1.125em;
 }
 
@@ -65,7 +64,7 @@
 .close,
 #navigationClose,
 #settingsClose {
-    color: #fff;
+    color: var(--front1);
     float: right;
     margin: 0.25em 0.5em;
     font-size: 1.5em;
@@ -79,7 +78,7 @@
 #navigationClose:focus,
 #settingsClose:hover,
 #settingsClose:focus {
-    color: #080808;
+    color: var(--back1);
     text-decoration: none;
     cursor: pointer;
 }
@@ -96,7 +95,7 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(18, 18, 18);
+    background-color: var(--back1);
     background-color: rgba(18, 18, 18, 0.9375);
     animation: fadeinback .25s;
 }
@@ -106,8 +105,8 @@
     width: 90%;
     max-width: 560px;
     border-radius: 1em;
-    border: 1px solid #202020;
-    background: #161616;
+    border: 1px solid var(--back3);
+    background: var(--back2);
     margin: 5% auto;
     padding: 8px;
     position: relative;
@@ -150,7 +149,7 @@
     line-height: 1.25em;
     font-family: 'TradeMarker';
     font-weight: bold;
-    color: #fff;
+    color: var(--front2);
 }
 
 .modal-content h1,
@@ -164,7 +163,7 @@
     margin: 0.5em 1em;
     position: relative;
     overflow: hidden;
-    color: #fff;
+    color: var(--front2);
     font-family: 'Gill Sans Std';
     font-style: normal;
     line-height: 1.5;
@@ -179,7 +178,7 @@
 .modal-content ul,
 .modal-content li {
     font-family: 'Gill Sans Std';
-    color: #fff;
+    color: var(--front1);
     font-size: 0.875em;
 }
 
@@ -199,20 +198,20 @@
     top: 8px;
     right: 8px;
     text-align: center;
-    color: #fff;
+    color: var(--front1);
     font-size: 2em;
     font-weight: bold;
     padding: 8px;
 }
 
 .close:hover {
-    color: #cccccc;
+    color: var(--front2);
     text-decoration: none;
     cursor: pointer;
 }
 
 .close:active {
-    color: #99999a;
+    color: var(--front3);
     text-decoration: none;
     cursor: pointer;
 }
