@@ -75,3 +75,13 @@
     padding-top: 0em;
     padding-bottom: 0em;
 }
+
+@media only screen and (max-width: 640px) {
+    .contentsImg {
+        flex-basis: 33.33%;
+    }
+
+    .contentsText{
+        font-size: x-small;
+    }
+}

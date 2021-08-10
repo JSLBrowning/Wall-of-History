@@ -103,6 +103,9 @@
         if (count($_GET) == 1) {
             include("..//php/db_connect.php");
 
+            // SIGH
+            error_reporting(0);
+
             $query = $_GET['q'];
 
             $sql = "SELECT name, content FROM wall_of_history_reference WHERE (`name` LIKE '%".$query."%') OR (`content` LIKE '%".$query."%')";
@@ -117,10 +120,7 @@
                 }
             }
 
-            $query = $_GET['q'];
-            // gets value sent over search form
-
-            $sql = "SELECT id, fulltitle, description, content FROM wall_of_history_contents WHERE (`fulltitle` LIKE '%".$query."%') OR (`content` LIKE '%".$query."%')";
+            $sql = "SELECT id, title, snippet, main FROM woh_content WHERE (`title` LIKE '%".$query."%') OR (`main` LIKE '%".$query."%')";
 
             // Perfom selection.
             $result = $mysqli->query($sql);
@@ -132,8 +132,8 @@
 
             if ($result->num_rows > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row['fulltitle'] . "</h3>";
-                    echo "<p>" . $row['description'] . "</p>";
+                    echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row['title'] . "</h3>";
+                    echo "<p>" . $row['snippet'] . "</p>";
                 }
             } else {
                 echo "<p>Your search returned zero results.</p>";

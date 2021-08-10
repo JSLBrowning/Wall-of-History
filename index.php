@@ -38,8 +38,8 @@
         <button id="navigationButton">&#9776;</button>
         <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
         <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">⮝</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">⮟</button>
         <div id="navigationModal" class="modal">
             <div class="modal-content">
                 <span id="navigationClose">&times;</span>

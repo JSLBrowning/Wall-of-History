@@ -5,18 +5,14 @@
     /* RGB22, main background, button:active */
     --back3: #202020;
     /* RGB32, borders, button:hover, etc. */
-
     --border: #202020;
-
     --front1: #ffffff;
     /* RGB255, text */
     --front2: #cfcfcf;
     /* RGB207, a:hover */
     --front3: #9f9f9f;
     /* RGB159, a:active */
-
     --fontweight: normal;
-
     --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
     --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
@@ -25,15 +21,11 @@
     --front1: #080808;
     --front2: #161616;
     --front3: #202020;
-
     --border: #CBCCCF;
-
     --back3: #F9F9FA;
     --back2: #E5E6EB;
     --back1: #B1B1B2;
-
     --fontweight: bold;
-
     --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
     --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
@@ -163,6 +155,7 @@ h3 {
     font-weight: bold;
     color: var(--front1);
 }
+
 
 /* Why don't these work? */
 
@@ -641,13 +634,13 @@ main h2 a {
     main h3,
     .modalcontent h3,
     .maintext h3 {
-        font-size: 1em;
+        font-size: var(--pfontsize);
     }
     main p,
     header p,
     .modalcontent p,
     .maintext p {
-        font-size: 1em;
+        font-size: var(--pfontsize);
     }
     .social {
         width: 99.99%;
@@ -751,7 +744,6 @@ fieldset select {
     box-shadow: var(--outershadow);
     border-radius: 1em;
     color: var(--front1);
-
     /* NEWER STUFF */
     margin-left: auto;
     margin-right: auto;
