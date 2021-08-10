@@ -1,4 +1,10 @@
 async function initialize() {
+    if (localStorage.getItem("WallofHistorySavePlace") != null) {
+        let oldSavePlace = localStorage.getItem("WallofHistorySavePlace");
+        localStorage.clear();
+        localStorage.setItem("savePlace:0", oldSavePlace);
+    }
+
     if (localStorage.getItem("version") != "1.0") {
         // Try to convert saved place first.
         localStorage.setItem("version", "1.0");
@@ -63,11 +69,6 @@ async function initialize() {
 
     if (localStorage.getItem("fontSize") === null) {
         localStorage.setItem("fontSize", "normal");
-    }
-
-    if (localStorage.getItem("WallofHistorySavePlace") != null) {
-        localStorage.setItem("savePlace:0", localStorage.getItem("WallofHistorySavePlace"));
-        localStorage.removeItem("WallofHistorySavePlace");
     }
 };
 
