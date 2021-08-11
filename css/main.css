@@ -716,7 +716,8 @@ main h2 a {
     flex-basis: 98.75;
 }
 
-.anchors:target p {
+.anchors:target p,
+.x-target p {
     background-color: var(--back3);
     border-radius: 0.125em;
 }
