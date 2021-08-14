@@ -87,3 +87,27 @@ aside {
         flex-grow: 1;
     }
 }
+
+@media only screen and (max-width: 960px) {
+    aside{
+        /* REMOVE PREVIOUS SETTINGS */
+        position: relative;
+        z-index: auto;
+        top: auto;
+        right: auto;
+
+        /* NEW SETTINGS */
+        margin: auto 1em;
+        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    aside button{
+        flex-grow: 1;
+    }
+
+    main {
+        width: 95%;
+    }
+}
