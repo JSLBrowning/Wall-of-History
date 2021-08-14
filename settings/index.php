@@ -22,13 +22,34 @@
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/read.css">
+    <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <title>Settings | Wall of History</title>
 </head>
 <body>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
-        <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/search/">Search</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
+    <aside>
+        <button id="navigationButton">&#9776;</button>
+        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">⮝</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">⮟</button>
+        <div id="navigationModal" class="modal">
+            <div class="modal-content">
+                <span id="navigationClose">&times;</span>
+                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
+                <p><a href="/read/">Contents</a></p>
+                <p><a href="/reference/">Reference</a></p>
+                <p><a href="/search/">Search</a></p>
+                <p><a href="/about/">About</a></p>
+                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                <p><a href="/contact/">Contact</a></p>
+            </div>
+        </div>
+        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+    </aside>
     <main>
         <h2><a onclick="resetReader()">Reset to Default</a></h2>
         <?php
@@ -40,7 +61,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/modal.js"></script>
     <!-- Fix modal error on settings page, possibly others. -->
     <script src="/js/settings.js"></script>
+    <script src="/js/palette.js"></script>
 </body>
 </html>

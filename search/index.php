@@ -22,6 +22,8 @@
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/read.css">
+    <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         form{
@@ -86,8 +88,27 @@
 <body>
     <header>
         <img src="/img/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
-        <p><a style="cursor: pointer;" onclick="jumpTo()">Read</a> | <a href="/read/">Contents</a> | <a href="/reference/">Reference</a> | <a href="/about/">About</a> | <a href="https://blog.wallofhistory.com/">Blog</a> | <a href="/contact/">Contact</a></p>
     </header>
+    <aside>
+        <button id="navigationButton">&#9776;</button>
+        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">⮝</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">⮟</button>
+        <div id="navigationModal" class="modal">
+            <div class="modal-content">
+                <span id="navigationClose">&times;</span>
+                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
+                <p><a href="/read/">Contents</a></p>
+                <p><a href="/reference/">Reference</a></p>
+                <p><a href="/search/">Search</a></p>
+                <p><a href="/about/">About</a></p>
+                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                <p><a href="/contact/">Contact</a></p>
+            </div>
+        </div>
+        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+    </aside>
     <main>
         <form action="/search/" style="margin: auto;">
             <input type="text" placeholder="Search…" name="q">
@@ -120,7 +141,7 @@
                 }
             }
 
-            $sql = "SELECT id, title, snippet, main FROM woh_content WHERE (`title` LIKE '%".$query."%') OR (`main` LIKE '%".$query."%')";
+            $sql = "SELECT id, content_version, title, snippet, main FROM woh_content WHERE (`title` LIKE '%".$query."%') OR (`main` LIKE '%".$query."%')";
 
             // Perfom selection.
             $result = $mysqli->query($sql);
@@ -132,8 +153,22 @@
 
             if ($result->num_rows > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row['title'] . "</h3>";
-                    echo "<p>" . $row['snippet'] . "</p>";
+                    $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["id"] . "' AND tag = 'chapter')";
+
+                    $result_chapter = $mysqli->query($sql_chapter);
+                    $num_chap = mysqli_num_rows($result_chapter);
+                    if ($num_chap == 0) {
+                        echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row['title'] . "</h3>";
+                        echo "<p>" . $row['snippet'] . "</p>";
+                    } else {
+                        $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["id"] . "' AND woh_web.child_version = " . $row["content_version"];
+
+                        $result_title = $mysqli->query($sql_title);
+                        while ($row_title = $result_title->fetch_assoc()) {
+                            echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row_title["title"] . ": " . $row['title'] . "</h3>";
+                            echo "<p>" . $row['snippet'] . "</p>";
+                        }
+                    }
                 }
             } else {
                 echo "<p>Your search returned zero results.</p>";
@@ -146,12 +181,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/modal.js"></script>
     <script>
+        // Fix this.
         availableTags = ["Tahu", "Onua", "Mata Nui"];
 
         $("input").autocomplete({
             source: availableTags
         });
     </script>
+    <script src="/js/palette.js"></script>
 </body>
 </html>
