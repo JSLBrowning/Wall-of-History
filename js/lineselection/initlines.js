@@ -1,5 +1,10 @@
+let latestSelection = 1;
+
 $("main span a").click(function(e) {
     if (e.ctrlKey) {
+        return false;
+    }
+    if (e.shiftKey) {
         return false;
     }
 })
@@ -7,6 +12,10 @@ $("main span a").click(function(e) {
 window.onload = (event) => {
     $("span").removeClass("x-target");
     newSelections();
+    if (window.location.hash != "") {
+        latestSelection = simplify(window.location.hash.substring(2).split(",")).reverse()[0];
+    }
+    console.log(latestSelection);
 };
 
 window.onhashchange = function() {
@@ -38,18 +47,40 @@ function newSelections() {
 }
 
 $(".anchor").click(function(e) {
+    // Weird behavior on DE-selection. Fix.
     if (e.ctrlKey && $(this).parent().hasClass("x-target")) {
         removeHash($(this).parent().attr("id"));
         $(this).parent().removeClass("x-target");
     } else if (e.ctrlKey && !($(this).parent().hasClass("x-target"))) {
         addHash($(this).parent().attr("id"));
         $(this).parent().addClass("x-target");
+        latestSelection = $(this).parent().attr("id").substring(1);
+    } else if (e.shiftKey && !($(this).parent().hasClass("x-target"))) {
+        let lowEnd = 0;
+        let highEnd = 0;
+
+        if (parseInt($(this).parent().attr("id").substring(1)) > latestSelection) {
+            lowEnd = latestSelection;
+            highEnd = parseInt($(this).parent().attr("id").substring(1));
+        } else {
+            highEnd = latestSelection;
+            lowEnd = parseInt($(this).parent().attr("id").substring(1));
+        }
+
+        for (let i = lowEnd; i <= highEnd; i++) {
+            addHash("p" + String(i));
+            $("#p" + String(i)).addClass("x-target");
+        }
     }
+
+    // SHIFT CLICK: find max value beneath selected value (1 if none targeted yet) and target evertyhing in between.
 });
 
 function removeHash(id) {
-    let currentHashes = window.location.href.split("#")[1].substring(1).split(",");
-    let removedHash = id.substring(1);
+    let currentHashes = simplify(window.location.href.split("#")[1].substring(1).split(","));
+    console.log(currentHashes);
+    let removedHash = parseInt(id.substring(1));
+    console.log(removedHash);
     const indexRemoved = currentHashes.indexOf(removedHash);
 
     if (indexRemoved > -1) {
@@ -59,7 +90,7 @@ function removeHash(id) {
     if (currentHashes.length === 0) {
         window.location.href = window.location.href.substr(0, window.location.href.indexOf('#'));
     } else {
-        window.location.hash = "p" + currentHashes.join(",");
+        window.location.hash = "p" + condense(simplify(currentHashes)).join(",");
     }
 }
 
@@ -72,27 +103,55 @@ function addHash(id) {
         currentHashes.push(addedHash);
         currentHashes.sort(function(a, b) { return a - b });
 
-        window.location.hash = "p" + currentHashes.join(",");
+        window.location.hash = "p" + condense(simplify(currentHashes)).join(",");
     }
 }
 
-
-let testArray = [1, 2, 3, 6, 8, 10, 11, 12, 15, 18];
-
-for (i = 0; i < testArray.length; i++) {
-    let consecutives = [];
-    consecutives.push(testArray[i]);
-    let j = i + 1;
-    while (j < testArray.length) {
-        if (testArray[j] == (testArray[j-1] + 1)) {
-            consecutives.push(testArray[j]);
-            j++;
-        } else {
-            break;
+function simplify(a) {
+    // Convert any ranges in a to raw numbers.
+    for (i = 0; i < a.length; i++) {
+        if (typeof a[i] === "string" && a[i].includes("-")) {
+            let lower = parseInt(a[i].split("-")[0]);
+            let upper = parseInt(a[i].split("-")[1]);
+            for (j = lower; j <= upper; j++) {
+                a.push(j);
+            }
+            a.splice(i, 1);
         }
     }
-    if (consecutives.length > 2) {
-        let range = String(testArray[i]) + "-" + String(testArray[j-1]);
-        console.log(range);
+
+    // Convert all to ints.
+    a = a.map(function(x) {
+        return parseInt(x, 10);
+    });
+
+    // Remove duplicates.
+    if (a.length > 1) {
+        a = a.filter((value, index) => a.indexOf(value) === index);
     }
+
+    return a.sort(function(a, b) { return a - b });
+}
+
+// This function condenses any subarrays of sequential numbers into ranges of numbers.
+// Ex.: [1, 2, 3, 6, 8, 10, 11, 12] becomes ["1-3", 6, 8, "10-12"]
+function condense(a) {
+    for (i = 0; i < a.length; i++) {
+        let consecutives = [];
+        consecutives.push(a[i]);
+        let j = i + 1;
+        while (j < a.length) {
+            if (a[j] == (a[j - 1] + 1)) {
+                consecutives.push(a[j]);
+                j++;
+            } else {
+                break;
+            }
+        }
+        if (consecutives.length >= 2) {
+            let range = String(a[i]) + "-" + String(a[j - 1]);
+            a.splice(i, j - i, range);
+        }
+    }
+    return a.map(String);
 }
