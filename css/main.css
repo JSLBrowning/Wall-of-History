@@ -744,6 +744,7 @@ main h2 a {
 .x-target p {
     background-color: var(--back3);
     border-radius: 0.125em;
+    transition: 0s;
 }
 
 fieldset {
