@@ -41,8 +41,8 @@ main h1{
 
 main object{
     padding-top: 8px;
-    max-height: 426px;
-    max-width: 639px;
+    max-height: 320px;
+    max-width: 480px;
 }
 
 #warning{
