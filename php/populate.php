@@ -251,7 +251,8 @@ function populateSettings()
     while ($row_tags = $result_tags->fetch_assoc()) {
         echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
     }
-    echo "</select><label for='lang'>Language…</label><select name=\"lang\" id=\"lang\" onchange=\"localStorage.setItem('languagePreference', this)\" onfocus=\"this.selectedIndex = -1;\"><option value=\"en\">English</option><option value=\"es\">Español</option></select></fieldset>";
+    echo "</select><label for='lang'>Language…</label><select name=\"lang\" id=\"lang\" onchange=\"localStorage.setItem('languagePreference', this.value)\" onfocus=\"this.selectedIndex = -1;\"><option value=\"en\">English</option><option value=\"es\">Español</option></select></fieldset>";
+    // onclick localStorage.setItem('languagePreference', 'es');
 
     $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.content_version=1 AND woh_content.content_language=\"en\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
