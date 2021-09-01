@@ -23,7 +23,7 @@ function populateHead($id, $lang, $v)
     // Another idea: make the names of CSS files match their associated type tags or pieces of content, then have them automatically be loaded.
     // Load CSS files of parents first, then self, so self always takes precedence.
 
-    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\"";
+    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\" AND woh_content.content_version = \"" . $v . "\"";
     // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
     // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
     // Need to work on it.
@@ -37,14 +37,13 @@ function populateHead($id, $lang, $v)
         if (is_null($row["large_image"])) {
             echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
                     <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
-                    <meta content='http://www.wallofhistory.co/img/ogp.png' property='og:image'/>
+                    <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>
                     <meta content='summary_large_image' name='twitter:card'/>
                     <meta content='@Wall_of_History' name='twitter:site'/>
                     <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
         } else {
             echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
                     <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
-                    <meta content='http://www.wallofhistory.co/img/ogp.png' property='og:image'/>
                     <meta content='" . $row["large_image"] . "' property='og:image'/>
                     <meta content='summary_large_image' name='twitter:card'/>
                     <meta content='@Wall_of_History' name='twitter:site'/>
