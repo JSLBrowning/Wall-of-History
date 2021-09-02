@@ -141,9 +141,10 @@ function findSelf() {
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
+    let currentID = document.getElementById("downloadMarker").innerHTML;
     for (index = 0; index < readingOrder.length; index++) {
         let candidate = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
-        if (candidate == urlParams.get('id')) {
+        if (candidate == currentID) {
             result = index;
         }
     }
@@ -326,7 +327,7 @@ function readAsStandaloneSetup(id) {
 }
 
 async function readAsStandalone() {
-    let currentID = new URLSearchParams(window.location.search).get("id");
+    let currentID = document.getElementById("downloadMarker").innerHTML;
     let newOrder = await readAsStandaloneSetup(currentID);
     localStorage.setItem("readingOrder:" + currentID, newOrder);
     sessionStorage.setItem("activeReadingOrder", currentID);
@@ -336,9 +337,8 @@ async function readAsStandalone() {
 /* DOWNLOAD FUNCTIONS */
 
 function downloadContent() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentID = urlParams.get("id");
-
+    let currentID = document.getElementById("downloadMarker").innerHTML;
+    
     $.get("/doc/downloads/" + currentID + ".zip")
         .done(function() {
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";

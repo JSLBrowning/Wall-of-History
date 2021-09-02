@@ -69,6 +69,7 @@
     <header>
         <?php
             loadHeader($id, $lang, $v);
+            echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
     </header>
     <aside>
