@@ -23,7 +23,7 @@ function populateHead($id, $lang, $v)
     // Another idea: make the names of CSS files match their associated type tags or pieces of content, then have them automatically be loaded.
     // Load CSS files of parents first, then self, so self always takes precedence.
 
-    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\" AND woh_content.content_version = \"" . $v . "\"";
+    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\" AND woh_content.content_version = \"" . $v . "\" AND woh_content.content_language = \"" . $lang . "\"";
     // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
     // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
     // Need to work on it.
@@ -97,18 +97,28 @@ function hasChildren($id, $lang, $v)
             }
         }
 
+        // WHAT THE FUCK HAPPENED HERE?!
+        $uniquea = [];
         // This loop echoes the individual children.
         while ($row = $result->fetch_assoc()) {
-            echo "<button class='contentsButton' onclick='goTo(\"" . $row["cid"] . "." . $row["content_version"] . "\")'>";
-            if ($row["small_image"] != NULL) {
-                echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
-            }
-            $snippet = (string) $row["snippet"];
-            if (strlen($snippet) > 196) {
-                echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></div></button>";
+            $uniqueid = $row["cid"];
+
+            if (in_array($uniqueid, $uniquea)) {
+                continue;
             } else {
-                echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></div></button>";
+                echo "<button class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $row["content_version"] . "\")'>";
+                if ($row["small_image"] != NULL) {
+                    echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
+                }
+                $snippet = (string) $row["snippet"];
+                if (strlen($snippet) > 196) {
+                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></div></button>";
+                } else {
+                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></div></button>";
+                }
             }
+
+            array_push($uniquea, $uniqueid);
         }
     }
 }
