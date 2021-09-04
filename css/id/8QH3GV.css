@@ -1,25 +1,7 @@
 :root {
     --back1: #060604;
-    /* RGB08, drop shadow */
-    --back2: #0C0D09;
-    /* RGB22, main background, button:active */
-    --back3: #13130D;
-    /* RGB32, borders, button:hover, etc. */
-    --back4: #191A12;
 
     --border: #13130D;
-
-    --front1: #ffffff;
-    /* RGB255, text */
-    --front2: #cfcfcf;
-    /* RGB207, a:hover */
-    --front3: #9f9f9f;
-    /* RGB159, a:active */
-
-    --fontweight: normal;
-
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
 
 :root.light {
@@ -27,15 +9,15 @@
     --front2: #0C0D09;
     --front3: #13130D;
 
-    --border: #CBCCCF;
+    --border: #6F706E;
 
     --back4: #FFFFFF;
     --back3: #F9F9FA;
     --back2: #E5E6EB;
     --back1: #B1B1B2;
+}
 
-    --fontweight: bold;
-
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+body{
+    background: var(--back2);
+    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #0C0D09 100%);
 }
