@@ -54,12 +54,33 @@ function populateHead($id, $lang, $v)
 
 function addCSS($id, $lang, $v)
 {
+    // TYPE
     include("..//php/db_connect.php");
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
         echo "<link rel='stylesheet' type='text/css' href='/css/type/" . $row["tag"] . ".css'>\n";
     }
+
+    // GRANDPARENT
+    $sqlgp = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
+    $resultgp = $mysqli->query($sqlgp);
+    if (mysqli_num_rows($resultgp) > 0) {
+        while ($rowgp = $resultgp->fetch_assoc()) {
+            echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $rowgp["parent_id"] . ".css'>\n";
+        }
+    }
+
+    // PARENT
+    $sqlp = "SELECT parent_id FROM woh_web WHERE child_id ='" . $id . "';";
+    $resultp = $mysqli->query($sqlp);
+    if (mysqli_num_rows($resultp) > 0) {
+        while ($rowp = $resultp->fetch_assoc()) {
+            echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $rowp["parent_id"] . ".css'>\n";
+        }
+    }
+
+    // SELF
     echo "    <link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>";
 }
 

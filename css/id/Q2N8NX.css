@@ -1,0 +1,34 @@
+:root {
+    --back1: #000C00;
+    /* RGB08, drop shadow */
+    --back2: #001700;
+    /* RGB22, main background, button:active */
+    --back3: #003B00;
+    /* RGB32, borders, button:hover, etc. */
+    --border: #003B00;
+    --back4: #005F00;
+    --front1: #ffffff;
+    /* RGB255, text */
+    --front2: #cfcfcf;
+    /* RGB207, a:hover */
+    --front3: #9f9f9f;
+    /* RGB159, a:active */
+    --fontweight: normal;
+    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
+    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+}
+
+:root.light {
+    --front1: #001200;
+    --front2: #001700;
+    --front3: #003B00;
+    --border: #CBCCCF;
+    --back4: #FFFFFF;
+    --back3: #F9F9FA;
+    --back2: #E5E6EB;
+    --back1: #B1B1B2;
+    --fontweight: bold;
+    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
+    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+}
+
