@@ -140,7 +140,7 @@ main {
     margin: 1em auto;
     padding: 8px 0px;
     width: 90%;
-    max-width: 640px;
+    max-width: 720px;
     border: 1px solid var(--border);
     background: var(--back2);
     box-shadow: var(--outershadow);
@@ -183,7 +183,7 @@ main h3 {
 
 audio {
     width: 100%;
-    max-width: 640px;
+    max-width: 720px;
 }
 
 main p {
@@ -731,11 +731,13 @@ main h2 a {
 .anchor,
 .anchor:visited {
     padding: 0.5em;
-    flex-basis: 1.25%;
     color: var(--front3);
     font-weight: bold;
     text-decoration: none;
     font-size: var(--pfontsize);
+    /* REWORK BELOW */
+    min-width: 24px;
+    text-align: center;
 }
 
 .anchors p {
@@ -781,4 +783,15 @@ fieldset select {
 
 main p a {
     font-weight: 600;
+}
+
+@media only screen and (max-width: 640px) {
+    .anchor,
+    .anchor:visited {
+        padding-top: 0.875em;
+        font-size: 0.875em;
+        /* REWORK BELOW */
+        min-width: 18px;
+        text-align: center;
+    }
 }
