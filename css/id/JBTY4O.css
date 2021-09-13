@@ -1,12 +1,12 @@
 :root {
-    --back1: #00040F;
+    --back1: #040813;
     /* RGB08, drop shadow */
-    --back2: #00071e;
+    --back2: #0B0F1A;
     /* RGB22, main background, button:active */
-    --back3: #1C2337;
+    --back3: #10141F;
     /* RGB32, borders, button:hover, etc. */
-    --border: #1C2337;
-    --back4: #393E50;
+    --border: #10141F;
+    --back4: #181C27;
     --front1: #ffffff;
     /* RGB255, text */
     --front2: #cfcfcf;
@@ -19,9 +19,9 @@
 }
 
 :root.light {
-    --front1: #00040F;
-    --front2: #00071e;
-    --front3: #1C2337;
+    --front1: #040813;
+    --front2: #0B0F1A;
+    --front3: #10141F;
     --border: #CBCCCF;
     --back4: #FFFFFF;
     --back3: #F9F9FA;
@@ -31,4 +31,3 @@
     --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
     --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
-

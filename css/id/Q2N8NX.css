@@ -1,12 +1,13 @@
+/* https://meyerweb.com/eric/tools/color-blend/#99FF00:001700:8:hex */
 :root {
     --back1: #000C00;
     /* RGB08, drop shadow */
     --back2: #001700;
     /* RGB22, main background, button:active */
-    --back3: #003B00;
+    --back3: #113100;
     /* RGB32, borders, button:hover, etc. */
-    --border: #003B00;
-    --back4: #005F00;
+    --border: #113100;
+    --back4: #224B00;
     --front1: #ffffff;
     /* RGB255, text */
     --front2: #cfcfcf;
@@ -19,9 +20,9 @@
 }
 
 :root.light {
-    --front1: #001200;
+    --front1: #000C00;
     --front2: #001700;
-    --front3: #003B00;
+    --front3: #113100;
     --border: #CBCCCF;
     --back4: #FFFFFF;
     --back3: #F9F9FA;
@@ -31,4 +32,3 @@
     --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
     --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
 }
-
