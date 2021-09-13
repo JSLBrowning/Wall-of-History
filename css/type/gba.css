@@ -10,7 +10,7 @@ main{
     border: solid var(--border);
     border-width: 0px 1px 1px 1px;
     border-radius: 0em 0em 1em 1em;
-    width: 639px;
+    width: 480px;
     box-shadow: var(--outershadow);
 
     font-family: "Gill Sans Std";
