@@ -1,7 +1,7 @@
 /* https://meyerweb.com/eric/tools/color-blend/#DCDE96:001700:8:hex */
 /* #DCDE96 is the average color of the Bohrok-themed BIONICLE logo, with the dark green background (#001700) removed. */
 :root {
-    --back1: #000C00;
+    --back1: #041004;
     /* RGB08, drop shadow */
     --back2: #001700;
     /* RGB22, main background, button:active */
@@ -21,7 +21,7 @@
 }
 
 :root.light {
-    --front1: #000C00;
+    --front1: #041004;
     --front2: #001700;
     --front3: #182D11;
     --border: #CBCCCF;
