@@ -86,15 +86,9 @@ CREATE TABLE WoH_adaptations(
 );
 
 /*
-TO-DO AFTER:
-
-1. Need to add chapter tags:
-INSERT INTO WoH_tags VALUES ("5TFFSE", "organizational", "chapter", NULL);
+TO-DO:
 Fix Spanish BtB chapters two and three.
-Remove author tags from chapters (the twelve big chapters, I mean).
 Remove the accidental recommended booleans from parent items (ex. Trial by Fire).
 Try and standardize single quotes, double quotes, escapes, et cetera.
-Remove em tags from MNOG chapter titles. Blah blah blah.
-Cards shouldn't be chapters, their names are descriptive enough.
-Add images. Obviously.
 */
+

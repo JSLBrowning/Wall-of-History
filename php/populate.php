@@ -284,7 +284,7 @@ function populateSettings()
     echo "</select><label for='lang'>Language…</label><select name=\"lang\" id=\"lang\" onchange=\"localStorage.setItem('languagePreference', this.value)\" onfocus=\"this.selectedIndex = -1;\"><option value=\"en\">English</option><option value=\"es\">Español</option></select></fieldset>";
     // onclick localStorage.setItem('languagePreference', 'es');
 
-    $sql = "SELECT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE child_id NOT IN (SELECT parent_id FROM woh_web) AND woh_content.content_version=1 AND woh_content.content_language=\"en\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
+    $sql = "SELECT DISTINCT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_content.content_version=1 AND child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) AND woh_content.content_language=\"en\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
 
     echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -310,7 +310,7 @@ function populateSettings()
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
-                echo "              <input data-type='game' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
+                echo "              <input data-type='" . $itemtags . "' data-author='GregFarshtey' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
                 echo "              <label for='" . $row["cid"] . ".1'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
             }
         }
