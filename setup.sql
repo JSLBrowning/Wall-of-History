@@ -1,4 +1,7 @@
 USE test;
+/* Replace with your own database. */
+
+/* CONTENT SETUP */
 
 CREATE TABLE WoH_metadata(
     id varchar(6) PRIMARY KEY,
@@ -85,10 +88,47 @@ CREATE TABLE WoH_adaptations(
     adaptation_id varchar(6) NOT NULL
 );
 
-/*
-TO-DO:
-Fix Spanish BtB chapters two and three.
-Remove the accidental recommended booleans from parent items (ex. Trial by Fire).
-Try and standardize single quotes, double quotes, escapes, et cetera.
-*/
+/* REFERENCE SETUP */
 
+CREATE TABLE reference_metadata (
+    id varchar(6) PRIMARY KEY,
+    snippet text,
+    small_image text,
+    publication_date date
+);
+
+CREATE TABLE reference_content (
+    id varchar(6) PRIMARY KEY,
+    css int,
+    header int NOT NULL,
+    main longtext,
+    word_count int
+);
+
+CREATE TABLE reference_titles (
+    id varchar(6) NOT NULL,
+    title text NOT NULL
+);
+
+CREATE TABLE reference_images (
+    id varchar(6) NOT NULL,
+    spoiler_level int, /* Necessary? */
+    image_path text NOT NULL
+);
+
+CREATE TABLE reference_quotes (
+    title text NOT NULL,
+    quote text NOT NULL
+);
+
+CREATE TABLE reference_web (
+    parent_id varchar(6) NOT NULL,
+    child_id varchar(6) NOT NULL
+);
+
+CREATE TABLE reference_greg (
+    posted datetime PRIMARY KEY, /* Bad idea? */
+    question text NOT NULL,
+    answer text NOT NULL,
+    permalink text
+);
