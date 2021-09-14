@@ -1,0 +1,21 @@
+:root {
+    --border: #5E4F3C;
+}
+
+:root.light {
+    --front1: #524330;
+    --front2: #594A37;
+    --front3: #5E4F3C;
+
+    --border: #B3A593;
+
+    --back4: #FFFFFF;
+    --back3: #F9F9FA;
+    --back2: #E5E6EB;
+    --back1: #B1B1B2;
+}
+
+body{
+    background: var(--back2);
+    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #524330 100%);
+}
