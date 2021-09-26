@@ -1,0 +1,21 @@
+/* The primary color here #B8BF48, was taken from Faber's Voya Nui logo (it's the average of the inner green part of the icon). */
+
+:root {
+    --border: #6C7034;
+}
+
+:root.light {
+    --front1: #080808;
+    --front2: #676B2F;
+    --front3: #6C7034;
+    --border: #C2C68C;
+    --back4: #FFFFFF;
+    --back3: #F9F9FA;
+    --back2: #E5E6EB;
+    --back1: #B1B1B2;
+}
+
+body {
+    background: var(--back2);
+    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #676B2F 100%);
+}
