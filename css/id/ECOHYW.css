@@ -17,5 +17,5 @@
 
 body{
     background: var(--back2);
-    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #524330 100%);
+    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #594A37 100%);
 }
