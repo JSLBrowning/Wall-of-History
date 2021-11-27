@@ -1,0 +1,21 @@
+/* #366092 */
+
+:root {
+    --border: #2B4059;
+}
+
+:root.light {
+    --front1: #1F344D;
+    --front2: #263B54;
+    --front3: #2B4059;
+    --border: #CBCCCF;
+    --back4: #FFFFFF;
+    --back3: #F9F9FA;
+    --back2: #E5E6EB;
+    --back1: #B1B1B2;
+}
+
+body {
+    background: var(--back2);
+    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #263B54 100%);
+}
