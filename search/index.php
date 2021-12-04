@@ -104,6 +104,7 @@
                 <p><a href="/search/">Search</a></p>
                 <p><a href="/about/">About</a></p>
                 <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
                 <p><a href="/contact/">Contact</a></p>
             </div>
         </div>
