@@ -1,11 +1,4 @@
-/* TO-DO: Combine into main.css */
-
-
-/* The Modal (background) */
-
 .modal {
-    display: none;
-    /* Hidden by default */
     position: fixed;
     /* Stay in place */
     z-index: 3;
@@ -16,202 +9,25 @@
     /* Full width */
     height: 100%;
     /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 0.5s ease-in-out;
 }
 
-
-/* Modal Content/Box */
-
-.modal-content,
-.modal-data {
-    background: var(--back2);
-    margin: 5% auto 5% auto;
-    /* 15% from the top and centered */
-    padding: 0em;
-    border-radius: 1.5em;
-    width: 80%;
-    /* Could be more or less, depending on screen size */
-    max-width: 720px;
-    box-shadow: var(--innershadow);
-}
-
-.modal-content img,
-.modal-data img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin: 0px;
-    width: 100%;
-    max-width: 640px;
-    padding: 0px;
-}
-
-.modal-content p,
-.modal-data img {
-    font-family: 'Gill Sans Std';
-    color: var(--front1);
-    font-size: 1.125em;
-}
-
-
-/* The Close Button */
-
-.close,
-#navigationClose,
-#settingsClose {
-    color: var(--front1);
-    float: right;
-    margin: 0.25em 0.5em;
-    font-size: 1.5em;
-    transition: all .15s ease-in-out;
-    user-select: none;
-}
-
-.close:hover,
-.close:focus,
-#navigationClose:hover,
-#navigationClose:focus,
-#settingsClose:hover,
-#settingsClose:focus {
-    color: var(--back1);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-
-/* Uh... */
-
-.modal {
-    display: none;
+.modal-content-left {
+    height: 100%;
+    width: 0px;
     position: fixed;
     z-index: 1;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: var(--back1);
-    background-color: rgba(18, 18, 18, 0.9375);
-    animation: fadeinback .25s;
+    left: 0;
+    background-color: red;
+    overflow-x: hidden;
+    transition: all 0.5s ease-in-out;
+    padding-top: 60px;
 }
 
-.modal-content,
-.modal-data {
-    width: 90%;
-    max-width: 560px;
-    border-radius: 1em;
-    border: 1px solid var(--back3);
-    background: var(--back2);
-    margin: 5% auto;
-    padding: 8px;
-    position: relative;
-    animation: fadein .25s;
-}
-
-@keyframes fadeinback {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes fadein {
-	from {
-		opacity: 0;
-        scale: 0.9375;
-	}
-	to {
-		opacity: 1;
-        scale: 1;
-	}
-}
-
-.modal-content img,
-.modal-data img {
-    width: 100%;
-    max-width: 640px;
-    border-radius: 8px 8px 0px 0px;
-}
-
-.modal-content h1,
-.modal-content h2,
-.modal-data h1,
-.modal-data h2 {
-    text-align: center;
-    padding: 8px 8px;
-    line-height: 1.25em;
-    font-family: 'TradeMarker';
-    font-weight: bold;
-    color: var(--front2);
-}
-
-.modal-content h1,
-.modal-data h1 {
-    padding-bottom: 0px;
-}
-
-.modal-content p,
-.modal-data p,
-.modal-data ul .modal-data li {
-    margin: 0.5em 1em;
-    position: relative;
-    overflow: hidden;
-    color: var(--front2);
-    font-family: 'Gill Sans Std';
-    font-style: normal;
-    line-height: 1.5;
-    font-size: 1em;
-    letter-spacing: .125rem;
-}
-
-.modal-content a{
-    transition: all .15s ease-in-out;
-}
-
-.modal-content ul,
-.modal-content li {
-    font-family: 'Gill Sans Std';
-    color: var(--front1);
-    font-size: 0.875em;
-}
-
-.modal-content .source {
-    text-align: center;
-    font-size: 0.875em;
-}
-
-.closediv {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-}
-
-.close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    text-align: center;
-    color: var(--front1);
-    font-size: 2em;
-    font-weight: bold;
-    padding: 8px;
-}
-
-.close:hover {
-    color: var(--front2);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.close:active {
-    color: var(--front3);
-    text-decoration: none;
-    cursor: pointer;
+.modal-content-left-visible {
+    width: 250px;
+    transition: all 0.5s ease-in-out;
 }

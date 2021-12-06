@@ -1,3 +1,4 @@
+css/modal_old.css
 doc/
 gba/
 img/posters/
@@ -7,6 +8,7 @@ img/storyboards/
 js/lineselection/init_lines.js
 js/lineselection/range_selector.js
 js/lineselection/simplified_ranges.js
+js/modal_old.js
 story/
 test/
 /google10d6bbdd3fd215a0.html
