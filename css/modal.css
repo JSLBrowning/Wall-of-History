@@ -1,33 +1,212 @@
 .modal {
     position: fixed;
-    /* Stay in place */
-    z-index: 3;
-    /* Sit on top */
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
-    visibility: hidden;
+    z-index: 0;
     background-color: rgba(0, 0, 0, 0);
-    transition: all 0.5s ease-in-out;
+    visibility: hidden;
+    transition: all 0.375s ease-in-out;
 }
 
 .modal-content-left {
-    height: 100%;
-    width: 0px;
     position: fixed;
-    z-index: 1;
-    top: 0;
+    margin-left: -200px;
+    top: 2.5%;
     left: 0;
-    background-color: red;
+    width: 200px;
+    height: 95%;
+    z-index: 0;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-left: 0px;
+    border-radius: 0px 1em 1em 0px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
     overflow-x: hidden;
-    transition: all 0.5s ease-in-out;
-    padding-top: 60px;
+    transition: all 0.375s ease-in-out;
+}
+
+.modal-visible {
+    z-index: 8;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: visible;
 }
 
 .modal-content-left-visible {
-    width: 250px;
-    transition: all 0.5s ease-in-out;
+    z-index: 9;
+    margin-left: 0px;
+    width: 300px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+}
+
+.modal-content-right {
+    position: fixed;
+    margin-right: -200px;
+    top: 2.5%;
+    right: 0;
+    width: 200px;
+    height: 95%;
+    z-index: 0;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-right: 0px;
+    border-radius: 1em 0px 0px 1em;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    overflow-x: hidden;
+    transition: all 0.375s ease-in-out;
+}
+
+.modal-content-right-visible {
+    z-index: 9;
+    margin-right: 0px;
+    width: 300px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+}
+
+.modal-content-center {
+    position: fixed;
+    top: 100%;
+    left: 25%;
+    width: 50%;
+    right: 25%;
+    margin-bottom: -47.5%;
+    height: 47.5%;
+    z-index: 0;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 1em;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    overflow-y: scroll;
+    transition: all 0.375s ease-in-out;
+}
+
+.modal-content-center-visible {
+    z-index: 9;
+    top: 5%;
+    height: 90%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+}
+
+
+/* OLD STUFF */
+
+.modal-content img,
+.modal-data img {
+    width: 100%;
+    max-width: 640px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.modal-content h1,
+.modal-content h2,
+.modal-data h1,
+.modal-data h2 {
+    text-align: center;
+    padding: 8px 8px;
+    line-height: 1.25em;
+    font-family: 'TradeMarker';
+    font-weight: bold;
+    color: var(--front1);
+}
+
+.modal-content h1,
+.modal-data h1 {
+    padding-bottom: 0px;
+}
+
+.modal-content p,
+.modal-data p,
+.modal-data ul,
+.modal-data li {
+    margin: 0.5em 1em;
+    position: relative;
+    overflow: hidden;
+    color: var(--front2);
+    font-family: 'Gill Sans Std';
+    font-style: normal;
+    line-height: 1.5;
+    font-size: 1em;
+    letter-spacing: .125rem;
+    color: var(--front1);
+}
+
+.modal-content p:first-of-type {
+    margin-top: 1em;
+}
+
+.modal-content a,
+.modal-content a:visited {
+    display: inline-block;
+    transition: all .15s ease-in-out;
+    color: var(--front2);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
+    transition: 0.25s;
+    padding: 0.5em;
+}
+
+.modal-content a:hover {
+    color: var(--front1);
+    font-size: 1.0625em;
+    cursor: pointer;
+}
+
+.modal-content a:active {
+    color: var(--front3);
+    font-size: 0.9375em;
+    cursor: pointer;
+}
+
+.modal-content ul,
+.modal-content li {
+    font-family: 'Gill Sans Std';
+    color: var(--front1);
+    font-size: 0.875em;
+}
+
+.modal-content .source {
+    text-align: center;
+    font-size: 0.875em;
+}
+
+.close {
+    z-index: 10;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: center;
+    color: var(--front2);
+    font-size: 2em;
+    font-weight: bold;
+    padding: 4px 12px;
+    transition: 0.25s;
+}
+
+.modal-content-right .close {
+    right: unset;
+    left: 0px;
+    /* Maybe just make this normal text with the right alignment
+    (right alignment on right, left on left), so it doesn't
+    overlap with any of the text. */
+}
+
+.modal-content-right p {
+    text-align: right;
+}
+
+.close:hover {
+    color: var(--front1);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 2.125em;
+}
+
+.close:active {
+    color: var(--front3);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.875em;
 }
