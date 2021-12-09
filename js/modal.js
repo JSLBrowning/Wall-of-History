@@ -1,5 +1,4 @@
 function toggleModal(id) {
-    console.log("1");
     let targetModal = document.getElementById(id);
     let targetModalContent = document.getElementById(id).children[0];
     let modalStyle = window.getComputedStyle(targetModal);
@@ -17,6 +16,9 @@ function toggleModal(id) {
             targetModalContent.classList.remove("modal-content-left-visible");
         } else if (targetModalContent.classList.contains("modal-content-right-visible")) {
             targetModalContent.classList.remove("modal-content-right-visible");
+        } else {
+            // ?
+            targetModalContent.classList.remove("modal-content-center-visible");
         }
     }
 }
@@ -55,12 +57,15 @@ function getModalContent(identifier) {
     let modalStyle = window.getComputedStyle(targetModal);
     let modalVisibility = modalStyle.getPropertyValue("visibility");
 
+    let subject = $(identifier).data('reference');
+
     // FETCH MODAL CONTENT
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("modal-data").innerHTML = this.responseText;
 
+            /*
             spoilerlevel = parseInt(localStorage.getItem("WallofHistorySpoilerLevel"));
             children = document.getElementById("modal-data").children;
             for (i = 0; i < children.length; i++) {
@@ -70,9 +75,10 @@ function getModalContent(identifier) {
                     }
                 }
             }
+            */
         }
     };
-    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + identifier, true);
+    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject, true);
     xmlhttp.send();
 
     if (modalVisibility == "hidden") {
