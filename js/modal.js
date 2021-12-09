@@ -49,10 +49,32 @@ document.addEventListener('keydown', function(event) {
 });
 
 function getModalContent(identifier) {
+    // FIND MODAL
     let targetModal = document.getElementById("myModal");
     let targetModalContent = document.getElementById("myModal").children[0];
     let modalStyle = window.getComputedStyle(targetModal);
     let modalVisibility = modalStyle.getPropertyValue("visibility");
+
+    // FETCH MODAL CONTENT
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("modal-data").innerHTML = this.responseText;
+
+            spoilerlevel = parseInt(localStorage.getItem("WallofHistorySpoilerLevel"));
+            children = document.getElementById("modal-data").children;
+            for (i = 0; i < children.length; i++) {
+                if (children[i].hasAttribute("data-spoiler")) {
+                    if (parseInt(children[i].getAttribute("data-spoiler")) > spoilerlevel) {
+                        children[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    };
+    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + identifier, true);
+    xmlhttp.send();
+
     if (modalVisibility == "hidden") {
         targetModal.classList.add("modal-visible");
         targetModalContent.classList.add("modal-content-center-visible");
