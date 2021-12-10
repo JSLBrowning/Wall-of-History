@@ -73,18 +73,12 @@
         ?>
     </header>
     <aside>
-        <button id="navigationButton">&#9776;</button>
-        <button id="settingsButton">&#9881;</button>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">⮝</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">⮟</button>
-        <!-- DOWNLOAD BUTTON -->
-        <!-- The a wrapper doesn't seem to be affecting CSS at the moment, but it might be a good idea to give it a unique id anyway, JUST to be sure… -->
-        <a id="downloadLink" href="/doc/BIONICLE Year One.pdf" download="BIONICLE Year One.pdf" target="_blank" style="display: none;"><button id="downloadButton">🡳</button></a>
+        <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
         <!-- MAIN NAVIGATION MENU MODAL -->
+        <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
         <div id="navigationModal" class="modal">
-            <div class="modal-content">
-                <span id="navigationClose">&times;</span>
+            <div class="modal-content modal-content-left">
+                <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
                 <p>
                 <?php
                     if (count($_GET)) {
@@ -103,15 +97,19 @@
             </div>
         </div>
         <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+        <button id="settingsButton" onclick="toggleModal('settingsModal')">&#9881;</button>
         <div id="settingsModal" class="modal">
-            <div class="modal-content">
-                <span id="settingsClose">&times;</span>
+            <div class="modal-content modal-content-right">
+                <span class="close" id="settingsClose" onclick="toggleModal('settingsModal')">&times;</span>
                 <?php
                     include("..//php/populatesettingsmodal.php");
                     populateSettingsModal($id, $v, $lang);
                 ?>
             </div>
         </div>
+        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
+        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
+        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
     </aside>
     <main>
         <?php
