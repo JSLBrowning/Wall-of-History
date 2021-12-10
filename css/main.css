@@ -497,7 +497,6 @@ nav button:focus,
 }
 
 main hr,
-.maintext hr,
 .modalcontent hr {
     margin-left: 0em;
     margin-right: 0em;
@@ -505,8 +504,7 @@ main hr,
     border-top: 1px solid var(--border);
 }
 
-main hr,
-.maintext hr {
+main hr {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
@@ -617,31 +615,29 @@ main h2 a {
         max-width: 90%;
         height: auto;
     }
-    main,
-    .maintext {
+    main {
         margin: 8px auto;
         width: 95%;
         padding: 0px;
     }
     main h1,
-    .modalcontent h1,
-    .maintext h1 {
+    .modalcontent h1 {
         font-size: 1.25em;
     }
     main h2,
-    .modalcontent h2,
-    .maintext h2 {
+    .modalcontent h2 {
         font-size: 0.75em;
     }
+    main h2:first-of-type {
+        margin-top: 1em;
+    }
     main h3,
-    .modalcontent h3,
-    .maintext h3 {
+    .modalcontent h3 {
         font-size: var(--pfontsize);
     }
     main p,
     header p,
-    .modalcontent p,
-    .maintext p {
+    .modalcontent p {
         font-size: var(--pfontsize);
     }
     .social {
@@ -686,32 +682,6 @@ main h2 a {
     main {
         width: 95%;
     }
-}
-
-#gearbtndiv {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-}
-
-#gearbtn {
-    text-align: center;
-    color: var(--front1);
-    font-size: 2em;
-    font-weight: bold;
-    padding: 8px;
-}
-
-#gearbtn:hover {
-    color: var(--front2);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#gearbtn:active {
-    color: var(--front3);
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .contents p {

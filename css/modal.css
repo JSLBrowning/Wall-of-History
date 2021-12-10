@@ -67,9 +67,15 @@
 .modal-content-center {
     position: fixed;
     top: 100%;
-    left: 25%;
-    width: 50%;
-    right: 25%;
+    left: 37.5%;
+    width: 25%;
+    right: 37.5%;
+
+    left: calc(50% - 320px);
+    width: 640px;
+    right: calc(50% - 320px);
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: -47.5%;
     height: 47.5%;
     z-index: 0;
@@ -79,6 +85,21 @@
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
     transition: all 0.375s ease-in-out;
     overflow: visible;
+    /* This is still causing problems, most noticeable on mobile.
+    Make a JavaScript promise thing so *ALL* the content is loaded before the transition even starts. */
+}
+
+@media only screen and (max-width: 680px) {
+    .modal-content-center {
+        left: 5%;
+        width: 90%;
+        right: 5%;
+    }
+
+    .modal-content-center .close {
+        right: unset;
+        left: 0px;
+    }
 }
 
 .modal-content-center-visible {
@@ -210,4 +231,8 @@
     text-decoration: none;
     cursor: pointer;
     font-size: 1.875em;
+}
+
+.modal-content-center .close {
+    opacity: 50%;
 }
