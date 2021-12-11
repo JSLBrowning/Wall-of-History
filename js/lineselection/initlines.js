@@ -15,7 +15,7 @@ window.onload = (event) => {
     if (window.location.hash != "") {
         latestSelection = simplify(window.location.hash.substring(2).split(",")).reverse()[0];
     }
-    console.log(latestSelection);
+    // console.log(latestSelection);
 };
 
 window.onhashchange = function() {
