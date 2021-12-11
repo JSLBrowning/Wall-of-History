@@ -129,8 +129,8 @@ CREATE TABLE reference_web (
 CREATE TABLE reference_appearances (
     story_id varchar(6) NOT NULL,
     reference_id varchar(6) NOT NULL,
-    appearance_type int
-    /* Something like... 1 if they appear, 2 if they're just mentioned? */
+    appearance_type boolean
+    /* True if they actually appear, false if they're just mentioned. */
 )
 
 CREATE TABLE reference_greg (
