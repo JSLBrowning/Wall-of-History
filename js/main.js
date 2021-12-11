@@ -344,7 +344,7 @@ async function readAsStandalone() {
 
 function downloadContent() {
     let currentID = document.getElementById("downloadMarker").innerHTML;
-    
+
     $.get("/doc/downloads/" + currentID + ".zip")
         .done(function() {
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";

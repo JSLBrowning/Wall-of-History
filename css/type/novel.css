@@ -1,0 +1,19 @@
+main {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+body main .pages {
+    display: block;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.25em;
+    margin: 1em auto;
+    padding-bottom: 1.5em;
+}
+
+body main .pages .page {
+    font-size: 0.9375em;
+    padding: 0.25em;
+}

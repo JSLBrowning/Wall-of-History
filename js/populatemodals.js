@@ -35,6 +35,11 @@ function populateModalLinks() {
             return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>…');
         });
 
+        $("p:contains('" + referenceItems[i] + "?')").html(function(_, html) {
+            regex = new RegExp(referenceItems[i] + "?", "gi");
+            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>?');
+        });
+
         $(".contentsText p").find("a").contents().unwrap();
     }
 }

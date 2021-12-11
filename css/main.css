@@ -690,13 +690,19 @@ main h2 a {
     line-height: 1.25em;
 }
 
+.pages {
+    position: relative;
+}
+
 .anchors {
     display: flex;
     flex-direction: row;
 }
 
 .anchor,
-.anchor:visited {
+.anchor:visited,
+.pages .page,
+.pages .page:visited {
     padding: 0.5em;
     color: var(--front3);
     font-weight: bold;
@@ -710,6 +716,14 @@ main h2 a {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.pages .page {
+    position: absolute;
+    top: unset;
+    bottom: 0px;
+    left: unset;
+    right: 0px;
 }
 
 .anchors p {
@@ -759,7 +773,9 @@ main p a {
 
 @media only screen and (max-width: 640px) {
     .anchor,
-    .anchor:visited {
+    .anchor:visited,
+    .page,
+    .page:visited {
         padding-top: 0.875em;
         font-size: 0.875em;
         /* REWORK BELOW */
