@@ -166,42 +166,47 @@ function filteredSelf(readingOrder) {
 }
 
 function showButtons() {
-    let backButton = document.getElementById("backbutton");
-    let forwardButton = document.getElementById("forwardbutton");
+    if (document.getElementById("backbutton") !== null) {
+        let backButton = document.getElementById("backbutton");
+        let forwardButton = document.getElementById("forwardbutton");
 
-    if (findSelf() != undefined) {
-        // Display save/load place buttons.
-        $(document.getElementsByClassName("savefile")[0]).slideDown("slow");
+        if (findSelf() != undefined) {
+            // Display save/load place buttons.
+            $(document.getElementsByClassName("savefile")[0]).slideDown("slow");
 
-        // Display appropriate navigation buttons.
-        let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
-        let inners = filteredSelf(readingOrder);
+            // Display appropriate navigation buttons.
+            let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+            let inners = filteredSelf(readingOrder);
 
-        /**
-         * There are five values that are important here:
-         * The first item in a reading order, the first active item in that reading order...
-         * ...the current place, the last active item, and the last active item.
-         * The functions below ensure that you can always navigate the active items.
-         * If you're within the "inner start" and "inner end," both nav buttons appear.
-         * If you're outside of that range, only one nav button will appear —
-         * — whichever one will get you closer to the active range.
-         */
-        if (findSelf() <= inners[0]) {
-            forwardButton.style.display = "block";
-            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-        }
-        if (findSelf() >= inners[1]) {
-            backButton.style.display = "block";
-            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-        }
-        if ((inners[0] < findSelf()) && (findSelf() < inners[1])) {
-            backButton.style.display = "block";
-            forwardButton.style.display = "block";
-            $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+            /**
+             * There are five values that are important here:
+             * The first item in a reading order, the first active item in that reading order...
+             * ...the current place, the last active item, and the last active item.
+             * The functions below ensure that you can always navigate the active items.
+             * If you're within the "inner start" and "inner end," both nav buttons appear.
+             * If you're outside of that range, only one nav button will appear —
+             * — whichever one will get you closer to the active range.
+             */
+            if (findSelf() <= inners[0]) {
+                forwardButton.style.display = "block";
+                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+            }
+            if (findSelf() >= inners[1]) {
+                backButton.style.display = "block";
+                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+            }
+            if ((inners[0] < findSelf()) && (findSelf() < inners[1])) {
+                backButton.style.display = "block";
+                forwardButton.style.display = "block";
+                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+            }
+        } else {
+            document.getElementsByClassName("savefile")[0].remove();
+            document.getElementsByClassName("nav")[0].remove();
         }
     } else {
-        document.getElementsByClassName("savefile")[0].remove();
-        document.getElementsByClassName("nav")[0].remove();
+        console.log("No back/forward buttons found.");
+        window.clearInterval(showInterval);
     }
 }
 
@@ -209,6 +214,7 @@ let showInterval = window.setInterval(showCallback, 500);
 
 function showCallback() {
     // Find a better way to do this (probably involving async functions).
+    // This might be necessary for the... reading order select thing.
     showButtons();
 }
 
