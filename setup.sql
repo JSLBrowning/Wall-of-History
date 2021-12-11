@@ -126,6 +126,13 @@ CREATE TABLE reference_web (
     child_id varchar(6) NOT NULL
 );
 
+CREATE TABLE reference_appearances (
+    story_id varchar(6) NOT NULL,
+    reference_id varchar(6) NOT NULL,
+    appearance_type int
+    /* Something like... 1 if they appear, 2 if they're just mentioned? */
+)
+
 CREATE TABLE reference_greg (
     posted datetime PRIMARY KEY, /* Bad idea? */
     question text NOT NULL,
