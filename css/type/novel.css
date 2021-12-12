@@ -17,3 +17,7 @@ body main .pages .page {
     font-size: 0.9375em;
     padding: 0.25em;
 }
+
+body main .pages p {
+    display: inline;
+}

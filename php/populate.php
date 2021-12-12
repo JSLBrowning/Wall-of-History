@@ -12,18 +12,16 @@
         IF EXIT PAGE OR RELOAD TO PAGE OUTSIDE READING ORDER, DELETE TEMP ORDER.
         IF LAST CHAP, DELETE TEMP ORDER.
         IF SAVE ON TEMP CHAPTER... PRESERVE TEMP ORDER UNTIL NEXT RELOAD. */
+
+// This function populates the head of the page with content-specific OGP data.
 function populateHead($id, $lang, $v)
 {
-    // This function is pretty straightforward — it populates the head of the page with content-specific OGP data.
     include("..//php/db_connect.php");
 
     // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
     // https://www.mysqltutorial.org/mysql-recursive-cte/
 
-    // Another idea: make the names of CSS files match their associated type tags or pieces of content, then have them automatically be loaded.
-    // Load CSS files of parents first, then self, so self always takes precedence.
-
-    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"" . $id . "\" AND woh_content.content_version = \"" . $v . "\" AND woh_content.content_language = \"" . $lang . "\"";
+    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"";
     // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
     // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
     // Need to work on it.
@@ -35,26 +33,27 @@ function populateHead($id, $lang, $v)
     }
     while ($row = $result->fetch_assoc()) {
         if (is_null($row["large_image"])) {
-            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
-                    <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
-                    <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>
-                    <meta content='summary_large_image' name='twitter:card'/>
-                    <meta content='@Wall_of_History' name='twitter:site'/>
-                    <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>\n
+            <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
+            <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>\n
+            <meta content='summary_large_image' name='twitter:card'/>\n
+            <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
         } else {
-            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>
-                    <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>
-                    <meta content='" . $row["large_image"] . "' property='og:image'/>
-                    <meta content='summary_large_image' name='twitter:card'/>
-                    <meta content='@Wall_of_History' name='twitter:site'/>
-                    <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>\n
+            <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
+            <meta content='" . $row["large_image"] . "' property='og:image'/>\n
+            <meta content='summary_large_image' name='twitter:card'/>\n
+            <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
         }
     }
 }
 
+// This function populates the head of the page with content-specific CSS links.
 function addCSS($id)
 {
-    // TYPE
+    // Type
     include("..//php/db_connect.php");
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
     $result = $mysqli->query($sql);
@@ -64,37 +63,37 @@ function addCSS($id)
         }
     }
 
-    // GRANDPARENT
-    $sqlgp = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
-    $resultgp = $mysqli->query($sqlgp);
-    if (mysqli_num_rows($resultgp) > 0) {
-        while ($rowgp = $resultgp->fetch_assoc()) {
-            if (file_exists("..//css/type/" . $rowgp["parent_id"] . ".css")) {
-                echo "<link rel='stylesheet' type='text/css' href='/css/type/" . $rowgp["parent_id"] . ".css'>\n";
+    // Grandparent
+    $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
+    $result = $mysqli->query($sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
+                echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
             }
         }
     }
 
-    // PARENT
-    $sqlp = "SELECT parent_id FROM woh_web WHERE child_id ='" . $id . "';";
-    $resultp = $mysqli->query($sqlp);
-    if (mysqli_num_rows($resultp) > 0) {
-        while ($rowp = $resultp->fetch_assoc()) {
-            if (file_exists("../css/id/" . $rowp["parent_id"] . ".css")) {
-                echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $rowp["parent_id"] . ".css'>\n";
+    // Parent
+    $sql = "SELECT parent_id FROM woh_web WHERE child_id ='" . $id . "';";
+    $result = $mysqli->query($sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if (file_exists("../css/id/" . $row["parent_id"] . ".css")) {
+                echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
             }
         }
     }
 
-    // SELF
+    // Self
     if (file_exists("../css/id/" . $id . ".css")) {
         echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>\n";
     }
 }
 
-function hasChildren($id, $lang, $v)
+// This function finds any and all children that a given piece of content has, then echoes them in a list format.
+function addChildren($id, $lang, $v)
 {
-    // This function finds any and all children that a given piece of content has, then echoes them in a list format.
     include("..//php/db_connect.php");
 
     if ($id === "0") {
@@ -152,7 +151,7 @@ function hasChildren($id, $lang, $v)
     }
 }
 
-function loadHeader($id, $lang, $v)
+function loadHeader($id)
 {
     include("..//php/db_connect.php");
     $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
@@ -169,7 +168,7 @@ function loadHeader($id, $lang, $v)
     }
 }
 
-function populateSettingsButton($id, $lang, $v)
+function populateSettingsButton($id)
 {
     include("..//php/db_connect.php");
     $sql = "SELECT content_language FROM woh_content WHERE id=\"$id\"";
@@ -253,7 +252,7 @@ function loadContent($id, $lang, $v)
         echo "</h2>";
     }
 
-    // GET AND DISPLAY CONTENT
+    // Get and display content.
     $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
 
     // Display snippet in place of main if main empty (for parent works)?
@@ -265,7 +264,7 @@ function loadContent($id, $lang, $v)
         // Okay, we'll come back to page numbers later.
         echo $row["main"];
     }
-    hasChildren($id, $lang, $v);
+    addChildren($id, $lang, $v);
 }
 
 function populateSettings()
