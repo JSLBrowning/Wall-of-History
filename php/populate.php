@@ -29,7 +29,7 @@ function populateHead($id, $lang, $v)
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ((!($id == 0)) && ($num_rows == 0)) {
-        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\" />";
+        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\"/>\n";
     }
     while ($row = $result->fetch_assoc()) {
         if (is_null($row["large_image"])) {
@@ -38,14 +38,14 @@ function populateHead($id, $lang, $v)
             <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            <title>" . strip_tags($row["title"]) . " | Wall of History</title>\n";
         } else {
             echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>\n
             <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
             <meta content='" . $row["large_image"] . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . strip_tags($row["title"]) . " | Wall of History</title>";
+            <title>" . strip_tags($row["title"]) . " | Wall of History</title>\n";
         }
     }
 }
@@ -88,6 +88,24 @@ function addCSS($id)
     // Self
     if (file_exists("../css/id/" . $id . ".css")) {
         echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>\n";
+    }
+}
+
+// This function loads a unique header for a page, if it has one.
+function loadHeader($id)
+{
+    include("..//php/db_connect.php");
+    $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
+    // Make this recurse up to get parents if none.
+    $result_header = $mysqli->query($sql_header);
+    $num_rows = mysqli_num_rows($result_header);
+
+    if ($num_rows == 0) {
+        echo "<img src=\"/img/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
+    } else {
+        while ($row_header = $result_header->fetch_assoc()) {
+            echo $row_header["html"];
+        }
     }
 }
 
@@ -148,40 +166,6 @@ function addChildren($id, $lang, $v)
 
             array_push($uniquea, $uniqueid);
         }
-    }
-}
-
-function loadHeader($id)
-{
-    include("..//php/db_connect.php");
-    $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
-    // Make this recurse up to get parents if none.
-    $result_header = $mysqli->query($sql_header);
-    $num_rows = mysqli_num_rows($result_header);
-
-    if ($num_rows == 0) {
-        echo "<img src=\"/img/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" width=\"405\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">";
-    } else {
-        while ($row_header = $result_header->fetch_assoc()) {
-            echo $row_header["html"];
-        }
-    }
-}
-
-function populateSettingsButton($id)
-{
-    include("..//php/db_connect.php");
-    $sql = "SELECT content_language FROM woh_content WHERE id=\"$id\"";
-    $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-    if ($num_rows == 0) {
-        echo "<p>This content isn't available in any other languages.</p>";
-    } else {
-        echo "<p>";
-        while ($row = $result->fetch_assoc()) {
-            echo $row["content_language"];
-        }
-        echo "</p>";
     }
 }
 

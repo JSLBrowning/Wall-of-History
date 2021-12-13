@@ -1,7 +1,6 @@
 <?php
 function populateSettingsModal($id, $v, $lang)
 {
-    // Do I still NEED this?
     include("..//php/db_connect.php");
 
     // Create selection statement.
