@@ -101,7 +101,7 @@ function loadHeader($id)
     $num_rows = mysqli_num_rows($result_header);
 
     if ($num_rows == 0) {
-        echo "<img src=\"/img/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
+        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
     } else {
         while ($row_header = $result_header->fetch_assoc()) {
             echo $row_header["html"];

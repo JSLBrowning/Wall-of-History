@@ -88,13 +88,23 @@ CREATE TABLE WoH_adaptations(
     adaptation_id varchar(6) NOT NULL
 );
 
-/* REFERENCE SETUP */
+/* REFERENCE SETUP
+ * Multiple guidebooks were released for the BIONICLE universe, with many having entries on the same characters and concepts.
+ * As such, this table treats each entry from each guidebook as a unique entity.
+ * Entities can have multiple names attached to them, such as in the case of “Tahu” and “Tahu Nuva.”
+ * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
+ */
 
 CREATE TABLE reference_metadata (
+    /* Might need a separate ID column for SUBJECT IDs, then the below column for ENTRY IDs. */
     id varchar(6) PRIMARY KEY,
+    /* The ID can be any six character-long alphanumeric string. */
     snippet text,
+    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
     small_image text,
+    /* Self-explanatory. */
     publication_date date
+    /* These data entries are for individual sections of reference works, such as one entry from the BIONICLE Encyclopedia. As such, they can have individual publication dates. */
 );
 
 CREATE TABLE reference_content (
