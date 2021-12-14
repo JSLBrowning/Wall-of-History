@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +18,8 @@
     <meta name="twitter:title" content="Wall of History" />
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
-	<meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
-	<meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
+    <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
+    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
@@ -26,6 +27,7 @@
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <title>Settings | Wall of History</title>
 </head>
+
 <body>
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
@@ -54,8 +56,8 @@
     <main>
         <h2><a onclick="resetReader()">Reset to Default</a></h2>
         <?php
-            include("..//php/populate.php");
-            populateSettings();
+        include("..//php/populate.php");
+        populateSettings();
         ?>
         <button id="submit" style="background-color: #0A0A0A; position: fixed; bottom: 1em; right: 1em;">Submit!</button>
     </main>
@@ -67,4 +69,5 @@
     <script src="/js/settings.js"></script>
     <script src="/js/palette.js"></script>
 </body>
+
 </html>

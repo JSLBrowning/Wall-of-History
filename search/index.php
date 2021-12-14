@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,14 +27,14 @@
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
-        form{
+        form {
             margin: 1em;
             padding: 0em;
             display: flex;
             justify-content: center;
         }
 
-        form input{
+        form input {
             margin: 0px;
             margin-top: 12px;
             margin-bottom: 6px;
@@ -42,7 +43,7 @@
             width: 60%;
         }
 
-        form button{
+        form button {
             margin: 0em;
             margin-top: 12px;
             margin-bottom: 6px;
@@ -56,35 +57,36 @@
             box-shadow: none;
         }
 
-        main hr{
+        main hr {
             margin-left: 0em;
             margin-right: 0em;
         }
 
-        main h3{
+        main h3 {
             margin-top: 1em;
             text-align: left;
             font-size: medium;
             cursor: pointer;
         }
 
-        main h3:hover{
+        main h3:hover {
             color: #cccccc;
             text-decoration: none;
         }
 
-        main h3:active{
+        main h3:active {
             color: #99999a;
             text-decoration: none;
         }
 
-        main h3:visited{
+        main h3:visited {
             color: #fff;
             text-decoration: none;
         }
     </style>
     <title>Document</title>
 </head>
+
 <body>
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
@@ -131,7 +133,7 @@
 
             $query = $_GET['q'];
 
-            $sql = "SELECT name, content FROM wall_of_history_reference WHERE (`name` LIKE '%".$query."%') OR (`content` LIKE '%".$query."%')";
+            $sql = "SELECT name, content FROM wall_of_history_reference WHERE (`name` LIKE '%" . $query . "%') OR (`content` LIKE '%" . $query . "%')";
 
             // Perfom selection.
             $result = $mysqli->query($sql);
@@ -143,7 +145,7 @@
                 }
             }
 
-            $sql = "SELECT id, content_version, title, snippet, main FROM woh_content WHERE (`title` LIKE '%".$query."%') OR (`main` LIKE '%".$query."%')";
+            $sql = "SELECT id, content_version, title, snippet, main FROM woh_content WHERE (`title` LIKE '%" . $query . "%') OR (`main` LIKE '%" . $query . "%')";
 
             // Perfom selection.
             $result = $mysqli->query($sql);
@@ -194,4 +196,5 @@
     </script>
     <script src="/js/palette.js"></script>
 </body>
+
 </html>

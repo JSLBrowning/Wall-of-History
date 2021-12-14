@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,16 +18,18 @@
     <meta name="twitter:title" content="Wall of History" />
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
-	<meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
-	<meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
+    <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
+    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/read.css">
+    <!-- Put anything in read.css that's needed here into main.css. -->
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Wall of History</title>
 </head>
+
 <body>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="sckJu8Ly"></script>
@@ -127,4 +130,5 @@
     <script src="js/readingorders.js"></script>
     <script src="js/palette.js"></script>
 </body>
+
 </html>

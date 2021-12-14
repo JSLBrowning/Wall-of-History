@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,26 +26,27 @@
     <link rel="stylesheet" type="text/css" href="/css/read.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/reference.css">
-    <title><?php 
-    if (count($_GET) == 1) {
-        include("..//php/db_connect.php");
-        
-        // Create selection statement.
-        $sql = "SELECT name FROM wall_of_history_reference WHERE `name` COLLATE UTF8_GENERAL_CI LIKE '%" . $_GET["id"] . "%'";
-        
-        // Perfom selection.
-        $result = $mysqli->query($sql);
-        
-        if ($result->num_rows > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo str_replace("</em>", "", str_replace("<em>", "", array_shift($row)));
+    <title><?php
+            if (count($_GET) == 1) {
+                include("..//php/db_connect.php");
+
+                // Create selection statement.
+                $sql = "SELECT name FROM wall_of_history_reference WHERE `name` COLLATE UTF8_GENERAL_CI LIKE '%" . $_GET["id"] . "%'";
+
+                // Perfom selection.
+                $result = $mysqli->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo str_replace("</em>", "", str_replace("<em>", "", array_shift($row)));
+                    }
+                }
+            } else {
+                echo "Reference";
             }
-        }
-    } else {
-        echo "Reference";
-    }
-    ?> | Wall of History</title>
+            ?> | Wall of History</title>
 </head>
+
 <body>
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
