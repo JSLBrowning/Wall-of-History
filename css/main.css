@@ -158,6 +158,9 @@ h3 {
     color: var(--front1);
 }
 
+main h2:last-of-type {
+    margin-bottom: 0.5em;
+}
 
 /* Why don't these work? */
 
