@@ -70,6 +70,10 @@ async function initialize() {
     if (localStorage.getItem("fontSize") === null) {
         localStorage.setItem("fontSize", "normal");
     }
+
+    if (localStorage.getItem("languagePreference") !== null) {
+        document.cookie = "languagePreference=" + localStorage.getItem("languagePreference") + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+    }
 };
 
 function getLanguageList() {

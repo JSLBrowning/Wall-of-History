@@ -718,14 +718,6 @@ main h2 a {
     user-select: none;
 }
 
-.pages .page {
-    position: absolute;
-    top: unset;
-    bottom: 0px;
-    left: unset;
-    right: 0px;
-}
-
 .anchors p {
     flex-basis: 98.75;
 }

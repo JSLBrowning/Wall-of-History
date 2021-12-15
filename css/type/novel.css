@@ -8,9 +8,17 @@ body main .pages {
     display: block;
     background-color: var(--back2);
     border: 1px solid var(--border);
-    border-radius: 0.25em;
+    border-radius: 0.125em;
     margin: 1em auto;
     padding-bottom: 1.5em;
+}
+
+.pages .page {
+    width: 48px;
+    position: absolute;
+    top: unset;
+    bottom: 0px;
+    left: calc(50% - 24px);
 }
 
 body main .pages .page {
