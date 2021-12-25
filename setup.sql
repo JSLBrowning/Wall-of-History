@@ -96,8 +96,9 @@ CREATE TABLE IF NOT EXISTS WoH_adaptations(
  */
 
 CREATE TABLE IF NOT EXISTS reference_metadata (
-    /* Might need a separate ID column for SUBJECT IDs, then the below column for ENTRY IDs. */
-    id varchar(6) PRIMARY KEY,
+    subject_id varchar(6),
+    /* Subject IDs are used to identify entries as referring to the same character or concept, even if entries have slightly different names. */
+    entry_id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
     snippet text,
     /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
@@ -108,7 +109,7 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
 );
 
 CREATE TABLE IF NOT EXISTS reference_content (
-    id varchar(6) PRIMARY KEY,
+    entry_id varchar(6) PRIMARY KEY,
     css int,
     header int NOT NULL,
     main longtext,
@@ -116,19 +117,23 @@ CREATE TABLE IF NOT EXISTS reference_content (
 );
 
 CREATE TABLE IF NOT EXISTS reference_titles (
-    id varchar(6) NOT NULL,
+    entry_id varchar(6) NOT NULL,
+    spoiler_level int,
+    /* Necessary? Would be cool to keep “Tahu Nuva” a secret… */
+    /* On compilation pages, only display titles below current spoiler level. */
+    /* Speaking of which, put spoiling entries under hide/show thingies. */
     title text NOT NULL
+    /* If title only ever refers to one subject, ?ref=[title] leads directly to compilation page for that subject. */
+    /* If title refers to multiple subjects, ?ref=[title] leads to a disambiguation page. */
+    /* When jumping from a disambiguation page to a subject page, try to find a distinct title for that subject, or use the ID if there is none. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_images (
-    id varchar(6) NOT NULL,
-    spoiler_level int, /* Necessary? */
+    entry_id varchar(6) NOT NULL,
+    spoiler_level int,
+    /* Necessary? */
     image_path text NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS reference_quotes (
-    title text NOT NULL,
-    quote text NOT NULL
+    /* Be sure to use DISTINCT for compilation pages. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_web (
@@ -136,16 +141,24 @@ CREATE TABLE IF NOT EXISTS reference_web (
     child_id varchar(6) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS reference_quotes (
+    subject_id text NOT NULL,
+    quote text NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS reference_appearances (
     story_id varchar(6) NOT NULL,
-    reference_id varchar(6) NOT NULL,
+    subject_id varchar(6) NOT NULL,
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
 )
 
 CREATE TABLE IF NOT EXISTS reference_greg (
-    posted datetime PRIMARY KEY, /* Bad idea? */
-    question text NOT NULL,
+    posted datetime PRIMARY KEY,
+    /* Bad idea? */
+    question text,
+    /* Most of Greg’s forum posts are question/answer pairs, but some of them (such as the Earth Tribe explanation) are not. */
     answer text NOT NULL,
+    /* But there’s no content if Greg didn’t say anything, so the answer column can’t be null. */
     permalink text
 );
