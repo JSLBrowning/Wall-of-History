@@ -3,7 +3,7 @@ USE test;
 
 /* CONTENT SETUP */
 
-CREATE TABLE WoH_metadata(
+CREATE TABLE IF NOT EXISTS WoH_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
     publication_date date,
@@ -16,7 +16,7 @@ CREATE TABLE WoH_metadata(
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
 );
 
-CREATE TABLE WoH_content(
+CREATE TABLE IF NOT EXISTS WoH_content(
     id varchar(6),
     /* Self-explantory — it's the same ID as above. */
     content_version int DEFAULT 1,
@@ -42,14 +42,14 @@ CREATE TABLE WoH_content(
     PRIMARY KEY (id, content_language, content_version)
 );
 
-CREATE TABLE WoH_headers(
+CREATE TABLE IF NOT EXISTS WoH_headers(
     header_id int PRIMARY KEY,
     /* Self-explantory. */
     html mediumtext
     /* Self-explanatory. */
 );
 
-CREATE TABLE WoH_tags(
+CREATE TABLE IF NOT EXISTS WoH_tags(
     id varchar(6),
     /* Self-explanatory — these are the same tags used for metadata and content. */
     tag_type text,
@@ -73,7 +73,7 @@ CREATE TABLE WoH_images(
 );
 */
 
-CREATE TABLE WoH_web(
+CREATE TABLE IF NOT EXISTS WoH_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
     parent_version int DEFAULT 1,
@@ -83,7 +83,7 @@ CREATE TABLE WoH_web(
     child_version int DEFAULT 1
 );
 
-CREATE TABLE WoH_adaptations(
+CREATE TABLE IF NOT EXISTS WoH_adaptations(
     original_id varchar(6) NOT NULL,
     adaptation_id varchar(6) NOT NULL
 );
@@ -95,7 +95,7 @@ CREATE TABLE WoH_adaptations(
  * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
  */
 
-CREATE TABLE reference_metadata (
+CREATE TABLE IF NOT EXISTS reference_metadata (
     /* Might need a separate ID column for SUBJECT IDs, then the below column for ENTRY IDs. */
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
@@ -107,7 +107,7 @@ CREATE TABLE reference_metadata (
     /* These data entries are for individual sections of reference works, such as one entry from the BIONICLE Encyclopedia. As such, they can have individual publication dates. */
 );
 
-CREATE TABLE reference_content (
+CREATE TABLE IF NOT EXISTS reference_content (
     id varchar(6) PRIMARY KEY,
     css int,
     header int NOT NULL,
@@ -115,35 +115,35 @@ CREATE TABLE reference_content (
     word_count int
 );
 
-CREATE TABLE reference_titles (
+CREATE TABLE IF NOT EXISTS reference_titles (
     id varchar(6) NOT NULL,
     title text NOT NULL
 );
 
-CREATE TABLE reference_images (
+CREATE TABLE IF NOT EXISTS reference_images (
     id varchar(6) NOT NULL,
     spoiler_level int, /* Necessary? */
     image_path text NOT NULL
 );
 
-CREATE TABLE reference_quotes (
+CREATE TABLE IF NOT EXISTS reference_quotes (
     title text NOT NULL,
     quote text NOT NULL
 );
 
-CREATE TABLE reference_web (
+CREATE TABLE IF NOT EXISTS reference_web (
     parent_id varchar(6) NOT NULL,
     child_id varchar(6) NOT NULL
 );
 
-CREATE TABLE reference_appearances (
+CREATE TABLE IF NOT EXISTS reference_appearances (
     story_id varchar(6) NOT NULL,
     reference_id varchar(6) NOT NULL,
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
 )
 
-CREATE TABLE reference_greg (
+CREATE TABLE IF NOT EXISTS reference_greg (
     posted datetime PRIMARY KEY, /* Bad idea? */
     question text NOT NULL,
     answer text NOT NULL,
