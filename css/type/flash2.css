@@ -1,0 +1,29 @@
+main {
+    min-width: 840px;
+}
+
+main h2:last-of-type {
+    margin-bottom: 0.5em;
+}
+
+#warning {
+    display: none;
+}
+
+/* DELETE FROM `woh_tags` WHERE id="9ZOS30" and tag="game" */
+
+@media only screen and (max-width: 640px) {
+    main {
+        min-width: 0px;
+        width: 95%;
+    }
+    
+    main object,
+    #controls{
+        display: none;
+    }
+
+    #warning{
+        display: block;
+    }
+}

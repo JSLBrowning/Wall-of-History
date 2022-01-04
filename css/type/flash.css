@@ -3,7 +3,7 @@ main {
     border: none;
     box-shadow: none;
     /* Temporary, for testing Flash stuff. */
-    min-width: 1080px;
+    min-width: 840px;
 }
 
 body main .pages {

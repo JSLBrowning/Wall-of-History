@@ -32,20 +32,36 @@ function populateHead($id, $lang, $v)
         echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\"/>\n";
     }
     while ($row = $result->fetch_assoc()) {
+        $title = strip_tags($row["title"]);
         if (is_null($row["large_image"])) {
-            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>\n
+            echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
             <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
             <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . strip_tags($row["title"]) . " | Wall of History</title>\n";
+            <title>" . $title . " | Wall of History</title>\n";
         } else {
-            echo "<meta content='" . strip_tags($row["title"]) . " | Wall of History' property='og:title'/>\n
+            echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
             <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
             <meta content='" . $row["large_image"] . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . strip_tags($row["title"]) . " | Wall of History</title>\n";
+            <title>" . $title . " | Wall of History</title>\n";
+        }
+
+        // GET PARENT TITLE.
+        // THIS SUCKS REPLACE IT.
+        $sqltitle = "SELECT * FROM woh_tags WHERE id = '$id' AND tag = 'chapter'";
+        $resulttitle = $mysqli->query($sqltitle);
+        $num_rows = mysqli_num_rows($resulttitle);
+        if ($num_rows > 0) {
+            $sqlparent = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $id . "' LIMIT 1";
+            $resultparent = $mysqli->query($sqlparent);
+            while ($rowparent = $resultparent->fetch_assoc()) {
+                $parenttitle = strip_tags($rowparent['title']);
+                echo "<meta content='" . $parenttitle . ":" . $title . " | Wall of History' property='og:title'/>\n
+                <title>" . $parenttitle . ":" . $title . " | Wall of History</title>\n";
+            }
         }
     }
 }
