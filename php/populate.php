@@ -274,7 +274,7 @@ function populateSettings()
     include("..//php/db_connect.php");
 
     // First, find all the unique tags with which we select items, and make the selector.
-    $sql_tags = "SELECT DISTINCT(tag) AS tag, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') ORDER BY tag_type";
+    $sql_tags = "SELECT DISTINCT(tag) AS tag, tag_type, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') ORDER BY tag_type DESC, tag ASC";
     $result_tags = $mysqli->query($sql_tags);
 
     echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = -1;'>";
@@ -298,30 +298,33 @@ function populateSettings()
 
     while ($row = $result->fetch_assoc()) {
         echo "          <li class='ui-sortable-handle'>\n";
+        $cid = $row["cid"];
+
+        $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') AND id = '$cid' LIMIT 1";
+        $result_nexttags = $mysqli->query($sql_nexttags);
+        $itemtags = "";
+        while ($row_nexttags = $result_nexttags->fetch_assoc()) {
+            $itemtags = $itemtags . $row_nexttags["tags"];
+        }
 
         // If an item has a vague title, such as “Chapter 1,” the name of the parent item needs to be appended to the front end.
-        $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["cid"] . "' AND tag = 'chapter')";
+        $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '$cid' AND tag = 'chapter')";
 
         $result_chapter = $mysqli->query($sql_chapter);
         $num_chap = mysqli_num_rows($result_chapter);
         if ($num_chap == 0) {
-            $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') AND id = '" . $row["cid"] . "' LIMIT 1";
-            $result_nexttags = $mysqli->query($sql_nexttags);
-            while ($row_nexttags = $result_nexttags->fetch_assoc()) {
-                $itemtags = $row_nexttags["tags"];
-            }
-            echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-            echo "              <label for='" . $row["cid"] . ".1'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
+            echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
+            echo "<label for='" . $row["cid"] . ".1'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
         } else {
             $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["cid"] . "' LIMIT 1";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
-                echo "              <input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-                echo "              <label for='" . $row["cid"] . ".1'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
+                echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
+                echo "<label for='" . $row["cid"] . ".1'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
             }
         }
-        echo "          </li>\n";
+        echo "</li>\n";
     }
     echo "</ol>";
 }
