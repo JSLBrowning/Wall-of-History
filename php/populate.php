@@ -74,7 +74,7 @@ function addCSS($id)
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
-        if (file_exists("..//css/" . $row["tag"] . ".css")) {
+        if (file_exists("..//css/type/" . $row["tag"] . ".css")) {
             echo "<link rel='stylesheet' type='text/css' href='/css/type/" . $row["tag"] . ".css'>\n";
         }
     }
@@ -197,17 +197,17 @@ function loadContent($id, $lang, $v)
     $num_rows = mysqli_num_rows($result);
     if ((!($id == "0")) && ($num_rows == 0)) {
         // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
-        echo "<h2><a onClick='location.href=\"/read/\"'>Table of Contents</a></h2>";
+        echo "<h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
     } else {
         while ($row = $result->fetch_assoc()) {
             if ($num_rows == 1) {
                 $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
-                    echo "<h2><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h2>";
+                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
                 }
             } else {
-                echo "<h2>↑</h2>";
+                echo "<h3>↑</h3>";
             }
         }
     }
@@ -229,6 +229,17 @@ function loadContent($id, $lang, $v)
         echo "<h1>" . $row["title"] . "</h1>";
     }
 
+    // GET AND DISPLAY SUBTITLE
+    $sql = "SELECT subtitle FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
+
+    $result = $mysqli->query($sql);
+    $num_rows = mysqli_num_rows($result);
+    if ($num_rows != 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<h2>" . $row["subtitle"] . "</h2>";
+        }
+    }
+
     // GET AND DISPLAY CONTRIBUTORS
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'developer' OR tag_type = 'author' OR tag_type = 'illustrator')";
 
@@ -237,10 +248,10 @@ function loadContent($id, $lang, $v)
     if ($num_rows == 0) {
     } elseif ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
-            echo "<h2>" . $row["tag"] . "</h2>";
+            echo "<h3>" . $row["tag"] . "</h3>";
         }
     } else {
-        echo "<h2>";
+        echo "<h3>";
         $num_commas = $num_rows - 1;
         while ($row = $result->fetch_assoc()) {
             echo $row["tag"];
@@ -249,7 +260,7 @@ function loadContent($id, $lang, $v)
                 $num_commas--;
             }
         }
-        echo "</h2>";
+        echo "</h3>";
     }
 
     // Get and display content.

@@ -158,12 +158,11 @@ h3 {
     color: var(--front1);
 }
 
-main h2:last-of-type {
+main h3:last-of-type {
     margin-bottom: 0.5em;
 }
 
 /* Why don't these work? */
-
 main h2 a:hover {
     font-size: 1.01875em;
 }
@@ -177,11 +176,11 @@ main h1 {
 }
 
 main h2 {
-    font-size: 1.25em;
+    font-size: 2em;
 }
 
 main h3 {
-    font-size: 2em;
+    font-size: 1.25em;
 }
 
 audio {
@@ -204,7 +203,7 @@ ul {
 
 #sortable li {
     margin: 4px;
-    background-color: #3a3a3a;
+    background-color: var(--back1);
     border-radius: 4px;
     padding: 0px 4px;
     display: flex;
@@ -482,7 +481,8 @@ nav button:hover,
 .savefile button:active,
 nav button:active,
 .nav button:active,
-.contentsButton:active {
+.contentsButton:active,
+#submit:active {
     transform: scale(0.9375);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), var(--innershadow);
 }
@@ -538,14 +538,18 @@ main hr {
     cursor: pointer;
 }
 
-main h2 a {
+main h2 a,
+main h3 a {
     text-decoration: none;
     cursor: pointer;
     transition: all .2s ease-in-out;
 }
 
 #submit {
-    border-radius: 0.25em 0em 0.25em 0em;
+    border-radius: 0.25em;
+    transition: all .2s ease-in-out;
+    background-color: var(--back2);
+    color: var(--front1);
 }
 
 .contentsButton {
@@ -565,12 +569,14 @@ main h2 a {
 }
 
 .standaloneButton:hover,
-.contentsButton:hover {
+.contentsButton:hover,
+#submit:hover {
     transform: scale(1.03125);
 }
 
 .standaloneButton:active,
-.contentsButton:active {
+.contentsButton:active,
+#submit:active {
     transform: scale(0.96875);
     background-color: var(--back2);
 }
@@ -622,26 +628,34 @@ main h2 a {
         margin: 8px auto;
         width: 95%;
         padding: 0px;
+        padding-top: 0.5em;
+    }
+    main h1,
+    main h2,
+    main h3 {
+        margin-top: 0.125em;
+        margin-bottom: 0.125em;
     }
     main h1,
     .modalcontent h1 {
-        font-size: 1.25em;
+        font-size: 1.5em;
     }
     main h2,
     .modalcontent h2 {
-        font-size: 0.75em;
-    }
-    main h2:first-of-type {
-        margin-top: 1em;
+        font-size: 1.375em;
     }
     main h3,
     .modalcontent h3 {
-        font-size: var(--pfontsize);
+        font-size: 1em;
+    }
+    main h3:last-of-type {
+        margin-bottom: 0.25em;
     }
     main p,
     header p,
     .modalcontent p {
         font-size: var(--pfontsize);
+        margin-right: 0em;
     }
     .social {
         width: 99.99%;
