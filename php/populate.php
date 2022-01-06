@@ -233,24 +233,24 @@ function loadContent($id, $lang, $v)
     $sql = "SELECT subtitle FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
 
     $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-    if ($num_rows != 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<h2>" . $row["subtitle"] . "</h2>";
+    while ($row = $result->fetch_assoc()) {
+        $subtitle = $row["subtitle"];
+        if ($subtitle != NULL) {
+            echo "<h2>" . $subtitle . "</h2>";
         }
     }
 
     // GET AND DISPLAY CONTRIBUTORS
-    $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'developer' OR tag_type = 'author' OR tag_type = 'illustrator')";
+    $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
 
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
-    if ($num_rows == 0) {
-    } elseif ($num_rows == 1) {
+    if ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
             echo "<h3>" . $row["tag"] . "</h3>";
         }
-    } else {
+    }
+    if ($num_rows > 1) {
         echo "<h3>";
         $num_commas = $num_rows - 1;
         while ($row = $result->fetch_assoc()) {

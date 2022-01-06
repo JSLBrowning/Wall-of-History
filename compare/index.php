@@ -11,6 +11,7 @@
     include("..//php/populate.php");
     include("..//php/db_connect.php");
     if (count($_GET)) {
+        // Wait, what does this do?
         if (isset($_GET["s"])) {
             $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
             $result = $mysqli->query($sql);
@@ -50,11 +51,18 @@
             } else {
                 $v = "1";
             }
+            
+            if (isset($_GET["v2"])) {
+                $v2 = $_GET["v2"];
+            } else {
+                $v2 = "2";
+            }
         }
     } else {
         $id = "0";
         $lang = "en";
         $v = "1";
+        $v2 = "2";
     }
     populateHead($id, $lang, $v);
     ?>
@@ -62,6 +70,7 @@
     <link rel='stylesheet' type='text/css' href='/css/read.css'>
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
+    <link rel='stylesheet' type='text/css' href='/css/compare.css'>
     <?php
     addCSS($id, $lang, $v);
     ?>
@@ -112,22 +121,20 @@
         <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
         <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
         <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-        <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">🡳</button></a>
     </aside>
-    <main>
-        <?php
-        loadContent($id, $lang, $v);
-        ?>
-        <div style="padding: 4px;"></div>
-        <div class="savefile" style="display:none;">
-            <button type="savefilebutton" onclick="savePlace()">Save Place</button>
-            <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
-        </div>
-        <div class="nav" style="display:none">
-            <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
-            <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
-        </div>
-    </main>
+    <div id="mains">
+        <main id="oldhtml">
+            <?php
+            loadContent($id, $lang, $v);
+            ?>
+        </main>
+        <main id="newhtml">
+            <?php
+            loadContent($id, $lang, $v2);
+            ?>
+        </main>
+        <main id="diff"></main>
+    </div>
     <!-- modal -->
     <div id="myModal" class="modal">
         <!-- modal content -->
@@ -155,6 +162,16 @@
             $(".savefile").hide();
             $(".nav").hide();
         }
+    </script>
+    <script src="/js/htmldiff/old.js"></script>
+    <script>
+        // Diff HTML strings
+        let originalHTML = document.getElementById("oldhtml").innerHTML;
+        let newHTML = document.getElementById("newhtml").innerHTML;
+        let output = htmldiff(originalHTML, newHTML);
+
+        // Show HTML diff output as HTML (crazy right?)!
+        document.getElementById("diff").innerHTML = output;
     </script>
 </body>
 

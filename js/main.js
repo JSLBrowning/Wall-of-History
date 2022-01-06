@@ -24,7 +24,9 @@ async function initialize() {
     if (localStorage.getItem("languageList").includes(localStorage.getItem("languagePreference"))) {
         let languageList = localStorage.getItem("languageList").split(",");
         let preferred = localStorage.getItem("languagePreference");
-        languageList.sort(function(x, y) { return x == preferred ? -1 : y == preferred ? 1 : 0; });
+        languageList.sort(function (x, y) {
+            return x == preferred ? -1 : y == preferred ? 1 : 0;
+        });
         localStorage.setItem("languageList", languageList);
     }
 
@@ -58,7 +60,7 @@ async function initialize() {
 
     if (localStorage.getItem("referenceTerms") === null) {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 localStorage.setItem("referenceTerms", this.responseText);
             }
@@ -79,7 +81,7 @@ async function initialize() {
 function getLanguageList() {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 resolve(this.responseText);
             }
@@ -92,7 +94,7 @@ function getLanguageList() {
 function getRecommendedReadingOrder() {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 resolve(this.responseText);
             }
@@ -123,7 +125,7 @@ function getOptimalLanguage(combo) {
         let id = target[0];
         let v = target[1];
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 availableLanguages = this.responseText.split(",");
 
@@ -326,7 +328,7 @@ function loadPlace() {
 function readAsStandaloneSetup(id) {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 resolve(this.responseText);
             }
@@ -347,24 +349,32 @@ async function readAsStandalone() {
 /* DOWNLOAD FUNCTIONS */
 
 function downloadContent() {
-    let currentID = document.getElementById("downloadMarker").innerHTML;
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const currentID = urlParams.get('id');
 
-    $.get("/doc/downloads/" + currentID + ".zip")
-        .done(function() {
+    $.ajax({
+        url: "http://localhost:8080/doc/downloads/" + currentID + ".zip",
+        type: 'HEAD',
+        error: function () {
+            console.log("No downloads are available for this content.");
+        },
+        success: function () {
+            console.log("Showing download button…");
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
+
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
+            xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
-                        // Fix the above regex to strip to alphanumeric.
-                        // Other than that... this still works! Nice.
+                    // Fix the above regex to strip to alphanumeric.
+                    // Other than that... this still works! Nice.
                     document.getElementById("downloadLink").download = filename;
                 }
             };
             xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
             xmlhttp.send();
-            $(document.getElementById("downloadLink")).fadeIn("slow");
-        }).fail(function() {
-            console.log("No downloads are available for this content.");
-        })
+            $(document.getElementById("downloadButton")).fadeIn("slow");
+        }
+    });
 }

@@ -1,0 +1,37 @@
+#mains {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 90%;
+}
+
+#mains main {
+    margin: 0.5em;
+    width: 45%;
+    padding: 0em;
+    padding-top: 0.125em;
+}
+
+main:nth-of-type(2) {
+    display: none;
+}
+
+ins,
+del {
+    margin: 1px;
+    border-radius: 0.125em;
+    padding: 1px;
+}
+
+ins {
+    text-decoration: none;
+    background-color: #80FF80;
+    color: #080808;
+}
+
+del {
+    text-decoration: line-through;
+    background-color: #FF8080;
+    color: #080808;
+}

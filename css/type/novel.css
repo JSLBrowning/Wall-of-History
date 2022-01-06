@@ -2,8 +2,6 @@ main {
     background: none;
     border: none;
     box-shadow: none;
-    /* Temporary, for testing Flash stuff. */
-    min-width: 1080px;
 }
 
 body main .pages {
