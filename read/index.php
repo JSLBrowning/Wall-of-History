@@ -59,7 +59,6 @@
     populateHead($id, $lang, $v);
     ?>
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
-    <link rel='stylesheet' type='text/css' href='/css/read.css'>
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <?php
@@ -114,20 +113,24 @@
         <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
         <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">🡳</button></a>
     </aside>
-    <main>
-        <?php
-        loadContent($id, $lang, $v);
-        ?>
-        <div style="padding: 4px;"></div>
-        <div class="savefile" style="display:none;">
-            <button type="savefilebutton" onclick="savePlace()">Save Place</button>
-            <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
-        </div>
-        <div class="nav" style="display:none">
-            <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
-            <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
-        </div>
-    </main>
+    <div id="mains">
+        <main id="oldhtml">
+            <?php
+            loadContent($id, $lang, $v);
+            ?>
+        </main>
+        <main id="newhtml">
+        </main>
+        <main id="diff" style="display: none;"></main>
+    </div>
+    <div class="savefile" style="display:none;">
+        <button type="savefilebutton" onclick="savePlace()">Save Place</button>
+        <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
+    </div>
+    <div class="nav" style="display:none">
+        <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
+        <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
+    </div>
     <!-- modal -->
     <div id="myModal" class="modal">
         <!-- modal content -->
@@ -156,6 +159,8 @@
             $(".nav").hide();
         }
     </script>
+    <script src="/js/htmldiff/old.js"></script>
+    <script src="/js/htmldiff/compare.js"></script>
 </body>
 
 </html>
