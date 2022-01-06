@@ -361,6 +361,7 @@ nav {
     align-items: center;
 }
 
+body button,
 main button,
 .modal-content button {
     font-family: 'Gill Sans Std';
@@ -619,88 +620,6 @@ main h3 a {
     padding-bottom: 0em;
 }
 
-@media only screen and (max-width: 640px) {
-    header img {
-        max-width: 90%;
-        height: auto;
-    }
-    main {
-        margin: 8px auto;
-        width: 95%;
-        padding: 0px;
-        padding-top: 0.5em;
-    }
-    main h1,
-    main h2,
-    main h3 {
-        margin-top: 0.125em;
-        margin-bottom: 0.125em;
-    }
-    main h1,
-    .modalcontent h1 {
-        font-size: 1.5em;
-    }
-    main h2,
-    .modalcontent h2 {
-        font-size: 1.375em;
-    }
-    main h3,
-    .modalcontent h3 {
-        font-size: 1em;
-    }
-    main h3:nth-of-type(2) {
-        margin-bottom: 0.25em;
-    }
-    main p,
-    header p,
-    .modalcontent p {
-        font-size: var(--pfontsize);
-        margin-right: 0em;
-    }
-    .social {
-        width: 99.99%;
-    }
-    .social a {
-        width: 18px;
-        height: 18px;
-    }
-    .social img {
-        width: 18px;
-        height: 18px;
-    }
-    .savefile button {
-        width: 128px;
-        height: 32px;
-        font-size: 1em;
-    }
-    .nav button {
-        width: 128px;
-        height: 32px;
-        font-size: 1em;
-    }
-}
-
-@media only screen and (max-width: 960px) {
-    aside {
-        /* REMOVE PREVIOUS SETTINGS */
-        position: relative;
-        z-index: auto;
-        top: auto;
-        right: auto;
-        /* NEW SETTINGS */
-        margin: auto 1em;
-        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
-        flex-direction: row;
-        justify-content: center;
-    }
-    aside button {
-        flex-grow: 1;
-    }
-    main {
-        width: 95%;
-    }
-}
-
 .contents p {
     text-align: center;
     padding: 0em 0.5em;
@@ -780,7 +699,131 @@ main p a {
     font-weight: 600;
 }
 
+/* VERSION COMPARISON STYLING */
+#mains {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+}
+
+#mains main {
+    margin: 0.5em;
+    max-width: 720px;
+    padding: 0em;
+    padding-top: 0.125em;
+    flex-grow: 1;
+}
+
+main:nth-of-type(2) {
+    display: none;
+}
+
+ins,
+del {
+    margin: 1px;
+    border-radius: 0.125em;
+    padding: 1px;
+}
+
+#mains main ins {
+    text-decoration: none;
+    background-color: #80FF80;
+    color: #080808;
+}
+
+#mains main del {
+    text-decoration: line-through;
+    background-color: #FF8080;
+    color: #080808;
+}
+
+@media only screen and (max-width: 960px) {
+    aside {
+        /* REMOVE PREVIOUS SETTINGS */
+        position: relative;
+        z-index: auto;
+        top: auto;
+        right: auto;
+        /* NEW SETTINGS */
+        margin: auto 1em;
+        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    aside button {
+        width: 15%;
+    }
+    #mains {
+        width: 95%;
+        flex-direction: column;
+    }
+    #mains main {
+        margin: auto;
+        max-width: 960px;
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 640px) {
+    header img {
+        max-width: 90%;
+        height: auto;
+    }
+    main {
+        margin: 8px auto;
+        padding: 0px;
+        padding-top: 0.5em;
+    }
+    main h1,
+    main h2,
+    main h3 {
+        margin-top: 0.125em;
+        margin-bottom: 0.125em;
+    }
+    main h1,
+    .modalcontent h1 {
+        font-size: 1.5em;
+    }
+    main h2,
+    .modalcontent h2 {
+        font-size: 1.375em;
+    }
+    main h3,
+    .modalcontent h3 {
+        font-size: 1em;
+    }
+    main h3:nth-of-type(2) {
+        margin-bottom: 0.25em;
+    }
+    main p,
+    header p,
+    .modalcontent p {
+        font-size: var(--pfontsize);
+        margin-right: 0em;
+    }
+    .social {
+        width: 99.99%;
+    }
+    .social a {
+        width: 18px;
+        height: 18px;
+    }
+    .social img {
+        width: 18px;
+        height: 18px;
+    }
+    .savefile button {
+        width: 128px;
+        height: 32px;
+        font-size: 1em;
+    }
+    .nav button {
+        width: 128px;
+        height: 32px;
+        font-size: 1em;
+    }
     .anchor,
     .anchor:visited,
     .page,
@@ -790,5 +833,72 @@ main p a {
         /* REWORK BELOW */
         min-width: 18px;
         text-align: center;
+    }
+}
+
+#sortable li a {
+    width: 100%;
+    text-align: center;
+    font-size: medium;
+}
+
+aside {
+    position: absolute;
+    z-index: 1;
+    top: 0.75em;
+    right: 0.75em;
+    display: flex;
+    flex-direction: column;
+}
+
+aside button {
+    margin: 0.25em;
+    width: 2em;
+    height: 2em;
+    color: var(--front1);
+    border-radius: 0.375em;
+    background: var(--back2);
+    /* box-shadow: var(--outershadow); */
+    box-shadow: none;
+    border: 1px solid var(--border);
+    padding: none;
+    font-size: 1.5em;
+    font-weight: bolder;
+    z-index: 1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+aside button:focus {
+    outline: 0;
+}
+
+aside button:hover {
+    transform: scale(1.125);
+}
+
+aside button:active {
+    transform: scale(0.95);
+}
+
+/* BELOW NEEDS SIGNIFICANT REVISIONS */
+/* May want to change the max-width here so that the aside buttons never overlap with the main block. */
+@media only screen and (max-width: 960px) {
+    aside{
+        /* REMOVE PREVIOUS SETTINGS */
+        position: relative;
+        z-index: auto;
+        top: auto;
+        right: auto;
+
+        /* NEW SETTINGS */
+        margin: auto 1em;
+        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    aside button {
+        width: 15%;
     }
 }
