@@ -1,3 +1,9 @@
+/*
+function diffHTML(original, revised) {
+    console.log(original);
+    console.log(revised);
+}
+
 function compare(newVersion) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -30,10 +36,35 @@ function compare(newVersion) {
     // document.getElementById("comparison-dropdown").style.display = "none";
     // document.getElementById("comparison-buttons").style.display = "block";
 }
+*/
 
 function dismissComparison() {
     // Hide diff <main>.
     // Empty diff <main>.
     // Empty second <main>.
     // Hide dismiss button, show comparison dropdown and buttons.
+}
+
+function compare(newVersion) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const currentId = urlParams.get("id");
+    const currentVersion = urlParams.get("v");
+    const currentLang = urlParams.get("lang");
+    console.log(newVersion);
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("diff").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../php/getcomparedata.php?id=" + currentId + "&v=" + currentVersion + "&v2=" + newVersion + "&lang=" + currentLang, true);
+    xmlhttp.send();
+
+    // Show diff <main>.
+    document.getElementById("diff").style.display = "block";
+
+    // Dismiss settings modal.
+    toggleModal("settingsModal");
 }

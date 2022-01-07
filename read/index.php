@@ -159,8 +159,7 @@
             $(".nav").hide();
         }
     </script>
-    <script src="/js/htmldiff/old.js"></script>
-    <script src="/js/htmldiff/compare.js"></script>
+    <script src="/js/compare/compare.js"></script>
 </body>
 
 </html>
