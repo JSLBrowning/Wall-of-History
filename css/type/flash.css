@@ -1,33 +1,29 @@
 main {
-    background: none;
-    border: none;
-    box-shadow: none;
-    /* Temporary, for testing Flash stuff. */
     min-width: 840px;
 }
 
-body main .pages {
-    display: block;
-    background-color: var(--back2);
-    border: 1px solid var(--border);
-    border-radius: 0.125em;
-    margin: 1em auto;
-    padding-bottom: 1.5em;
+main h2:last-of-type {
+    margin-bottom: 0.5em;
 }
 
-.pages .page {
-    width: 48px;
-    position: absolute;
-    top: unset;
-    bottom: 0px;
-    left: calc(50% - 24px);
+#warning {
+    display: none;
 }
 
-body main .pages .page {
-    font-size: 0.9375em;
-    padding: 0.25em;
-}
+/* DELETE FROM `woh_tags` WHERE id="9ZOS30" and tag="game" */
 
-body main .pages p {
-    display: inline;
+@media only screen and (max-width: 640px) {
+    main {
+        min-width: 0px;
+        width: 95%;
+    }
+    
+    main object,
+    #controls{
+        display: none;
+    }
+
+    #warning{
+        display: block;
+    }
 }

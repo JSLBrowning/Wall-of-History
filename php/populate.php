@@ -289,15 +289,17 @@ function populateSettings()
     $result_tags = $mysqli->query($sql_tags);
 
     echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = -1;'>";
+    echo "<option selected disabled hidden>Select an option…</option>";
     while ($row_tags = $result_tags->fetch_assoc()) {
-        echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["detailed_tag"] . "'</option>";
+        echo "<option value='" . $row_tags["tag"] . "'>" . $row_tags["detailed_tag"] . "</option>";
     }
     echo "</select></form>";
 
     echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck' onchange = 'uncheckAll(this);' onfocus='this.selectedIndex = -1;'>";
     $result_tags->data_seek(0);
+    echo "<option selected disabled hidden>Select an option…</option>";
     while ($row_tags = $result_tags->fetch_assoc()) {
-        echo "<option value='" . $row_tags["tag"] . "'>'" . $row_tags["tag"] . "'</option>";
+        echo "<option value='" . $row_tags["tag"] . "'>" . $row_tags["detailed_tag"] . "</option>";
     }
     echo "</select><label for='lang'>Language…</label><select name=\"lang\" id=\"lang\" onchange=\"localStorage.setItem('languagePreference', this.value)\" onfocus=\"this.selectedIndex = -1;\"><option value=\"en\">English</option><option value=\"es\">Español</option></select></fieldset>";
     // onclick localStorage.setItem('languagePreference', 'es');
@@ -325,14 +327,14 @@ function populateSettings()
         $num_chap = mysqli_num_rows($result_chapter);
         if ($num_chap == 0) {
             echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-            echo "<label for='" . $row["cid"] . ".1'>" . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
+            echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
         } else {
             $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["cid"] . "' LIMIT 1";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
                 echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-                echo "<label for='" . $row["cid"] . ".1'>" . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
+                echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row_title["title"] . ": " . $row["title"] . "<a href='/read/?id=" . $row["cid"] . "&v=1'>↗</a></label>\n";
             }
         }
         echo "</li>\n";

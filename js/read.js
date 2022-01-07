@@ -5,7 +5,9 @@ function swap(swappableID) {
         let currentStyles = window.getComputedStyle(swappables[i]);
         if (currentStyles.display === "none" || currentStyles.display === "") {
             // swappables[i].style.display = "block";
-            $(swappables[i]).slideDown();
+            setTimeout(() => {
+                $(swappables[i]).slideDown();
+            }, 400);
         } else {
             // swappables[i].style.display = "none";
             $(swappables[i]).slideUp();
