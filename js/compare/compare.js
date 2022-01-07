@@ -1,4 +1,6 @@
 /*
+Okay, rather than compare entire block of HTML at once, maybe it would be best to match individual paragraphs using something like Levenshtein distance, then run the comparison code on those pairs individually... 
+
 function diffHTML(original, revised) {
     console.log(original);
     console.log(revised);

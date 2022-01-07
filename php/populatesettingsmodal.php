@@ -59,7 +59,7 @@ function populateSettingsModal($id, $v, $lang)
         echo "<p style=\"text-align:center;\">This is the only language available.</p>";
     }
 
-    // COMPARISON
+    /* COMPARISON
     echo "<hr>\n<h2>Comparison</h2>";
     // Create selection statement and perform selection.
     // Note that this should only display versions for comparison when the language of the alternate matches the language of the current — you should not, for example, be able to compare Hapka’s English version of “The Legend of Mata Nui” with Farshtey’s Spanish version.
@@ -87,4 +87,5 @@ function populateSettingsModal($id, $v, $lang)
         // Dismissal button.
         echo "<button onclick=\"dismissComparison()\">Dismiss Comparison</button>";
     }
+    */
 }

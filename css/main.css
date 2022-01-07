@@ -739,6 +739,43 @@ del {
     color: #080808;
 }
 
+/* SWAPPER STUFF */
+.swappable div {
+    display: none;
+    transition: unset;
+}
+
+.swappable .swapdefault {
+    display: block;
+    transition: unset;
+}
+
+.swapper {
+    margin: auto;
+    margin-top: -0.25em;
+    display: block;
+
+    /* CLEAR APPEARANCE */
+    border: none;
+    background: none;
+    box-shadow: none;
+
+    border-top: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75em;
+
+    transition: 0.15s;
+}
+
+.swapper:hover {
+    transform: scale(1.0625);
+}
+
+.swapper:active {
+    transform: scale(0.9375);
+}
+
 @media only screen and (max-width: 960px) {
     aside {
         /* REMOVE PREVIOUS SETTINGS */
