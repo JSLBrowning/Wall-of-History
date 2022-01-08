@@ -63,7 +63,8 @@
 * {
     padding: 0px;
     margin: 0px;
-    transition: all .2s ease-in-out;
+    /* transition: all .2s ease-in-out; */
+    /* The above slows down the settings page sorting for some reason. */
 }
 
 @font-face {
@@ -151,11 +152,12 @@ main h1,
 h2,
 h3 {
     text-align: center;
-    padding: 0 8px;
+    padding: 0px 8px;
     line-height: 1em;
     font-family: 'TradeMarker';
     font-weight: bold;
     color: var(--front1);
+    letter-spacing: 0.125em;
 }
 
 main h3:last-of-type {
@@ -230,14 +232,21 @@ ul {
 
 #sortable li {
     margin: 4px;
-    background-color: var(--back1);
+    background-color: var(--back2);
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 0px 4px;
     display: flex;
+    cursor: grab;
+}
+
+#sortable li label {
+    cursor: grab;
+    user-select: none;
 }
 
 #sortable li:hover {
-    background-color: #262626;
+    background-color: var(--back3);
 }
 
 label {
@@ -577,6 +586,7 @@ main h3 a {
     border-radius: 0.25em;
     transition: all .2s ease-in-out;
     background-color: var(--back2);
+    box-shadow: none;
     color: var(--front1);
 }
 
@@ -701,24 +711,23 @@ fieldset {
 }
 
 fieldset label {
-    margin-top: 0.5em;
-    margin-bottom: 1em;
     flex-basis: 20%;
+    font-size: var(--pfontsize);
+    cursor: default;
 }
 
 fieldset select {
     flex-basis: 75%;
-    margin-top: 0.5em;
-    margin-bottom: 1em;
+    margin: 0.25em;
     border: 1px solid var(--border);
     background: var(--back2);
-    box-shadow: var(--outershadow);
-    border-radius: 1em;
+    /* box-shadow: var(--outershadow); */
+    border-radius: 0.25em;
     color: var(--front1);
     /* NEWER STUFF */
     margin-left: auto;
     margin-right: auto;
-    height: 3em;
+    height: 2em;
     width: 100%;
 }
 
@@ -777,7 +786,8 @@ del {
     transition: unset;
 }
 
-.swapper {
+.swapper,
+#resetButton {
     margin: auto;
     display: block;
 
@@ -794,12 +804,20 @@ del {
     transition: 0.15s;
 }
 
-.swapper:hover {
+.swapper:hover,
+#resetButton:hover {
     transform: scale(1.0625);
 }
 
-.swapper:active {
+.swapper:active,
+#resetButton:active {
     transform: scale(0.9375);
+}
+
+#resetButton {
+    margin-top: -0.5em;
+    margin-bottom: 1em;
+    border: 0px;
 }
 
 @media only screen and (max-width: 960px) {
@@ -903,6 +921,8 @@ del {
     width: 100%;
     text-align: center;
     font-size: medium;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 aside {
