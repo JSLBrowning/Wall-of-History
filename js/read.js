@@ -21,6 +21,41 @@ function swap(swappableID) {
     thisButton.dataset.alternate = labelOld;
 }
 
+function carouselRight(button) {
+    let parents = button.parentElement.getElementsByTagName("h3");
+    for (let i = 0; i < parents.length; i++) {
+        let currentStyles = window.getComputedStyle(parents[i]);
+        if ((currentStyles.display != "none") && (i < parents.length - 1)) {
+            // Only works for two elements at the moment. Fix that.
+            parents[i].style.display = "none";
+            parents[i + 1].style.display = "block";
+            break;
+        } else {
+            parents[i].style.display = "none";
+            parents[i + 1].style.display = "none";
+            parents[0].style.display = "block";
+            break;
+        }
+    }
+}
+
+function carouselLeft(button) {
+    let parents = button.parentElement.getElementsByTagName("h3");
+    for (let i = 0; i < parents.length; i++) {
+        let currentStyles = window.getComputedStyle(parents[i]);
+        if ((currentStyles.display != "none") && (i < parents.length - 1)) {
+            // Only works for two elements at the moment. Fix that.
+            parents[i].style.display = "none";
+            parents[i - 1].style.display = "block";
+            break;
+        } else {
+            parents[0].style.display = "none";
+            parents[i].style.display = "block";
+            break;
+        }
+    }
+}
+
 function check() {
     if (sessionStorage.getItem("activeReadingOrder") === null && Object.keys(localStorage).filter(name => name.includes('readingOrder')).length > 1) {
         generateSelectionModal();
@@ -31,3 +66,5 @@ function check() {
 }
 
 let checkInterval = window.setInterval(check(), 500);
+
+// <div class="multiparents"><button carouselleft(this)'="">⮜</button><h3 style="display: block;"><a onclick="goTo('Q2N8NX.1')">Chapter 2: The Bohrok Swarms</a></h3><h3 style="display: none;"><a onclick="goTo('JBTY4O.1')">Chapter 3: The Toa Nuva &amp; Bohrok-Kal</a></h3><h3 style="display: none;"><a onclick="goTo('JBTY4O.1')">Chapter 4: Some Other Thing</a></h3><button onclick="carouselRight(this)">⮞</button></div>

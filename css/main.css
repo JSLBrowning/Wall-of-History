@@ -158,9 +158,36 @@ h3 {
     color: var(--front1);
 }
 
-main h3:nth-of-type(2) {
+main h3:last-of-type {
     margin-bottom: 0.5em;
 }
+
+/* MULTIPARENT CAROUSEL */
+.multiparents {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    min-height: 20px;
+}
+
+.multiparents button {
+    margin: 0em;
+    width: 15%;
+    border: 0px;
+    box-shadow: none;
+}
+
+main .multiparents h3 {
+    margin: 0.5em;
+    width: 70%;
+    display: none;
+    margin: 0em;
+}
+
+main .multiparents h3:first-of-type {
+    display: block;
+}
+/* /CAROUSEL */
 
 /* Why don't these work? */
 main h2 a:hover {

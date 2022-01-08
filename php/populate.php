@@ -198,18 +198,25 @@ function loadContent($id, $lang, $v)
     if ((!($id == "0")) && ($num_rows == 0)) {
         // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
         echo "<h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
-    } else {
+    } else if ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
-            if ($num_rows == 1) {
-                $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
-                $result_title = $mysqli->query($sql_title);
-                while ($row_title = $result_title->fetch_assoc()) {
-                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
-                }
-            } else {
-                echo "<h3>↑</h3>";
+            $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+            $result_title = $mysqli->query($sql_title);
+            while ($row_title = $result_title->fetch_assoc()) {
+                echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
             }
         }
+    } else {
+        echo "<div class='multiparents'><button carouselLeft(this)'>⮜</button>";
+        while ($row = $result->fetch_assoc()) {
+            $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+            // ORDER BY chronology, title ASC
+            $result_title = $mysqli->query($sql_title);
+            while ($row_title = $result_title->fetch_assoc()) {
+                echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
+            }
+        }
+        echo "<button onclick='carouselRight(this)'>⮞</button></div>";
     }
 
     // GET AND DISPLAY IMAGE
