@@ -223,6 +223,7 @@ main p {
     font-size: var(--pfontsize);
     text-align: justify;
     text-justify: inter-word;
+    width: 100%;
 }
 
 main ul {

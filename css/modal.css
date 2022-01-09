@@ -87,6 +87,7 @@
     overflow: visible;
     /* This is still causing problems, most noticeable on mobile.
     Make a JavaScript promise thing so *ALL* the content is loaded before the transition even starts. */
+    /* Horizontal scroll bar is still showing up on occasion. */
 }
 
 @media only screen and (max-width: 680px) {
@@ -172,13 +173,13 @@
 
 .modal-content a:hover {
     color: var(--front1);
-    font-size: 1.0625em;
+    font-size: 1.03125em;
     cursor: pointer;
 }
 
 .modal-content a:active {
     color: var(--front3);
-    font-size: 0.9375em;
+    font-size: 0.96875em;
     cursor: pointer;
 }
 
