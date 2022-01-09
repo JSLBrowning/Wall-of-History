@@ -21,6 +21,7 @@ function swap(swappableID) {
     thisButton.dataset.alternate = labelOld;
 }
 
+// These can be tested on “The Legend of Mata Nui,” which has three parents.
 function carouselRight(button) {
     let parents = button.parentElement.getElementsByTagName("h3");
     for (let i = 0; i < parents.length; i++) {
@@ -67,4 +68,60 @@ function check() {
 
 let checkInterval = window.setInterval(check(), 500);
 
-// <div class="multiparents"><button carouselleft(this)'="">⮜</button><h3 style="display: block;"><a onclick="goTo('Q2N8NX.1')">Chapter 2: The Bohrok Swarms</a></h3><h3 style="display: none;"><a onclick="goTo('JBTY4O.1')">Chapter 3: The Toa Nuva &amp; Bohrok-Kal</a></h3><h3 style="display: none;"><a onclick="goTo('JBTY4O.1')">Chapter 4: Some Other Thing</a></h3><button onclick="carouselRight(this)">⮞</button></div>
+function stackHistory() {
+    // Make sure cookie exists, maybe??
+    // Get current ID.
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const ID = urlParams.get("id");
+    const version = (urlParams.has("v")) ? urlParams.get("v") : "1";
+
+    // Run through stackhistory.php with XmlHttpRequest.
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // Split result into array.
+            let newStackItems = this.responseText.split(",");
+
+            // Get existing historyStack from cookies (if it exists), split into array.
+            let existingStackItems = (getCookie("historyStack") === "") ? [] : getCookie("historyStack").split(",");
+
+            // Stack new historyStack with existing historyStack.
+            for (i = 0; i < newStackItems.length; i++) {
+                existingStackItems.push(newStackItems[i]);
+            }
+
+            // If > 20, remove oldest items.
+            while (existingStackItems.length > 20) {
+                existingStackItems.shift();
+            }
+
+            // Join array into string.
+            let newStack = existingStackItems.join(",");
+            console.log("New history stack: " + newStack);
+
+            // Set cookie.
+            document.cookie = "historyStack=" + newStack + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+        }
+    };
+    xmlhttp.open("GET", "../php/stackhistory.php?id=" + ID + "&v=" + version, true);
+    xmlhttp.send();
+}
+
+stackHistory();
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
