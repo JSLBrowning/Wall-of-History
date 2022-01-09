@@ -80,11 +80,10 @@ function addCSS($id)
     }
 
     /*
-    Put all recent IDs into a cookie stack, say... twenty IDs deep max.
-    When two parent or grandparent CSS IDs dispute, loop through the stack to find the most recent match.
-    If that doesn't work, try the tree of the -- chronology ID for a match.
+    When two parent or grandparent CSS IDs dispute, loop through the history stack to find the most recent match.
+    If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
-    If THAT doesn't work, default to newer, I GUESS. */
+    If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict). */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
     $result = $mysqli->query($sql);

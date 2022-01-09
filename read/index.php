@@ -62,6 +62,7 @@
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <?php
+    // Pass in stack cookie.
     addCSS($id, $lang, $v);
     ?>
 </head>
