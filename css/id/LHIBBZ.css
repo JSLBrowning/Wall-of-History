@@ -15,8 +15,8 @@
     --front3: #9f9f9f;
     /* RGB159, a:active */
     --fontweight: normal;
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+    --outershadow: 3px 3px 6px var(--back1), -3px -3px 6px var(--back3);
+    --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
 :root.light {
@@ -29,6 +29,6 @@
     --back2: #E5E6EB;
     --back1: #B1B1B2;
     --fontweight: bold;
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+    --outershadow: 3px 3px 6px var(--back1), -3px -3px 6px var(--back3);
+    --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }

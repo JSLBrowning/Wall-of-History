@@ -10,8 +10,6 @@ main h2:last-of-type {
     display: none;
 }
 
-/* DELETE FROM `woh_tags` WHERE id="9ZOS30" and tag="game" */
-
 @media only screen and (max-width: 640px) {
     main {
         min-width: 0px;

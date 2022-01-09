@@ -1,6 +1,6 @@
 let latestSelection = 1;
 
-$("main span a").click(function(e) {
+$("main span a").click(function (e) {
     if (e.ctrlKey) {
         return false;
     }
@@ -18,7 +18,7 @@ window.onload = (event) => {
     // console.log(latestSelection);
 };
 
-window.onhashchange = function() {
+window.onhashchange = function () {
     $("span").removeClass("x-target");
     newSelections();
 }
@@ -35,18 +35,24 @@ function newSelections() {
                 currentID = "p" + String(j);
                 let currentTarget = document.getElementById(currentID);
                 currentTarget.classList.add("x-target");
+                if (i === 0) {
+                    currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+                }
             }
         } else {
             if (targets[i] != "") {
                 currentID = "p" + targets[i];
                 let currentTarget = document.getElementById(currentID);
                 currentTarget.classList.add("x-target");
+                if (i === 0) {
+                    currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+                }
             }
         }
     }
 }
 
-$(".anchor").click(function(e) {
+$(".anchor").click(function (e) {
     // Weird behavior on DE-selection. Fix.
     if (e.ctrlKey && $(this).parent().hasClass("x-target")) {
         removeHash($(this).parent().attr("id"));
@@ -101,7 +107,7 @@ function addHash(id) {
         let currentHashes = window.location.href.split("#")[1].substring(1).split(",");
         let addedHash = parseInt(id.substring(1));
         currentHashes.push(addedHash);
-        currentHashes.sort(function(a, b) { return a - b });
+        currentHashes.sort(function (a, b) { return a - b });
 
         window.location.hash = "p" + condense(simplify(currentHashes)).join(",");
     }
@@ -121,7 +127,7 @@ function simplify(a) {
     }
 
     // Convert all to ints.
-    a = a.map(function(x) {
+    a = a.map(function (x) {
         return parseInt(x, 10);
     });
 
@@ -130,7 +136,7 @@ function simplify(a) {
         a = a.filter((value, index) => a.indexOf(value) === index);
     }
 
-    return a.sort(function(a, b) { return a - b });
+    return a.sort(function (a, b) { return a - b });
 }
 
 // This function condenses any subarrays of sequential numbers into ranges of numbers.
@@ -155,3 +161,30 @@ function condense(a) {
     }
     return a.map(String);
 }
+
+function searchLines() {
+    let url = new URL(window.location.href);
+
+    if (url.searchParams.has("q")) {
+        const search = decodeURI(url.searchParams.get("q"));
+
+        let paragraphs = document.getElementById("oldhtml").getElementsByTagName("span");
+        if (paragraphs.length > 0) {
+            let results = [];
+            for (i = 0; i < paragraphs.length; i++) {
+                if (paragraphs[i].innerText.toLowerCase().includes(search.toLowerCase())) {
+                    results.push(parseInt(paragraphs[i].getAttribute("id").substring(1)));
+                }
+            }
+
+            let condensedResults = condense(results);
+            url.searchParams.delete("q");
+            window.location.href = url.href + "#p" + condensedResults.join(",");
+        } else {
+            url.searchParams.delete("q");
+            window.location.href = url.href;
+        }
+    }
+}
+
+searchLines();

@@ -14,8 +14,8 @@
     --front3: #9f9f9f;
     /* RGB159, a:active */
     --fontweight: normal;
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+    --outershadow: 3px 3px 6px var(--back1), -3px -3px 6px var(--back3);
+    --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
 :root.light {
@@ -28,8 +28,8 @@
     --back2: #E5E6EB;
     --back1: #B1B1B2;
     --fontweight: bold;
-    --outershadow: 5px 5px 10px var(--back1), -5px -5px 10px var(--back3);
-    --innershadow: inset 5px 5px 10px var(--back1), inset -5px -5px 10px var(--back3);
+    --outershadow: 3px 3px 6px var(--back1), -3px -3px 6px var(--back3);
+    --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
 :root.smallest {
@@ -192,11 +192,11 @@ main .multiparents h3:first-of-type {
 /* /CAROUSEL */
 
 /* Why don't these work? */
-main h2 a:hover {
+main h3 a:hover {
     font-size: 1.01875em;
 }
 
-main h2 a:active {
+main h3 a:active {
     font-size: 0.98125em;
 }
 
@@ -225,7 +225,7 @@ main p {
     text-justify: inter-word;
 }
 
-ul {
+main ul {
     list-style: none;
     margin: 8px 8px;
 }
@@ -415,6 +415,12 @@ main button,
     transition: all .2s ease-in-out;
 }
 
+/*
+main button::before {
+    filter: blur(10px);
+}
+*/
+
 #submit {
     display: block;
     margin: 10px auto;
@@ -521,7 +527,7 @@ nav button:active,
 .contentsButton:active,
 #submit:active {
     transform: scale(0.9375);
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0), -5px -5px 10px rgba(0, 0, 0, 0), var(--innershadow);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--innershadow);
 }
 
 .standaloneButton:focus,
@@ -941,8 +947,7 @@ aside button {
     color: var(--front1);
     border-radius: 0.375em;
     background: var(--back2);
-    /* box-shadow: var(--outershadow); */
-    box-shadow: none;
+    box-shadow: var(--outershadow);
     border: 1px solid var(--border);
     padding: none;
     font-size: 1.5em;
@@ -962,6 +967,13 @@ aside button:hover {
 
 aside button:active {
     transform: scale(0.95);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--innershadow);
+}
+
+@media only screen and (min-width: 960px) {
+    aside {
+        position: fixed;
+    }
 }
 
 /* BELOW NEEDS SIGNIFICANT REVISIONS */

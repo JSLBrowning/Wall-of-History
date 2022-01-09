@@ -162,14 +162,14 @@
                     $result_chapter = $mysqli->query($sql_chapter);
                     $num_chap = mysqli_num_rows($result_chapter);
                     if ($num_chap == 0) {
-                        echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row['title'] . "</h3>";
+                        echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "&q=" . $query . "';\">" . $row['title'] . "</h3>";
                         echo "<p>" . $row['snippet'] . "</p>";
                     } else {
                         $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["id"] . "' AND woh_web.child_version = " . $row["content_version"];
 
                         $result_title = $mysqli->query($sql_title);
                         while ($row_title = $result_title->fetch_assoc()) {
-                            echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "';\">" . $row_title["title"] . ": " . $row['title'] . "</h3>";
+                            echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "&q=" . $query . "';\">" . $row_title["title"] . ": " . $row['title'] . "</h3>";
                             echo "<p>" . $row['snippet'] . "</p>";
                         }
                     }

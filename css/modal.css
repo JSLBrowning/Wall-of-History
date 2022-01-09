@@ -37,7 +37,7 @@
     z-index: 9;
     margin-left: 0px;
     width: 300px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
 }
 
 .modal-content-right {
@@ -61,7 +61,7 @@
     z-index: 9;
     margin-right: 0px;
     width: 300px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
 }
 
 .modal-content-center {
@@ -76,8 +76,8 @@
     right: calc(50% - 320px);
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: -47.5%;
-    height: 47.5%;
+    margin-bottom: -90%;
+    height: 90%;
     z-index: 0;
     background-color: var(--back2);
     border: 1px solid var(--border);
@@ -106,7 +106,7 @@
     z-index: 9;
     top: 5%;
     height: 90%;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
     overflow-y: auto;
 }
 
@@ -185,8 +185,18 @@
 .modal-content ul,
 .modal-content li {
     font-family: 'Gill Sans Std';
+    font-size: 0.9375em;
     color: var(--front1);
-    font-size: 0.875em;
+    list-style: inside circle;
+}
+
+.modal-content ul {
+    margin: 1em;
+    margin-top: -0.5em;
+}
+
+.modal-content li {
+    margin: 0.25em 1em;
 }
 
 .modal-content .source {
