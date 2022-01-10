@@ -302,6 +302,7 @@ function populateSettings()
 
     echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = 0;'>";
     echo "<option selected='true' disabled='disabled'>Select an option…</option>";
+    echo "<option value='everything'>Everything</option>";
     while ($row_tags = $result_tags->fetch_assoc()) {
         echo "<option value='" . $row_tags["tag"] . "'>" . $row_tags["detailed_tag"] . "</option>";
     }
@@ -310,6 +311,7 @@ function populateSettings()
     echo "<label for='uncheck'>Uncheck all…</label><select name='uncheck' id='uncheck' onchange = 'uncheckAll(this);' onfocus='this.selectedIndex = 0;'>";
     $result_tags->data_seek(0);
     echo "<option selected='true' disabled='disabled'>Select an option…</option>";
+    echo "<option value='everything'>Everything</option>";
     while ($row_tags = $result_tags->fetch_assoc()) {
         echo "<option value='" . $row_tags["tag"] . "'>" . $row_tags["detailed_tag"] . "</option>";
     }

@@ -42,8 +42,15 @@ async function initialize() {
     }
 
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
-        let recommendedReadingOrder = await getRecommendedReadingOrder();
-        localStorage.setItem("readingOrder:0", recommendedReadingOrder);
+        loadJSON(async function (response) {
+            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingorder);
+            setReadingOrder(recommendedReadingOrder).then(() => {
+                document.getElementById("homepageReadButton").disabled = false;
+                console.log("Reader ready.");
+            });
+        });
+    } else {
+        document.getElementById("homepageReadButton").disabled = false;
     }
 
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -78,6 +85,18 @@ async function initialize() {
     }
 };
 
+function loadJSON(callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', '/config/config.json', true);
+    xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
+}
+
 function getLanguageList() {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
@@ -91,17 +110,25 @@ function getLanguageList() {
     });
 }
 
-function getRecommendedReadingOrder() {
-    return new Promise(resolve => {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                resolve(this.responseText);
-            }
-        };
-        xmlhttp.open("GET", "../php/initread.php", true);
-        xmlhttp.send();
-    });
+function getRecommendedReadingOrder(type) {
+    if (type == "chronology") {
+        return new Promise(resolve => {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    resolve(this.responseText);
+                }
+            };
+            xmlhttp.open("GET", "../php/initread.php", true);
+            xmlhttp.send();
+        });
+    } else {
+        return "null";
+    }
+}
+
+async function setReadingOrder(newReadingOrder) {
+    localStorage.setItem("readingOrder:0", newReadingOrder);
 }
 
 initialize();
@@ -221,6 +248,7 @@ let showInterval = window.setInterval(showCallback, 500);
 function showCallback() {
     // Find a better way to do this (probably involving async functions).
     // This might be necessary for the... reading order select thing.
+    // If no reading order is selected, one NEEDS to be selected, THEN this can run.
     showButtons();
 }
 
@@ -344,37 +372,4 @@ async function readAsStandalone() {
     localStorage.setItem("readingOrder:" + currentID, newOrder);
     sessionStorage.setItem("activeReadingOrder", currentID);
     jumpTo();
-}
-
-/* DOWNLOAD FUNCTIONS */
-
-function downloadContent() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const currentID = urlParams.get('id');
-
-    $.ajax({
-        url: "http://localhost:8080/doc/downloads/" + currentID + ".zip",
-        type: 'HEAD',
-        error: function () {
-            console.log("No downloads are available for this content.");
-        },
-        success: function () {
-            console.log("Showing download button…");
-            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
-                    // Fix the above regex to strip to alphanumeric.
-                    // Other than that... this still works! Nice.
-                    document.getElementById("downloadLink").download = filename;
-                }
-            };
-            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
-            xmlhttp.send();
-            $(document.getElementById("downloadButton")).fadeIn("slow");
-        }
-    });
 }

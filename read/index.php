@@ -112,7 +112,7 @@
         <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
         <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
         <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-        <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">🡳</button></a>
+        <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">⭳</button></a>
     </aside>
     <div id="mains">
         <main id="oldhtml">
@@ -146,9 +146,6 @@
     <script src="/js/main.js"></script>
     <script src="/js/readingorders.js"></script>
     <script src="/js/read.js"></script>
-    <script>
-        downloadContent()
-    </script>
     <script src="/js/populatemodals.js"></script>
     <script src="/js/modal.js"></script>
     <script src="/js/indeterminate.js"></script>

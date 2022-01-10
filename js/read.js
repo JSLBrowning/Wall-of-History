@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function(){
+    downloadContent();
+    stackHistory();
+});
+
 function swap(swappableID) {
     let swappableDiv = document.getElementById(swappableID);
     let swappables = swappableDiv.children;
@@ -63,7 +68,6 @@ function check() {
     } else if (sessionStorage.getItem("activeReadingOrder") === null) {
         sessionStorage.setItem("activeReadingOrder", "0");
     }
-    // If not on reader... empty sessionStorage.
 }
 
 let checkInterval = window.setInterval(check(), 500);
@@ -98,17 +102,15 @@ function stackHistory() {
 
             // Join array into string.
             let newStack = existingStackItems.join(",");
-            console.log("New history stack: " + newStack);
 
             // Set cookie.
             document.cookie = "historyStack=" + newStack + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+            console.log("History stack updated.");
         }
     };
     xmlhttp.open("GET", "../php/stackhistory.php?id=" + ID + "&v=" + version, true);
     xmlhttp.send();
 }
-
-stackHistory();
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -124,4 +126,35 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function downloadContent() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const currentID = urlParams.get('id');
+
+    $.ajax({
+        url: "http://localhost:8080/doc/downloads/" + currentID + ".zip",
+        type: 'HEAD',
+        error: function () {
+            console.log("No downloads are available for this content.");
+        },
+        success: function () {
+            console.log("Downloads are available for this content.");
+            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
+                    // Fix the above regex to strip to alphanumeric.
+                    // Other than that... this still works! Nice.
+                    document.getElementById("downloadLink").download = filename;
+                    $(document.getElementById("downloadLink")).fadeIn("slow");
+                }
+            };
+            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
+            xmlhttp.send();
+        }
+    });
 }

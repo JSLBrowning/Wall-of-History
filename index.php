@@ -69,14 +69,14 @@
             <p style="text-align: center;">Welcome to <strong>Wall of History</strong>, a web archive of the entire BIONICLE legend — compiled into an accessible, easy-to-read format.</p>
             <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking <a href="/read/">here</a>.</p>
             <nav>
-                <button onclick="jumpTo()">Read!</button>
+                <button id="homepageReadButton" onclick="jumpTo()" disabled>Read!</button>
             </nav>
         </section>
         <section lang="es" style="display: none;">
             <p style="text-align: center;">Bienvenido a <strong>Wall of History</strong>, un archivo web de toda la leyenda de BIONICLE, recopilada en un formato accesible y fácil de leer.</p>
             <p style="text-align: center;">Puede comenzar o continuar leyendo presionando el botón de abajo, o puede navegar por nuestros contenidos haciendo clic <a href="/read/">aquí.</a></p>
             <nav>
-                <button onclick="jumpTo()">Read!</button>
+                <button onclick="jumpTo()" disabled>Read!</button>
             </nav>
         </section>
         <hr>

@@ -64,29 +64,43 @@ jQuery(document).ready(function($) {
                 return this.value + ":0";
             }
         }).get();
-        if (yesCount === 0) {
-            alert("Error: At least one item must be checked.");
+        if (yesCount < 2) {
+            alert("Error: At least two items must be checked.");
         } else {
-            localStorage.setItem("WallofHistoryReadingOrder", values);
-            localStorage.setItem("WallofHistoryReadingOrderApplicationDate", "08102020");
-            localStorage.setItem("WallofHistoryReadingOrderRecommendedStatus", "false");
+            localStorage.setItem("readingOrder:0", values);
             alert("Your reading order has been updated!");
         }
     });
 });
 
 function checkAll(sel) {
-    let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
-    for (i = 0; i < boxes.length; i++) {
-        boxes[i].checked = true;
+    if (sel.options[sel.selectedIndex].value == "everything") {
+        let boxes = document.querySelectorAll('input[type=checkbox]');
+        for (i = 0; i < boxes.length; i++) {
+            boxes[i].checked = true;
+        }
+        alert("All items have been selected.");
+    } else {
+        let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
+        for (i = 0; i < boxes.length; i++) {
+            boxes[i].checked = true;
+        }
+        alert("All " + sel.options[sel.selectedIndex].value + " items have been selected.");
     }
-    alert("All " + sel.options[sel.selectedIndex].value + " items have been selected.");
 }
 
 function uncheckAll(sel) {
-    let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
-    for (i = 0; i < boxes.length; i++) {
-        boxes[i].checked = false;
+    if (sel.options[sel.selectedIndex].value == "everything") {
+        let boxes = document.querySelectorAll('input[type=checkbox]');
+        for (i = 0; i < boxes.length; i++) {
+            boxes[i].checked = false;
+        }
+        alert("All items have been unselected.");
+    } else {
+        let boxes = document.querySelectorAll("[data-tags*='" + sel.options[sel.selectedIndex].value + "']");
+        for (i = 0; i < boxes.length; i++) {
+            boxes[i].checked = false;
+        }
+        alert("All " + sel.options[sel.selectedIndex].value + " items have been unselected.");
     }
-    alert("All " + sel.options[sel.selectedIndex].value + " items have been unselected.");
 }
