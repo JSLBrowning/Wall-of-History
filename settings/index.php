@@ -59,7 +59,7 @@
         include("..//php/populate.php");
         populateSettings();
         ?>
-        <button id="submit" style="position: fixed; bottom: 1em; right: 1em;">Submit</button>
+        <button id="submit">Submit</button>
     </main>
     <script src="/js/jquery/jquery-3.6.0.min.js"></script>
     <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>

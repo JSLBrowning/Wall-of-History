@@ -84,11 +84,15 @@ function addCSS($id)
     If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
     If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
-    OR maybe... if there's a conflict and not enough info to solve it, get all chronology values for conflicting CSS values, average them together, and pick whichever one is closest to the current chronology. */
+    OR maybe... if there's a conflict and not enough info to solve it, get all chronology values for conflicting CSS values, average them together, and pick whichever one is closest to the current chronology.
+    CHRONOLOGY ALGORITHM FOR GRANDPARENTS, STACK HISTORY FOR PARENTS. */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
     $result = $mysqli->query($sql);
-    if (mysqli_num_rows($result) > 0) {
+    $num_rows = mysqli_num_rows($result);
+    if ($num_rows > 1) {
+        //
+    } else if ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
             if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
                 echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
@@ -110,6 +114,11 @@ function addCSS($id)
     // Self
     if (file_exists("../css/id/" . $id . ".css")) {
         echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>\n";
+    }
+
+    // Overrides
+    if (file_exists("../css/id/override/" . $id . ".css")) {
+        echo "<link rel='stylesheet' type='text/css' href='/css/id/override/" . $id . ".css'>\n";
     }
 }
 
@@ -219,7 +228,8 @@ function loadContent($id, $lang, $v)
             // ORDER BY chronology, title ASC
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
-                echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
+                $parentid = $row["parent_id"];
+                echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
             }
         }
         echo "<button onclick='carouselForward(this)'>⮞</button></div>";

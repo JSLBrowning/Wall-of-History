@@ -428,6 +428,9 @@ main button::before {
     width: 128px;
     height: 64px;
     font-size: 2em;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
 }
 
 .slidecontrols,
