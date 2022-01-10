@@ -23,6 +23,19 @@ main video {
     box-shadow: var(--outershadow);
 }
 
+.social a img {
+    transition: all .2s ease-in-out;
+}
+
+.social a img:hover {
+    transform: scale(1.25);
+}
+
+.social a img:active {
+    transform: scale(0.975);
+    opacity: 50%;
+}
+
 @media only screen and (max-width: 960px) {
     aside{
         /* REMOVE PREVIOUS SETTINGS */

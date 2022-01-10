@@ -13,8 +13,8 @@
 
 .contentsButton {
     margin: 1em auto;
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     height: 96px;
     width: 95%;
     border-radius: 0.5em;

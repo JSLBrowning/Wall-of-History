@@ -61,8 +61,8 @@
         ?>
         <button id="submit" style="position: fixed; bottom: 1em; right: 1em;">Submit</button>
     </main>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="/js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/modal.js"></script>
     <!-- Fix modal error on settings page, possibly others. -->

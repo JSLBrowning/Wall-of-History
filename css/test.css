@@ -1,0 +1,108 @@
+#children {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.padding {
+    margin: 1em 0em;
+    height: 160px;
+    width: 33.33%;
+    align-content: center;
+}
+
+.noImg {
+    height: 100px;
+}
+
+.contentsButton {
+    margin-left: 9.375%;
+    width: 81.25%;
+    margin-right: 9.375%;
+    height: 100%;
+}
+
+.contentsButton img {
+    margin-top: -2em;
+    margin-left: -2em;
+    margin-right: 0.5em;
+    border-radius: 0.375em;
+    padding: 0em;
+    float: left;
+    display: block;
+    height: 100%;
+    width: auto;
+
+    border: 1px solid var(--border);
+    border-top: none;
+    border-left: none;
+}
+
+.contentsButton p {
+    margin: 0.25em 0.5em;
+    text-align: left;
+    font-size: 1.125em;
+}
+
+.contentsButton p:first-of-type {
+    margin-top: -0.25em;
+    font-family: "Trademarker";
+    font-size: 1.25em;
+}
+
+#bc {
+    border-color: #b06b23;
+    border-top: none;
+    border-left: none;
+}
+
+#bc1 {
+    border-color: #fe0200;
+    border-top: none;
+    border-left: none;
+}
+
+#bc2 {
+    border-color: #6789c9;
+    border-top: none;
+    border-left: none;
+}
+
+#bc3 {
+    border-color: #4d963d;
+    border-top: none;
+    border-left: none;
+}
+
+#bc4 {
+    border-color: #ff9808;
+    border-top: none;
+    border-left: none;
+}
+
+#bc5 {
+    border-color: #7d6d57;
+    border-top: none;
+    border-left: none;
+}
+
+#ba1 {
+    border-top: none;
+    border-left: none;
+}
+
+#ba2 {
+    border-top: none;
+    border-left: none;
+}
+
+#ba3 {
+    border-top: none;
+    border-left: none;
+}
+
+#ba4 {
+    border-top: none;
+    border-left: none;
+}

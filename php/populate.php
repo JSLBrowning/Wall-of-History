@@ -83,7 +83,8 @@ function addCSS($id)
     When two parent or grandparent CSS IDs dispute, loop through the history stack to find the most recent match.
     If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
-    If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict). */
+    If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
+    OR maybe... if there's a conflict and not enough info to solve it, get all chronology values for conflicting CSS values, average them together, and pick whichever one is closest to the current chronology. */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
     $result = $mysqli->query($sql);
@@ -212,7 +213,7 @@ function loadContent($id, $lang, $v)
             }
         }
     } else {
-        echo "<div class='multiparents'><button carouselLeft(this)'>⮜</button>";
+        echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
         while ($row = $result->fetch_assoc()) {
             $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
             // ORDER BY chronology, title ASC
@@ -221,7 +222,7 @@ function loadContent($id, $lang, $v)
                 echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
             }
         }
-        echo "<button onclick='carouselRight(this)'>⮞</button></div>";
+        echo "<button onclick='carouselForward(this)'>⮞</button></div>";
     }
 
     // GET AND DISPLAY IMAGE

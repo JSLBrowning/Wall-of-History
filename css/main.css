@@ -599,8 +599,8 @@ main h3 a {
 
 .contentsButton {
     margin: 1em auto;
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     height: 96px;
     width: 95%;
     border-radius: 0.5em;
@@ -885,6 +885,7 @@ del {
     main h3:nth-of-type(2) {
         margin-bottom: 0.25em;
     }
+    /* Yeah, nth-of-type(2) ain't gonna work. */
     main p,
     header p,
     .modalcontent p {

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     downloadContent();
     stackHistory();
 });
@@ -27,36 +27,33 @@ function swap(swappableID) {
 }
 
 // These can be tested on “The Legend of Mata Nui,” which has three parents.
-function carouselRight(button) {
+function carouselForward(button) {
     let parents = button.parentElement.getElementsByTagName("h3");
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
         if ((currentStyles.display != "none") && (i < parents.length - 1)) {
-            // Only works for two elements at the moment. Fix that.
             parents[i].style.display = "none";
             parents[i + 1].style.display = "block";
             break;
-        } else {
+        } else if ((currentStyles.display != "none") && (i == parents.length - 1)) {
             parents[i].style.display = "none";
-            parents[i + 1].style.display = "none";
             parents[0].style.display = "block";
             break;
         }
     }
 }
 
-function carouselLeft(button) {
+function carouselBack(button) {
     let parents = button.parentElement.getElementsByTagName("h3");
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
-        if ((currentStyles.display != "none") && (i < parents.length - 1)) {
-            // Only works for two elements at the moment. Fix that.
+        if ((currentStyles.display != "none") && (i > 0)) {
             parents[i].style.display = "none";
             parents[i - 1].style.display = "block";
             break;
-        } else {
+        } else if ((currentStyles.display != "none") && (i == 0)) {
             parents[0].style.display = "none";
-            parents[i].style.display = "block";
+            parents[parents.length - 1].style.display = "block";
             break;
         }
     }
