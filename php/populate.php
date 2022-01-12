@@ -166,12 +166,14 @@ function addChildren($id, $lang, $v)
     if ($num_rows != 0) {
         // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
         if ($id != "0") {
+            /*
             $sql_standalone = "SELECT child_id FROM woh_web";
             $result_standalone = $mysqli->query($sql_standalone);
 
             if (mysqli_num_rows($result_standalone) != 0) {
                 echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
             }
+            */
         }
 
         // WHAT THE FUCK HAPPENED HERE?!
@@ -183,15 +185,17 @@ function addChildren($id, $lang, $v)
             if (in_array($uniqueid, $uniquea)) {
                 continue;
             } else {
-                echo "<button class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $row["content_version"] . "\")'>";
-                if ($row["small_image"] != NULL) {
-                    echo "<div class='contentsImg'><img src='" . $row["small_image"] . "'></div>";
+                echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $row["content_version"] . "\")'>";
+                if (file_exists("../img/story/contents/" . $uniqueid . ".png")) {
+                    echo "<img src='/img/story/contents/" . $uniqueid . ".png' alt='" . $row["title"] . "'>";
+                } else if ($row["small_image"] != NULL) {
+                    echo "<img src='" . $row["small_image"] . "'>";
                 }
                 $snippet = (string) $row["snippet"];
                 if (strlen($snippet) > 196) {
-                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></div></button>";
+                    echo "<p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></button>";
                 } else {
-                    echo "<div class='contentsText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></div></button>";
+                    echo "<p>" . $row["title"] . "</p><p>" . $snippet . "</p></button></div>";
                 }
             }
 
@@ -210,6 +214,12 @@ function loadContent($id, $lang, $v)
 
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
+
+    echo "<div class='headercardpadding'><div class='headercard'>";
+    // Get and display image.
+    if (file_exists("../img/story/contents/" . $id . ".png")) {
+        echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
+    }
     if ((!($id == "0")) && ($num_rows == 0)) {
         // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
         echo "<h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
@@ -285,6 +295,7 @@ function loadContent($id, $lang, $v)
         }
         echo "</h3>";
     }
+    echo "</div></div>";
 
     // Get and display content.
     $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";

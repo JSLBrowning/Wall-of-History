@@ -1,4 +1,6 @@
 #children {
+    /* TEMPORARY */
+    margin-top: 2em;
     width: 95%;
     /* For one per row: */
     max-width: 720px;
@@ -8,9 +10,9 @@
 }
 
 .padding {
-    margin: 1em 0em;
+    margin: 1.5em 0em;
     /* height: 160px; */
-    height: 120px;
+    height: 80px;
     /* width: 33.33%; */
     width: 100%;
     align-content: center;
@@ -28,8 +30,8 @@
 }
 
 .contentsButton img {
-    margin-top: -2em;
-    margin-left: -2em;
+    margin-top: -1em;
+    margin-left: -1em;
     margin-right: 0.5em;
     border-radius: 0.375em;
     padding: 0em;
@@ -45,13 +47,14 @@
 
 .contentsButton p {
     margin: 0.25em 0.5em;
+    padding: unset;
     text-align: left;
     /* font-size: 1.125em; */
     font-size: 1.125em;
 }
 
 .contentsButton p:first-of-type {
-    margin-top: -0.25em;
+    margin-top: 0.25em;
     font-family: "Trademarker";
     /* font-size: 1.25em; */
     font-size: 1.375em;
@@ -76,6 +79,62 @@
 }
 
 .red {
+    margin: 0em;
+    margin-bottom: -0.5em;
+    padding: 0em;
+    text-align: center;
+    text-transform: uppercase;
     color: red;
-    text-shadow: 1px 1px white;
+    font-size: x-large;
+    font-weight: 900;
+}
+
+.redstroke {
+    -webkit-text-stroke: 1px red;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.headercardpadding {
+    margin: 1em 1.25em;
+    margin-bottom: 2.5em;
+    height: 9em;
+    max-height: 9em;
+    align-content: center;
+    border-radius: 0em;
+}
+
+.headercard {
+    border: 1px solid var(--border);
+    border-radius: 1em;
+    box-shadow: var(--outershadow);
+    height: 100%;
+    border-color: red;
+    border-top: none;
+    border-left: none;
+}
+
+.headercard h3:first-of-type {
+    padding-top: 0.5em;
+    margin-top: 0.5em;
+}
+
+.headercard h3:last-of-type {
+    margin-bottom: 0.5em;
+}
+
+.headercard img {
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-bottom: -1em;
+    margin-right: 0.5em;
+    border-radius: 0.25em;
+    padding: 0em;
+    float: left;
+    display: block;
+    height: 11em;
+    width: auto;
+
+    border: 1px solid var(--border);
+    border-top: none;
+    border-left: none;
 }

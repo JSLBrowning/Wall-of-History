@@ -80,6 +80,7 @@
 
 body {
     background-color: var(--back2);
+    padding-bottom: 1em;
 }
 
 html,
