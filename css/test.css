@@ -1,5 +1,7 @@
 #children {
     width: 95%;
+    /* For one per row: */
+    max-width: 720px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -7,8 +9,10 @@
 
 .padding {
     margin: 1em 0em;
-    height: 160px;
-    width: 33.33%;
+    /* height: 160px; */
+    height: 120px;
+    /* width: 33.33%; */
+    width: 100%;
     align-content: center;
 }
 
@@ -42,13 +46,15 @@
 .contentsButton p {
     margin: 0.25em 0.5em;
     text-align: left;
+    /* font-size: 1.125em; */
     font-size: 1.125em;
 }
 
 .contentsButton p:first-of-type {
     margin-top: -0.25em;
     font-family: "Trademarker";
-    font-size: 1.25em;
+    /* font-size: 1.25em; */
+    font-size: 1.375em;
 }
 
 #bc {
@@ -57,52 +63,19 @@
     border-left: none;
 }
 
-#bc1 {
-    border-color: #fe0200;
+.destiny {
+    border-color: orangered;
     border-top: none;
     border-left: none;
 }
 
-#bc2 {
-    border-color: #6789c9;
-    border-top: none;
-    border-left: none;
+/* TIMELINE TEST */
+#mains main ul {
+    list-style-type: disc;
+    list-style-position: inside;
 }
 
-#bc3 {
-    border-color: #4d963d;
-    border-top: none;
-    border-left: none;
-}
-
-#bc4 {
-    border-color: #ff9808;
-    border-top: none;
-    border-left: none;
-}
-
-#bc5 {
-    border-color: #7d6d57;
-    border-top: none;
-    border-left: none;
-}
-
-#ba1 {
-    border-top: none;
-    border-left: none;
-}
-
-#ba2 {
-    border-top: none;
-    border-left: none;
-}
-
-#ba3 {
-    border-top: none;
-    border-left: none;
-}
-
-#ba4 {
-    border-top: none;
-    border-left: none;
+.red {
+    color: red;
+    text-shadow: 1px 1px white;
 }
