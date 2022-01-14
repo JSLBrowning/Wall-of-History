@@ -1,20 +1,27 @@
+/**
+ * https://stackoverflow.com/questions/4804581/how-can-i-expand-floated-child-divs-height-to-parents-height
+ * https://www.w3schools.com/css/css_align.asp
+ */
+
+#mains,
+#mains main {
+    width: 1280px;
+    max-width: 1280px;
+}
+
 #children {
-    /* TEMPORARY */
     margin-top: 2em;
-    width: 95%;
-    /* For one per row: */
-    max-width: 720px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: stretch;
 }
 
 .padding {
     margin: 1.5em 0em;
-    /* height: 160px; */
-    height: 80px;
-    /* width: 33.33%; */
-    width: 100%;
+    min-height: 120px;
+    width: 33.33%;
     align-content: center;
 }
 
@@ -22,11 +29,17 @@
     height: 100px;
 }
 
+.contentsButton::before {
+    backdrop-filter: blur(10px);
+}
+
 .contentsButton {
-    margin-left: 9.375%;
-    width: 81.25%;
-    margin-right: 9.375%;
+    margin-left: 5%;
+    width: 90%;
+    margin-right: 5%;
     height: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .contentsButton img {
@@ -38,38 +51,202 @@
     float: left;
     display: block;
     height: 100%;
+    max-height: 144px;
     width: auto;
 
-    border: 1px solid var(--border);
-    border-top: none;
-    border-left: none;
+    border: none;
+}
+
+.contentButtonText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0.25em;
+}
+
+.contentButtonText p {
+    padding: 0em;
 }
 
 .contentsButton p {
-    margin: 0.25em 0.5em;
-    padding: unset;
+    margin: 0px;
+    width: 100%;
+    max-width: 100%;
     text-align: left;
-    /* font-size: 1.125em; */
     font-size: 1.125em;
 }
 
 .contentsButton p:first-of-type {
-    margin-top: 0.25em;
     font-family: "Trademarker";
-    /* font-size: 1.25em; */
     font-size: 1.375em;
 }
 
-#bc {
-    border-color: #b06b23;
-    border-top: none;
+#cardXCF8IZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/XCF8IZ.png") center;
+    background-size: cover;
+    border-color: #5b757c;
     border-left: none;
+    border-right: none;
 }
 
-.destiny {
-    border-color: orangered;
-    border-top: none;
+#cardQ2N8NX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/Q2N8NX.png") center;
+    background-size: cover;
+    border-color: #5a5833;
     border-left: none;
+    border-right: none;
+}
+
+#cardJBTY4O {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/JBTY4O.png") center;
+    background-size: cover;
+    border-color: #57453e;
+    border-left: none;
+    border-right: none;
+}
+
+#cardECOHYW {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ECOHYW.png") center;
+    background-size: cover;
+    border-color: #3a2f1d;
+    border-left: none;
+    border-right: none;
+}
+
+#cardLHIBBZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/LHIBBZ.png") center;
+    background-size: cover;
+    border-color: #878889;
+    border-left: none;
+    border-right: none;
+}
+
+#cardUELI6L {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/UELI6L.png") center;
+    background-size: cover;
+    border-color: #707d4e;
+    border-left: none;
+    border-right: none;
+}
+
+#card08H6CX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/08H6CX.png") center;
+    background-size: cover;
+    border-color: #957264;
+    border-left: none;
+    border-right: none;
+}
+
+#card7M5DDC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/7M5DDC.png") center;
+    background-size: cover;
+    border-color: #547288;
+    border-left: none;
+    border-right: none;
+}
+
+#cardCU4QW2 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/CU4QW2.png") center;
+    background-size: cover;
+    border-color: #69827a;
+    border-left: none;
+    border-right: none;
+}
+
+#cardFG9EM8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/FG9EM8.png") center;
+    background-size: cover;
+    border-color: #8b8f84;
+    border-left: none;
+    border-right: none;
+}
+
+#cardZTL9M8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ZTL9M8.png") center;
+    background-size: cover;
+    border-color: #4d4443;
+    border-left: none;
+    border-right: none;
+}
+
+#card0NN5ZH {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0NN5ZH.png") center;
+    background-size: cover;
+    border-color: #cfbe9e;
+    border-left: none;
+    border-right: none;
+}
+
+#bc1 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
+    border-color: #ff0401;
+    border-left: none;
+    border-right: none;
+}
+
+#bc2 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc2.png") center;
+    border-color: #6e92ce;
+    border-left: none;
+    border-right: none;
+}
+
+#bc3 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc3.png") center;
+    border-color: #448d30;
+    border-left: none;
+    border-right: none;
+}
+
+#bc4 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/BC4_-_Tales_of_the_Masks.png") center;
+    border-color: #ff990b;
+    border-left: none;
+    border-right: none;
+}
+
+#bc5 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/MoL.png") center;
+    border-color: goldenrod;
+    border-left: none;
+    border-right: none;
+}
+
+body {
+    background: url("/img/bgl.png") left no-repeat,
+                url("/img/bgr.png") right no-repeat,
+                var(--back2);
+    background-size: clamp(180px, 40%, 808px) auto;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.tags p,
+.tags p:first-of-type {
+    margin: 0.125em;
+    padding: 0.125em 0.25em;
+    width: auto;
+    border-radius: 0.25em;
+    background-color: darkgray;
+    font-family: "Gill Sans Std";
+    font-size: 0.9375em;
+    color: #010203;
+}
+
+.versions p,
+.versions p:first-of-type {
+    font-family: "Gill Sans Std";
+    color: darkgray;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.9375em;
+    letter-spacing: 0.125em;
 }
 
 /* TIMELINE TEST */

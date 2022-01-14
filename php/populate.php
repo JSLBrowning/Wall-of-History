@@ -164,16 +164,15 @@ function addChildren($id, $lang, $v)
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
+        echo "<div id='children'>";
         // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
         if ($id != "0") {
-            /*
             $sql_standalone = "SELECT child_id FROM woh_web";
             $result_standalone = $mysqli->query($sql_standalone);
 
             if (mysqli_num_rows($result_standalone) != 0) {
                 echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
             }
-            */
         }
 
         // WHAT THE FUCK HAPPENED HERE?!
@@ -193,14 +192,14 @@ function addChildren($id, $lang, $v)
                 }
                 $snippet = (string) $row["snippet"];
                 if (strlen($snippet) > 196) {
-                    echo "<p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></button>";
+                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></button></div>";
                 } else {
-                    echo "<p>" . $row["title"] . "</p><p>" . $snippet . "</p></button></div>";
+                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></button></div>";
                 }
             }
-
             array_push($uniquea, $uniqueid);
         }
+        echo "</div>";
     }
 }
 
@@ -215,13 +214,7 @@ function loadContent($id, $lang, $v)
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
 
-    echo "<div class='headercardpadding'><div class='headercard'>";
-    // Get and display image.
-    if (file_exists("../img/story/contents/" . $id . ".png")) {
-        echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
-    }
     if ((!($id == "0")) && ($num_rows == 0)) {
-        // For some reason, this isn't working on Chapter 4: The Mask of Light, even though nothing in the web lists it as a child. Need to figure out why.
         echo "<h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
     } else if ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
@@ -231,7 +224,12 @@ function loadContent($id, $lang, $v)
                 echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
             }
         }
-    } else {
+    } else if ($num_rows > 1) {
+        echo "<div class='headercardpadding'><div class='headercard'>";
+        // Get and display image.
+        if (file_exists("../img/story/contents/" . $id . ".png")) {
+            echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
+        }
         echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
         while ($row = $result->fetch_assoc()) {
             $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
@@ -242,17 +240,8 @@ function loadContent($id, $lang, $v)
                 echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
             }
         }
-        echo "<button onclick='carouselForward(this)'>⮞</button></div>";
+        echo "<button onclick='carouselForward(this)'>⮞</button></div></div></div>";
     }
-
-    // GET AND DISPLAY IMAGE
-    /* $sql = "SELECT large_image FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
-
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo "<img src=\"" . $row["large_image"] . "\">";
-    }
-    */
 
     // GET AND DISPLAY TITLE
     $sql = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
@@ -295,7 +284,6 @@ function loadContent($id, $lang, $v)
         }
         echo "</h3>";
     }
-    echo "</div></div>";
 
     // Get and display content.
     $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
@@ -304,9 +292,6 @@ function loadContent($id, $lang, $v)
 
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
-        // Self-explanatory — the main column contains the contents of the main tag.
-        /* echo str_replace("<p>", "<a></a><p>", (string)$row["main"]); */
-        // Okay, we'll come back to page numbers later.
         echo $row["main"];
     }
     addChildren($id, $lang, $v);

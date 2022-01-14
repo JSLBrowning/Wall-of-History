@@ -33,21 +33,12 @@ function carouselForward(button) {
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
         if ((currentStyles.display != "none") && (i < parents.length - 1)) {
-            // parents[i].style.display = "none";
-            // parents[i + 1].style.display = "block";
-            $(parents[i]).toggle("slide", { direction: "left" }, 200);
-            setTimeout(() => {
-                $(parents[i + 1]).toggle("slide", { direction: "right" }, 200);
-            }, 300);
+            parents[i].style.display = "none";
+            parents[i + 1].style.display = "block";
             break;
         } else if ((currentStyles.display != "none") && (i == parents.length - 1)) {
-            // parents[i].style.display = "none";
-            // parents[0].style.display = "block";
-            $(parents[i]).toggle("slide", { direction: "left" }, 200);
-            setTimeout(() => {
-                $(parents[0]).toggle("slide", { direction: "right" }, 200);
-            }, 300);
-            break;
+            parents[i].style.display = "none";
+            parents[0].style.display = "block";
         }
     }
 }
@@ -57,21 +48,11 @@ function carouselBack(button) {
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
         if ((currentStyles.display != "none") && (i > 0)) {
-            // parents[i].style.display = "none";
-            // parents[i - 1].style.display = "block";
-            $(parents[i]).toggle("slide", { direction: "right" }, 200);
-            setTimeout(() => {
-                $(parents[i - 1]).toggle("slide", { direction: "left" }, 200);
-            }, 300);
-            break;
+            parents[i].style.display = "none";
+            parents[i - 1].style.display = "block";
         } else if ((currentStyles.display != "none") && (i == 0)) {
-            // parents[0].style.display = "none";
-            // parents[parents.length - 1].style.display = "block";
-            $(parents[0]).toggle("slide", { direction: "right" }, 200);
-            setTimeout(() => {
-                $(parents[parents.length - 1]).toggle("slide", { direction: "left" }, 200);
-            }, 300);
-            break;
+            parents[0].style.display = "none";
+            parents[parents.length - 1].style.display = "block";
         }
     }
 }
