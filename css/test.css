@@ -288,43 +288,36 @@
 */
 
 .titleBox {
-    padding: 1em 0.5em;
+    padding: 1em;
     height: auto;
     border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: row;
+
+    /* background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0J81JD.png") center;
+    background-size: cover; */
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
 }
 
 .titleBoxText {
     width: 100%;
-    padding-left: 0.5em;
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.titleBox h1 {
-    padding: 0em;
+.titleBoxText h1,
+.titleBoxText h2,
+.titleBoxText h3 {
+    letter-spacing: 0.25em;
 }
-
-/*
-.titleBox img {
-    margin-top: -1em;
-    margin-left: -1em;
-    border-radius: 0.25em;
-    float: left;
-    display: block;
-    height: 100%;
-    max-height: 120px;
-    width: auto;
-
-    border: 1px solid var(--border);
-    border-top: none;
-    border-left: none;
-}
-*/
 
 .titleBox img {
     overflow: visible;
     margin-top: -1.5em;
-    margin-left: -1em;
+    margin-left: -1.5em;
     padding: 0em;
     float: left;
     /*

@@ -1,5 +1,7 @@
 main {
     min-width: 840px;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
 }
 
 main h2:last-of-type {

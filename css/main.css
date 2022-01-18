@@ -196,11 +196,7 @@ main .multiparents h3:first-of-type {
 }
 /* /CAROUSEL */
 
-/* Why don't these work? */
-main h3 a:hover {
-    font-size: 1.01875em;
-}
-
+/* Hover had to be removed because it would cause weird warping with the new titleBox. */
 main h3 a:active {
     font-size: 0.98125em;
 }

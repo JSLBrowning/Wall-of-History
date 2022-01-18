@@ -4,6 +4,12 @@ main {
     box-shadow: none;
 }
 
+main .titleBox {
+    background: var(--back2);
+    border: 1px solid var(--border);
+    box-shadow: var(--outershadow);
+}
+
 body main .pages {
     display: block;
     background-color: var(--back2);
@@ -11,9 +17,11 @@ body main .pages {
     border-radius: 0.125em;
     margin: 1em auto;
     padding-bottom: 1.5em;
+    box-shadow: var(--outershadow);
 }
 
 .pages .page {
+    margin: 0em;
     width: 48px;
     position: absolute;
     top: unset;

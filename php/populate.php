@@ -235,6 +235,7 @@ function loadContent($id, $lang, $v)
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
         }
+        echo "<div class='titleBoxText'>";
         echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
         while ($row = $result->fetch_assoc()) {
             $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
