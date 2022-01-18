@@ -15,6 +15,7 @@
     /* RGB159, a:active */
     --fontweight: normal;
     --outershadow: 3px 3px 6px var(--back1);
+    --smalloutershadow: 1px 1px 2px var(--back1);
     --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
@@ -79,18 +80,19 @@
 }
 
 body {
-    background-color: var(--back2);
     background: url("/img/bgl.png") left no-repeat,
                 url("/img/bgr.png") right no-repeat,
                 var(--back2);
     background-size: clamp(180px, 40%, 808px) auto;
-    padding-bottom: 1em;
+    background-attachment: fixed;
 }
 
+/*
 html,
 body {
     min-height: 100%;
 }
+*/
 
 img {
     display: block;
@@ -956,7 +958,7 @@ aside button {
     width: 2em;
     height: 2em;
     color: var(--front1);
-    border-radius: 0.375em;
+    border-radius: 0.5em;
     background: var(--back2);
     box-shadow: var(--outershadow);
     border: 1px solid var(--border);

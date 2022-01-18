@@ -3,11 +3,13 @@
  * https://www.w3schools.com/css/css_align.asp
  */
 
+ /*
 #mains,
 #mains main {
     width: 1280px;
     max-width: 1280px;
 }
+*/
 
 #children {
     margin-top: 2em;
@@ -79,6 +81,10 @@
 .contentsButton p:first-of-type {
     font-family: "Trademarker";
     font-size: 1.375em;
+}
+
+.contentsButton:active {
+    box-shadow: var(--smalloutershadow);
 }
 
 #cardXCF8IZ {
@@ -177,48 +183,41 @@
     border-right: none;
 }
 
+#bc1,
+#bc2,
+#bc3,
+#bc4,
+#bc5 {
+    border-left: none;
+    border-right: none;
+}
+
 #bc1 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
     border-color: #ff0401;
-    border-left: none;
-    border-right: none;
 }
 
 #bc2 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc2.png") center;
     border-color: #6e92ce;
-    border-left: none;
-    border-right: none;
 }
 
 #bc3 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc3.png") center;
     border-color: #448d30;
-    border-left: none;
-    border-right: none;
 }
 
 #bc4 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/BC4_-_Tales_of_the_Masks.png") center;
     border-color: #ff990b;
-    border-left: none;
-    border-right: none;
 }
 
 #bc5 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/MoL.png") center;
     border-color: goldenrod;
-    border-left: none;
-    border-right: none;
 }
 
-body {
-    background: url("/img/bgl.png") left no-repeat,
-                url("/img/bgr.png") right no-repeat,
-                var(--back2);
-    background-size: clamp(180px, 40%, 808px) auto;
-}
-
+/* TAGS FOR CONTENT CARDS */
 .tags {
     display: flex;
     flex-direction: row;
@@ -248,6 +247,7 @@ body {
     font-size: 0.9375em;
     letter-spacing: 0.125em;
 }
+
 
 /* TIMELINE TEST */
 #mains main ul {

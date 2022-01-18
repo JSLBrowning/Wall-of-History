@@ -15,7 +15,6 @@ window.onload = (event) => {
     if (window.location.hash != "") {
         latestSelection = simplify(window.location.hash.substring(2).split(",")).reverse()[0];
     }
-    // console.log(latestSelection);
 };
 
 window.onhashchange = function () {
@@ -36,7 +35,7 @@ function newSelections() {
                 let currentTarget = document.getElementById(currentID);
                 currentTarget.classList.add("x-target");
                 if (i === 0) {
-                    currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
                 }
             }
         } else {
@@ -45,7 +44,37 @@ function newSelections() {
                 let currentTarget = document.getElementById(currentID);
                 currentTarget.classList.add("x-target");
                 if (i === 0) {
-                    currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
+                }
+            }
+        }
+    }
+}
+
+function newClassSelections() {
+    // Experimental version of above function that targets classes instead of IDs (since, with various new version functions, multiple paragraphs on the same page can now share the same number.)
+    let targets = window.location.hash.substring(2).split(",");
+    for (let i = 0; i < targets.length; i++) {
+        // Is this substring a RANGE of values? If so...
+        if (targets[i].includes("-")) {
+            lower = parseInt(targets[i].split("-")[0]);
+            upper = parseInt(targets[i].split("-")[1]);
+            // ...highlight every value in that range.
+            for (let j = lower; j <= upper; j++) {
+                currentID = "p" + String(j);
+                let currentTarget = document.getElementById(currentID);
+                currentTarget.classList.add("x-target");
+                if (i === 0) {
+                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
+                }
+            }
+        } else {
+            if (targets[i] != "") {
+                currentID = "p" + targets[i];
+                let currentTarget = document.getElementById(currentID);
+                currentTarget.classList.add("x-target");
+                if (i === 0) {
+                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
                 }
             }
         }
@@ -61,7 +90,11 @@ $(".anchor").click(function (e) {
         addHash($(this).parent().attr("id"));
         $(this).parent().addClass("x-target");
         latestSelection = $(this).parent().attr("id").substring(1);
-    } else if (e.shiftKey && !($(this).parent().hasClass("x-target"))) {
+    }
+
+    /* SHIFT CLICK: find max value beneath selected value (1 if none targeted yet) and target evertyhing in between.
+    Removed as it does not currently work.
+     else if (e.shiftKey && !($(this).parent().hasClass("x-target"))) {
         let lowEnd = 0;
         let highEnd = 0;
 
@@ -78,8 +111,7 @@ $(".anchor").click(function (e) {
             $("#p" + String(i)).addClass("x-target");
         }
     }
-
-    // SHIFT CLICK: find max value beneath selected value (1 if none targeted yet) and target evertyhing in between.
+    */
 });
 
 function removeHash(id) {
