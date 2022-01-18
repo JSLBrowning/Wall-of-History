@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS WoH_adaptations(
  * As such, this table treats each entry from each guidebook as a unique entity.
  * Entities can have multiple names attached to them, such as in the case of “Tahu” and “Tahu Nuva.”
  * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
+ * TO-DO: Add a "source" column to metadata or content. If there's an ID in it, that'll be used for the source at the bottom of the content, without rendering as a child on the page for that thing (to be used in the case of info from comics and such).
  */
 
 CREATE TABLE IF NOT EXISTS reference_metadata (

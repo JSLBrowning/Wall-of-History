@@ -50,7 +50,9 @@ async function initialize() {
             });
         });
     } else {
-        document.getElementById("homepageReadButton").disabled = false;
+        if ($("#homepageReadButton").length > 0) {
+            document.getElementById("homepageReadButton").disabled = false;
+        }
     }
 
     if (sessionStorage.getItem("activeReadingOrder") === null) {

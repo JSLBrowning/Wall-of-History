@@ -9,9 +9,9 @@ $("main span a").click(function (e) {
     }
 })
 
-window.onload = (event) => {
+window.onload = () => {
     $("span").removeClass("x-target");
-    newSelections();
+    newClassSelections();
     if (window.location.hash != "") {
         latestSelection = simplify(window.location.hash.substring(2).split(",")).reverse()[0];
     }
@@ -19,7 +19,7 @@ window.onload = (event) => {
 
 window.onhashchange = function () {
     $("span").removeClass("x-target");
-    newSelections();
+    newClassSelections();
 }
 
 function newSelections() {
@@ -62,19 +62,23 @@ function newClassSelections() {
             // ...highlight every value in that range.
             for (let j = lower; j <= upper; j++) {
                 currentID = "p" + String(j);
-                let currentTarget = document.getElementById(currentID);
-                currentTarget.classList.add("x-target");
-                if (i === 0) {
-                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
+                let currentTargets = document.getElementsByClassName(currentID);
+                for (let k = 0; k < currentTargets.length; k++) {
+                    currentTargets[k].classList.add("x-target");
+                    if (i === 0 && k === 0) {
+                        currentTargets[k].scrollIntoView({ behavior: "auto", block: "center" });
+                    }
                 }
             }
         } else {
             if (targets[i] != "") {
                 currentID = "p" + targets[i];
-                let currentTarget = document.getElementById(currentID);
-                currentTarget.classList.add("x-target");
-                if (i === 0) {
-                    currentTarget.scrollIntoView({ behavior: "auto", block: "center" });
+                let currentTargets = document.getElementsByClassName(currentID);
+                for (let k = 0; k < currentTargets.length; k++) {
+                    currentTargets[k].classList.add("x-target");
+                    if (i === 0 && k === 0) {
+                        currentTargets[k].scrollIntoView({ behavior: "auto", block: "center" });
+                    }
                 }
             }
         }

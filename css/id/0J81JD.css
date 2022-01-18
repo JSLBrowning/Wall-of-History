@@ -2,9 +2,6 @@
     --back1: #310009;
     
     --border: #93001C;
-    
-    --outershadow: 3px 3px 6px rgba(0, 0, 0, 0.5), -3px -3px 6px rgba(0, 0, 0, 0.25);
-    --innershadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(0, 0, 0, 0.25);
 }
 
 :root.light {
@@ -18,12 +15,13 @@
     --back3: #F9F9FA;
     --back2: #E5E6EB;
     --back1: #B1B1B2;
-
-    --outershadow: 3px 3px 6px rgba(0, 0, 0, 0.5), -3px -3px 6px rgba(0, 0, 0, 0.25);
-    --innershadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(0, 0, 0, 0.25);
 }
 
+html,
 body{
+    height: 100%;
     background: var(--back2);
     background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #620013 100%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
