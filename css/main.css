@@ -162,16 +162,11 @@ h2,
 h3,
 h4 {
     text-align: center;
-    padding: 0px 8px;
     line-height: 1em;
     font-family: 'TradeMarker';
     font-weight: bold;
     color: var(--front1);
     letter-spacing: 0.125em;
-}
-
-main h3:last-of-type {
-    margin-bottom: 0.5em;
 }
 
 /* MULTIPARENT CAROUSEL */
@@ -768,7 +763,6 @@ main p a {
     margin: 0.5em;
     max-width: 720px;
     padding: 0em;
-    padding-top: 0.125em;
     flex-grow: 1;
 }
 

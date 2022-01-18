@@ -116,14 +116,11 @@
         <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">⭳</button></a>
     </aside>
     <div id="mains">
-        <main id="oldhtml">
+        <main>
             <?php
             loadContent($id, $lang, $v);
             ?>
         </main>
-        <main id="newhtml">
-        </main>
-        <main id="diff" style="display: none;"></main>
     </div>
     <div class="savefile" style="display:none;">
         <button type="savefilebutton" onclick="savePlace()">Save Place</button>

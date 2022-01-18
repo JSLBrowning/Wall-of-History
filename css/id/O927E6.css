@@ -19,9 +19,9 @@
 
 html,
 body{
-    height: 100%;
-    background: var(--back2);
+    min-height: 100%;
+    background-color: var(--back2);
     background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #002706 100%);
-    background-size: 100% 100%;
+    background-size: cover;
     background-repeat: no-repeat;
 }
