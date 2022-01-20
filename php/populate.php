@@ -216,14 +216,14 @@ function loadContent($id, $lang, $v)
 
     echo "<section class='titleBox'>";
     if ((!($id == "0")) && ($num_rows == 0)) {
-        echo "<h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
+        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
     } else if ($num_rows == 1) {
         // Get and display image.
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
         }
-        echo "<div class='titleBoxText'>";
         while ($row = $result->fetch_assoc()) {
+            echo "<div class='titleBoxText'>";
             $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
@@ -235,8 +235,7 @@ function loadContent($id, $lang, $v)
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
         }
-        echo "<div class='titleBoxText'>";
-        echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
+        echo "<div class='titleBoxText'><div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
         while ($row = $result->fetch_assoc()) {
             $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
             // ORDER BY chronology, title ASC
@@ -290,7 +289,7 @@ function loadContent($id, $lang, $v)
         }
         echo "</h3>";
     }
-    echo "</div></section>";
+    echo "</section>";
 
     // Get and display content.
     $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";

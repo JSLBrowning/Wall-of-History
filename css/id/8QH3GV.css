@@ -17,11 +17,11 @@
     --back1: #B1B1B2;
 }
 
-html,
-body{
-    min-height: 100%;
-    background: var(--back2);
-    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #0C0D09 100%);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+body {
+    background: url("/img/bgl.png") left no-repeat,
+        url("/img/bgr.png") right no-repeat,
+        linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #0C0D09 100%);
+    background-size: clamp(180px, 40%, 808px) auto;
+    background-attachment: fixed;
+    padding-bottom: 4em;
 }

@@ -399,6 +399,14 @@ nav {
     align-items: center;
 }
 
+.slidecontrols:first-child {
+    border-bottom-left-radius: inherit;
+}
+
+.slidecontrols:last-child {
+    border-bottom-right-radius: inherit;
+}
+
 body button,
 main button,
 .modal-content button {
@@ -447,7 +455,8 @@ main button::before {
     z-index: 1;
     margin: -8px 0px 0px 0px;
     border: none;
-    border-radius: 0px;
+    border-bottom-left-radius: 0.75em;
+    border-bottom-right-radius: 0.75em;
     background-color: var(--back2);
     width: 33.33%;
     height: 32px;
@@ -460,14 +469,12 @@ main button::before {
     color: #fff;
     cursor: pointer;
     border-top: 1px solid var(--back3);
-    border-bottom: 1px solid var(--back3);
 }
 
 #slidelocationdiv {
     line-height: 32px;
     text-align: center;
     border-top: 1px solid var(--back3);
-    border-bottom: 1px solid var(--back3);
 }
 
 #slidelocation {

@@ -1,11 +1,11 @@
 main {
     width: 90%;
-    max-width: 720px;
+    max-width: 960px;
 }
 
 main img {
     width: 100%;
-    max-width: 720px;
+    max-width: 960px;
 }
 
 @media only screen and (max-width: 640px) {

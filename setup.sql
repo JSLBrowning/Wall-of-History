@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS WoH_content(
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
     version_title text,
-    /* ...and this string identifies the version (for example, "standard"). */
+    /* ...and this string identifies the version (for example, "Standard"). */
     content_language varchar (2) DEFAULT "en",
     /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     small_image text,
@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS WoH_adaptations(
  * Entities can have multiple names attached to them, such as in the case of “Tahu” and “Tahu Nuva.”
  * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
  * TO-DO: Add a "source" column to metadata or content. If there's an ID in it, that'll be used for the source at the bottom of the content, without rendering as a child on the page for that thing (to be used in the case of info from comics and such).
+ * Alternatively...
  */
 
 CREATE TABLE IF NOT EXISTS reference_metadata (
@@ -111,6 +112,10 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
 
 CREATE TABLE IF NOT EXISTS reference_content (
     entry_id varchar(6) PRIMARY KEY,
+    content_version int DEFAULT 1,
+    /* This integer identifies the version of the content in the URL parameters... */
+    version_title text,
+    /* ...and this string identifies the version (for example, "Updated"). */
     css int,
     header int NOT NULL,
     main longtext,
@@ -137,10 +142,7 @@ CREATE TABLE IF NOT EXISTS reference_images (
     /* Be sure to use DISTINCT for compilation pages. */
 );
 
-CREATE TABLE IF NOT EXISTS reference_web (
-    parent_id varchar(6) NOT NULL,
-    child_id varchar(6) NOT NULL
-);
+/* Content and reference use the same web. */
 
 CREATE TABLE IF NOT EXISTS reference_quotes (
     subject_id text NOT NULL,

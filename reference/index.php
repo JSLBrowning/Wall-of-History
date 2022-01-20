@@ -76,7 +76,7 @@
     <main>
         <?php
         if (count($_GET) == 1) {
-            echo "<h2><a onclick='window.location.href=\"/reference/\"'>Reference</a></h2>";
+            echo "<h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
 
             include("..//php/db_connect.php");
             $sql = "SELECT name, content FROM wall_of_history_reference WHERE name='" . $_GET["id"] . "'";
