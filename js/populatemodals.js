@@ -14,6 +14,9 @@ function populateModalLinks() {
     let referenceItems = localStorage.getItem("referenceTerms").split(",");
 
     // Next thing. Add a regex for spaces and punctuation to fix the Makuta/Maku error on eba6c8.
+    // Okay, here's an idea:
+    // 1. Sort all reference terms by length, longer to shorter.
+    // 2. On page load, iterate over the list, only turning the *first* occurence into a link.
     for (i = 0; i < referenceItems.length; i++) {
         $("p:contains('" + referenceItems[i] + " ')").html(function(_, html) {
             regex = new RegExp(referenceItems[i] + " ", "gi");

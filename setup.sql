@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS WoH_adaptations(
  * As such, this table treats each entry from each guidebook as a unique entity.
  * Entities can have multiple names attached to them, such as in the case of “Tahu” and “Tahu Nuva.”
  * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
- * TO-DO: Add a "source" column to metadata or content. If there's an ID in it, that'll be used for the source at the bottom of the content, without rendering as a child on the page for that thing (to be used in the case of info from comics and such).
- * Alternatively...
+ * Note that there’s no “reference_web” — since reference materials sometimes contained story content (“Birth of a Dark Hunter”) and story materials sometimes contained reference content (comics), woh_web will connect the two.
+ * Reference pages will display a source link if data was from some story material, while story pages with reference parents will simply link back to them like other story materials link back to story parents.
  */
 
 CREATE TABLE IF NOT EXISTS reference_metadata (
@@ -112,56 +112,78 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
 
 CREATE TABLE IF NOT EXISTS reference_content (
     entry_id varchar(6) PRIMARY KEY,
+    /* Self-explantory — it's the same ID as above. */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
     version_title text,
     /* ...and this string identifies the version (for example, "Updated"). */
-    css int,
+    /* If no version titles, default to name of parents? */
+    spoiler_level int,
+    /* Story items have spoiler levels as well, which allows you to prevent readers from reading about something they haven’t seen happen yet. */
     header int NOT NULL,
+    /* Identical functionality to woh_content header column. */
     main longtext,
+    /* Identical functionality to woh_content main column. */
     word_count int
+    /* Self-explanatory. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_titles (
     entry_id varchar(6) NOT NULL,
+    /* Self-explantory. */
     spoiler_level int,
-    /* Necessary? Would be cool to keep “Tahu Nuva” a secret… */
     /* On compilation pages, only display titles below current spoiler level. */
     /* Speaking of which, put spoiling entries under hide/show thingies. */
     title text NOT NULL
-    /* If title only ever refers to one subject, ?ref=[title] leads directly to compilation page for that subject. */
-    /* If title refers to multiple subjects, ?ref=[title] leads to a disambiguation page. */
+    /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
+    /* If title refers to multiple subjects, ?s=[title] leads to a disambiguation page. */
     /* When jumping from a disambiguation page to a subject page, try to find a distinct title for that subject, or use the ID if there is none. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_images (
     entry_id varchar(6) NOT NULL,
+    /* Self-explantory. */
     spoiler_level int,
-    /* Necessary? */
+    /* Self-explantory. */
     image_path text NOT NULL
     /* Be sure to use DISTINCT for compilation pages. */
 );
 
-/* Content and reference use the same web. */
-
 CREATE TABLE IF NOT EXISTS reference_quotes (
     subject_id text NOT NULL,
+    /* Self-explantory. */
+    spoiler_level int,
+    /* Self-explanatory. */
     quote text NOT NULL
+    /* This will be a quote from or about a character/thing. Subjects can have any number of quotes, and one will be chosen at random when a subject page (or reference modal, if the spoiler levels match) is loaded. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_appearances (
     story_id varchar(6) NOT NULL,
+    /* This refers to a woh_metadata entry in which a character or object appears. */
     subject_id varchar(6) NOT NULL,
+    /* This refers to the character or object itself. */
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
 )
 
 CREATE TABLE IF NOT EXISTS reference_greg (
+    question_id varchar(6) NOT NULL,
+    /* Self-explanatory. */
     posted datetime PRIMARY KEY,
-    /* Bad idea? */
+    /* Self-explanatory. */
+    spoiler_level int,
+    /* Self-explanatory. */
     question text,
     /* Most of Greg’s forum posts are question/answer pairs, but some of them (such as the Earth Tribe explanation) are not. */
     answer text NOT NULL,
     /* But there’s no content if Greg didn’t say anything, so the answer column can’t be null. */
     permalink text
+);
+
+CREATE TABLE IF NOT EXISTS reference_greg_subjects (
+    question_id varchar(6) NOT NULL,
+    /* Self-explanatory. */
+    subject_id varchar(6) NOT NULL
+    /* Self-explanatory. */
 );
