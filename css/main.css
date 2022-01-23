@@ -845,7 +845,7 @@ del {
         top: auto;
         right: auto;
         /* NEW SETTINGS */
-        margin: auto 1em;
+        margin: 0em;
         /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
         flex-direction: row;
         justify-content: space-between;
@@ -993,19 +993,41 @@ aside button:active {
 @media only screen and (max-width: 960px) {
     aside{
         /* REMOVE PREVIOUS SETTINGS */
-        position: relative;
-        z-index: auto;
+        position: fixed;
+        z-index: 20;
         top: auto;
+        
         right: auto;
 
         /* NEW SETTINGS */
-        margin: auto 1em;
+        bottom: 0px;
+        width: 100%;
+        margin: 0em;
         /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
         flex-direction: row;
         justify-content: space-between;
     }
 
     aside button {
-        width: 15%;
+        margin: 0em;
+        width: 20%;
+        border-radius: 0px;
+        border-left: 0px;
+        border-bottom: 0px;
+        box-shadow: none;
+    }
+
+    aside button:last-of-type {
+        border-right: 0px;
+    }
+
+    aside button:hover {
+        transform: none;
+        background-color: var(--back3);
+    }
+
+    aside button:active {
+        transform: none;
+        background-color: var(--back1);
     }
 }

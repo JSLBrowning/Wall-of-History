@@ -121,6 +121,11 @@
             loadContent($id, $lang, $v);
             ?>
         </main>
+        <div id="children">
+            <?php
+            addChildren($id, $lang, $v);
+            ?>
+        </div>
     </div>
     <div class="savefile" style="display:none;">
         <button type="savefilebutton" onclick="savePlace()">Save Place</button>

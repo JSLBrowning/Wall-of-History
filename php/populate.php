@@ -152,11 +152,6 @@ function addChildren($id, $lang, $v)
         /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
         /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
     }
-
-    // If the user visits the read page without specifying an ID, the page will display the top of the table of contents.
-    if ($id == "0") {
-        echo "<h1>Table of Contents</h1>";
-    }
     // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
 
     $result = $mysqli->query($sql);
@@ -214,10 +209,15 @@ function loadContent($id, $lang, $v)
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
 
-    echo "<section class='titleBox'>";
+    if ($id === "0") {
+        echo "<section class='titleBox'><div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
+    }
+
     if ((!($id == "0")) && ($num_rows == 0)) {
-        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
+        echo "<section class='titleBox'>";
+        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3></div>";
     } else if ($num_rows == 1) {
+        echo "<section class='titleBox'>";
         // Get and display image.
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
@@ -231,6 +231,7 @@ function loadContent($id, $lang, $v)
             }
         }
     } else if ($num_rows > 1) {
+        echo "<section class='titleBox'>";
         // Get and display image.
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
@@ -300,7 +301,6 @@ function loadContent($id, $lang, $v)
     while ($row = $result->fetch_assoc()) {
         echo $row["main"];
     }
-    addChildren($id, $lang, $v);
 }
 
 function populateSettings()

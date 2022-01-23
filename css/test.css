@@ -293,11 +293,18 @@
     border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 
-    /* background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0J81JD.png") center;
-    background-size: cover; */
+    /*
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/O927E6.png") center;
+    */
+    background-size: cover;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
+}
+
+main section:only-child {
+    border-bottom: none;
 }
 
 .titleBoxText {
@@ -332,4 +339,36 @@
 
 .multiparents button {
     background: none;
+}
+
+/* Side images don't really fit on mobile, so we make the background image more prominent. */
+@media only screen and (max-width: 960px) {
+    /*
+    .titleBox {
+        background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.75)), url("/img/story/contents/O927E6.png") center 25%;
+    }
+    */
+
+    .titleBox img {
+        display: none;
+    }
+}
+
+#mains {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+main {
+    margin: auto;
+    max-width: 960px;
+    align-self: center;
+}
+
+#children {
+    margin: 0em;
+    max-width: 1280px;
 }
