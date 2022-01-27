@@ -39,23 +39,41 @@ main video {
 @media only screen and (max-width: 960px) {
     aside{
         /* REMOVE PREVIOUS SETTINGS */
-        position: relative;
-        z-index: auto;
+        position: fixed;
+        z-index: 20;
         top: auto;
+        
         right: auto;
 
         /* NEW SETTINGS */
-        margin: auto 1em;
+        bottom: 0px;
+        width: 100%;
+        margin: 0em;
         /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
     }
 
-    aside button{
-        flex-grow: 1;
+    aside button {
+        margin: 0em;
+        width: 20%;
+        border-radius: 0px;
+        border-left: 0px;
+        border-bottom: 0px;
+        box-shadow: none;
     }
 
-    main {
-        width: 95%;
+    aside button:last-of-type {
+        border-right: 0px;
+    }
+
+    aside button:hover {
+        transform: none;
+        background-color: var(--back3);
+    }
+
+    aside button:active {
+        transform: none;
+        background-color: var(--back1);
     }
 }

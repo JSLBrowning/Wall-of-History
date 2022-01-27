@@ -15,9 +15,13 @@ body main .pages {
     background-color: var(--back2);
     border: 1px solid var(--border);
     border-radius: 0.125em;
-    margin: 1em auto;
+    margin: 0.5em auto;
     padding-bottom: 1.5em;
     box-shadow: var(--outershadow);
+}
+
+body main .pages:first-of-type {
+    margin-top: 1em;
 }
 
 .pages .page {
@@ -31,7 +35,7 @@ body main .pages {
 
 body main .pages .page {
     font-size: 0.9375em;
-    padding: 0.25em;
+    padding: 0em;
 }
 
 body main .pages p {

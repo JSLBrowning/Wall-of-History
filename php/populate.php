@@ -211,12 +211,9 @@ function loadContent($id, $lang, $v)
 
     if ($id === "0") {
         echo "<section class='titleBox'><div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
-    }
-
-    if ((!($id == "0")) && ($num_rows == 0)) {
-        echo "<section class='titleBox'>";
-        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3></div>";
-    } else if ($num_rows == 1) {
+    } else if ((!($id === "0")) && ($num_rows === 0)) {
+        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3></div>";
+    } else if ($num_rows === 1) {
         echo "<section class='titleBox'>";
         // Get and display image.
         if (file_exists("../img/story/contents/" . $id . ".png")) {

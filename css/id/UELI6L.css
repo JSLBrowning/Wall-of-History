@@ -1,0 +1,20 @@
+/* WIP */
+main::before {
+    backdrop-filter: blur(10px);
+}
+
+main,
+aside button,
+.savefile button,
+.nav button {
+    backdrop-filter: blur(10px);
+    background-color: rgba(22, 22, 22, 0.875);
+}
+
+body {
+    background-image: url("/img/Metru\ Nui\ blue\ cloud.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 4em;
+}

@@ -28,3 +28,12 @@
     --back1: #B1B1B2;
     --fontweight: bold;
 }
+
+body {
+    background-image: linear-gradient(180deg, rgba(14, 24, 27, 0.125) 0%, #0E181B 100%),
+        url("/img/PrettyMetruNui.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 4em;
+}
