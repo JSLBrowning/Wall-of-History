@@ -514,3 +514,24 @@ async function goForwardTree() {
 /*****************************************************
  * END SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
  *****************************************************/
+
+/**
+MnL:
+  getArray
+  findSelf
+  showButtons (autorun)
+  savePlace
+  jumpTo
+  loadPlace
+  goBack
+  goForward
+
+
+altered WoH:
+  goTo
+  jumpTo
+  goBack
+  goForward
+  savePlace
+  loadPlace
+ */
