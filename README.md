@@ -4,8 +4,6 @@
 
 To learn about how Wall of History came to be, I’d recommend reading [“The History of Wall of History”](https://www.maskofdestiny.com/news/the-history-of-wall-of-history/), an article I wrote for MaskOfDestiny (which Wall of History is affiliated with). I’d also recommend checking out the [Wall of History Compilation Philosophy](https://pastebin.com/xiCuM9kb) on my Pastebin.
 
-After over a year of keeping Wall of History on an external hard drive hanging (yes, hanging) from my desktop computer, I figured it was high time to upload it to a GitHub repository. The code I've written over the past year is quite messy right now, and I figure this will make sorting through it all easier. I plan to power through several improvements during December and January.
-
-Planned updates to Wall of History can be found on the [Wall of Prophecy](https://docs.google.com/document/d/1Zu0CLegSkCXrY0WylNm9w0AjTx1W4KuVeZ2biODkiJo/edit?usp=sharing), though even this has gotten quite messy.
+After over a year of keeping Wall of History on an external hard drive hanging (yes, hanging) from my desktop computer, I figured it was high time to upload it to a GitHub repository. The code I've written over the past year is quite messy right now, and I figure this will make sorting through it all a bit easier.
 
 Wall of History couldn’t be what it is today without the help of my Chronicler’s Company, consisting of [@Jalaguy](https://twitter.com/Jalaguy) and [@TheWadapan](https://twitter.com/TheWadapan), as well as everyone at [the BioMedia Project](http://biomediaproject.com/bmp/). The lovely art seen above was drawn for us by [@M1STERRYAN](https://twitter.com/M1STERRYAN).
