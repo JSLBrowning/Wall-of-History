@@ -148,7 +148,7 @@
     color: var(--front2);
     font-family: 'Gill Sans Std';
     font-style: normal;
-    line-height: 1.5;
+    line-height: 1.5em;
     font-size: 1em;
     letter-spacing: .125rem;
     color: var(--front1);
@@ -175,12 +175,14 @@
     color: var(--front1);
     font-size: 1.03125em;
     cursor: pointer;
+    line-height: 1.5em;
 }
 
 .modal-content a:active {
     color: var(--front3);
     font-size: 0.96875em;
     cursor: pointer;
+    line-height: 1.5em;
 }
 
 .modal-content ul,

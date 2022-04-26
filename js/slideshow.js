@@ -41,3 +41,5 @@ if ($("#slidelocation").length > 0) {
         }
     }
 }
+
+// Lightbox: https://code-boxx.com/image-zoom-css-javascript/
