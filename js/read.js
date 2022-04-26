@@ -70,6 +70,7 @@ let checkInterval = window.setInterval(check(), 500);
 function stackHistory() {
     // Make sure cookie exists, maybe??
     // Get current ID.
+    // Update so it won't log nulls.
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const ID = urlParams.get("id");

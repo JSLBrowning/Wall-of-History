@@ -60,18 +60,35 @@ async function initialize() {
         document.getElementById("paletteSwapButton").innerHTML = "☽";
     }
 
+    if (localStorage.getItem("readingMode") === null) {
+        loadJSON(async function (response) {
+            let readingMode = JSON.parse(response).readingorder;
+            localStorage.setItem("readingMode", readingMode);
+        });
+    }
+
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
         loadJSON(async function (response) {
             let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingorder);
             setReadingOrder(recommendedReadingOrder).then(() => {
-                document.getElementById("homepageReadButton").disabled = false;
+                /*
+                document.getElementsByClassName("homepageReadButton").disabled = false;
+                console.log("Reader ready.");
+                */
+
+                let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
+                for (let i = 0; i < homepageReadButtons.length; i++) {
+                    homepageReadButtons[i].disabled = false;
+                }
                 console.log("Reader ready.");
             });
         });
     } else {
-        if ($("#homepageReadButton").length > 0) {
-            document.getElementById("homepageReadButton").disabled = false;
+        let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
+        for (let i = 0; i < homepageReadButtons.length; i++) {
+            homepageReadButtons[i].disabled = false;
         }
+        console.log("Reader ready.");
     }
 
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -197,9 +214,9 @@ if (available.length >= 1) {
     $("section:lang(" + intersection[0] + ")").css("display", "block");
 }
 
-/*********************************************************
+/***************************************************************************
  * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS (WALL OF HISTORY VERSIONS) *
- *********************************************************/
+ ***************************************************************************/
 
 /* This function finds the index of the current page in the active reading order. */
 function findSelf() {
@@ -269,7 +286,11 @@ async function jumpToChrono() {
             }
         }
     } else {
-        window.location.href = localStorage.getItem("savePlace:" + (sessionStorage.getItem("activeReadingOrder")));
+        try {
+            window.location.href = localStorage.getItem("savePlace:" + (sessionStorage.getItem("activeReadingOrder")));
+        } catch (err) {
+            alert("ERROR: Redirection failed. Please try reloading the page. If this error persists, report to admin@wallofhistory.com.")
+        }
     }
 }
 
@@ -342,7 +363,7 @@ function savePlaceChrono() {
 /* This function attempts to jump the user back to their current saved place. */
 function loadPlaceChrono() {
     if (localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder")) === null) {
-        jumpTo();
+        jumpToChrono();
     } else {
         window.location.href = localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder"));
     }
@@ -355,7 +376,7 @@ async function goBackChrono() {
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
         if (readingOrder[index].includes(":1")) {
             next = readingOrder[index].split(":")[0];
-            goTo(next);
+            goToChrono(next);
             break;
         }
     }
@@ -368,7 +389,7 @@ async function goForwardChrono() {
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
         if (readingOrder[index].includes(":1")) {
             next = readingOrder[index].split(":")[0];
-            goTo(next);
+            goToChrono(next);
             break;
         }
     }
@@ -498,7 +519,7 @@ async function goBackTree() {
     let siblings = await getArrayTree();
     siblings = siblings.split(",");
     let position = siblings.indexOf(id);
-    window.location.href = "/read/?id=" + siblings[position-1];
+    window.location.href = "/read/?id=" + siblings[position - 1];
 }
 
 /* This function navigates the user to the next selected page in the current array. */
@@ -508,30 +529,66 @@ async function goForwardTree() {
     let siblings = await getArrayTree();
     siblings = siblings.split(",");
     let position = siblings.indexOf(id);
-    window.location.href = "/read/?id=" + siblings[position+1];
+    window.location.href = "/read/?id=" + siblings[position + 1];
 }
 
 /*****************************************************
  * END SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
  *****************************************************/
 
-/**
-MnL:
-  getArray
-  findSelf
-  showButtons (autorun)
-  savePlace
-  jumpTo
-  loadPlace
-  goBack
-  goForward
 
+/********************
+ * MASTER FUNCTIONS *
+ ********************/
 
-altered WoH:
-  goTo
-  jumpTo
-  goBack
-  goForward
-  savePlace
-  loadPlace
- */
+function goTo(combo) {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        goToChrono(combo);
+    } else {
+        alert("ERROR: Navigation failed. Please report to admin@wallofhistory.com.")
+    }
+}
+
+function jumpTo() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        jumpToChrono();
+    } else {
+        jumpToTree();
+    }
+}
+
+function savePlace() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        savePlaceChrono();
+    } else {
+        savePlaceTree();
+    }
+}
+
+function loadPlace() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        loadPlaceChrono();
+    } else {
+        loadPlaceTree();
+    }
+}
+
+function goBack() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        goBackChrono();
+    } else {
+        goBackTree();
+    }
+}
+
+function goForward() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        goForwardChrono();
+    } else {
+        goForwardTree();
+    }
+}
+
+/************************
+ * END MASTER FUNCTIONS *
+ ************************/

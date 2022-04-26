@@ -31,7 +31,7 @@
 
 body {
     background-image: linear-gradient(180deg, rgba(14, 24, 27, 0.125) 0%, #0E181B 100%),
-        url("/img/PrettyMetruNui.png");
+        url("/img/test/PrettyMetruNui.png");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

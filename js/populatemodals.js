@@ -1,49 +1,22 @@
 function populateModalLinks() {
-    // Fetch items...
-    /* var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            localStorage.setItem("referenceTerms", this.responseText);
-        }
-    };
-    xmlhttp.open("GET", "../php/getreferenceterms.php", true);
-    xmlhttp.send(); */
-    // WHY NO WORK?!?!
+    const unsortedReferenceItems = localStorage.getItem("referenceTerms").split(",");
+    const referenceItems = unsortedReferenceItems.sort((a,b) => b.length - a.length);
 
-    // ...and update modal links.
-    let referenceItems = localStorage.getItem("referenceTerms").split(",");
-
-    // Next thing. Add a regex for spaces and punctuation to fix the Makuta/Maku error on eba6c8.
-    // Okay, here's an idea:
-    // 1. Sort all reference terms by length, longer to shorter.
+    // Here's an idea to ensure there's never a mixup:
+    // 1. Sort all reference terms by length, longer to shorter (done).
     // 2. On page load, iterate over the list, only turning the *first* occurence into a link.
-    for (i = 0; i < referenceItems.length; i++) {
-        $("p:contains('" + referenceItems[i] + " ')").html(function(_, html) {
-            regex = new RegExp(referenceItems[i] + " ", "gi");
-            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a> ');
-        });
+    
+    barriers = [".", ",", "!", "?", "…", " "];
+    for (i = 0; i < barriers.length; i++) {
+        for (j = 0; j < referenceItems.length; j++) {
+            $("p:contains('" + referenceItems[j] + barriers[i] + "')").html(function(_, html) {
+                combo = referenceItems[j] + barriers[i];
+                return html.replace(combo, '<a data-reference="' + referenceItems[j] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[j] + '</a>' + barriers[i]);
+            });
 
-        $("p:contains('" + referenceItems[i] + ",')").html(function(_, html) {
-            regex = new RegExp(referenceItems[i] + ",", "gi");
-            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>,');
-        });
-
-        $("p:contains('" + referenceItems[i] + ".')").html(function(_, html) {
-            regex = new RegExp(referenceItems[i] + ".", "gi");
-            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>.');
-        });
-
-        $("p:contains('" + referenceItems[i] + "…')").html(function(_, html) {
-            regex = new RegExp(referenceItems[i] + "…", "gi");
-            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>…');
-        });
-
-        $("p:contains('" + referenceItems[i] + "?')").html(function(_, html) {
-            regex = new RegExp(referenceItems[i] + "?", "gi");
-            return html.replace(regex, '<a data-reference="' + referenceItems[i] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[i] + '</a>?');
-        });
-
-        $(".contentsText p").find("a").contents().unwrap();
+            // What does this DO?
+            $(".contentsText p").find("a").contents().unwrap();
+        }
     }
 }
 
