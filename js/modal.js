@@ -41,6 +41,8 @@ function generalToggle() {
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         generalToggle();
+    } else if (event.target.classList.contains('zoom')) {
+        closeImage();
     }
 }
 

@@ -140,6 +140,29 @@ function loadHeader($id)
     }
 }
 
+function getData($column, $query) {
+    $data = [];
+    include("..//php/db_connect.php");
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($data, $row[$column]);
+        }
+    }
+    return $data;
+}
+
+function getDetails($id, $primeversion) {
+    $versionquery = "SELECT DISTINCT version_title FROM woh_content WHERE id = '$id'";
+    echo "<p>" . implode(", ", getData("version_title", $versionquery)) . "</p>\n";
+
+    $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
+    echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
+
+    $wordquery = "SELECT word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
+    echo "<p>WORDCOUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+}
+
 // This function finds any and all children that a given piece of content has, then echoes them in a list format.
 function addChildren($id, $lang, $v)
 {
@@ -159,7 +182,6 @@ function addChildren($id, $lang, $v)
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
-        echo "<div id='children'>";
         // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
         if ($id != "0") {
             $sql_standalone = "SELECT child_id FROM woh_web";
@@ -169,6 +191,8 @@ function addChildren($id, $lang, $v)
                 echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
             }
         }
+
+        echo "<div id='children'>";
 
         // WHAT THE FUCK HAPPENED HERE?!
         $uniquea = [];
@@ -187,9 +211,13 @@ function addChildren($id, $lang, $v)
                 }
                 $snippet = (string) $row["snippet"];
                 if (strlen($snippet) > 196) {
-                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p></button></div>";
+                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p><div class='versions'>";
+                    getDetails($uniqueid, $row["content_version"]);
+                    echo "</div></div></button></div>";
                 } else {
-                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p></button></div>";
+                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
+                    getDetails($uniqueid, $row["content_version"]);
+                    echo "</div></div></button></div>";
                 }
             }
             array_push($uniquea, $uniqueid);
@@ -212,7 +240,7 @@ function loadContent($id, $lang, $v)
     if ($id === "0") {
         echo "<section class='titleBox'><div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
     } else if ((!($id === "0")) && ($num_rows === 0)) {
-        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3></div>";
+        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
     } else if ($num_rows === 1) {
         echo "<section class='titleBox'>";
         // Get and display image.

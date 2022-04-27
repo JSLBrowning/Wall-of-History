@@ -592,3 +592,51 @@ function goForward() {
 /************************
  * END MASTER FUNCTIONS *
  ************************/
+
+
+/*******************
+ * IMAGE FUNCTIONS *
+ *******************/
+
+images = document.getElementsByTagName("main")[0].getElementsByTagName("img");
+console.log(images.length);
+for (var i = 0; i < images.length; i++) {
+    images[i].addEventListener("click", function () {
+        let src = this.src;
+        let alt = this.alt;
+        let img = document.createElement("img");
+        img.setAttribute("src", src);
+
+        let zoom = document.createElement("div");
+        zoom.classList.add("zoom");
+        zoom.appendChild(img);
+
+        if (alt != ("img" || "" || null)) {
+            let caption = document.createElement("p");
+            caption.innerHTML = alt;
+            zoom.appendChild(caption);
+        }
+
+        document.body.appendChild(zoom);
+        $(".zoom").fadeTo("fast", 1);
+    });
+}
+
+function closeImage() {
+    $(".zoom").fadeOut("fast");
+    setTimeout(() => { $(".zoom").remove(); }, 200);
+}
+
+window.onclick = function (event) {
+    if (event.target.classList.contains('zoom')) {
+        closeImage();
+    } else if (event.target.classList.contains('modal')) {
+        generalToggle();
+    }
+}
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === "Escape") {
+        closeImage();
+    }
+});

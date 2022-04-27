@@ -15,6 +15,9 @@ function swap(swappableID) {
             }, 400);
         } else {
             // swappables[i].style.display = "none";
+            $("video").each(function() {
+                $(this).get(0).pause();
+            });
             $(swappables[i]).slideUp();
         }
     }
@@ -50,6 +53,7 @@ function carouselBack(button) {
         if ((currentStyles.display != "none") && (i > 0)) {
             parents[i].style.display = "none";
             parents[i - 1].style.display = "block";
+            break;
         } else if ((currentStyles.display != "none") && (i == 0)) {
             parents[0].style.display = "none";
             parents[parents.length - 1].style.display = "block";

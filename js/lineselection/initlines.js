@@ -90,13 +90,11 @@ $(".anchor").click(function (e) {
     if (e.ctrlKey && $(this).parent().hasClass("x-target")) {
         let removed = $(this).parent().attr("class").split(" ");
         let removedParagraphNumber = removed.filter((r) => r.startsWith("p"))[0]
-        console.log(removedParagraphNumber);
         removeHash(removedParagraphNumber);
         $(this).parent().removeClass("x-target");
     } else if (e.ctrlKey && !($(this).parent().hasClass("x-target"))) {
         let added = $(this).parent().attr("class").split(" ");
         let addedParagraphNumber = added.filter((a) => a.startsWith("p"))[0]
-        console.log(addedParagraphNumber);
         addHash(addedParagraphNumber);
         $(this).parent().addClass("x-target");
         latestSelection = $(this).parent().attr("id").substring(1);

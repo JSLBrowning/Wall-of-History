@@ -6,6 +6,17 @@ main {
 main img {
     width: 100%;
     max-width: 960px;
+    padding-top: 0em;
+}
+
+main img:hover,
+main img:active {
+    transform: none;
+}
+
+main img:hover {
+    filter: brightness(1.0625);
+    box-shadow: none;
 }
 
 @media only screen and (max-width: 640px) {

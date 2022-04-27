@@ -1,4 +1,5 @@
 if ($("#slidelocation").length > 0) {
+    var x = document.getElementsByClassName("slideshow");
     var slideIndex = 1;
     showDivs(slideIndex);
 
@@ -8,7 +9,6 @@ if ($("#slidelocation").length > 0) {
 
     function showDivs(n) {
         var i;
-        var x = document.getElementsByClassName("slideshow");
         if (n > x.length) {
             slideIndex = 1
         }
@@ -40,6 +40,35 @@ if ($("#slidelocation").length > 0) {
             $("#slideshowforward").css("width", "33.33%");
         }
     }
-}
 
-// Lightbox: https://code-boxx.com/image-zoom-css-javascript/
+    window.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        switch (event.code) {
+            case "ArrowLeft":
+                console.log("left");
+                if (slideIndex != 1) {
+                    plusDivs(-1);
+
+                    if (document.getElementsByClassName("zoom") != null) {
+                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
+                    }
+                }
+                break;
+            case "ArrowRight":
+                console.log("right");
+                if (slideIndex != x.length) {
+                    plusDivs(+1);
+
+                    if (document.getElementsByClassName("zoom") != null) {
+                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex + 1].src;
+                    }
+                }
+                break;
+        }
+
+        event.preventDefault();
+    }, true);
+}
