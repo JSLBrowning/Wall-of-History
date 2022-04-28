@@ -165,6 +165,8 @@ main {
     width: 90%;
     max-width: 720px;
     border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
     background: var(--back2);
     box-shadow: var(--outershadow);
     border-radius: 1em;
@@ -483,6 +485,8 @@ main button,
     border-radius: 0.375em;
     background: var(--back2);
     border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
     box-shadow: var(--outershadow);
     cursor: pointer;
     transition: all .2s ease-in-out;
@@ -493,17 +497,6 @@ main button::before {
     filter: blur(10px);
 }
 */
-
-#submit {
-    display: block;
-    margin: 10px auto;
-    width: 128px;
-    height: 64px;
-    font-size: 2em;
-    position: fixed;
-    bottom: 1em;
-    right: 1em;
-}
 
 .slidecontrols,
 .checkbuttons {
@@ -586,6 +579,8 @@ nav button,
     width: 128px;
     height: 64px;
     font-size: 2em;
+    border-left: none;
+    border-right: none;
 }
 
 .standaloneButton:hover,
@@ -661,14 +656,6 @@ main h3 a {
     text-decoration: none;
     cursor: pointer;
     transition: all .2s ease-in-out;
-}
-
-#submit {
-    border-radius: 0.25em;
-    transition: all .2s ease-in-out;
-    background-color: var(--back2);
-    box-shadow: none;
-    color: var(--front1);
 }
 
 .contentsButton {
@@ -1024,6 +1011,8 @@ aside button {
     background: var(--back2);
     box-shadow: var(--outershadow);
     border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
     padding: none;
     font-size: 1.5em;
     font-weight: bolder;
@@ -1043,6 +1032,34 @@ aside button:hover {
 aside button:active {
     transform: scale(0.95);
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--smalloutershadow);
+}
+
+#submit {
+    display: block;
+    margin: 10px auto;
+    width: 128px;
+    height: 64px;
+    font-size: 1.25em;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+
+    border-radius: 0.25em;
+    transition: all .2s ease-in-out;
+    background-color: var(--back2);
+    box-shadow: none;
+    color: var(--front1);
+
+    box-shadow: var(--outershadow);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
+
+    color: var(--front2);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
 }
 
 @media only screen and (min-width: 960px) {
@@ -1078,6 +1095,8 @@ aside button:active {
         border-left: 0px;
         border-bottom: 0px;
         box-shadow: none;
+        border-left: none;
+        border-right: none;
     }
 
     aside button:last-of-type {

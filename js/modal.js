@@ -80,7 +80,7 @@ function getModalContent(identifier) {
             */
         }
     };
-    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject, true);
+    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject + "&sl=" + spoilerLevel, true);
     xmlhttp.send();
 
     if (modalVisibility == "hidden") {

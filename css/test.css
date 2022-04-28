@@ -39,7 +39,6 @@
 .contentsButton img {
     margin-top: -1em;
     margin-left: -1em;
-    margin-right: 0.5em;
     border-radius: 0.375em;
     padding: 0em;
     float: left;
@@ -47,7 +46,7 @@
     height: 100%;
     max-height: 144px;
     width: auto;
-    max-width: 144px;
+    max-width: 108px;
     object-fit: cover;
     border: none;
 }
@@ -55,7 +54,10 @@
 .contentButtonText {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 1em;
+    margin: auto 0.5em;
+    margin-right: 0em;
     padding: 0.25em;
 }
 
@@ -68,12 +70,12 @@
     width: 100%;
     max-width: 100%;
     text-align: left;
-    font-size: 1.125em;
+    font-size: 1.0625em;
 }
 
 .contentsButton p:first-of-type {
     font-family: "Trademarker";
-    font-size: 1.375em;
+    font-size: 1.25em;
 }
 
 .contentsButton:active {
@@ -181,7 +183,8 @@
 #card685M4D,
 #card5LTDQZ,
 #cardXJDC9U,
-#card0J81JD {
+#card0J81JD,
+#cardKQRMXG {
     border-left: none;
     border-right: none;
 }
@@ -216,6 +219,12 @@
     border-color: goldenrod;
 }
 
+#cardKQRMXG {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/KQRMXG.png") center;
+    background-size: contain;
+    border-color: #b6cdd2;
+}
+
 /* TAGS FOR CONTENT CARDS */
 .tags {
     display: flex;
@@ -243,7 +252,7 @@
     color: darkgray;
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 0.9375em;
+    font-size: 0.875em;
     letter-spacing: 0.125em;
 }
 

@@ -145,8 +145,10 @@ CREATE TABLE IF NOT EXISTS reference_images (
     /* Self-explantory. */
     spoiler_level int,
     /* Self-explantory. */
-    image_path text NOT NULL
+    image_path text NOT NULL,
     /* Be sure to use DISTINCT for compilation pages. */
+    caption text
+    /* Self-explantory. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_quotes (
@@ -165,7 +167,7 @@ CREATE TABLE IF NOT EXISTS reference_appearances (
     /* This refers to the character or object itself. */
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
-)
+);
 
 CREATE TABLE IF NOT EXISTS reference_greg (
     question_id varchar(6) NOT NULL,

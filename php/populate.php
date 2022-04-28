@@ -152,15 +152,15 @@ function getData($column, $query) {
     return $data;
 }
 
-function getDetails($id, $primeversion) {
-    $versionquery = "SELECT DISTINCT version_title FROM woh_content WHERE id = '$id'";
+function getDetails($id, $primeversion, $lang) {
+    $versionquery = "SELECT DISTINCT version_title FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
     echo "<p>" . implode(", ", getData("version_title", $versionquery)) . "</p>\n";
 
     $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
     echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
 
-    $wordquery = "SELECT word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
-    echo "<p>WORDCOUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+    $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
+    echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
 }
 
 // This function finds any and all children that a given piece of content has, then echoes them in a list format.
@@ -212,11 +212,11 @@ function addChildren($id, $lang, $v)
                 $snippet = (string) $row["snippet"];
                 if (strlen($snippet) > 196) {
                     echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p><div class='versions'>";
-                    getDetails($uniqueid, $row["content_version"]);
+                    getDetails($uniqueid, $row["content_version"], $lang);
                     echo "</div></div></button></div>";
                 } else {
                     echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
-                    getDetails($uniqueid, $row["content_version"]);
+                    getDetails($uniqueid, $row["content_version"], $lang);
                     echo "</div></div></button></div>";
                 }
             }
