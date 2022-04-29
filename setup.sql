@@ -3,7 +3,7 @@ USE test;
 
 /* CONTENT SETUP */
 
-CREATE TABLE IF NOT EXISTS WoH_metadata(
+CREATE TABLE IF NOT EXISTS story_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
     publication_date date,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS WoH_metadata(
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
 );
 
-CREATE TABLE IF NOT EXISTS WoH_content(
+CREATE TABLE IF NOT EXISTS story_content(
     id varchar(6),
     /* Self-explantory — it's the same ID as above. */
     content_version int DEFAULT 1,
@@ -42,14 +42,14 @@ CREATE TABLE IF NOT EXISTS WoH_content(
     PRIMARY KEY (id, content_language, content_version)
 );
 
-CREATE TABLE IF NOT EXISTS WoH_headers(
+CREATE TABLE IF NOT EXISTS story_headers(
     header_id int PRIMARY KEY,
     /* Self-explantory. */
     html mediumtext
     /* Self-explanatory. */
 );
 
-CREATE TABLE IF NOT EXISTS WoH_tags(
+CREATE TABLE IF NOT EXISTS story_tags(
     id varchar(6),
     /* Self-explanatory — these are the same tags used for metadata and content. */
     tag_type text,
@@ -63,6 +63,11 @@ CREATE TABLE IF NOT EXISTS WoH_tags(
     /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Carlos D’Anda” above, you would put “Illustrated by Carlos D’Anda” here. */
 );
 
+CREATE TABLE IF NOT EXISTS story_adaptations(
+    original_id varchar(6) NOT NULL,
+    adaptation_id varchar(6) NOT NULL
+);
+
 /* To be used eventually. Examples: "cover", "banner", "OGP"
 CREATE TABLE WoH_images(
     content_id varchar(6),
@@ -73,7 +78,7 @@ CREATE TABLE WoH_images(
 );
 */
 
-CREATE TABLE IF NOT EXISTS WoH_web(
+CREATE TABLE IF NOT EXISTS story_reference_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
     parent_version int DEFAULT 1,
@@ -81,11 +86,6 @@ CREATE TABLE IF NOT EXISTS WoH_web(
     child_id varchar(6) NOT NULL,
     /* You'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
     child_version int DEFAULT 1
-);
-
-CREATE TABLE IF NOT EXISTS WoH_adaptations(
-    original_id varchar(6) NOT NULL,
-    adaptation_id varchar(6) NOT NULL
 );
 
 /* REFERENCE SETUP
@@ -115,6 +115,8 @@ CREATE TABLE IF NOT EXISTS reference_content (
     /* Self-explantory — it's the same ID as above. */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
+    content_language varchar(2) DEFAULT "en",
+    /* ...and this is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     version_title text,
     /* ...and this string identifies the version (for example, "Updated"). */
     /* If no version titles, default to name of parents? */

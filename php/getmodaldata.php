@@ -1,6 +1,10 @@
 <?php
 include("..//php/db_connect.php");
 
+/********************************************
+ * Update all of this for language support. *
+ ********************************************/
+
 // get the q parameter from URL
 $q = $_REQUEST["q"];
 $sl = $_REQUEST["sl"];
@@ -47,7 +51,20 @@ function get_alternate_names($subject_id, $name, $spoiler_level) {
         while ($row_titles = mysqli_fetch_assoc($result_titles)) {
             array_push($alt_names, $row_titles['title']);
         }
-        echo "<h2 class='altNames'>AKA " . implode(",", $alt_names) . "</h2>";
+        echo "<h2 class='altNames'>AKA " . implode(", ", $alt_names) . "</h2>";
+    }
+}
+
+
+function get_source($entry_id) {
+    include("..//php/db_connect.php");
+
+    $sql_source = "SELECT source FROM reference_metadata WHERE entry_id='$entry_id'";
+    $result_source = $mysqli->query($sql_source);
+
+    if ($result_source->num_rows > 0) {
+        $row_source = mysqli_fetch_assoc($result_source);
+        echo "<p class='source'>Source: " . $row_source['source'] . "</p>";
     }
 }
 
@@ -91,7 +108,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     include("..//php/db_connect.php");
 
     // Create selection statement for images.
-    $sql_images = "SELECT image_path, caption FROM reference_images WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$q' AND spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
+    $sql_images = "SELECT image_path, caption FROM reference_images WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$name' AND spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
     $result_images = $mysqli->query($sql_images);
 
     if ($result_images->num_rows == 1) {
@@ -108,14 +125,24 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     echo "<h1>$name</h1>";
     get_alternate_names($subject_id, $name, $spoiler_level);
 
-    // Perfom selection.
-    $result_titles = $mysqli->query($sql_titles);
-    $titles = [];
-    if ($result_titles->num_rows > 0) {
-        while ($row_titles = mysqli_fetch_assoc($result_titles)) {
-            array_push($titles, $row_titles['entry_id']);
+    $sql_main = "SELECT main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
+    $result_main = $mysqli->query($sql_main);
+
+    $main = "";
+    if ($result_main->num_rows > 0) {
+        while ($row_main = mysqli_fetch_assoc($result_main)) {
+            // echo $row_main['main'];
+            $main .= $row_main['main'];
         }
-    } else {
-        echo "<p>ERROR: Query failed. Please report to admin@wallofhistory.com.</p>";
+
+        $doc = new DOMDocument();
+        $doc->loadHTML($main);
+
+        $selector = new DOMXPath($doc);
+        foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
+            $a->parentNode->removeChild($a);
+        }
+
+        echo $doc->saveHTML($doc->documentElement);
     }
 }

@@ -41,6 +41,9 @@ if ($("#slidelocation").length > 0) {
         }
     }
 
+    // Update the below to only respect the "highest" slideshow.
+    // I.e., if the reference modal has a slideshow, arrows should only move those images, even if there's a comic underneath.
+    // Might be possible to find the slideshow with the highest Z-index.
     window.addEventListener("keydown", function (event) {
         if (event.defaultPrevented) {
             return;

@@ -66,24 +66,13 @@ function getModalContent(identifier) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("modal-data").innerHTML = this.responseText;
-
-            /*
-            spoilerlevel = parseInt(localStorage.getItem("WallofHistorySpoilerLevel"));
-            children = document.getElementById("modal-data").children;
-            for (i = 0; i < children.length; i++) {
-                if (children[i].hasAttribute("data-spoiler")) {
-                    if (parseInt(children[i].getAttribute("data-spoiler")) > spoilerlevel) {
-                        children[i].style.display = "none";
-                    }
-                }
-            }
-            */
         }
     };
-    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject + "&sl=" + spoilerLevel, true);
+    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject + "&sl=" + localStorage.getItem("spoilerLevel"), true);
     xmlhttp.send();
 
     if (modalVisibility == "hidden") {
+        // Remove a tags for paragraph selection.
         targetModal.classList.add("modal-visible");
         targetModalContent.classList.add("modal-content-center-visible");
     } else {
