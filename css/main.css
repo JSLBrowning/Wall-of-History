@@ -759,6 +759,10 @@ main h3 a {
     user-select: none;
 }
 
+.anchor {
+    transition: all .1s ease-in-out;
+}
+
 .anchors p {
     flex-basis: 98.75;
 }

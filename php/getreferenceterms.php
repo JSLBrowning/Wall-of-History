@@ -3,7 +3,8 @@ include("..//php/db_connect.php");
 
 // Create selection statement.
 // TO-DO: Ensure this is capitalization blind (this may have to be implemented in the JS).
-$sql = "SELECT GROUP_CONCAT(name SEPARATOR ',') FROM wall_of_history_reference";
+// Actually, ensure it ISN'T capitalization blind ("Ancient"), and that improper nouns (aero slicer) are in reference_titles with all capizalization variants.
+$sql = "SELECT GROUP_CONCAT(DISTINCT title SEPARATOR ',') FROM reference_titles";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

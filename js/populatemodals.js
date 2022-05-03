@@ -1,10 +1,11 @@
 function populateModalLinks() {
     const unsortedReferenceItems = localStorage.getItem("referenceTerms").split(",");
     const referenceItems = unsortedReferenceItems.sort((a,b) => b.length - a.length);
+    console.log(referenceItems);
 
     // Here's an idea to ensure there's never a mixup:
     // 1. Sort all reference terms by length, longer to shorter (done).
-    // 2. On page load, iterate over the list, only turning the *first* occurence into a link.
+    // 2. On page load, iterate over the list, only turning the *first* occurrence into a link.
     
     barriers = [".", ",", "!", "?", "…", " "];
     for (i = 0; i < barriers.length; i++) {

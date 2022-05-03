@@ -169,9 +169,9 @@ async function resetReader() {
     }
 }
 
-/*
- * READER NAVIGATION HELPERS
- */
+/*****************************
+ * READER NAVIGATION HELPERS *
+ *****************************/
 
 function getOptimalLanguage(combo) {
     return new Promise(resolve => {
@@ -200,19 +200,23 @@ function getOptimalLanguage(combo) {
 
 /* LANGUAGE STUFF (INCOMPLETE) */
 
-let full = localStorage.getItem("languageList").split(",");
-let available = document.getElementsByTagName("section");
+function chooseLanguageOnLoad() {
+    let full = localStorage.getItem("languageList").split(",");
+    let available = document.getElementsByTagName("section");
 
-if (available.length >= 1) {
-    let a = []
-    for (i = 0; i < available.length; i++) {
-        a.push(available[i].lang);
+    if (available.length >= 1) {
+        let a = []
+        for (i = 0; i < available.length; i++) {
+            a.push(available[i].lang);
+        }
+
+        let intersection = full.filter(x => a.includes(x));
+
+        $("section:lang(" + intersection[0] + ")").css("display", "block");
     }
-
-    let intersection = full.filter(x => a.includes(x));
-
-    $("section:lang(" + intersection[0] + ")").css("display", "block");
 }
+
+chooseLanguageOnLoad();
 
 /***************************************************************************
  * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS (WALL OF HISTORY VERSIONS) *
@@ -598,10 +602,12 @@ function goForward() {
  * IMAGE FUNCTIONS *
  *******************/
 
-images = document.getElementsByTagName("main")[0].getElementsByTagName("img");
-console.log(images.length);
-for (var i = 0; i < images.length; i++) {
-    images[i].addEventListener("click", function () {
+let images = document.getElementsByTagName("main")[0].getElementsByTagName("img");
+let filteredImages = $(images).filter(function(){return !$(this).parents().is('div.social a')});
+
+console.log(filteredImages.length);
+for (var i = 0; i < filteredImages.length; i++) {
+    filteredImages[i].addEventListener("click", function () {
         let src = this.src;
         let alt = this.alt;
         let img = document.createElement("img");

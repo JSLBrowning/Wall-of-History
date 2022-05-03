@@ -1,8 +1,9 @@
 async function generateSelectionModal() {
+    console.log("Generating selection modal...");
     // Get the modal
     let modal = document.getElementById("myModal");
 
-    document.getElementById("modal-data").innerHTML = "";
+    document.getElementById("modal-data").innerHTML = "<h2>Select a Reading Order</h2>";
     for (let key in localStorage) {
         if (key.includes("readingOrder")) {
             let ID = key.split(":");
@@ -28,6 +29,7 @@ async function generateSelectionModal() {
         sessionStorage.setItem("activeReadingOrder", "0");
     else if(url.indexOf('&' + field + '=') == -1)
         modal.style.display = "block";
+        toggleModal("myModal");
 }
 
 function getTitle(id) {
@@ -52,3 +54,7 @@ function jumpToSelection(id) {
 // Saved reading order will include version (ID.version).
 // The web for versions will be fixed — graphic novels will only have their own chapters as children, so no ambiguity there is possible.
 // Optimal languages for fetches and redirects can be accomplished using main.getOptimalLanguage (update that function to only consider selected version, IF THERE IS ONE (if (id.contains(".")))).
+
+// Reading order disambiguation button should only appear:
+// 1. When pressing main read button.
+// 2. When trying to use navigation arrows **ON AN AMBIGUOUS PAGE**.

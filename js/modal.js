@@ -9,6 +9,8 @@ function toggleModal(id) {
             targetModalContent.classList.add("modal-content-left-visible");
         } else if (targetModalContent.classList.contains("modal-content-right")) {
             targetModalContent.classList.add("modal-content-right-visible");
+        } else if (targetModalContent.classList.contains("modal-content-center")) {
+            targetModalContent.classList.add("modal-content-center-visible");
         }
     } else {
         targetModal.classList.remove("modal-visible");
@@ -16,8 +18,7 @@ function toggleModal(id) {
             targetModalContent.classList.remove("modal-content-left-visible");
         } else if (targetModalContent.classList.contains("modal-content-right-visible")) {
             targetModalContent.classList.remove("modal-content-right-visible");
-        } else {
-            // ?
+        } else if (targetModalContent.classList.contains("modal-content-center-visible")) {
             targetModalContent.classList.remove("modal-content-center-visible");
         }
     }

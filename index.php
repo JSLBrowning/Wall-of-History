@@ -65,7 +65,7 @@
             Your browser does not support the video tag.
         </video>
         <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
-        <section lang="en">
+        <section lang="en" style="display: none;">
             <p style="text-align: center;">Welcome to Wall of History, a web archive of the entire BIONICLE legend — compiled into an accessible, easy-to-read format.</p>
             <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking <a href="/read/">here</a>.</p>
             <nav>
@@ -115,7 +115,7 @@
         <!-- modal -->
         <div id="myModal" class="modal">
             <!-- modal content -->
-            <div class="modal-content">
+            <div class="modal-content modal-content-center">
                 <span class="close">&times;</span>
                 <div id="modal-data">
                     <p>No information is available at this time.</p>
