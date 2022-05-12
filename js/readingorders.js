@@ -33,6 +33,8 @@ async function generateSelectionModal() {
 }
 
 function getTitle(id) {
+    const query = "SELECT title FROM woh_content WHERE id='" + id + "' LIMIT 1";
+
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -40,7 +42,7 @@ function getTitle(id) {
                 resolve(this.responseText);
             }
         };
-        xmlhttp.open("GET", "../php/gettitle.php?q=" + id, true);
+        xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=title", true);
         xmlhttp.send();
     });
 }

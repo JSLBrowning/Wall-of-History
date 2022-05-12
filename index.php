@@ -23,7 +23,6 @@
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/read.css">
     <!-- Put anything in read.css that's needed here into main.css. -->
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -65,20 +64,11 @@
             Your browser does not support the video tag.
         </video>
         <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
-        <section lang="en" style="display: none;">
-            <p style="text-align: center;">Welcome to Wall of History, a web archive of the entire BIONICLE legend — compiled into an accessible, easy-to-read format.</p>
-            <p style="text-align: center;">You can start or continue reading by hitting the button below, or you can browse our contents by clicking <a href="/read/">here</a>.</p>
-            <nav>
-                <button class="homepageReadButton" onclick="jumpTo()" disabled>Read!</button>
-            </nav>
-        </section>
-        <section lang="es" style="display: none;">
-            <p style="text-align: center;">Bienvenido a Wall of History, un archivo web de toda la leyenda de BIONICLE, recopilada en un formato accesible y fácil de leer.</p>
-            <p style="text-align: center;">Puede comenzar o continuar leyendo presionando el botón de abajo, o puede navegar por nuestros contenidos haciendo clic <a href="/read/">aquí.</a></p>
-            <nav>
-                <button class="homepageReadButton" onclick="jumpTo()" disabled>Read!</button>
-            </nav>
-        </section>
+        <?php
+            include('/php/db_connect.php');
+            include('/php/populate.php');
+            echo populateStatic("");
+        ?>
         <hr>
         <p style="margin-top: 1em; text-align: center;">Find Us</p>
         <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">

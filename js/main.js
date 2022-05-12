@@ -2,7 +2,26 @@
  * UNIVERSAL FUNCTIONS *
  ***********************/
 
-/* This function loads the configuration data from config.json. */
+
+// This function loads a given cookie.
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return null;
+}
+
+
+// This function loads the configuration data from config.json.
 function loadJSON(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -16,114 +35,25 @@ function loadJSON(callback) {
 }
 
 
-async function initialize() {
-    /* Add code to use loadJSON and store config data in localStorage. */
-    if (localStorage.getItem("WallofHistorySavePlace") != null) {
-        let oldSavePlace = localStorage.getItem("WallofHistorySavePlace");
-        localStorage.clear();
-        localStorage.setItem("savePlace:0", oldSavePlace);
-    }
+/**
+ * INITIALIZATION FUNCTIONS
+ */
 
-    if (localStorage.getItem("version") != "1.0") {
-        // Try to convert saved place first.
-        localStorage.setItem("version", "1.0");
-    }
 
-    if ((localStorage.getItem("languagePreference") === null) || (localStorage.getItem("languageList") === null)) {
-        // Step 1: Get preferred language.
-        const lang = navigator.language;
-        localStorage.setItem("languagePreference", lang.substring(0, 2));
-
-        // Step 2: Get all languages and put them in a list.
-        languageList = await getLanguageList();
-        localStorage.setItem("languageList", languageList);
-    }
-
-    // Step 3: If preferred language is in language list, bring it to the front.
-    if (localStorage.getItem("languageList").includes(localStorage.getItem("languagePreference"))) {
-        let languageList = localStorage.getItem("languageList").split(",");
-        let preferred = localStorage.getItem("languagePreference");
-        languageList.sort(function (x, y) {
-            return x == preferred ? -1 : y == preferred ? 1 : 0;
-        });
-        localStorage.setItem("languageList", languageList);
-    }
-
-    if (localStorage.getItem("colorScheme") === null) {
-        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-            localStorage.setItem("colorScheme", "light");
-            // Fix on first run.
-        } else {
-            localStorage.setItem("colorScheme", "dark");
-        }
-    } else if (localStorage.getItem("colorScheme") === "light") {
-        document.getElementById("paletteSwapButton").innerHTML = "☽";
-    }
-
+// This function checks if a reading mode is set (and if not, sets it).
+async function checkReadingMode() {
     if (localStorage.getItem("readingMode") === null) {
         loadJSON(async function (response) {
             let readingMode = JSON.parse(response).readingorder;
             localStorage.setItem("readingMode", readingMode);
         });
     }
+}
 
-    if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
-        loadJSON(async function (response) {
-            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingorder);
-            setReadingOrder(recommendedReadingOrder).then(() => {
-                /*
-                document.getElementsByClassName("homepageReadButton").disabled = false;
-                console.log("Reader ready.");
-                */
 
-                let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
-                for (let i = 0; i < homepageReadButtons.length; i++) {
-                    homepageReadButtons[i].disabled = false;
-                }
-                console.log("Reader ready.");
-            });
-        });
-    } else {
-        let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
-        for (let i = 0; i < homepageReadButtons.length; i++) {
-            homepageReadButtons[i].disabled = false;
-        }
-        console.log("Reader ready.");
-    }
-
-    if (sessionStorage.getItem("activeReadingOrder") === null) {
-        const keyArray = Object.keys(localStorage);
-        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
-        if (readingOrders.length == 1) {
-            sessionStorage.setItem("activeReadingOrder", readingOrders[0].split(":")[1]);
-        }
-    }
-
-    if (localStorage.getItem("spoilerLevel") === null) {
-        localStorage.setItem("spoilerLevel", "1");
-    }
-
-    if (localStorage.getItem("referenceTerms") === null) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                localStorage.setItem("referenceTerms", this.responseText);
-            }
-        };
-        xmlhttp.open("GET", "../php/getreferenceterms.php", true);
-        xmlhttp.send();
-    }
-
-    if (localStorage.getItem("fontSize") === null) {
-        localStorage.setItem("fontSize", "normal");
-    }
-
-    if (localStorage.getItem("languagePreference") !== null) {
-        document.cookie = "languagePreference=" + localStorage.getItem("languagePreference") + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
-    }
-};
-
-function getLanguageList() {
+// This function loads a list of languages available on the site from the server.
+// Helper for checkLanguage().
+async function getLanguageList() {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
@@ -136,6 +66,49 @@ function getLanguageList() {
     });
 }
 
+
+// This function checks if a language preferences are set (and if not, sets them).
+async function checkLanguage() {
+    if ((localStorage.getItem("languagePreference") === null) || (localStorage.getItem("languageList") === null)) {
+        // Step 1: Get all languages and put them in a list.
+        languageList = await getLanguageList();
+        localStorage.setItem("languageList", languageList);
+
+        // Step 2: Get preferred language.
+        const lang = navigator.language.substring(0, 2);
+        localStorage.setItem("languagePreference", lang);
+        if ((getCookie("languagePreference") == null) || (getCookie("languagePreference") != lang)) {
+            document.cookie = "languagePreference=" + localStorage.getItem("languagePreference") + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+        }
+    }
+
+    // Step 3: If preferred language is in language list, bring it to the front.
+    if (localStorage.getItem("languageList").includes(localStorage.getItem("languagePreference"))) {
+        let languageList = localStorage.getItem("languageList").split(",");
+        let preferred = localStorage.getItem("languagePreference");
+        languageList.sort(function (x, y) {
+            return x == preferred ? -1 : y == preferred ? 1 : 0;
+        });
+        localStorage.setItem("languageList", languageList);
+    }
+}
+
+
+async function checkColorScheme() {
+    if (localStorage.getItem("colorScheme") === null) {
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+            localStorage.setItem("colorScheme", "light");
+            swapPalettes();
+        } else {
+            localStorage.setItem("colorScheme", "dark");
+        }
+    } else if (localStorage.getItem("colorScheme") === "light") {
+        document.getElementById("paletteSwapButton").innerHTML = "☽";
+    }
+}
+
+
+// Helper for checkReadingOrder().
 function getRecommendedReadingOrder(type) {
     if (type == "chronology") {
         return new Promise(resolve => {
@@ -153,11 +126,103 @@ function getRecommendedReadingOrder(type) {
     }
 }
 
+
+// Helper for checkReadingOrder().
 async function setReadingOrder(newReadingOrder) {
     localStorage.setItem("readingOrder:0", newReadingOrder);
 }
 
+
+async function checkReadingOrder() {
+    if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
+        loadJSON(async function (response) {
+            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingorder);
+            setReadingOrder(recommendedReadingOrder).then(() => {
+                let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
+                for (let i = 0; i < homepageReadButtons.length; i++) {
+                    homepageReadButtons[i].disabled = false;
+                }
+                console.log("Reading order ready.");
+            });
+        });
+    } else {
+        activateNavigation();
+    }
+}
+
+async function activateReadingOrder() {
+    if (sessionStorage.getItem("activeReadingOrder") === null) {
+        const keyArray = Object.keys(localStorage);
+        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
+        if (readingOrders.length == 1) {
+            sessionStorage.setItem("activeReadingOrder", readingOrders[0].split(":")[1]);
+        }
+    }
+}
+
+
+async function checkSpoilerLevel() {
+    if (localStorage.getItem("spoilerLevel") === null) {
+        localStorage.setItem("spoilerLevel", "1");
+    }
+}
+
+
+async function checkReferenceTerms() {
+    const query = "SELECT GROUP_CONCAT(DISTINCT title SEPARATOR ',') AS titles FROM reference_titles";
+
+    if (localStorage.getItem("referenceTerms") === null) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                localStorage.setItem("referenceTerms", this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=titles", true);
+        xmlhttp.send();
+    }
+}
+
+
+async function checkFontSize() {
+    if (localStorage.getItem("fontSize") === null) {
+        localStorage.setItem("fontSize", "normal");
+    }
+}
+
+
+async function checkVersion() {
+    if (localStorage.getItem("version") != "1.0") {
+        localStorage.setItem("version", "1.0");
+    }
+}
+
+
+async function activateNavigation() {
+    let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
+    for (let i = 0; i < homepageReadButtons.length; i++) {
+        homepageReadButtons[i].disabled = false;
+    }
+    console.log("Reader ready.");
+}
+
+
+async function initialize() {
+    await checkReadingMode();
+    await checkLanguage();
+    await checkColorScheme();
+    await checkReadingOrder();
+    await activateReadingOrder();
+    await checkSpoilerLevel();
+    await checkReferenceTerms();
+    await checkFontSize();
+    await checkVersion();
+    await activateNavigation();
+};
+
+
 initialize();
+
 
 async function resetReader() {
     localStorage.clear();
@@ -169,9 +234,33 @@ async function resetReader() {
     }
 }
 
+
+function errorMessage(message) {
+    alert(message);
+}
+
+
+function chooseLanguageOnLoad() {
+    let full = localStorage.getItem("languageList").split(",");
+    let available = document.getElementsByTagName("section");
+
+    if (available.length >= 1) {
+        let a = []
+        for (i = 0; i < available.length; i++) {
+            a.push(available[i].lang);
+        }
+
+        let intersection = full.filter(x => a.includes(x));
+
+        $("section:lang(" + intersection[0] + ")").css("display", "block");
+    }
+}
+
+
 /*****************************
  * READER NAVIGATION HELPERS *
  *****************************/
+
 
 function getOptimalLanguage(combo) {
     return new Promise(resolve => {
@@ -198,25 +287,6 @@ function getOptimalLanguage(combo) {
     });
 }
 
-/* LANGUAGE STUFF (INCOMPLETE) */
-
-function chooseLanguageOnLoad() {
-    let full = localStorage.getItem("languageList").split(",");
-    let available = document.getElementsByTagName("section");
-
-    if (available.length >= 1) {
-        let a = []
-        for (i = 0; i < available.length; i++) {
-            a.push(available[i].lang);
-        }
-
-        let intersection = full.filter(x => a.includes(x));
-
-        $("section:lang(" + intersection[0] + ")").css("display", "block");
-    }
-}
-
-chooseLanguageOnLoad();
 
 /***************************************************************************
  * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS (WALL OF HISTORY VERSIONS) *
@@ -345,14 +415,6 @@ function showButtonsChrono() {
     }
 }
 
-// This function ensures the above function eventually completes correctly.
-let showInterval = window.setInterval(showChronoCallback, 500);
-function showChronoCallback() {
-    // Find a better way to do this (probably involving async functions).
-    // This might be necessary for the... reading order select thing.
-    // If no reading order is selected, one NEEDS to be selected, THEN this can run.
-    showButtonsChrono();
-}
 
 /* This function saves a user’s place for the active reading order. */
 function savePlaceChrono() {
@@ -484,10 +546,6 @@ async function showButtonsTree() {
     }
 }
 
-/* This function is called when the page is loaded.
-Uh… Find a better option than just calling it raw, I guess. */
-showButtonsTree();
-
 /* This function saves the user’s place.
 TO-DO: Make this parent-specific, and add a selector if the load button is used on the homepage. */
 function savePlaceTree() {
@@ -593,6 +651,15 @@ function goForward() {
     }
 }
 
+function showButtons() {
+    if (localStorage.getItem("readingMode") == "chronology") {
+        showButtonsChrono();
+    } else {
+        showButtonsTree();
+    }
+}
+
+
 /************************
  * END MASTER FUNCTIONS *
  ************************/
@@ -603,9 +670,8 @@ function goForward() {
  *******************/
 
 let images = document.getElementsByTagName("main")[0].getElementsByTagName("img");
-let filteredImages = $(images).filter(function(){return !$(this).parents().is('div.social a')});
+let filteredImages = $(images).filter(function () { return !$(this).parents().is('div.social a') });
 
-console.log(filteredImages.length);
 for (var i = 0; i < filteredImages.length; i++) {
     filteredImages[i].addEventListener("click", function () {
         let src = this.src;

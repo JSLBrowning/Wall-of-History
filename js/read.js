@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     downloadContent();
-
     stackHistory();
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const currentID = urlParams.get('id');
     updateSpoilerLevel(currentID);
+
+    showButtons();
 });
 
 function swap(swappableID) {
@@ -93,10 +94,13 @@ function getCookie(cname) {
     return "";
 }
 
+
+// Move into PHP?
 function downloadContent() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const currentID = urlParams.get('id');
+    const query = "SELECT title FROM woh_content WHERE id='" + currentID + "' LIMIT 1";
 
     $.ajax({
         url: "http://localhost:8080/doc/downloads/" + currentID + ".zip",
@@ -105,7 +109,6 @@ function downloadContent() {
             console.log("No downloads are available for this content.");
         },
         success: function () {
-            console.log("Downloads are available for this content.");
             document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
 
             var xmlhttp = new XMLHttpRequest();
@@ -118,7 +121,7 @@ function downloadContent() {
                     $(document.getElementById("downloadLink")).fadeIn("slow");
                 }
             };
-            xmlhttp.open("GET", "../php/gettitle.php?q=" + currentID, true);
+            xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=title", true);
             xmlhttp.send();
         }
     });

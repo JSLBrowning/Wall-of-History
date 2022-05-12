@@ -66,6 +66,7 @@ function populateHead($id, $lang, $v)
     }
 }
 
+
 // This function populates the head of the page with content-specific CSS links.
 function addCSS($id)
 {
@@ -122,6 +123,7 @@ function addCSS($id)
     }
 }
 
+
 // This function loads a unique header for a page, if it has one.
 function loadHeader($id)
 {
@@ -140,7 +142,9 @@ function loadHeader($id)
     }
 }
 
-function getData($column, $query) {
+
+function getData($column, $query)
+{
     $data = [];
     include("..//php/db_connect.php");
     $result = $mysqli->query($query);
@@ -152,7 +156,9 @@ function getData($column, $query) {
     return $data;
 }
 
-function getDetails($id, $primeversion, $lang) {
+
+function getDetails($id, $primeversion, $lang)
+{
     $versionquery = "SELECT DISTINCT version_title FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
     echo "<p>" . implode(", ", getData("version_title", $versionquery)) . "</p>\n";
 
@@ -162,6 +168,7 @@ function getDetails($id, $primeversion, $lang) {
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
     echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
 }
+
 
 // This function finds any and all children that a given piece of content has, then echoes them in a list format.
 function addChildren($id, $lang, $v)
@@ -225,6 +232,7 @@ function addChildren($id, $lang, $v)
         echo "</div>";
     }
 }
+
 
 function loadContent($id, $lang, $v)
 {
@@ -328,6 +336,7 @@ function loadContent($id, $lang, $v)
     }
 }
 
+
 function populateSettings()
 {
     // Each ID should only be fetched once, with the title being that of the language of the... ya know, closest to the top of the list. And... version 1.
@@ -401,4 +410,48 @@ function populateSettings()
         echo "</li>\n";
     }
     echo "</ol>";
+}
+
+
+function getUserLanguage() {
+    if (isset($_COOKIE["languagePreference"])) {
+        return $_COOKIE["languagePreference"];
+    } else {
+        $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
+        if ($locale != null) {
+            return substr($locale, 0, 2);
+        } else {
+            return "en";
+        }
+    }
+}
+
+
+function populateStaticGenerator($base_path, $lang) {
+    $path = getcwd();
+
+    if ($base_path != "") {
+        $path .= "\static\\" . $base_path . "\\" . $lang . ".html";
+    } else {
+        $path .= "\static\\" . $lang . ".html";
+    }
+
+    return $path;
+}
+
+
+function populateStatic($base_path) {
+    $lang = getUserLanguage();
+    $path = populateStaticGenerator($base_path, $lang);
+
+    if (file_exists($path)) {
+        echo file_get_contents($path);
+    } else {
+        $default_path = populateStaticGenerator($base_path, "en");
+        if (file_exists($default_path)) {
+            echo file_get_contents($default_path);
+        } else {
+            echo "<p>Missing file at " . $path . " or " . $default_path . ". Please report to admin@wallofhistory.com</p>";
+        }
+    }
 }

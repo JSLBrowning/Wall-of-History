@@ -1,7 +1,6 @@
 function populateModalLinks() {
     const unsortedReferenceItems = localStorage.getItem("referenceTerms").split(",");
     const referenceItems = unsortedReferenceItems.sort((a,b) => b.length - a.length);
-    console.log(referenceItems);
 
     // Here's an idea to ensure there's never a mixup:
     // 1. Sort all reference terms by length, longer to shorter (done).
@@ -16,7 +15,7 @@ function populateModalLinks() {
             });
 
             // What does this DO?
-            $(".contentsText p").find("a").contents().unwrap();
+            $(".contentButtonText p").find("a").contents().unwrap();
         }
     }
 }
