@@ -113,12 +113,16 @@
             </div>
         </div>
     </main>
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <!-- Core Site Drivers -->
     <script src="js/main.js"></script>
-    <script src="js/modal.js"></script>
-    <script src="js/readingorders.js"></script>
     <script src="js/palette.js"></script>
+    <!-- Reader Drivers -->
+    <script src="js/readingorders.js"></script>
+    <!-- Modal Drivers -->
+    <script src="js/modal.js"></script>
 </body>
 
 </html>

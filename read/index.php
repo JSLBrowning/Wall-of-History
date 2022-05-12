@@ -133,32 +133,32 @@
         <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
         <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
     </div>
-    <!-- modal -->
+    <!-- Modal -->
     <div id="myModal" class="modal">
-        <!-- modal content -->
+        <!-- Modal Content -->
         <div class="modal-content modal-content-center">
             <span class="close">&times;</span>
             <div id="modal-data"></div>
         </div>
     </div>
+    <!-- jQuery -->
     <script src="/js/jquery/jquery-3.6.0.min.js"></script>
     <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
-    <script src="/js/lineselection/initlines.js"></script>
+    <!-- Core Site Drivers -->
     <script src="/js/main.js"></script>
-    <script src="/js/readingorders.js"></script>
+    <!-- Reader Drivers -->
     <script src="/js/read.js"></script>
+    <script src="/js/readingorders.js"></script>
+    <script src="/js/lineselection/initlines.js"></script>
+    <script src="/js/slideshow.js"></script>
+    <!-- Modal Drivers -->
     <script src="/js/populatemodals.js"></script>
     <script src="/js/modal.js"></script>
-    <script src="/js/indeterminate.js"></script>
-    <script src="/js/slideshow.js"></script>
-    <script>
-        // ?
-        if ($("#sortable").length > 0) {
-            $(".savefile").hide();
-            $(".nav").hide();
-        }
-    </script>
+    <!-- Ruffle (Flash Driver) -->
+    <script src="/js/ruffle/ruffle.js"></script>
+    <!-- Unused
     <script src="/js/compare/compare.js"></script>
+    -->
 </body>
 
 </html>

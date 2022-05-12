@@ -9,7 +9,7 @@ function populateModalLinks() {
     barriers = [".", ",", "!", "?", "…", " "];
     for (i = 0; i < barriers.length; i++) {
         for (j = 0; j < referenceItems.length; j++) {
-            $("p:contains('" + referenceItems[j] + barriers[i] + "')").html(function(_, html) {
+            $("p:not(:has(>a:contains('" + referenceItems[j] + "'))):contains('" + referenceItems[j] + barriers[i] + "')").html(function(_, html) {
                 combo = referenceItems[j] + barriers[i];
                 return html.replace(combo, '<a data-reference="' + referenceItems[j] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[j] + '</a>' + barriers[i]);
             });
