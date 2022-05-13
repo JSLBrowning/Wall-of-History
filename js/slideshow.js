@@ -35,9 +35,9 @@ if ($("#slidelocation").length > 0) {
         } else {
             $("#slideshowback").show();
             $("#slideshowforward").show();
-            $("#slideshowback").css("width", "33.33%");
-            $("#slidelocationdiv").css("width", "33.33%");
-            $("#slideshowforward").css("width", "33.33%");
+            $("#slideshowback").css("width", "35%");
+            $("#slidelocationdiv").css("width", "30%");
+            $("#slideshowforward").css("width", "35%");
         }
     }
 
@@ -51,7 +51,6 @@ if ($("#slidelocation").length > 0) {
 
         switch (event.code) {
             case "ArrowLeft":
-                console.log("left");
                 if (slideIndex != 1) {
                     plusDivs(-1);
 
@@ -61,12 +60,11 @@ if ($("#slidelocation").length > 0) {
                 }
                 break;
             case "ArrowRight":
-                console.log("right");
                 if (slideIndex != x.length) {
                     plusDivs(+1);
 
                     if (document.getElementsByClassName("zoom") != null) {
-                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex + 1].src;
+                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
                     }
                 }
                 break;

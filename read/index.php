@@ -152,7 +152,6 @@
     <script src="/js/lineselection/initlines.js"></script>
     <script src="/js/slideshow.js"></script>
     <!-- Modal Drivers -->
-    <script src="/js/populatemodals.js"></script>
     <script src="/js/modal.js"></script>
     <!-- Ruffle (Flash Driver) -->
     <script src="/js/ruffle/ruffle.js"></script>

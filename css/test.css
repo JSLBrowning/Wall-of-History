@@ -364,3 +364,22 @@ main {
     margin: 0em;
     max-width: 1280px;
 }
+
+.imginfobox {
+    position: absolute !important;
+    z-index: 15;
+    bottom: 10%;
+    right: 10%;
+    background-color: rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(255, 255, 255, 0.375);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.imginfobox:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.imginfobox:active {
+    background-color: rgba(255, 255, 255, 0.375);
+}

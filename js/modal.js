@@ -1,3 +1,30 @@
+/**
+ * REFERENCE LINK GENERATION
+ */
+
+
+function populateModalLinks() {
+    // 1. Sort all reference terms by length, longer to shorter (done).
+    const unsortedReferenceItems = localStorage.getItem("referenceTerms").split(",");
+    const referenceItems = unsortedReferenceItems.sort((a, b) => b.length - a.length);
+
+    // 2. On page load, iterate over the list, only turning the *first* occurrence into a link.
+    for (j = 0; j < referenceItems.length; j++) {
+        $("span.anchors p:not(:has(>a:contains('" + referenceItems[j] + "'))):contains('" + referenceItems[j] + "')").html(function (_, html) {
+            return html.replace(referenceItems[j], '<a data-reference="' + referenceItems[j] + '" onclick="getModalContent(this)" style="cursor: pointer;">' + referenceItems[j] + '</a>');
+        });
+    }
+}
+
+
+populateModalLinks();
+
+
+/**
+ * MODAL GENERATION AND DISPLAY
+ */
+
+
 function toggleModal(id) {
     let targetModal = document.getElementById(id);
     let targetModalContent = document.getElementById(id).children[0];
@@ -24,6 +51,7 @@ function toggleModal(id) {
     }
 }
 
+
 function generalToggle() {
     let modals = document.getElementsByClassName("modal");
     for (let i = 0; i < modals.length; i++) {
@@ -39,7 +67,8 @@ function generalToggle() {
     }
 }
 
-window.onclick = function(event) {
+
+window.onclick = function (event) {
     if (event.target.classList.contains('modal')) {
         generalToggle();
     } else if (event.target.classList.contains('zoom')) {
@@ -47,14 +76,16 @@ window.onclick = function(event) {
     }
 }
 
-document.addEventListener('keydown', function(event) {
+
+document.addEventListener('keydown', function (event) {
     if (event.key === "Escape") {
         generalToggle();
     }
 });
 
+
 function getModalContent(identifier) {
-    // FIND MODAL
+    // Find modal.
     let targetModal = document.getElementById("myModal");
     let targetModalContent = document.getElementById("myModal").children[0];
     let modalStyle = window.getComputedStyle(targetModal);
@@ -62,9 +93,9 @@ function getModalContent(identifier) {
 
     let subject = $(identifier).data('reference');
 
-    // FETCH MODAL CONTENT
+    // Fetch modal content.
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("modal-data").innerHTML = this.responseText;
         }
@@ -73,7 +104,6 @@ function getModalContent(identifier) {
     xmlhttp.send();
 
     if (modalVisibility == "hidden") {
-        // Remove a tags for paragraph selection.
         targetModal.classList.add("modal-visible");
         targetModalContent.classList.add("modal-content-center-visible");
     } else {

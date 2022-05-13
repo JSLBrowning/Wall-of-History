@@ -152,7 +152,6 @@
     <script>
         downloadContent()
     </script>
-    <script src="/js/populatemodals.js"></script>
     <script src="/js/modal.js"></script>
     <script src="/js/indeterminate.js"></script>
     <script src="/js/slideshow.js"></script>
