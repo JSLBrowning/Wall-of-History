@@ -9,6 +9,7 @@ js/lineselection/init_lines.js
 js/lineselection/range_selector.js
 js/lineselection/simplified_ranges.js
 js/modal_old.js
+js/ruffle/
 php/db_connect.php
 story/
 test/
