@@ -217,7 +217,6 @@ async function initialize() {
     await checkReferenceTerms();
     await checkFontSize();
     await checkVersion();
-    await activateNavigation();
 };
 
 

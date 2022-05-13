@@ -189,6 +189,12 @@
     border-right: none;
 }
 
+#card54284C {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/BCC.jpg") center;
+    background-size: contain;
+    border-color: #fc1f04;
+}
+
 #cardGNO2P6 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
     border-color: #ff0401;

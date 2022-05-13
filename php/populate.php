@@ -170,17 +170,19 @@ function getDetails($id, $primeversion, $lang)
 }
 
 
-// This function finds any and all children that a given piece of content has, then echoes them in a list format.
-function addChildren($id, $lang, $v)
-{
+function addChildrenNew($id, $lang, $v, $collection_bool) {
     include("..//php/db_connect.php");
 
     if ($id === "0") {
         $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
     } else {
-        $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-        /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
-        /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
+        if ($collection_bool == false) {
+            $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+            /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
+            /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
+        } else {
+            $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+        }
     }
     // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
 
@@ -189,16 +191,11 @@ function addChildren($id, $lang, $v)
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
-        // The loop below checks if the content in question is one work composed of several chapters, and if it is, displays the "read as standalone" button.
-        if ($id != "0") {
-            $sql_standalone = "SELECT child_id FROM woh_web";
-            $result_standalone = $mysqli->query($sql_standalone);
-
-            if (mysqli_num_rows($result_standalone) != 0) {
-                echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
-            }
+        if ($collection_bool == false) {
+            echo "<h2>Contents</h2>";
+        } else {
+            echo "<h2>Collections</h2>";
         }
-
         echo "<div id='children'>";
 
         // WHAT THE FUCK HAPPENED HERE?!
@@ -230,6 +227,26 @@ function addChildren($id, $lang, $v)
             array_push($uniquea, $uniqueid);
         }
         echo "</div>";
+    }
+}
+
+
+// This function finds any and all children that a given piece of content has, then echoes them in a list format.
+function addChildren($id, $lang, $v)
+{
+    include("..//php/db_connect.php");
+
+    $sql_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v'";
+    $id_count = getData("id_count", $sql_count);
+    if ($id_count[0] > 0) {
+        $sql_grandchild_count = "SELECT COUNT(child_id) AS grandchild_count FROM woh_web WHERE parent_id IN (SELECT child_id FROM woh_web WHERE parent_id='$id' AND parent_version='$v')";
+        $grandchild_count = getData("grandchild_count", $sql_grandchild_count);
+        if ($grandchild_count[0] == 0) {
+            echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
+        }
+
+        addChildrenNew($id, $lang, $v, true);
+        addChildrenNew($id, $lang, $v, false);
     }
 }
 

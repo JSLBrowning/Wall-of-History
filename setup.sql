@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS story_metadata(
     /* This number, along with the boolean below, defines the default reading order for contents of the site. Only the actual contents of the site should have a chronology value — Tale of the Toa as a whole does not have one, for example, but the individual chapters of Tale of the Toa do. */
     spoiler_level int DEFAULT 1,
     /* This number determines what information will display by default when reference modals are opened. */
-    recommended boolean
+    recommended boolean,
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
+    default_version int
+    /* Determines which version is displayed on the table of contents. */
 );
 
 CREATE TABLE IF NOT EXISTS story_content(
@@ -31,6 +33,8 @@ CREATE TABLE IF NOT EXISTS story_content(
     /* This is the image that will appear in the summary cards generated for the work in question, so they should be banners. Twitter, for example, uses a 2:1 aspect ratio for these. */
     title text NOT NULL,
     /* Self-explantory, I'm sure. Titles should be minimal — the first chapter of Tale of the Toa is simply titled “Tahu — Toa of Fire,” not “BIONICLE Chronicles #1: Tale of the Toa: ‘Tahu — Toa of Fire.’” */
+    subtitle text,
+    /* Self-explanatory. */
     snippet text,
     /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
     header int NOT NULL,
