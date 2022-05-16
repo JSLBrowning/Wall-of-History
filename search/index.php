@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="/css/read.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <title>Search | Wall of History</title>
     <style>
         form {
             margin: 1em;
@@ -195,7 +196,7 @@
     <!-- Autocomplete -->
     <script>
         // Fix this.
-        availableTags = ["Tahu", "Onua", "Mata Nui"];
+        availableTags = localStorage.getItem("referenceTerms").split(",");
 
         $("input").autocomplete({
             source: availableTags

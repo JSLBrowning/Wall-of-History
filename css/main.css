@@ -354,7 +354,6 @@ body .zoom {
     max-height: 90vh;
     max-width: 90vw;
     border-radius: 0.25em;
-    vertical-align: middle;
     margin: 0.5em;
 }
 

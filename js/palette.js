@@ -70,10 +70,12 @@ correct();
 function swapPalettes() {
     if (localStorage.getItem("colorScheme") === "light") {
         localStorage.setItem("colorScheme", "dark");
+        document.cookie = "colorPreference=dark; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
         document.documentElement.classList.toggle('light');
         document.getElementById("paletteSwapButton").innerHTML = "☀";
     } else {
         localStorage.setItem("colorScheme", "light");
+        document.cookie = "colorPreference=light; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
         document.documentElement.classList.toggle('light');
         document.getElementById("paletteSwapButton").innerHTML = "☽";
     }

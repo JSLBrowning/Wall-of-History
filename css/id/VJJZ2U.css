@@ -1,0 +1,5 @@
+.contentsButton {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/Toa\ Hagah.jpg") center;
+    background-size: cover;
+    border-color: rgb(48, 48, 48);
+}

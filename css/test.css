@@ -32,13 +32,16 @@
     width: 90%;
     margin-right: 5%;
     height: 100%;
+    max-height: 176px;
     display: flex;
     flex-direction: row;
+    border-color: rgb(48, 48, 48);
 }
 
 .contentsButton img {
     margin-top: -1em;
     margin-left: -1em;
+    margin-right: 0em;
     border-radius: 0.375em;
     padding: 0em;
     float: left;
@@ -55,10 +58,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 1em;
-    margin: auto 0.5em;
-    margin-right: 0em;
+    gap: 0.5em;
+    margin: auto 0.25em;
     padding: 0.25em;
+    max-height: 95%;
+}
+
+.contentButtonTextLong {
+    font-size: 0.9375em;
 }
 
 .contentButtonText p {
@@ -76,6 +83,12 @@
 .contentsButton p:first-of-type {
     font-family: "Trademarker";
     font-size: 1.25em;
+}
+
+/* REALLY need a better way of handling this. */
+.contentsButton p:nth-of-type(2) {
+    padding-right: 0.5em;
+    overflow: scroll;
 }
 
 .contentsButton:active {
@@ -191,7 +204,7 @@
 
 #card54284C {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/BCC.jpg") center;
-    background-size: contain;
+    background-size: cover;
     border-color: #fc1f04;
 }
 
@@ -311,6 +324,7 @@ main section:only-child {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 0.5em;
 }
 
 .titleBoxText h1,

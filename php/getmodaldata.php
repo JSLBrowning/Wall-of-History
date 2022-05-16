@@ -32,7 +32,7 @@ if ($result_subjects->num_rows > 0) {
         get_one_subject($subjects[0], $q, $sl);
     }
 } else {
-    echo "<p>ERROR: Query failed. Please report to admin@wallofhistory.com.</p>";
+    echo "<p>No data is available at this time. Please check back later.</p>";
 }
 
 

@@ -98,12 +98,19 @@ async function checkColorScheme() {
     if (localStorage.getItem("colorScheme") === null) {
         if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
             localStorage.setItem("colorScheme", "light");
+            document.cookie = "colorPreference=light; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
             swapPalettes();
         } else {
             localStorage.setItem("colorScheme", "dark");
+            document.cookie = "colorPreference=dark; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
         }
     } else if (localStorage.getItem("colorScheme") === "light") {
         document.getElementById("paletteSwapButton").innerHTML = "☽";
+    }
+
+    if (getCookie("colorPreference") === null) {
+        console.log("Logging color scheme preference…");
+        document.cookie = "colorPreference=" + localStorage.getItem("colorScheme") + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
     }
 }
 

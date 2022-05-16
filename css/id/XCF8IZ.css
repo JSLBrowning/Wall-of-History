@@ -1,0 +1,10 @@
+.contentsButton {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/qftmgeneric.png") center;
+    background-size: cover;
+}
+
+#cardO927E6 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/W8O1TZ.png") center;
+    background-size: cover;
+    border-color: #24272c;
+}

@@ -170,7 +170,8 @@ function getDetails($id, $primeversion, $lang)
 }
 
 
-function addChildrenNew($id, $lang, $v, $collection_bool) {
+function addChildrenNew($id, $lang, $v, $collection_bool)
+{
     include("..//php/db_connect.php");
 
     if ($id === "0") {
@@ -191,11 +192,6 @@ function addChildrenNew($id, $lang, $v, $collection_bool) {
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
-        if ($collection_bool == false) {
-            echo "<h2>Contents</h2>";
-        } else {
-            echo "<h2>Collections</h2>";
-        }
         echo "<div id='children'>";
 
         // WHAT THE FUCK HAPPENED HERE?!
@@ -214,15 +210,9 @@ function addChildrenNew($id, $lang, $v, $collection_bool) {
                     echo "<img src='" . $row["small_image"] . "'>";
                 }
                 $snippet = (string) $row["snippet"];
-                if (strlen($snippet) > 196) {
-                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . substr($snippet, 0, 196) . "…</p><div class='versions'>";
-                    getDetails($uniqueid, $row["content_version"], $lang);
-                    echo "</div></div></button></div>";
-                } else {
-                    echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
-                    getDetails($uniqueid, $row["content_version"], $lang);
-                    echo "</div></div></button></div>";
-                }
+                echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
+                getDetails($uniqueid, $row["content_version"], $lang);
+                echo "</div></div></button></div>";
             }
             array_push($uniquea, $uniqueid);
         }
@@ -236,16 +226,35 @@ function addChildren($id, $lang, $v)
 {
     include("..//php/db_connect.php");
 
-    $sql_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v'";
-    $id_count = getData("id_count", $sql_count);
-    if ($id_count[0] > 0) {
+    $sql_child_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v'";
+    $child_count = getData("id_count", $sql_child_count);
+    if ($child_count[0] > 0) {
         $sql_grandchild_count = "SELECT COUNT(child_id) AS grandchild_count FROM woh_web WHERE parent_id IN (SELECT child_id FROM woh_web WHERE parent_id='$id' AND parent_version='$v')";
         $grandchild_count = getData("grandchild_count", $sql_grandchild_count);
         if ($grandchild_count[0] == 0) {
             echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
         }
+    }
 
+    if ($id == "0") {
+        $sql_collection_count = "SELECT COUNT(id) as id_count FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) AND id IN (SELECT id FROM woh_tags WHERE tag='collection')";
+        $sql_content_count = "SELECT COUNT(id) as id_count FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) AND id NOT IN (SELECT id FROM woh_tags WHERE tag='collection')";
+    } else {
+        $sql_collection_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v' AND child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection')";
+        $sql_content_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v' AND child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection')";
+    }
+
+    $collection_count = getData("id_count", $sql_collection_count);
+    $content_count = getData("id_count", $sql_content_count);
+
+    if ($collection_count[0] > 0 && $content_count[0] > 0) {
+        echo "<h2>Collections</h2>";
         addChildrenNew($id, $lang, $v, true);
+        echo "<h2>Contents</h2>";
+        addChildrenNew($id, $lang, $v, false);
+    } else if ($collection_count[0] > 0 && $content_count[0] == 0) {
+        addChildrenNew($id, $lang, $v, true);
+    } else if ($collection_count[0] == 0 && $content_count[0] > 0) {
         addChildrenNew($id, $lang, $v, false);
     }
 }
@@ -265,7 +274,7 @@ function loadContent($id, $lang, $v)
     if ($id === "0") {
         echo "<section class='titleBox'><div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
     } else if ((!($id === "0")) && ($num_rows === 0)) {
-        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>Table of Contents</a></h3>";
+        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
     } else if ($num_rows === 1) {
         echo "<section class='titleBox'>";
         // Get and display image.
@@ -430,7 +439,8 @@ function populateSettings()
 }
 
 
-function getUserLanguage() {
+function getUserLanguage()
+{
     if (isset($_COOKIE["languagePreference"])) {
         return $_COOKIE["languagePreference"];
     } else {
@@ -444,7 +454,8 @@ function getUserLanguage() {
 }
 
 
-function populateStaticGenerator($base_path, $lang) {
+function populateStaticGenerator($base_path, $lang)
+{
     $path = getcwd();
 
     if ($base_path != "") {
@@ -457,7 +468,8 @@ function populateStaticGenerator($base_path, $lang) {
 }
 
 
-function populateStatic($base_path) {
+function populateStatic($base_path)
+{
     $lang = getUserLanguage();
     $path = populateStaticGenerator($base_path, $lang);
 
