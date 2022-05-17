@@ -206,6 +206,9 @@
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/BCC.jpg") center;
     background-size: cover;
     border-color: #fc1f04;
+    border-left: none;
+    border-bottom: 1px solid #fc1f04;
+    border-right: none;
 }
 
 #cardGNO2P6 {
@@ -376,8 +379,132 @@ main section:only-child {
 
 main {
     margin: auto;
-    max-width: 960px;
     align-self: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+section.story,
+aside,
+section.titleBox {
+    position: relative;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.5em;
+    box-shadow: var(--outershadow);
+}
+
+section.structure {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.padding {
+    width: 50%;
+}
+
+.contentsButton {
+    max-width: 100%;
+    max-height: 240px;
+}
+
+.contentButtonText {
+    gap: 0.375em;
+}
+
+.contentButtonText .versions,
+.contentButtonText .tags {
+    font-size: 0.9375em;
+    width: 100%;
+}
+
+.contentButtonText .versions p,
+.contentButtonText .tags p {
+    letter-spacing: 0.0625em;
+}
+
+article {
+    max-width: 720px;
+}
+
+aside {
+    padding: 0.25em 0;
+    top: initial;
+    right: initial;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+aside button {
+    width: 92.5%;
+    font-size: 0.9375em;
+    border: none;
+    color: var(--front2);
+    box-shadow: none;
+    background-color: var(--back);
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
+}
+
+aside button.small {
+    font-size: 0.75em;
+    height: 20px;
+}
+
+aside button.nocaps {
+    text-transform: initial;
+}
+
+aside button:hover {
+    background-color: var(--back3);
+    transform: none;
+}
+
+aside button:active {
+    background-color: var(--back2);
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+aside p {
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.75em;
+    letter-spacing: 0.125em;
+    padding: 0em;
+    width: 92.5%;
+    margin: 0.25em;
+}
+
+aside hr {
+    margin: 0.5em -0.5em;
+    width: 100%;
+}
+
+aside fieldset {
+    margin: 0em;
+    width: 95%;
+}
+
+aside fieldset select {
+    margin: 0.25em 0em;
+    flex-basis: initial;
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.75em;
+    letter-spacing: 0.125em;
 }
 
 #children {
@@ -402,4 +529,54 @@ main {
 
 .imginfobox:active {
     background-color: rgba(255, 255, 255, 0.375);
+}
+
+body main section.story {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+section.titleBoxPages {
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.5em 0.5em 0em 0em;
+    box-shadow: var(--outershadow);
+}
+
+body main section.story span.pages {
+    display: block;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.125em;
+    margin: 0.5em auto;
+    padding-bottom: 1.5em;
+    box-shadow: var(--outershadow);
+}
+
+.pages .page {
+    margin: 0em;
+    width: 48px;
+    position: absolute;
+    top: unset;
+    bottom: 0px;
+    left: calc(50% - 24px);
+}
+
+body main section.story span.pages .page {
+    font-size: 0.9375em;
+    padding: 0em;
+}
+
+body main section.story span.pages p {
+    display: inline;
+}
+
+main {
+    padding-top: 1em;
+}
+
+.titleBox img {
+    max-height: 240px;
+    width: auto;
 }
