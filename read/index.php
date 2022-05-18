@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php
+    include("..//php/populate.php");
+    chooseColors();
+?>
 
 <head>
     <script src="/js/palette.js"></script>
@@ -8,8 +11,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <?php
-    include("..//php/populate.php");
     include("..//php/db_connect.php");
+    include("..//php/populateaside.php");
     if (count($_GET)) {
         if (isset($_GET["s"])) {
             $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
@@ -75,64 +78,58 @@
         echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
     </header>
-    <aside>
-        <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-        <!-- MAIN NAVIGATION MENU MODAL -->
-        <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
-        <div id="navigationModal" class="modal">
-            <div class="modal-content modal-content-left">
-                <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
-                <p>
-                    <?php
-                    if (count($_GET)) {
-                        echo "<a href=\"/read/\">Contents</a>";
-                    } else {
-                        echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
-                    }
-                    ?>
-                </p>
-                <p><a href="/reference/">Reference</a></p>
-                <p><a href="/search/">Search</a></p>
-                <p><a href="/about/">About</a></p>
-                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                <p><a href="/contact/">Contact</a></p>
-            </div>
-        </div>
-        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-        <button id="settingsButton" onclick="toggleModal('settingsModal')">&#9881;</button>
-        <div id="settingsModal" class="modal">
-            <div class="modal-content modal-content-right">
-                <span class="close" id="settingsClose" onclick="toggleModal('settingsModal')">&times;</span>
-                <?php
-                include("..//php/populatesettingsmodal.php");
-                populateSettingsModal($id, $v, $lang);
-                ?>
-            </div>
-        </div>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-        <a id="downloadLink" target="_blank" style="display: none;"><button id="downloadButton">⭳</button></a>
-    </aside>
-    <div id="mains">
-        <main>
+    <main>
+        <article>
             <?php
             loadContent($id, $lang, $v);
             ?>
-        </main>
-        <?php
-        addChildren($id, $lang, $v);
-        ?>
-    </div>
-    <div class="savefile" style="display:none;">
-        <button type="savefilebutton" onclick="savePlace()">Save Place</button>
-        <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
-    </div>
-    <div class="nav" style="display:none">
-        <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
-        <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
-    </div>
+            <section class="structure">
+                <?php
+                addChildren($id, $lang, $v);
+                ?>
+            </section>
+            <div class="savefile" style="display:none;">
+                <button type="savefilebutton" onclick="savePlace()">Save Place</button>
+                <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
+            </div>
+            <div class="nav" style="display:none">
+                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
+                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
+            </div>
+        </article>
+        <aside>
+            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
+            <!-- MAIN NAVIGATION MENU MODAL -->
+            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
+            <div id="navigationModal" class="modal">
+                <div class="modal-content modal-content-left">
+                    <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
+                    <p>
+                        <?php
+                        if (count($_GET)) {
+                            echo "<a href=\"/read/\">Contents</a>";
+                        } else {
+                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                        }
+                        ?>
+                    </p>
+                    <p><a href="/reference/">Reference</a></p>
+                    <p><a href="/search/">Search</a></p>
+                    <p><a href="/about/">About</a></p>
+                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
+                    <p><a href="/contact/">Contact</a></p>
+                </div>
+            </div>
+            <hr>
+            <?php
+            populateAside($id, $lang, $v);
+            ?>
+            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+        </aside>
+    </main>
     <!-- Modal -->
     <div id="myModal" class="modal">
         <!-- Modal Content -->

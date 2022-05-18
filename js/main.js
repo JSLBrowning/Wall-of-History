@@ -104,8 +104,6 @@ async function checkColorScheme() {
             localStorage.setItem("colorScheme", "dark");
             document.cookie = "colorPreference=dark; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
         }
-    } else if (localStorage.getItem("colorScheme") === "light") {
-        document.getElementById("paletteSwapButton").innerHTML = "☽";
     }
 
     if (getCookie("colorPreference") === null) {
@@ -330,7 +328,12 @@ function filteredSelf(readingOrder) {
 /* This function takes an ID, version, and language (optional) and jumps straight to that page. */
 async function goToChrono(combo) {
     target = combo.split(".");
-    if (target.length == 2) {
+    if (target.length == 1) {
+        let id = target[0];
+        let v = "1";
+        let lang = await getOptimalLanguage(id + "." + v);
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    } else if (target.length == 2) {
         let id = target[0];
         let v = target[1];
         let lang = await getOptimalLanguage(combo);

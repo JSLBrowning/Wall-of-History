@@ -31,7 +31,8 @@
                 include("..//php/db_connect.php");
 
                 // Create selection statement.
-                $sql = "SELECT name FROM wall_of_history_reference WHERE `name` COLLATE UTF8_GENERAL_CI LIKE '%" . $_GET["id"] . "%'";
+                // Currently needs work.
+                $sql = "SELECT DISTINCT title FROM reference_titles WHERE `name` COLLATE UTF8_GENERAL_CI LIKE '%" . $_GET["id"] . "%'";
 
                 // Perfom selection.
                 $result = $mysqli->query($sql);
@@ -79,10 +80,17 @@
             echo "<h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
 
             include("..//php/db_connect.php");
-            $sql = "SELECT name, content FROM wall_of_history_reference WHERE name='" . $_GET["id"] . "'";
+            $sql = "SELECT main FROM reference_content WHERE entry_id IN (SELECT DISTINCT entry_id FROM reference_metadata WHERE subject_id='" . $_GET['id']. "')";
             $result = $mysqli->query($sql);
             while ($row = $result->fetch_assoc()) {
-                echo $row["content"];
+                echo $row["main"];
+            }
+
+            $sql_appreances = "SELECT DISTINCT story_id FROM reference_appearances WHERE subject_id='" . $_GET['id'] . "'";
+            $result_appreances = $mysqli->query($sql_appreances);
+            echo "Appears in: ";
+            while ($row = $result_appreances->fetch_assoc()) {
+                echo "<button onclick='goTo(\"" . $row["story_id"] . "\")'>" . $row["story_id"] . "</button> ";
             }
         } else {
             echo "<h1>Reference</h1>";
@@ -91,7 +99,7 @@
 
             // Create selection statement.
             // $sql = "SELECT id, parent, fulltitle AS title, path FROM wall_of_history_contents WHERE childless=1 ORDER BY id ASC";
-            $sql = "SELECT name FROM wall_of_history_reference ORDER BY name ASC";
+            $sql = "SELECT DISTINCT title FROM reference_titles ORDER BY title ASC";
 
             // Perfom selection.
             $result = $mysqli->query($sql);
@@ -104,14 +112,14 @@
             if ($result->num_rows > 0) {
                 echo "<ol id='sortable' style='list-style-type: none;'>";
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<li><a href='/reference/?id=" . $row["name"] . "'>" . $row['name'] . "</a></li>";
+                    echo "<li><a href='/reference/?id=" . $row["title"] . "'>" . $row['title'] . "</a></li>";
                 }
                 echo "</ol>";
             } else {
                 echo "ERROR: Query failed. Please report to admin@wallofhistory.com.";
             }
 
-            "<p><a href='/reference/?id=" . $row["name"] . "'>";
+            "<p><a href='/reference/?id=" . $row["title"] . "'>";
         }
         ?>
     </main>
@@ -127,16 +135,16 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <script src="/js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
-    <script src="js/main.js"></script>
-    <script src="js/palette.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/palette.js"></script>
     <!-- Reader Drivers -->
     <script src="/js/lineselection/initlines.js"></script>
     <script src="/js/slideshow.js"></script>
     <!-- Modal Drivers -->
-    <script src="js/modal.js"></script>
+    <script src="/js/modal.js"></script>
 </body>
 
 </html>

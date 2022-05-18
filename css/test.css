@@ -86,9 +86,12 @@
 }
 
 /* REALLY need a better way of handling this. */
-.contentsButton p:nth-of-type(2) {
+.contentsButton p:nth-of-type(2),
+.contentButtonText div.versions,
+.contentButtonText div.tags {
     padding-right: 0.5em;
     overflow: scroll;
+    max-height: 64px;
 }
 
 .contentsButton:active {
@@ -401,6 +404,14 @@ section.titleBox {
     box-shadow: var(--outershadow);
 }
 
+section.titleBox {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    box-shadow: none;
+}
+
 section.structure {
     display: flex;
     flex-flow: row wrap;
@@ -413,7 +424,7 @@ section.structure {
 
 .contentsButton {
     max-width: 100%;
-    max-height: 240px;
+    max-height: 182px;
 }
 
 .contentButtonText {
@@ -445,7 +456,8 @@ aside {
     align-items: center;
 }
 
-aside button {
+aside button,
+aside a#downloadLink {
     width: 92.5%;
     font-size: 0.9375em;
     border: none;
@@ -454,6 +466,15 @@ aside button {
     background-color: var(--back);
     text-transform: uppercase;
     letter-spacing: 0.1875em;
+}
+
+aside a#downloadLink {
+    all: unset;
+    width: 92.5%;
+}
+
+aside a#downloadLink button.small {
+    width: calc(100% - 0.5em);
 }
 
 aside button.small {
@@ -531,12 +552,26 @@ aside fieldset select {
     background-color: rgba(255, 255, 255, 0.375);
 }
 
-body main section.story {
+body main section.story.pages {
     background: none;
     border: none;
     box-shadow: none;
 }
 
+main {
+    padding-top: 1em;
+}
+
+.titleBox img {
+    max-height: 240px;
+    width: auto;
+}
+
+.snippet {
+    text-transform: none;
+}
+
+/* PAGES */
 section.titleBoxPages {
     background-color: var(--back2);
     border: 1px solid var(--border);
@@ -570,13 +605,4 @@ body main section.story span.pages .page {
 
 body main section.story span.pages p {
     display: inline;
-}
-
-main {
-    padding-top: 1em;
-}
-
-.titleBox img {
-    max-height: 240px;
-    width: auto;
 }

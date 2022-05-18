@@ -17,7 +17,11 @@ function populateModalLinks() {
 }
 
 
-populateModalLinks();
+if (window.location.href.indexOf("read") > -1) {
+    populateModalLinks();
+} else {
+    console.log("Not populating reference modal links.");
+}
 
 
 /**

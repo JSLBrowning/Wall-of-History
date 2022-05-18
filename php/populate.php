@@ -13,6 +13,17 @@
         IF LAST CHAP, DELETE TEMP ORDER.
         IF SAVE ON TEMP CHAPTER... PRESERVE TEMP ORDER UNTIL NEXT RELOAD. */
 
+
+function chooseColors()
+{
+    if (!isset($_COOKIE["colorPreference"])) {
+        echo "<html lang='en " . $_COOKIE["colorPreference"] . "'>";
+    } else {
+        echo "<html lang='en'>";
+    }
+}
+
+
 // This function populates the head of the page with content-specific OGP data.
 function populateHead($id, $lang, $v)
 {
@@ -145,8 +156,9 @@ function loadHeader($id)
 
 function getData($column, $query)
 {
-    $data = [];
     include("..//php/db_connect.php");
+
+    $data = [];
     $result = $mysqli->query($query);
     if (mysqli_num_rows($result) > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -192,7 +204,7 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
 
     // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
     if ($num_rows != 0) {
-        echo "<div id='children'>";
+        echo "<section class='structure'>";
 
         // WHAT THE FUCK HAPPENED HERE?!
         $uniquea = [];
@@ -216,7 +228,7 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
             }
             array_push($uniquea, $uniqueid);
         }
-        echo "</div>";
+        echo "</section>";
     }
 }
 
@@ -249,6 +261,9 @@ function addChildren($id, $lang, $v)
 
     if ($collection_count[0] > 0 && $content_count[0] > 0) {
         echo "<h2>Collections</h2>";
+        // https://www.mysqltutorial.org/mysql-recursive-cte/
+        // https://stackoverflow.com/questions/50405786/get-leaf-nodes-for-a-specific-tree-in-mysql
+        // https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
         addChildrenNew($id, $lang, $v, true);
         echo "<h2>Contents</h2>";
         addChildrenNew($id, $lang, $v, false);
@@ -264,6 +279,15 @@ function loadContent($id, $lang, $v)
 {
     // This function is the most complicated, echoing the actuals contents of the page from the top (parent(s), title, author) down (content).
     include("..//php/db_connect.php");
+
+    // DETERMINE IF PAGES.
+    $sql_pages = "SELECT COUNT(tag) AS tag_count FROM woh_tags WHERE id='$id' AND tag='pages'";
+    $pages = getData("tag_count", $sql_pages);
+    if ($pages[0] > 0) {
+        echo "<section class='story pages'>";
+    } else {
+        echo "<section class='story'>";
+    }
 
     // GET PARENT(S), IF ANY, AND DISPLAY AT THE TOP OF <MAIN>
     $sql = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
@@ -360,6 +384,8 @@ function loadContent($id, $lang, $v)
     while ($row = $result->fetch_assoc()) {
         echo $row["main"];
     }
+
+    echo "</section>";
 }
 
 
