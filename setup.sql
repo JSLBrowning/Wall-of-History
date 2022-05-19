@@ -72,6 +72,14 @@ CREATE TABLE IF NOT EXISTS story_adaptations(
     adaptation_id varchar(6) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS story_equivalents(
+    left_id varchar(6) NOT NULL,
+    left_version int NOT NULL,
+    right_id varchar(6) NOT NULL,
+    right_version int NOT NULL,
+    default_id varchar(6) NOT NULL
+);
+
 /* To be used eventually. Examples: "cover", "banner", "OGP"
 CREATE TABLE WoH_images(
     content_id varchar(6),

@@ -15,13 +15,9 @@ body main .pages {
     background-color: var(--back2);
     border: 1px solid var(--border);
     border-radius: 0.125em;
-    margin: 0.5em auto;
-    padding-bottom: 1.5em;
+    margin: auto;
+    padding-bottom: 1em;
     box-shadow: var(--outershadow);
-}
-
-body main .pages:first-of-type {
-    margin-top: 1em;
 }
 
 .pages .page {

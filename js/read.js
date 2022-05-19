@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentID = urlParams.get('id');
     updateSpoilerLevel(currentID);
 
+    // Ensure equivalent stories dropdown menu is selected.
+    try {
+        document.getElementById("equivalentSelect").selectedIndex = "0";
+    } catch (e) {
+        console.log("No equivalent stories.");
+    }
+
     showButtons();
 });
 

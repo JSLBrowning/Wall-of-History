@@ -413,6 +413,7 @@ section.titleBox {
 }
 
 section.structure {
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
@@ -584,7 +585,7 @@ body main section.story span.pages {
     background-color: var(--back2);
     border: 1px solid var(--border);
     border-radius: 0.125em;
-    margin: 0.5em auto;
+    margin: auto;
     padding-bottom: 1.5em;
     box-shadow: var(--outershadow);
 }
@@ -603,6 +604,6 @@ body main section.story span.pages .page {
     padding: 0em;
 }
 
-body main section.story span.pages p {
-    display: inline;
+section.structure nav {
+    width: 100%;
 }

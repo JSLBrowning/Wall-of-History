@@ -4,6 +4,14 @@ main {
     border-bottom-right-radius: 0em;
 }
 
+main article {
+    max-width: none;
+}
+
+main article section.story {
+    max-width: none;
+}
+
 main h2:last-of-type {
     margin-bottom: 0.5em;
 }

@@ -104,6 +104,33 @@ function getSettings($id, $lang, $v) {
         $successes++;
     }
 
+    // EQUIVALENTS
+    $sql_eq = "SELECT right_id AS alt_id, right_version AS alt_v FROM story_equivalents WHERE left_id=\"$id\" AND left_version=\"$v\" UNION ALL SELECT left_id AS alt_id, left_version AS alt_v FROM story_equivalents WHERE right_id=\"$id\" AND right_version=\"$v\"";
+    $result_eq = $mysqli->query($sql_eq);
+
+    if ($result_eq->num_rows > 0) {
+        echo "<fieldset>";
+        echo "<select id=\"equivalentSelect\" onchange=\"goTo(this.options[this.selectedIndex].value)\">";
+        echo "<option selected=\"true\" disabled=\"disabled\">Equivalent stories…</option>";
+        while ($row = $result_eq->fetch_assoc()) {
+            // Get title for current version number, either in current language (if available) or English (if not).
+            // https://stackoverflow.com/questions/7562095/redirect-on-select-option-in-select-box
+            $newv = $row["alt_v"];
+            $newid = $row["alt_id"];
+
+            $sqlnext = "SELECT title FROM woh_content WHERE id=\"$newid\" AND content_version=\"$newv\" LIMIT 1";
+            // IFNULL(SELECT content_language FROM woh_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
+
+            $resultnext = $mysqli->query($sqlnext);
+            while ($rownext = $resultnext->fetch_assoc()) {
+                echo "<option value=\"" . $newid . "." . $newv . "\">" . $rownext["title"] . "</option>";
+            }
+        }
+        echo "</select>";
+        echo "</fieldset>";
+        $successes++;
+    }
+
     if ($successes != 0) {
         echo "<hr>\n";
     }

@@ -128,6 +128,10 @@
             <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
             <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
             <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+            <hr>
+            <?php
+            getLeaves($id, $v);
+            ?>
         </aside>
     </main>
     <!-- Modal -->
