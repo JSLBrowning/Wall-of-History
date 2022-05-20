@@ -65,8 +65,6 @@
 * {
     padding: 0px;
     margin: 0px;
-    /* transition: all .2s ease-in-out; */
-    /* The above slows down the settings page sorting. */
 }
 
 @font-face {
@@ -82,19 +80,12 @@
 
 body {
     background: url("/img/bgl.png") left no-repeat,
-                url("/img/bgr.png") right no-repeat,
-                var(--back2);
+        url("/img/bgr.png") right no-repeat,
+        var(--back2);
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
     padding-bottom: 4em;
 }
-
-/*
-html,
-body {
-    min-height: 100%;
-}
-*/
 
 img {
     display: block;
@@ -111,39 +102,14 @@ main {
     font-family: 'Gill Sans Std';
     font-style: normal;
     line-height: 1.5;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 header {
-    margin: 0.5em auto;
+    margin: 0.675em auto;
     width: 100%;
     background: none;
-}
-
-header p {
-    text-align: center;
-    margin: auto;
-    padding: 0.5em;
-    font-size: 1em;
-}
-
-header a {
-    color: var(--front1);
-    text-decoration: none;
-}
-
-header a:hover {
-    color: var(--front2);
-    text-decoration: none;
-}
-
-header a:active {
-    color: var(--front3);
-    text-decoration: none;
-}
-
-header a:visited {
-    color: var(--front1);
-    text-decoration: none;
 }
 
 header img {
@@ -161,15 +127,9 @@ header img:active {
 
 main {
     margin: 1em auto;
-    padding: 8px 0px;
-    width: 90%;
-    max-width: 720px;
-    border: 1px solid var(--border);
-    border-left: none;
-    border-right: none;
-    background: var(--back2);
-    box-shadow: var(--outershadow);
-    border-radius: 1em;
+    padding: 0.5em 0px;
+    width: 100%;
+    max-width: 100vw;
 }
 
 main h1,
@@ -189,7 +149,7 @@ h4 {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    min-height: 20px;
+    min-height: 2em;
 }
 
 .multiparents button {
@@ -211,10 +171,6 @@ main .multiparents h3:first-of-type {
 }
 /* /CAROUSEL */
 
-/* Hover had to be removed because it would cause weird warping with the new titleBox. */
-main h3 a:active {
-    font-size: 0.98125em;
-}
 
 main h1 {
     font-size: 2.5em;
@@ -228,14 +184,17 @@ main h3 {
     font-size: 1.25em;
 }
 
+main h3 a:active {
+    font-size: 0.98125em;
+}
+
 audio {
     width: 100%;
-    max-width: 720px;
 }
 
 main p {
     margin-right: 0.25em;
-    padding: 0.5em 0.5em;
+    padding: 0.5em;
     font-size: var(--pfontsize);
     text-align: justify;
     text-justify: inter-word;
@@ -244,15 +203,15 @@ main p {
 
 main ul {
     list-style: none;
-    margin: 8px 8px;
+    margin: 0.5em;
 }
 
 #sortable li {
-    margin: 4px;
+    margin: 0.25em;
     background-color: var(--back2);
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0px 4px;
+    border-radius: 0.25em;
+    padding: 0em 0.25em;
     display: flex;
     cursor: grab;
 }
@@ -269,14 +228,14 @@ main ul {
 label {
     display: inline-block;
     width: 100%;
-    padding: 0px 8px;
+    padding: 0em 0.5em;
     text-align: left;
     font-size: 1.25em;
     cursor: pointer;
 }
 
 label input {
-    margin-right: 4px;
+    margin-right: 0.25em;
 }
 
 main a,
@@ -302,23 +261,23 @@ main a:visited,
 main img,
 main video,
 main iframe {
-    margin: 0px 0px 0px 0px;
+    margin: 0em;
     width: 100%;
-    padding: 8px 0px 8px 0px;
+    padding: 0.5em 0em;
 }
 
-main img {
+section.story img {
     transition: all .2s ease-in-out;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 
-main img:hover {
+section.story img:hover {
     transform: scale(1.03125);
     cursor: pointer;
     box-shadow: var(--outershadow);
 }
 
-main img:active {
+section.story img:active {
     transform: scale(0.96875);
     filter: brightness(87.5%);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
@@ -356,14 +315,6 @@ body .zoom {
     border-radius: 0.25em;
     margin: 0.5em;
 }
-
-/*
-main blockquote {
-    margin: auto;
-    width: auto;
-    display: table;
-}
-*/
 
 blockquote {
     margin: 1em;
@@ -903,13 +854,16 @@ del {
         flex-direction: row;
         justify-content: space-between;
     }
+
     aside button {
         width: 15%;
     }
+
     #mains {
         width: 95%;
         flex-direction: column;
     }
+
     #mains main {
         margin: auto;
         max-width: 960px;
@@ -922,32 +876,39 @@ del {
         max-width: 90%;
         height: auto;
     }
+
     main {
         margin: 8px auto;
         padding: 0px;
         padding-top: 0.5em;
     }
+
     main h1,
     main h2,
     main h3 {
         margin-top: 0.125em;
         margin-bottom: 0.125em;
     }
+
     main h1,
     .modalcontent h1 {
         font-size: 1.5em;
     }
+
     main h2,
     .modalcontent h2 {
         font-size: 1.375em;
     }
+
     main h3,
     .modalcontent h3 {
         font-size: 1em;
     }
+
     main h3:nth-of-type(2) {
         margin-bottom: 0.25em;
     }
+
     /* Yeah, nth-of-type(2) ain't gonna work. */
     main p,
     header p,
@@ -955,27 +916,33 @@ del {
         font-size: var(--pfontsize);
         margin-right: 0em;
     }
+
     .social {
         width: 99.99%;
     }
+
     .social a {
         width: 18px;
         height: 18px;
     }
+
     .social img {
         width: 18px;
         height: 18px;
     }
+
     .savefile button {
         width: 128px;
         height: 32px;
         font-size: 1em;
     }
+
     .nav button {
         width: 128px;
         height: 32px;
         font-size: 1em;
     }
+
     .anchor,
     .anchor:visited,
     .page,
@@ -1074,12 +1041,12 @@ aside button:active {
 /* BELOW NEEDS SIGNIFICANT REVISIONS */
 /* May want to change the max-width here so that the aside buttons never overlap with the main block. */
 @media only screen and (max-width: 960px) {
-    aside{
+    aside {
         /* REMOVE PREVIOUS SETTINGS */
         position: fixed;
         z-index: 20;
         top: auto;
-        
+
         right: auto;
 
         /* NEW SETTINGS */
@@ -1115,4 +1082,580 @@ aside button:active {
         transform: none;
         background-color: var(--back1);
     }
+}
+
+/* Former test.css stuff */
+
+#mains,
+#mains main {
+    overflow: visible;
+}
+
+#children {
+    margin-top: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.padding {
+    margin: 1.5em 0em;
+    min-height: 120px;
+    width: 33.33%;
+    align-content: center;
+}
+
+.noImg {
+    height: 100px;
+}
+
+.contentsButton::before {
+    backdrop-filter: blur(10px);
+}
+
+.contentsButton {
+    margin-left: 5%;
+    width: 90%;
+    margin-right: 5%;
+    height: 100%;
+    max-height: 176px;
+    display: flex;
+    flex-direction: row;
+    border-color: rgb(48, 48, 48);
+}
+
+.contentsButton img {
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-right: 0em;
+    border-radius: 0.375em;
+    padding: 0em;
+    float: left;
+    display: block;
+    height: 100%;
+    max-height: 144px;
+    width: auto;
+    max-width: 108px;
+    object-fit: cover;
+    border: none;
+}
+
+.contentButtonText {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5em;
+    margin: auto 0.25em;
+    padding: 0.25em;
+    max-height: 95%;
+}
+
+.contentButtonTextLong {
+    font-size: 0.9375em;
+}
+
+.contentButtonText p {
+    padding: 0em;
+}
+
+.contentsButton p {
+    margin: 0px;
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+    font-size: 1.0625em;
+}
+
+.contentsButton p:first-of-type {
+    font-family: "Trademarker";
+    font-size: 1.25em;
+}
+
+/* REALLY need a better way of handling this. */
+.contentsButton p:nth-of-type(2),
+.contentButtonText div.versions,
+.contentButtonText div.tags {
+    padding-right: 0.5em;
+    overflow: scroll;
+    max-height: 64px;
+}
+
+.contentsButton:active {
+    box-shadow: var(--smalloutershadow);
+}
+
+#cardXCF8IZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/XCF8IZ.png") center;
+    background-size: cover;
+    border-color: #5b757c;
+    border-left: none;
+    border-right: none;
+}
+
+#cardQ2N8NX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/Q2N8NX.png") center;
+    background-size: cover;
+    border-color: #5a5833;
+    border-left: none;
+    border-right: none;
+}
+
+#cardJBTY4O {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/JBTY4O.png") center;
+    background-size: cover;
+    border-color: #57453e;
+    border-left: none;
+    border-right: none;
+}
+
+#cardECOHYW {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ECOHYW.png") center;
+    background-size: cover;
+    border-color: #3a2f1d;
+    border-left: none;
+    border-right: none;
+}
+
+#cardLHIBBZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/LHIBBZ.png") center;
+    background-size: cover;
+    border-color: #878889;
+    border-left: none;
+    border-right: none;
+}
+
+#cardUELI6L {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/UELI6L.png") center;
+    background-size: cover;
+    border-color: #707d4e;
+    border-left: none;
+    border-right: none;
+}
+
+#card08H6CX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/08H6CX.png") center;
+    background-size: cover;
+    border-color: #957264;
+    border-left: none;
+    border-right: none;
+}
+
+#card7M5DDC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/7M5DDC.png") center;
+    background-size: cover;
+    border-color: #547288;
+    border-left: none;
+    border-right: none;
+}
+
+#cardCU4QW2 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/CU4QW2.png") center;
+    background-size: cover;
+    border-color: #69827a;
+    border-left: none;
+    border-right: none;
+}
+
+#cardFG9EM8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/FG9EM8.png") center;
+    background-size: cover;
+    border-color: #8b8f84;
+    border-left: none;
+    border-right: none;
+}
+
+#cardZTL9M8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ZTL9M8.png") center;
+    background-size: cover;
+    border-color: #4d4443;
+    border-left: none;
+    border-right: none;
+}
+
+#card0NN5ZH {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0NN5ZH.png") center;
+    background-size: cover;
+    border-color: #cfbe9e;
+    border-left: none;
+    border-right: none;
+}
+
+#cardGNO2P6,
+#card89L0VB,
+#card685M4D,
+#card5LTDQZ,
+#cardXJDC9U,
+#card0J81JD,
+#cardKQRMXG {
+    border-left: none;
+    border-right: none;
+}
+
+#card54284C {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/BCC.jpg") center;
+    background-size: cover;
+    border-color: #fc1f04;
+    border-left: none;
+    border-bottom: 1px solid #fc1f04;
+    border-right: none;
+}
+
+#cardGNO2P6 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
+    border-color: #ff0401;
+}
+
+#card0J81JD {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0J81JD.png") center;
+    border-color: #93001c;
+}
+
+#card89L0VB {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc2.png") center;
+    border-color: #6e92ce;
+}
+
+#card685M4D {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc3.png") center;
+    border-color: #448d30;
+}
+
+#card5LTDQZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/BC4_-_Tales_of_the_Masks.png") center;
+    border-color: #ff990b;
+}
+
+#cardXJDC9U {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/MoL.png") center;
+    border-color: goldenrod;
+}
+
+#cardKQRMXG {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/KQRMXG.png") center;
+    background-size: contain;
+    border-color: #b6cdd2;
+}
+
+/* TAGS FOR CONTENT CARDS */
+.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.tags p,
+.tags p:first-of-type {
+    margin: 0.125em;
+    padding: 0.125em 0.25em;
+    width: auto;
+    border-radius: 0.25em;
+    background-color: darkgray;
+    font-family: "Gill Sans Std";
+    font-size: 0.9375em;
+    color: #010203;
+}
+
+.versions p,
+.versions p:first-of-type {
+    font-family: "Gill Sans Std";
+    color: darkgray;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.875em;
+    letter-spacing: 0.125em;
+}
+
+
+/* TIMELINE TEST */
+#mains main ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.red {
+    margin: 0em;
+    margin-bottom: -0.5em;
+    padding: 0em;
+    text-align: center;
+    text-transform: uppercase;
+    color: red;
+    font-size: x-large;
+    font-weight: 900;
+}
+
+.redstroke {
+    -webkit-text-stroke: 1px red;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.titleBox {
+    padding: 1em;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    /*
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/O927E6.png") center;
+    */
+    background-size: cover;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+main section:only-child {
+    border-bottom: none;
+}
+
+.titleBoxText {
+    width: 100%;
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5em;
+}
+
+.titleBoxText h1,
+.titleBoxText h2,
+.titleBoxText h3 {
+    letter-spacing: 0.25em;
+}
+
+.titleBox img {
+    overflow: visible;
+    margin-top: -1.5em;
+    margin-left: -1.5em;
+    padding: 0em;
+    float: left;
+    /*
+    height: 100%;
+    max-height: 144px;
+    width: auto;
+    */
+    max-width: 33.33%;
+    height: auto;
+    border-radius: 0.375em;
+}
+
+.multiparents button {
+    background: none;
+}
+
+/* Side images don't really fit on mobile, so we make the background image more prominent. */
+@media only screen and (max-width: 960px) {
+    /*
+    .titleBox {
+        background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.75)), url("/img/story/contents/O927E6.png") center 25%;
+    }
+    */
+
+    .titleBox img {
+        display: none;
+    }
+}
+
+#mains {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+main {
+    margin: auto;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+section.story,
+aside,
+section.titleBox {
+    position: relative;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.5em;
+    box-shadow: var(--outershadow);
+}
+
+section.titleBox {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    box-shadow: none;
+}
+
+section.structure {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.padding {
+    width: 50%;
+}
+
+.contentsButton {
+    max-width: 100%;
+    max-height: 182px;
+}
+
+.contentButtonText {
+    gap: 0.375em;
+}
+
+.contentButtonText .versions,
+.contentButtonText .tags {
+    font-size: 0.9375em;
+    width: 100%;
+}
+
+.contentButtonText .versions p,
+.contentButtonText .tags p {
+    letter-spacing: 0.0625em;
+}
+
+article {
+    max-width: 720px;
+}
+
+aside {
+    padding: 0.25em 0;
+    top: initial;
+    right: initial;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+aside button,
+aside a#downloadLink {
+    width: 92.5%;
+    font-size: 0.9375em;
+    border: none;
+    color: var(--front2);
+    box-shadow: none;
+    background-color: var(--back);
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
+}
+
+aside a#downloadLink {
+    all: unset;
+    width: 92.5%;
+}
+
+aside a#downloadLink button.small {
+    width: calc(100% - 0.5em);
+}
+
+aside button.small {
+    font-size: 0.75em;
+    height: 20px;
+}
+
+aside button.nocaps {
+    text-transform: initial;
+}
+
+aside button:hover {
+    background-color: var(--back3);
+    transform: none;
+}
+
+aside button:active {
+    background-color: var(--back2);
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+aside p {
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.75em;
+    letter-spacing: 0.125em;
+    padding: 0em;
+    width: 92.5%;
+    margin: 0.25em;
+}
+
+aside hr {
+    margin: 0.5em -0.5em;
+    width: 100%;
+}
+
+aside fieldset {
+    margin: 0em;
+    width: 95%;
+}
+
+aside fieldset select {
+    margin: 0.25em 0em;
+    flex-basis: initial;
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 0.75em;
+    letter-spacing: 0.125em;
+}
+
+#children {
+    margin: 0em;
+    max-width: 1280px;
+}
+
+.imginfobox {
+    position: absolute !important;
+    z-index: 15;
+    bottom: 10%;
+    right: 10%;
+    background-color: rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(255, 255, 255, 0.375);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.imginfobox:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.imginfobox:active {
+    background-color: rgba(255, 255, 255, 0.375);
+}
+
+body main section.story.pages {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+main {
+    padding-top: 1em;
+}
+
+.titleBox img {
+    max-height: 240px;
+    width: auto;
+}
+
+.snippet {
+    text-transform: none;
 }

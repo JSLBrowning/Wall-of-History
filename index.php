@@ -26,6 +26,7 @@
     <!-- Put anything in read.css that's needed here into main.css. -->
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/test.css">
     <title>Wall of History</title>
 </head>
 
@@ -35,75 +36,79 @@
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
-    <aside>
-        <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-        <!-- MAIN NAVIGATION MENU MODAL -->
-        <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
-        <div id="navigationModal" class="modal">
-            <div class="modal-content modal-content-left">
-                <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
-                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
-                <p><a href="/read/">Contents</a></p>
-                <p><a href="/reference/">Reference</a></p>
-                <p><a href="/search/">Search</a></p>
-                <p><a href="/about/">About</a></p>
-                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                <p><a href="/contact/">Contact</a></p>
-            </div>
-        </div>
-        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-    </aside>
+    
     <main>
-        <video style="margin-top: -0.75em;" poster="img/Video Thumbnail.png" controls>
-            <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
-        <?php
-            include('/php/db_connect.php');
-            include('/php/populate.php');
-            echo populateStatic("");
-        ?>
-        <hr>
-        <p style="margin-top: 1em; text-align: center;">Find Us</p>
-        <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-            <!-- Replace w/ text-based buttons. -->
-            <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
-                <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
-            </a>
-            <a href="https://www.facebook.com/WallofHistory" width="24px" height="24px">
-                <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
-            </a>
-            <a href="https://www.instagram.com/Wall_of_History/" width="24px" height="24px">
-                <img src="../img/index/white-instagram-logo-transparent-background.png" width="24px" height="24px">
-            </a>
-            <a href="https://www.reddit.com/r/WallofHistory/" width="24px" height="24px">
-                <img src="../img/index/reddit_share_silhouette_128.png" width="24px" height="24px">
-            </a>
-            <a href="https://twitter.com/Wall_of_History" width="24px" height="24px">
-                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
-            </a>
-            <a href="https://www.youtube.com/channel/UCNnu_YlSMehzaAZwWS6gkVg" width="24px" height="24px">
-                <img src="../img/index/yt_logo_mono_dark.png" width="24px" height="24px">
-            </a>
-        </div>
-        <p style="text-align: center;">Share</p>
-        <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-            <!-- Replace w/ text-based buttons. -->
-            <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="24px" height="24px">
-                <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
-            </a>
-            <a href="https://twitter.com/intent/tweet?text=I'm living the %23BIONICLE legend on @Wall_of_History, and you should be too! https://wallofhistory.com/" width="24px" height="24px">
-                <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
-            </a>
-        </div>
-        <!-- modal -->
-        <div id="myModal" class="modal">
+        <article>
+            <video style="margin-top: -0.75em;" poster="img/Video Thumbnail.png" controls>
+                <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
+            <?php
+                include('/php/db_connect.php');
+                include('/php/populate.php');
+                echo populateStatic("");
+            ?>
+            <hr>
+            <p style="margin-top: 1em; text-align: center;">Find Us</p>
+            <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+                <!-- Replace w/ text-based buttons. -->
+                <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
+                    <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
+                </a>
+                <a href="https://www.facebook.com/WallofHistory" width="24px" height="24px">
+                    <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
+                </a>
+                <a href="https://www.instagram.com/Wall_of_History/" width="24px" height="24px">
+                    <img src="../img/index/white-instagram-logo-transparent-background.png" width="24px" height="24px">
+                </a>
+                <a href="https://www.reddit.com/r/WallofHistory/" width="24px" height="24px">
+                    <img src="../img/index/reddit_share_silhouette_128.png" width="24px" height="24px">
+                </a>
+                <a href="https://twitter.com/Wall_of_History" width="24px" height="24px">
+                    <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
+                </a>
+                <a href="https://www.youtube.com/channel/UCNnu_YlSMehzaAZwWS6gkVg" width="24px" height="24px">
+                    <img src="../img/index/yt_logo_mono_dark.png" width="24px" height="24px">
+                </a>
+            </div>
+            <p style="text-align: center;">Share</p>
+            <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+                <!-- Replace w/ text-based buttons. -->
+                <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="24px" height="24px">
+                    <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
+                </a>
+                <a href="https://twitter.com/intent/tweet?text=I'm living the %23BIONICLE legend on @Wall_of_History, and you should be too! https://wallofhistory.com/" width="24px" height="24px">
+                    <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
+                </a>
+            </div>
+        </article>
+        <aside>
+            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
+            <!-- MAIN NAVIGATION MENU MODAL -->
+            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
+            <div id="navigationModal" class="modal">
+                <div class="modal-content modal-content-left">
+                    <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
+                    <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
+                    <p><a href="/read/">Contents</a></p>
+                    <p><a href="/reference/">Reference</a></p>
+                    <p><a href="/search/">Search</a></p>
+                    <p><a href="/about/">About</a></p>
+                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
+                    <p><a href="/contact/">Contact</a></p>
+                </div>
+            </div>
+            <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
+            <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
+            <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
+            <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
+            <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
+        </aside>
+    </main>
+    <!-- modal -->
+    <div id="myModal" class="modal">
             <!-- modal content -->
             <div class="modal-content modal-content-center">
                 <span class="close">&times;</span>
@@ -112,7 +117,6 @@
                 </div>
             </div>
         </div>
-    </main>
     <!-- jQuery -->
     <script src="js/jquery/jquery-3.6.0.min.js"></script>
     <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>

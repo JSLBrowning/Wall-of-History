@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    downloadContent();
     stackHistory();
 
     const queryString = window.location.search;
@@ -102,38 +101,6 @@ function getCookie(cname) {
 }
 
 
-// Move into PHP?
-function downloadContent() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const currentID = urlParams.get('id');
-    const query = "SELECT title FROM woh_content WHERE id='" + currentID + "' LIMIT 1";
-
-    $.ajax({
-        url: "http://localhost:8080/doc/downloads/" + currentID + ".zip",
-        type: 'HEAD',
-        error: function () {
-            console.log("No downloads are available for this content.");
-        },
-        success: function () {
-            document.getElementById("downloadLink").href = "/doc/downloads/" + currentID + ".zip";
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    filename = this.responseText.replace(/<\/?[^>]+(>|$)/g, "") + ".zip"
-                    // Fix the above regex to strip to alphanumeric.
-                    // Other than that... this still works! Nice.
-                    document.getElementById("downloadLink").download = filename;
-                    $(document.getElementById("downloadLink")).fadeIn("slow");
-                }
-            };
-            xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=title", true);
-            xmlhttp.send();
-        }
-    });
-}
-
 function stackHistory() {
     // Make sure cookie exists, maybe??
     // Get current ID.
@@ -174,6 +141,7 @@ function stackHistory() {
     xmlhttp.open("GET", "../php/stackhistory.php?id=" + ID + "&v=" + version, true);
     xmlhttp.send();
 }
+
 
 function updateSpoilerLevel(id) {
     const query = "SELECT spoiler_level FROM woh_metadata WHERE id = '" + id + "' LIMIT 1";

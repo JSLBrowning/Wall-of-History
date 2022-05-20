@@ -1,6 +1,7 @@
 main {
     width: 80%;
     max-width: 1280px;
+    display: block;
 }
 
 main video {

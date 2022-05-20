@@ -678,7 +678,7 @@ function showButtons() {
  * IMAGE FUNCTIONS *
  *******************/
 
-let images = document.getElementsByTagName("main")[0].getElementsByTagName("img");
+let images = document.getElementsByClassName("story")[0].getElementsByTagName("img");
 let filteredImages = $(images).filter(function () { return !$(this).parents().is('div.social a') });
 
 for (var i = 0; i < filteredImages.length; i++) {

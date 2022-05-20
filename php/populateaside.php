@@ -37,9 +37,18 @@ function getDetailsAside($id, $lang, $v) {
 
     $words_query = "SELECT word_count FROM woh_content WHERE id='$id' AND content_version='$v' AND content_language='$lang'";
     $words = getDataAside("word_count", $words_query);
-    if (!empty($words)) {
+    if (!is_null($words[0])) {
         echo "<p>Word Count: " . $words[0] . "</p>\n";
         $successes++;
+    } else {
+        $children = getLeaves($id);
+        // Check Stack Overflow to see if anyone's answered that question.
+        $words_query_sum = "SELECT SUM(word_count) AS word_count FROM woh_content WHERE id IN ($children) AND content_version=1 AND content_language='$lang'";
+        $words_sum = getDataAside("word_count", $words_query_sum);
+        if (!is_null($words_sum[0])) {
+            echo "<p>Word Count: " . $words_sum[0] . "</p>\n";
+            $successes++;
+        }
     }
 
     if ($successes != 0) {

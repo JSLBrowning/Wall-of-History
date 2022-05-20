@@ -37,3 +37,39 @@ body main .pages .page {
 body main .pages p {
     display: inline;
 }
+
+/* PAGES */
+section.titleBoxPages {
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.5em 0.5em 0em 0em;
+    box-shadow: var(--outershadow);
+}
+
+body main section.story span.pages {
+    display: block;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.125em;
+    margin: auto;
+    padding-bottom: 1.5em;
+    box-shadow: var(--outershadow);
+}
+
+.pages .page {
+    margin: 0em;
+    width: 48px;
+    position: absolute;
+    top: unset;
+    bottom: 0px;
+    left: calc(50% - 24px);
+}
+
+body main section.story span.pages .page {
+    font-size: 0.9375em;
+    padding: 0em;
+}
+
+section.structure nav {
+    width: 100%;
+}

@@ -512,68 +512,48 @@ function populateStatic($base_path)
 }
 
 
-
-/*
-function getLeaves($id, $v) {
-    include("..//php/db_connect.php");
-    WITH RECURSIVE cte_name AS (
-        initial_query  -- anchor member
-        UNION ALL
-        recursive_query -- recursive member that references to the CTE name
-    )
-    SELECT * FROM cte_name;
-
-    $sql_leaves = "WITH RECURSIVE cte AS (SELECT child_id FROM woh_web WHERE parent_id='$id' UNION ALL SELECT woh_web.child_id FROM woh_web JOIN cte ON woh_web.parent_id = cte.child_id) SELECT child_id FROM cte";
-    $sql_leaves = "WITH RECURSIVE cte AS (SELECT child_id FROM woh_web WHERE parent_id='$id' AND parent_version='$v' UNION ALL SELECT woh_web.child_id FROM woh_web JOIN cte ON woh_web.parent_id = cte.child_id) SELECT child_id FROM cte WHERE child_id IN (SELECT child_id FROM woh_web WHERE child_id NOT IN (SELECT parent_id FROM woh_web))";
-    $result_leaves = $mysqli->query($sql_leaves);
-
-    $leaves = array();
-    while($row_leaves = $result_leaves->fetch_assoc()) {
-        array_push($leaves, $row_leaves["child_id"]);
-    }
-
-    echo "<p style='display:none;'>" . implode(",", $leaves) . "</p>";
-}
-*/
-
-
-function getLeaves($id, $v) {
+function getLeaves($id) {
     include("..//php/db_connect.php");
 
-    $all_leaves_query = "SELECT child_id, child_version FROM woh_web WHERE child_id NOT IN (SELECT parent_id FROM woh_web)";
+    // Get full list of all leaf nodes in the tree.
+    // Note that the chronology value is necessary to ensure that the ultimate output is ordered "depth blind" — i.e., leaves at a depth of one will not float to the top, ahead of leaves at a depth of two with a lower chronology.
+    $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
     $result_all_leaves = $mysqli->query($all_leaves_query);
 
     $all_leaves = array();
     while($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-        array_push($all_leaves, $row_all_leaves["child_id"] . "." . $row_all_leaves["child_version"]);
+        array_push($all_leaves, $row_all_leaves["child_id"]);
     }
 
     $nodes = array("\"" . $id . "\"");
     $leaves = array();
-    echo "<p>" . implode(",", getChildren($nodes, $leaves, $all_leaves)) . "</p>";
+    $descendant_leaves = getChildren($nodes, $leaves, $all_leaves);
+    // array_intersect() is necessary for aforementioned sorting by chronology.
+    return "'" . implode('\', \'', array_intersect($all_leaves, $descendant_leaves)) . "'";
 }
 
+
+// Recursive function to get all children of a given node, separating out the leaves.
 function getChildren($nodes, $leaves, $all_leaves) {
     include("..//php/db_connect.php");
 
     $imploded_nodes = implode(",", $nodes);
-    $sql_children = "SELECT child_id, child_version FROM woh_web WHERE parent_id IN ($imploded_nodes)";
+    $sql_children = "SELECT child_id, child_version FROM woh_web WHERE parent_id IN ($imploded_nodes) AND child_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection')";
     $result_children = $mysqli->query($sql_children);
 
     $nodes = array();
-    $leaves = array();
     while($row_children = $result_children->fetch_assoc()) {
-        $child = $row_children["child_id"] . "." . $row_children["child_version"];
-        if (in_array($child, $all_leaves)) {
-            array_push($leaves, $child);
-        } else {
-            array_push($nodes, "\"" . $child . "\"");
+        $child_id = $row_children["child_id"];
+        if (in_array($child_id, $all_leaves) && !in_array($child_id, $leaves)) {
+            array_push($leaves, $child_id);
+        } else if (!in_array($child_id, $all_leaves)) {
+            array_push($nodes, "\"" . $child_id . "\"");
         }
     }
 
     if (count($nodes) == 0) {
         return $leaves;
     } else {
-        getChildren($nodes, $leaves, $all_leaves);
+        return getChildren($nodes, $leaves, $all_leaves);
     }
 }
