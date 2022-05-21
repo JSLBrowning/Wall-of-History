@@ -1,7 +1,28 @@
-main {
-    width: 80%;
+html body main {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+}
+
+html body main article {
+    width: calc(95% - 240px);
     max-width: 1280px;
-    display: block;
+    padding-bottom: 0.5em;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.5em;
+    box-shadow: var(--outershadow);
+    overflow: hidden;
+}
+
+html body main article p {
+    margin: 0em;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+html body main aside {
+    min-width: 240px;
 }
 
 main video {

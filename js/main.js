@@ -678,11 +678,12 @@ function showButtons() {
  * IMAGE FUNCTIONS *
  *******************/
 
-let images = document.getElementsByClassName("story")[0].getElementsByTagName("img");
-let filteredImages = $(images).filter(function () { return !$(this).parents().is('div.social a') });
+let images = document.querySelectorAll(".story > section > img, #modal-data > img");
 
-for (var i = 0; i < filteredImages.length; i++) {
-    filteredImages[i].addEventListener("click", function () {
+// Will need to do all this each time the modal loads.
+
+for (var i = 0; i < images.length; i++) {
+    images[i].addEventListener("click", function () {
         let src = this.src;
         let alt = this.alt;
         let img = document.createElement("img");

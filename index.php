@@ -39,7 +39,7 @@
     
     <main>
         <article>
-            <video style="margin-top: -0.75em;" poster="img/Video Thumbnail.png" controls>
+            <video poster="img/Video Thumbnail.png" controls>
                 <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -50,7 +50,7 @@
                 echo populateStatic("");
             ?>
             <hr>
-            <p style="margin-top: 1em; text-align: center;">Find Us</p>
+            <p style="text-align: center;">Find Us</p>
             <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
                 <!-- Replace w/ text-based buttons. -->
                 <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
@@ -86,12 +86,19 @@
         <aside>
             <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
             <!-- MAIN NAVIGATION MENU MODAL -->
-            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
+            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
             <div id="navigationModal" class="modal">
                 <div class="modal-content modal-content-left">
                     <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
-                    <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
-                    <p><a href="/read/">Contents</a></p>
+                    <p>
+                        <?php
+                        if (count($_GET)) {
+                            echo "<a href=\"/read/\">Contents</a>";
+                        } else {
+                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                        }
+                        ?>
+                    </p>
                     <p><a href="/reference/">Reference</a></p>
                     <p><a href="/search/">Search</a></p>
                     <p><a href="/about/">About</a></p>
@@ -100,11 +107,11 @@
                     <p><a href="/contact/">Contact</a></p>
                 </div>
             </div>
-            <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-            <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
-            <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-            <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-            <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
+            <button onclick="window.location.href='/settings/';">&#9881; Settings</button>
+            <hr>
+            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
         </aside>
     </main>
     <!-- modal -->

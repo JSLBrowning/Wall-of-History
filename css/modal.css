@@ -249,3 +249,49 @@
 .modal-content-center .close {
     opacity: 50%;
 }
+
+.modal-content {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#modal-data {
+    height: 100%;
+}
+
+#modal-data img.slideshow {
+    position: relative;
+    width: auto;
+    margin-top: -1em;
+    overflow: visible;
+    z-index: 25;
+    max-height: 33.33%;
+    border-radius: 0.25em;
+    transition: all .2s ease-in-out;
+}
+
+#modal-data img.slideshow:hover {
+    transform: scale(1.03125);
+    cursor: pointer;
+    box-shadow: var(--outershadow);
+}
+
+#modal-data img.slideshow:active {
+    transform: scale(0.96875);
+    filter: brightness(87.5%);
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.modal-content {
+    overflow: visible;
+}
+
+.modal-content .slidecontrols {
+    height: 34px;
+}
+
+.modal-text {
+    margin-top: 0.5em;
+    overflow: scroll;
+    max-height: calc(66.66% - 1em);
+}

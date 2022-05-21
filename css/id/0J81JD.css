@@ -1,3 +1,4 @@
+/*
 :root {
     --back1: #310009;
     
@@ -16,6 +17,7 @@
     --back2: #E5E6EB;
     --back1: #B1B1B2;
 }
+*/
 
 body {
     background: url("/img/bgl.png") left no-repeat,
