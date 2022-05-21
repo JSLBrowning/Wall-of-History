@@ -123,6 +123,7 @@
         Reference collections with exact name.
         Story pages with name in title.
         Story pages with name in content.
+        https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist
         -->
         <hr>
         <?php

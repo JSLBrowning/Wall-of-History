@@ -1659,3 +1659,20 @@ main {
 .snippet {
     text-transform: none;
 }
+
+.modal-content {
+    padding-top: 1em;
+}
+
+#modal-data {
+    position: absolute;
+    top: 0px;
+}
+
+#modal-data img.slideshow {
+    position: relative;
+    width: 60%;
+    margin-top: -1em;
+    overflow: visible;
+    z-index: 25;
+}
