@@ -1,9 +1,3 @@
-:root {
-    --back1: #000B19;
-    
-    --border: #00204B;
-}
-
 :root.light {
     --front1: #000B19;
     --front2: #001632;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-    include("..//php/populate.php");
-    chooseColors();
+include("..//php/populate.php");
+chooseColors();
 ?>
 
 <head>
@@ -34,33 +34,44 @@
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
-    <aside>
-        <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-        <!-- MAIN NAVIGATION MENU MODAL -->
-        <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
-        <div id="navigationModal" class="modal">
-            <div class="modal-content modal-content-left">
-                <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
-                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
-                <p><a href="/read/">Contents</a></p>
-                <p><a href="/reference/">Reference</a></p>
-                <p><a href="/search/">Search</a></p>
-                <p><a href="/about/">About</a></p>
-                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                <p><a href="/contact/">Contact</a></p>
-            </div>
-        </div>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-    </aside>
     <main>
-        <h1>Settings</h1>
-        <?php
-        populateSettings();
-        ?>
-        <button id="submit">Submit</button>
+        <article>
+            <section class="story">
+                <h1>Settings</h1>
+                <?php
+                populateSettings();
+                ?>
+            </section>
+            <button id="submit">Submit</button>
+        </article>
+        <aside>
+            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
+            <!-- MAIN NAVIGATION MENU MODAL -->
+            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
+            <div id="navigationModal" class="modal">
+                <div class="modal-content modal-content-left">
+                    <p>
+                        <?php
+                        if (count($_GET)) {
+                            echo "<a href=\"/read/\">Contents</a>";
+                        } else {
+                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                        }
+                        ?>
+                    </p>
+                    <p><a href="/reference/">Reference</a></p>
+                    <p><a href="/search/">Search</a></p>
+                    <p><a href="/about/">About</a></p>
+                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
+                    <p><a href="/contact/">Contact</a></p>
+                </div>
+            </div>
+            <hr>
+            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+        </aside>
     </main>
     <!-- jQuery -->
     <script src="/js/jquery/jquery-3.6.0.min.js"></script>

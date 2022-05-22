@@ -89,7 +89,6 @@
             <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
             <div id="navigationModal" class="modal">
                 <div class="modal-content modal-content-left">
-                    <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
                     <p>
                         <?php
                         if (count($_GET)) {

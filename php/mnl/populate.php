@@ -53,7 +53,7 @@ function populateHead($id)
     }
 }
 
-function addCSS($id)
+function populateCSS($id)
 {
     include("..//php/db_connect.php");
     $sql = "SELECT tag FROM MnL_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";

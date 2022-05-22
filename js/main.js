@@ -678,7 +678,7 @@ function showButtons() {
  * IMAGE FUNCTIONS *
  *******************/
 
-let images = document.querySelectorAll(".story > section > img, #modal-data > img");
+let images = document.querySelectorAll(".story > img, .story > section > img, #modal-data > img");
 
 // Will need to do all this each time the modal loads.
 

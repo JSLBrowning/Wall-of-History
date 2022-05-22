@@ -19,6 +19,12 @@
 }
 */
 
+:root {
+    --back1: rgb(8, 0, 0);
+    --back2: rgb(24, 0, 0);
+    --border: rgb(48, 0, 0);
+}
+
 body {
     background: url("/img/bgl.png") left no-repeat,
         url("/img/bgr.png") right no-repeat,

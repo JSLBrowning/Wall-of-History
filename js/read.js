@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showButtons();
 });
 
+
 function swap(swappableID) {
     let swappableDiv = document.getElementById(swappableID);
     let swappables = swappableDiv.children;
@@ -28,7 +29,7 @@ function swap(swappableID) {
             }, 400);
         } else {
             // swappables[i].style.display = "none";
-            $("video").each(function() {
+            $("video").each(function () {
                 $(this).get(0).pause();
             });
             $(swappables[i]).slideUp();
@@ -41,6 +42,20 @@ function swap(swappableID) {
     thisButton.innerText = labelNew;
     thisButton.dataset.alternate = labelOld;
 }
+
+
+function hideShow(button) {
+    let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
+    let texts = document.getElementById("modal-data").getElementsByClassName("showable");
+    let buttonIndex = Array.prototype.indexOf.call(buttons, button);
+    let currentStyles = window.getComputedStyle(texts[buttonIndex]);
+    if (currentStyles.display === "none" || currentStyles.display === "") {
+        $(texts[buttonIndex]).slideDown();
+    } else {
+        $(texts[buttonIndex]).slideUp();
+    }
+}
+
 
 // These can be tested on “The Legend of Mata Nui,” which has three parents.
 // Make these update CSS where applicable: https://stackoverflow.com/questions/574944/how-to-load-up-css-files-using-javascript

@@ -1,19 +1,12 @@
 <?php
-// TO-DO: Add a populator for the settings button based on available sections.
-/* STEP 1: GET ACTIVE LANG SECTION, GET ALL VERSION SUBSECTIONS, IF ANY.
-        (IF NONE OF EITHER, BUTTON STAYS HIDDEN -- IF EITHER, BLOCK.)
-        STEP 2: IF CHANGE VERSION, REALLOCATE DISPLAY='NONE' TO OTHER VERSION.
-        IF CHANGE LANGUAGE, SHOW FIRST VERSION IN LIST, REPOPULATE VERSION LIST.
-        DO THIS IN JS? */
-// ALSO add a read as standalone button generator and create corresponding JS.
-/* STEP 1: GENERATE TEMP READING ORDER BASED ON CHILDREN: XHTML CALL TO PHP FUNCTION IN JS, TRIGGERED BY PHP-GENERATED BUTTON.
-        JUMP TO FIRST CHAP.
-        IF ID IN TEMP READING ORDER, TAKE TEMP ORDER AS PRECEDENT.
-        IF EXIT PAGE OR RELOAD TO PAGE OUTSIDE READING ORDER, DELETE TEMP ORDER.
-        IF LAST CHAP, DELETE TEMP ORDER.
-        IF SAVE ON TEMP CHAPTER... PRESERVE TEMP ORDER UNTIL NEXT RELOAD. */
 
 
+/***********************
+ * UNIVERSAL FUNCTIONS *
+ ***********************/
+
+
+// This function takes the color palette cookie and returns the appropriate CSS class, inserting it into the <html> tag, ideally before the page even finishes loading for the end user.
 function chooseColors()
 {
     if (!isset($_COOKIE["colorPreference"])) {
@@ -24,62 +17,101 @@ function chooseColors()
 }
 
 
-// This function populates the head of the page with content-specific OGP data.
+// This function returns an array of results when a query returns just one row.
+// Can be used for simplifying functions that require several simple queries.
+function getData($column, $query)
+{
+    include("..//php/db_connect.php");
+
+    $data = [];
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($data, $row[$column]);
+        }
+    }
+    return $data;
+}
+
+
+/***************************
+ * END UNIVERSAL FUNCTIONS *
+ ***************************/
+
+
+/*******************************
+ * .STORY POPULATION FUNCTIONS *
+ * These functions populate the
+ * reader page, from top (head)
+ * to bottom (main).
+ *******************************/
+
+
+// This function populates the <head> of the page with content-specific OGP data.
 function populateHead($id, $lang, $v)
 {
     include("..//php/db_connect.php");
 
-    // Idea: Recurse UP web to get OGP image, recurse DOWN to get chronology for table of contents.
-    // https://www.mysqltutorial.org/mysql-recursive-cte/
-
-    $sql = "SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"";
-    // IFNULL(large_image, (SELECT large_image FROM woh_web JOIN woh_metadata ON woh_web.parent_id = woh_metadata.id WHERE woh_web.child_id = \"" . $id . "\" LIMIT 1))
-    // The above doesn't work for some reason, even though it's repurposed from the chronology recursion below.
-    // Need to work on it.
-
-    $result = $mysqli->query($sql);
+    $result = $mysqli->query("SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"");
     $num_rows = mysqli_num_rows($result);
+    $image_options = array("/img/ogp.png");
+
+    // If query returns no result, determine whether or not user is on the table of contents, and respond accordingly.
     if ((!($id == 0)) && ($num_rows == 0)) {
+        echo "<meta content='404 | Wall of History' property='og:title'/>\n
+            <meta content='Six heroes. One destiny.' property='og:description'/>\n
+            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='summary_large_image' name='twitter:card'/>\n
+            <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <title>404 | Wall of History</title>\n";
         echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\"/>\n";
+    } else if ($id == 0 && $num_rows == 0) {
+        echo "<meta content='Table of Contents | Wall of History' property='og:title'/>\n
+            <meta content='Six heroes. One destiny.' property='og:description'/>\n
+            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='summary_large_image' name='twitter:card'/>\n
+            <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <title>Table of Contents | Wall of History</title>\n";
     }
+
+    // If query does return a result, respond accordingly.
     while ($row = $result->fetch_assoc()) {
         $title = strip_tags($row["title"]);
-        if (is_null($row["large_image"])) {
-            echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
-            <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com/img/ogp.png' property='og:image'/>\n
-            <meta content='summary_large_image' name='twitter:card'/>\n
-            <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . $title . " | Wall of History</title>\n";
-        } else {
-            echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
-            <meta content='" . $row["snippet"] . " | Wall of History' property='og:description'/>\n
-            <meta content='" . $row["large_image"] . "' property='og:image'/>\n
-            <meta content='summary_large_image' name='twitter:card'/>\n
-            <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <title>" . $title . " | Wall of History</title>\n";
+
+        // Get full title, if chapter.
+        $chapter_query = "SELECT COUNT(tag) AS tags FROM woh_tags WHERE id = '$id' AND tag = 'chapter'";
+        $chapter_count = getData("tags", $chapter_query);
+        if ($chapter_count[0] > 0) {
+            $parent_query = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $id . "' LIMIT 1";
+            $parent = strip_tags(getData("title", $parent_query)[0]);
+            $title = $parent . ": " . $title;
         }
 
-        // GET PARENT TITLE.
-        // THIS SUCKS REPLACE IT.
-        $sqltitle = "SELECT * FROM woh_tags WHERE id = '$id' AND tag = 'chapter'";
-        $resulttitle = $mysqli->query($sqltitle);
-        $num_rows = mysqli_num_rows($resulttitle);
-        if ($num_rows > 0) {
-            $sqlparent = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $id . "' LIMIT 1";
-            $resultparent = $mysqli->query($sqlparent);
-            while ($rowparent = $resultparent->fetch_assoc()) {
-                $parenttitle = strip_tags($rowparent['title']);
-                echo "<meta content='" . $parenttitle . ":" . $title . " | Wall of History' property='og:title'/>\n
-                <title>" . $parenttitle . ":" . $title . " | Wall of History</title>\n";
+        // Get lower-priority image, if available.
+        if (!is_null($row["large_image"])) {
+            array_unshift($image_options, $row["large_image"]);
+        }
+
+        // Get higher-priority images, if available.
+        $possible_locations = array("/img/ogp/" . $id . ".png", "/img/ogp" . $id . "_" . $lang . ".png", "/img/ogp" . $id . "_" . $v . ".png", "/img/ogp" . $id . "_" . $v . "_" . $lang . ".png");
+        foreach ($possible_locations as $location) {
+            if (file_exists(".." . $location)) {
+                array_unshift($image_options, $location);
             }
         }
+
+        echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
+            <meta content='" . $row["snippet"] . "' property='og:description'/>\n
+            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='summary_large_image' name='twitter:card'/>\n
+            <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <title>" . $title . " | Wall of History</title>\n";
     }
 }
 
 
 // This function populates the head of the page with content-specific CSS links.
-function addCSS($id)
+function populateCSS($id)
 {
     // Type
     include("..//php/db_connect.php");
@@ -96,8 +128,7 @@ function addCSS($id)
     If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
     If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
-    OR maybe... if there's a conflict and not enough info to solve it, get all chronology values for conflicting CSS values, average them together, and pick whichever one is closest to the current chronology.
-    CHRONOLOGY ALGORITHM FOR GRANDPARENTS, STACK HISTORY FOR PARENTS. */
+    */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
     $result = $mysqli->query($sql);
@@ -129,6 +160,7 @@ function addCSS($id)
     }
 
     // Overrides
+    // Temporary/hardcoded solution to the multi-grandparent disambiguation problem.
     if (file_exists("../css/id/override/" . $id . ".css")) {
         echo "<link rel='stylesheet' type='text/css' href='/css/id/override/" . $id . ".css'>\n";
     }
@@ -154,19 +186,137 @@ function loadHeader($id)
 }
 
 
-function getData($column, $query)
+/**
+ * MAIN CONTENT FUNCTIONS
+ * (Divided due to size.)
+ */
+
+
+// This function gets the parent(s), if any, of the current page, and displays them.
+function loadContentParents($id, $v, $title)
 {
     include("..//php/db_connect.php");
 
-    $data = [];
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($data, $row[$column]);
+    $parents_query = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
+    $parents = $mysqli->query($parents_query);
+    $num_parents = mysqli_num_rows($parents);
+
+    if ($id === "0") {
+        echo "<div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
+    } else if ((!($id === "0")) && ($num_parents === 0)) {
+        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
+    } else {
+        // Get and display image, if any.
+        if (file_exists("../img/story/contents/" . $id . ".png")) {
+            echo "<img src='/img/story/contents/" . $id . ".png' alt='" . $title[0] . "'>\n";
+        }
+        echo "<div class='titleBoxText'>";
+
+        if ($num_parents === 1) {
+            while ($row = $parents->fetch_assoc()) {
+                $parent_title_query = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $parent_title = $mysqli->query($parent_title_query);
+                while ($new_row = $parent_title->fetch_assoc()) {
+                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $new_row["title"] . "</a></h3>";
+                }
+            }
+        } else if ($num_parents > 1) {
+            echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
+            while ($row = $parents->fetch_assoc()) {
+                $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                // ORDER BY chronology, title ASC
+                $result_title = $mysqli->query($sql_title);
+                while ($row_title = $result_title->fetch_assoc()) {
+                    $parentid = $row["parent_id"];
+                    echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
+                }
+            }
+            echo "<button onclick='carouselForward(this)'>⮞</button></div>";
         }
     }
-    return $data;
 }
+
+
+function sanitizeContributors($contributors_array)
+{
+    $exploded_contributors = array();
+    foreach ($contributors_array as $contributor) {
+        array_push($exploded_contributors, explode(",", $contributor));
+    }
+}
+
+
+function loadContentContributors($id)
+{
+    include("..//php/db_connect.php");
+
+    $contributors_query = "SELECT detailed_tag AS tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
+    $contributors = $mysqli->query($contributors_query);
+    $num_rows = mysqli_num_rows($contributors);
+    if ($num_rows == 1) {
+        while ($row = $contributors->fetch_assoc()) {
+            echo "<h3>" . $row["tag"] . "</h3>";
+        }
+    }
+    if ($num_rows > 1) {
+        echo "<h3>";
+        $contributors_array = array();
+        // Replace with implode.
+        while ($row = $contributors->fetch_assoc()) {
+            array_push($contributors_array, $row["tag"]);
+        }
+        echo implode(", ", $contributors_array) . "</h3>";
+    }
+}
+
+
+// This function loads the content for the .story section of a page.
+function loadContent($id, $v, $lang)
+{
+    include("..//php/db_connect.php");
+
+    // Determine if this content is divided into pages, and respond accordingly.
+    $pages_query = "SELECT COUNT(tag) AS tag_count FROM woh_tags WHERE id='$id' AND tag='pages'";
+    if (getData("tag_count", $pages_query)[0] > 0) {
+        echo "<section class='story pages'><section class='titleBox'>\n";
+    } else {
+        echo "<section class='story'><section class='titleBox'>\n";
+    }
+
+    // Get title (to be displayed later.)
+    $title_query = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\" LIMIT 1";
+    $title = getData("title", $title_query);
+
+    loadContentParents($id, $v, $title);
+
+    // Display title.
+    if (!($id === "0") && ($title[0] !== "")) {
+        echo "<h1>" . $title[0] . "</h1>";
+    }
+
+    // Get and display subtitle, if any.
+    $subtitle_query = "SELECT subtitle FROM woh_content WHERE id = \"" . $id . "\" AND content_version = \"" . $v . "\" AND content_language = \"" . $lang . "\"";
+    $subtitle = getData("subtitle", $subtitle_query);
+    if (!($id === "0") && ($subtitle[0] != "")) {
+        echo "<h2>" . $subtitle[0] . "</h2>";
+    }
+
+    loadContentContributors($id);
+    echo "</section>";
+
+    // Get and display content.
+    $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
+
+    // Display snippet in place of main if main empty (for parent works)?
+
+    $result = $mysqli->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        echo $row["main"];
+    }
+
+    echo "</section>";
+}
+
 
 
 function getDetails($id, $primeversion, $lang)
@@ -274,119 +424,6 @@ function addChildren($id, $lang, $v)
     }
 }
 
-
-function loadContent($id, $lang, $v)
-{
-    // This function is the most complicated, echoing the actuals contents of the page from the top (parent(s), title, author) down (content).
-    include("..//php/db_connect.php");
-
-    // DETERMINE IF PAGES.
-    $sql_pages = "SELECT COUNT(tag) AS tag_count FROM woh_tags WHERE id='$id' AND tag='pages'";
-    $pages = getData("tag_count", $sql_pages);
-    if ($pages[0] > 0) {
-        echo "<section class='story pages'>";
-    } else {
-        echo "<section class='story'>";
-    }
-
-    // GET PARENT(S), IF ANY, AND DISPLAY AT THE TOP OF <MAIN>
-    $sql = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
-
-    $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-
-    if ($id === "0") {
-        echo "<section class='titleBox'><div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
-    } else if ((!($id === "0")) && ($num_rows === 0)) {
-        echo "<section class='titleBox'><div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
-    } else if ($num_rows === 1) {
-        echo "<section class='titleBox'>";
-        // Get and display image.
-        if (file_exists("../img/story/contents/" . $id . ".png")) {
-            echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
-        }
-        while ($row = $result->fetch_assoc()) {
-            echo "<div class='titleBoxText'>";
-            $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
-            $result_title = $mysqli->query($sql_title);
-            while ($row_title = $result_title->fetch_assoc()) {
-                echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
-            }
-        }
-    } else if ($num_rows > 1) {
-        echo "<section class='titleBox'>";
-        // Get and display image.
-        if (file_exists("../img/story/contents/" . $id . ".png")) {
-            echo "<img src='/img/story/contents/" . $id . ".png' alt='img'>";
-        }
-        echo "<div class='titleBoxText'><div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
-        while ($row = $result->fetch_assoc()) {
-            $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
-            // ORDER BY chronology, title ASC
-            $result_title = $mysqli->query($sql_title);
-            while ($row_title = $result_title->fetch_assoc()) {
-                $parentid = $row["parent_id"];
-                echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
-            }
-        }
-        echo "<button onclick='carouselForward(this)'>⮞</button></div>";
-    }
-
-    // GET AND DISPLAY TITLE
-    $sql = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
-
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo "<h1>" . $row["title"] . "</h1>";
-    }
-
-    // GET AND DISPLAY SUBTITLE
-    $sql = "SELECT subtitle FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\"";
-
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        $subtitle = $row["subtitle"];
-        if ($subtitle != NULL) {
-            echo "<h2>" . $subtitle . "</h2>";
-        }
-    }
-
-    // GET AND DISPLAY CONTRIBUTORS
-    $sql = "SELECT detailed_tag AS tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
-
-    $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-    if ($num_rows == 1) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<h3>" . $row["tag"] . "</h3>";
-        }
-    }
-    if ($num_rows > 1) {
-        echo "<h3>";
-        $num_commas = $num_rows - 1;
-        while ($row = $result->fetch_assoc()) {
-            echo $row["tag"];
-            if ($num_commas > 0) {
-                echo ", ";
-                $num_commas--;
-            }
-        }
-        echo "</h3>";
-    }
-    echo "</section>";
-
-    // Get and display content.
-    $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
-
-    // Display snippet in place of main if main empty (for parent works)?
-
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo $row["main"];
-    }
-
-    echo "</section>";
-}
 
 
 function populateSettings()
@@ -512,7 +549,8 @@ function populateStatic($base_path)
 }
 
 
-function getLeaves($id) {
+function getLeaves($id)
+{
     include("..//php/db_connect.php");
 
     // Get full list of all leaf nodes in the tree.
@@ -521,7 +559,7 @@ function getLeaves($id) {
     $result_all_leaves = $mysqli->query($all_leaves_query);
 
     $all_leaves = array();
-    while($row_all_leaves = $result_all_leaves->fetch_assoc()) {
+    while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
         array_push($all_leaves, $row_all_leaves["child_id"]);
     }
 
@@ -534,7 +572,8 @@ function getLeaves($id) {
 
 
 // Recursive function to get all children of a given node, separating out the leaves.
-function getChildren($nodes, $leaves, $all_leaves) {
+function getChildren($nodes, $leaves, $all_leaves)
+{
     include("..//php/db_connect.php");
 
     $imploded_nodes = implode(",", $nodes);
@@ -542,7 +581,7 @@ function getChildren($nodes, $leaves, $all_leaves) {
     $result_children = $mysqli->query($sql_children);
 
     $nodes = array();
-    while($row_children = $result_children->fetch_assoc()) {
+    while ($row_children = $result_children->fetch_assoc()) {
         $child_id = $row_children["child_id"];
         if (in_array($child_id, $all_leaves) && !in_array($child_id, $leaves)) {
             array_push($leaves, $child_id);

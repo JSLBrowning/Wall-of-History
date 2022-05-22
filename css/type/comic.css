@@ -9,12 +9,12 @@ main img {
     padding-top: 0em;
 }
 
-main img:hover,
-main img:active {
+section.story img.slideshow:hover,
+section.story img.slideshow:active {
     transform: none;
 }
 
-main img:hover {
+.story img:hover {
     filter: brightness(1.0625);
     box-shadow: none;
 }

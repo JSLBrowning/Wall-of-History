@@ -154,10 +154,6 @@
     color: var(--front1);
 }
 
-.modal-content p:first-of-type {
-    margin-top: 1em;
-}
-
 .modal-content a,
 .modal-content a:visited {
     display: inline-block;
@@ -207,47 +203,8 @@
     font-size: 0.875em;
 }
 
-.close {
-    z-index: 10;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    text-align: center;
-    color: var(--front2);
-    font-size: 2em;
-    font-weight: bold;
-    padding: 4px 12px;
-    transition: 0.25s;
-}
-
-.modal-content-right .close {
-    right: unset;
-    left: 0px;
-    /* Maybe just make this normal text with the right alignment
-    (right alignment on right, left on left), so it doesn't
-    overlap with any of the text. */
-}
-
 .modal-content-right p {
     text-align: right;
-}
-
-.close:hover {
-    color: var(--front1);
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 2.125em;
-}
-
-.close:active {
-    color: var(--front3);
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 1.875em;
-}
-
-.modal-content-center .close {
-    opacity: 50%;
 }
 
 .modal-content {
@@ -257,6 +214,7 @@
 
 #modal-data {
     height: 100%;
+    width: 100%;
 }
 
 #modal-data img.slideshow {
@@ -294,4 +252,8 @@
     margin-top: 0.5em;
     overflow: scroll;
     max-height: calc(66.66% - 1em);
+}
+
+.modal-text section {
+    position: relative;
 }

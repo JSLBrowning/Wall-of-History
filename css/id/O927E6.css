@@ -1,7 +1,15 @@
+/*
 :root {
     --back1: #001303;
 
     --border: #003A09;
+}
+*/
+
+:root {
+    --back1: rgb(0, 8, 0);
+    --back2: rgb(0, 22, 0);
+    --border: rgb(0, 32, 0);
 }
 
 :root.light {

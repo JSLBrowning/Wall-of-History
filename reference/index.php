@@ -58,7 +58,6 @@
         <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
         <div id="navigationModal" class="modal">
             <div class="modal-content modal-content-left">
-                <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
                 <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
                 <p><a href="/read/">Contents</a></p>
                 <p><a href="/search/">Search</a></p>

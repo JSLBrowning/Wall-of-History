@@ -67,7 +67,7 @@
     <link rel='stylesheet' type='text/css' href='/css/test.css'>
     <?php
     // Pass in stack cookie.
-    addCSS($id, $lang, $v);
+    populateCSS($id, $lang, $v);
     ?>
 </head>
 
@@ -81,7 +81,7 @@
     <main>
         <article>
             <?php
-            loadContent($id, $lang, $v);
+            loadContent($id, $v, $lang);
             ?>
             <section class="structure">
                 <?php
@@ -103,7 +103,6 @@
             <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
             <div id="navigationModal" class="modal">
                 <div class="modal-content modal-content-left">
-                    <span class="close" id="navigationClose" onclick="toggleModal('navigationModal')">&times;</span>
                     <p>
                         <?php
                         if (count($_GET)) {
@@ -134,7 +133,6 @@
     <div id="myModal" class="modal">
         <!-- Modal Content -->
         <div class="modal-content modal-content-center">
-            <span class="close">&times;</span>
             <div id="modal-data"></div>
         </div>
     </div>
