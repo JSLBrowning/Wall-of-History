@@ -311,8 +311,20 @@ function findSelf() {
     return (result);
 }
 
+
+/* This function essentially determines if the current page is a leaf. */
+function findSelfAbsolute(id) {
+    let fullReadingOrder = localStorage.getItem("readingOrder:0");
+    if (fullReadingOrder.includes(id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 /* This function returns the indexes of the first and last selected pages in the active reading order. */
-function filteredSelf(readingOrder) {
+function getEndPoints(readingOrder) {
     let index;
     let returns = [];
     for (index = 0; index < readingOrder.length; index++) {
@@ -321,9 +333,9 @@ function filteredSelf(readingOrder) {
             returns.push(index);
         }
     }
-
     return ([returns[0], returns[returns.length - 1]]);
 }
+
 
 /* This function takes an ID, version, and language (optional) and jumps straight to that page. */
 async function goToChrono(combo) {
@@ -377,42 +389,58 @@ async function jumpToChrono() {
     }
 }
 
+
+function disambiguate() {
+    generateSelectionModal();
+}
+
+
 /* This function shows the relevant navigation buttons for a given page,
 relative to the active reading order. */
 function showButtonsChrono() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const currentID = urlParams.get('id');
+
     if (document.getElementById("backbutton") !== null) {
         let backButton = document.getElementById("backbutton");
+        let disambiguationButton = document.getElementById("disambiguationbutton");
         let forwardButton = document.getElementById("forwardbutton");
 
-        if (findSelf() != undefined) {
-            // Display save/load place buttons.
-            $(document.getElementsByClassName("savefile")[0]).slideDown("slow");
+        if (findSelfAbsolute(currentID)) {
+            if (sessionStorage.getItem("activeReadingOrder") == null) {
+                disambiguationButton.style.display = "block";
+                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+            } else {
+                // Display save/load place buttons.
+                $(document.getElementsByClassName("savefile")[0]).slideDown("slow");
 
-            // Display appropriate navigation buttons.
-            let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
-            let inners = filteredSelf(readingOrder);
+                // Display appropriate navigation buttons.
+                let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
+                let inners = getEndPoints(readingOrder);
 
-            /**
-             * There are five values that are important here:
-             * The first item in a reading order, the first active item in that reading order...
-             * ...the current place, the last active item, and the last active item.
-             * The functions below ensure that you can always navigate the active items.
-             * If you're within the "inner start" and "inner end," both nav buttons appear.
-             * If you're outside of that range, only one nav button will appear —
-             * — whichever one will get you closer to the active range.
-             */
-            if (findSelf() <= inners[0]) {
-                forwardButton.style.display = "block";
-                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-            }
-            if (findSelf() >= inners[1]) {
-                backButton.style.display = "block";
-                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-            }
-            if ((inners[0] < findSelf()) && (findSelf() < inners[1])) {
-                backButton.style.display = "block";
-                forwardButton.style.display = "block";
-                $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+                /**
+                 * There are five values that are important here:
+                 * The first item in a reading order, the first active item in that reading order...
+                 * ...the current place, the last active item, and the last active item.
+                 * The functions below ensure that you can always navigate the active items.
+                 * If you're within the "inner start" and "inner end," both nav buttons appear.
+                 * If you're outside of that range, only one nav button will appear —
+                 * — whichever one will get you closer to the active range.
+                 */
+                if (findSelf() <= inners[0]) {
+                    forwardButton.style.display = "block";
+                    $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+                }
+                if (findSelf() >= inners[1]) {
+                    backButton.style.display = "block";
+                    $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+                }
+                if ((inners[0] < findSelf()) && (findSelf() < inners[1])) {
+                    backButton.style.display = "block";
+                    forwardButton.style.display = "block";
+                    $(document.getElementsByClassName("nav")[0]).slideDown("slow");
+                }
             }
         } else {
             document.getElementsByClassName("savefile")[0].remove();

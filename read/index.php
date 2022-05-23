@@ -94,6 +94,7 @@
             </div>
             <div class="nav" style="display:none">
                 <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
+                <button type="navbutton" onclick="disambiguate()" id="disambiguationbutton" style="display:none">?</button>
                 <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
             </div>
         </article>
@@ -139,11 +140,12 @@
     <!-- jQuery -->
     <script src="/js/jquery/jquery-3.6.0.min.js"></script>
     <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <!-- Reading Order Drivers -->
+    <script src="/js/readingorders.js"></script>
     <!-- Core Site Drivers -->
     <script src="/js/main.js"></script>
     <!-- Reader Drivers -->
     <script src="/js/read.js"></script>
-    <script src="/js/readingorders.js"></script>
     <script src="/js/lineselection/initlines.js"></script>
     <script src="/js/slideshow.js"></script>
     <!-- Modal Drivers -->

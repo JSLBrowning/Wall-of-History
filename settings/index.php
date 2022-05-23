@@ -27,6 +27,7 @@ chooseColors();
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/css/settings.css">
     <title>Settings | Wall of History</title>
 </head>
 
@@ -35,15 +36,6 @@ chooseColors();
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
     <main>
-        <article>
-            <section class="story">
-                <h1>Settings</h1>
-                <?php
-                populateSettings();
-                ?>
-            </section>
-            <button id="submit">Submit</button>
-        </article>
         <aside>
             <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
             <!-- MAIN NAVIGATION MENU MODAL -->
@@ -72,6 +64,15 @@ chooseColors();
             <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
             <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
         </aside>
+        <article>
+            <section class="story">
+                <h1>Settings</h1>
+                <?php
+                populateSettings();
+                ?>
+            </section>
+            <button id="submit">Submit</button>
+        </article>
     </main>
     <!-- jQuery -->
     <script src="/js/jquery/jquery-3.6.0.min.js"></script>

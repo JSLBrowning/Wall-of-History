@@ -3,17 +3,17 @@ async function generateSelectionModal() {
     // Get the modal
     let modal = document.getElementById("myModal");
 
-    document.getElementById("modal-data").innerHTML = "<h2>Select a Reading Order</h2>";
+    document.getElementById("modal-data").innerHTML = "<h2>Select a Route</h2>";
     for (let key in localStorage) {
         if (key.includes("readingOrder")) {
             let id = key.split(":");
 
             if (id[1] == "0") {
                 // Change this to just go back to page you were on?
-                document.getElementById("modal-data").innerHTML += "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + id[1] + "\')\" id=\"" + id[1] + "\">BIONICLE</button>";
+                document.getElementById("modal-data").innerHTML += "<button class=\"disambigButton\" onclick=\"jumpToSelection(\'" + id[1] + "\')\" id=\"" + id[1] + "\">BIONICLE</button>";
             } else {
                 let title = await getTitle(id[1]);
-                document.getElementById("modal-data").innerHTML += "<button class=\"contentsButton\" onclick=\"jumpToSelection(\'" + id[1] + "\')\" id=\"" + id[1] + "\">" + title + "</button>";
+                document.getElementById("modal-data").innerHTML += "<button class=\"disambigButton\" onclick=\"jumpToSelection(\'" + id[1] + "\')\" id=\"" + id[1] + "\">" + title + "</button>";
             }
         }
     }

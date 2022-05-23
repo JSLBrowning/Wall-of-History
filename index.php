@@ -117,7 +117,6 @@
     <div id="myModal" class="modal">
             <!-- modal content -->
             <div class="modal-content modal-content-center">
-                <span class="close">&times;</span>
                 <div id="modal-data">
                     <p>No information is available at this time.</p>
                 </div>

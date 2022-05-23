@@ -216,7 +216,12 @@
 
 #cardGNO2P6 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
+    background-size: cover;
     border-color: #ff0401;
+}
+
+#cardWLHSQY {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/WLHSQY.png") center;
 }
 
 #card0J81JD {
@@ -241,13 +246,26 @@
 
 #cardXJDC9U {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/MoL.png") center;
-    border-color: goldenrod;
+    background-size: cover;
+    border-color: #594A37;
+}
+
+#cardE2PJ0R {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/movies/1/IMG_002.jpg") center;
+    background-size: cover;
+    border-color: #594A37;
 }
 
 #cardKQRMXG {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/KQRMXG.png") center;
-    background-size: contain;
+    background-size: cover;
     border-color: #b6cdd2;
+}
+
+#cardQU8PCV {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/QU8PCV.png") center;
+    background-size: cover;
+    border-color: #594A37;
 }
 
 /* TAGS FOR CONTENT CARDS */
@@ -458,7 +476,8 @@ aside {
 }
 
 aside button,
-aside a#downloadLink {
+aside a#downloadLink,
+#modal-data button.disambigButton {
     width: 92.5%;
     font-size: 0.9375em;
     border: none;
@@ -467,6 +486,10 @@ aside a#downloadLink {
     background-color: var(--back);
     text-transform: uppercase;
     letter-spacing: 0.1875em;
+}
+
+#modal-data button.disambigButton {
+    height: 4em;
 }
 
 aside a#downloadLink {
@@ -487,12 +510,14 @@ aside button.nocaps {
     text-transform: initial;
 }
 
-aside button:hover {
+aside button:hover,
+#modal-data button.disambigButton:hover {
     background-color: var(--back3);
     transform: none;
 }
 
-aside button:active {
+aside button:active,
+#modal-data button.disambigButton:active {
     background-color: var(--back2);
     box-shadow: none;
     transform: scale(0.95);

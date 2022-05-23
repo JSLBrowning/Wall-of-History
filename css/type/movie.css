@@ -1,4 +1,34 @@
 main {
-    width: 80%;
-    max-width: 960px;
+    max-width: 95%;
+}
+
+main article {
+    max-width: 1440px;
+}
+
+main article section.story {
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+}
+
+main article section.story section.titleBox img {
+    display: none;
+}
+
+main article section.story video {
+    margin-bottom: -0.5em;
+    padding: 0em;
+}
+
+main article section.story video[poster]{
+    object-fit: cover;
+}
+
+main article section.story video::cue {
+    font-family: 'Gill Sans Std';
+    font-weight: 900;
+}
+
+main aside {
+    min-width: 240px;
 }

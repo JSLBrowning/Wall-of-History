@@ -243,6 +243,9 @@ function sanitizeContributors($contributors_array)
     foreach ($contributors_array as $contributor) {
         array_push($exploded_contributors, explode(",", $contributor));
     }
+
+    $contributor_types = array_column($exploded_contributors, 0);
+    $unique_contributor_types = array_unique($contributor_types);
 }
 
 

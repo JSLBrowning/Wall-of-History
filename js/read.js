@@ -90,9 +90,7 @@ function carouselBack(button) {
 }
 
 function check() {
-    if (sessionStorage.getItem("activeReadingOrder") === null && Object.keys(localStorage).filter(name => name.includes('readingOrder')).length > 1) {
-        generateSelectionModal();
-    } else if (sessionStorage.getItem("activeReadingOrder") === null) {
+    if (sessionStorage.getItem("activeReadingOrder") === null && Object.keys(localStorage).filter(name => name.includes('readingOrder')).length == 1) {
         sessionStorage.setItem("activeReadingOrder", "0");
     }
 }
