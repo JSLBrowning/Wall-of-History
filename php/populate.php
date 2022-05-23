@@ -134,7 +134,24 @@ function populateCSS($id)
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows > 1) {
-        //
+        $options = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($options, $row["parent_id"]);
+        }
+
+        if (isset($_COOKIE["historyStack"])) {
+            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
+
+            foreach ($history as $value) {
+                if (in_array($value, $options)) {
+                    if (file_exists("..//css/id/" . $value . ".css")) {
+                        echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $value . ".css'>\n";
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
     } else if ($num_rows == 1) {
         while ($row = $result->fetch_assoc()) {
             if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
@@ -144,11 +161,33 @@ function populateCSS($id)
     }
 
     // Parent
+    // Add above disambiguation code to this.
+    // Also, update read.js line ~151.
     $sql = "SELECT parent_id FROM woh_web WHERE child_id ='" . $id . "';";
     $result = $mysqli->query($sql);
-    if (mysqli_num_rows($result) > 0) {
+    $num_rows = mysqli_num_rows($result);
+    if ($num_rows > 1) {
+        $options = array();
         while ($row = $result->fetch_assoc()) {
-            if (file_exists("../css/id/" . $row["parent_id"] . ".css")) {
+            array_push($options, $row["parent_id"]);
+        }
+
+        if (isset($_COOKIE["historyStack"])) {
+            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
+
+            foreach ($history as $value) {
+                if (in_array($value, $options)) {
+                    if (file_exists("..//css/id/" . $value . ".css")) {
+                        echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $value . ".css'>\n";
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
+    } else if ($num_rows == 1) {
+        while ($row = $result->fetch_assoc()) {
+            if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
                 echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
             }
         }

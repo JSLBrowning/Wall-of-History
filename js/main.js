@@ -407,6 +407,7 @@ function showButtonsChrono() {
         let disambiguationButton = document.getElementById("disambiguationbutton");
         let forwardButton = document.getElementById("forwardbutton");
 
+        // Why is this not working on that one Wall of History (BIONICLE.com) page?
         if (findSelfAbsolute(currentID)) {
             if (sessionStorage.getItem("activeReadingOrder") == null) {
                 disambiguationButton.style.display = "block";
