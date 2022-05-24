@@ -1,4 +1,4 @@
-$('input[type="checkbox"]').change(function(e) {
+$('input[type="checkbox"]').change(function (e) {
     var checked = $(this).prop("checked"),
         container = $(this).parent();
 
@@ -11,7 +11,7 @@ $('input[type="checkbox"]').change(function(e) {
         var parent = el.parent().parent(),
             all = true;
 
-        el.siblings().each(function() {
+        el.siblings().each(function () {
             let returnValue = all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
             return returnValue;
         });

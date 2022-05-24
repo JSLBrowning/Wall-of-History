@@ -475,6 +475,7 @@ aside {
     align-items: center;
 }
 
+aside form,
 aside button,
 aside a#downloadLink,
 #modal-data button.disambigButton {
@@ -486,6 +487,42 @@ aside a#downloadLink,
     background-color: var(--back);
     text-transform: uppercase;
     letter-spacing: 0.1875em;
+}
+
+aside form {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 1.5em;
+    max-height: 1.5em;
+    margin: 0.375em;
+}
+
+aside form input {
+    width: 75%;
+    max-width: 75%;
+    height: 22px;
+    background-color: var(--back3);
+    border: 1px solid var(--border);
+    border-radius: 0.25em;
+    border-top-right-radius: 0em;
+    border-bottom-right-radius: 0em;
+    padding-left: 0.5em;
+    color: var(--front2);
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
+    font-weight: bolder;
+}
+
+aside form button {
+    width: 25%;
+    max-width: 25%;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-left: 0px;
+    margin: auto;
+    border-radius: 0.25em;
+    border-top-left-radius: 0em;
+    border-bottom-left-radius: 0em;
 }
 
 #modal-data button.disambigButton {
@@ -534,8 +571,8 @@ aside p {
     margin: 0.25em;
 }
 
-aside hr {
-    margin: 0.5em -0.5em;
+aside div hr {
+    margin: 0.5em 0em;
     width: 100%;
 }
 
@@ -641,5 +678,16 @@ section.structure nav {
     html body main article,
     html body main aside {
         width: 95%;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    aside div {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    aside button.hideShow {
+        display: none;
     }
 }

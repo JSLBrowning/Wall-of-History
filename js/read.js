@@ -44,23 +44,6 @@ function swap(swappableID) {
 }
 
 
-function hideShow(button) {
-    let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
-    let texts = document.getElementById("modal-data").getElementsByClassName("showable");
-    let buttonIndex = Array.prototype.indexOf.call(buttons, button);
-    let currentStyles = window.getComputedStyle(texts[buttonIndex]);
-    if (currentStyles.display === "none" || currentStyles.display === "") {
-        $(texts[buttonIndex]).slideDown();
-        let oldText = button.innerText;
-        button.innerText = oldText.replace("⮞", "⮟");
-    } else {
-        $(texts[buttonIndex]).slideUp();
-        let oldText = button.innerText;
-        button.innerText = oldText.replace("⮟", "⮞");
-    }
-}
-
-
 // These can be tested on “The Legend of Mata Nui,” which has three parents.
 // Make these update CSS where applicable: https://stackoverflow.com/questions/574944/how-to-load-up-css-files-using-javascript
 function carouselForward(button) {

@@ -94,7 +94,7 @@
             </div>
             <div class="nav" style="display:none">
                 <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
-                <button type="navbutton" onclick="disambiguate()" id="disambiguationbutton" style="display:none">?</button>
+                <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
                 <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
             </div>
         </article>

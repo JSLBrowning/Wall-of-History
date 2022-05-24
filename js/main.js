@@ -35,6 +35,43 @@ function loadJSON(callback) {
 }
 
 
+function hideShow(button) {
+    if (button.parentNode.tagName == "ASIDE") {
+        let nextSibling = button.nextElementSibling;
+        let currentStyles = window.getComputedStyle(nextSibling);
+        if (currentStyles.display === "none" || currentStyles.display === "") {
+            while(nextSibling) {
+                $(nextSibling).slideDown();
+                nextSibling = nextSibling.nextElementSibling;
+            }
+            let oldText = button.innerText;
+            button.innerText = oldText.replace("⮞", "⮟");
+        } else {
+            while(nextSibling) {
+                $(nextSibling).slideUp();
+                nextSibling = nextSibling.nextElementSibling;
+            }
+            let oldText = button.innerText;
+            button.innerText = oldText.replace("⮟", "⮞");
+        }
+    } else {
+        let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
+        let texts = document.getElementById("modal-data").getElementsByClassName("showable");
+        let buttonIndex = Array.prototype.indexOf.call(buttons, button);
+        let currentStyles = window.getComputedStyle(texts[buttonIndex]);
+        if (currentStyles.display === "none" || currentStyles.display === "") {
+            $(texts[buttonIndex]).slideDown();
+            let oldText = button.innerText;
+            button.innerText = oldText.replace("⮞", "⮟");
+        } else {
+            $(texts[buttonIndex]).slideUp();
+            let oldText = button.innerText;
+            button.innerText = oldText.replace("⮟", "⮞");
+        }
+    }
+}
+
+
 /**
  * INITIALIZATION FUNCTIONS
  */
@@ -94,6 +131,7 @@ async function checkLanguage() {
 }
 
 
+// This function ensures that the color scheme applied to the page is correct (though this should now be handled serverside).
 async function checkColorScheme() {
     if (localStorage.getItem("colorScheme") === null) {
         if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
@@ -138,6 +176,7 @@ async function setReadingOrder(newReadingOrder) {
 }
 
 
+// This function checks if the default reading order is set (and if not, sets it).
 async function checkReadingOrder() {
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
         loadJSON(async function (response) {
@@ -155,6 +194,8 @@ async function checkReadingOrder() {
     }
 }
 
+
+// If the user only has one reading order in their storage, this function sets it to active no matter what.
 async function activateReadingOrder() {
     if (sessionStorage.getItem("activeReadingOrder") === null) {
         const keyArray = Object.keys(localStorage);
@@ -166,6 +207,7 @@ async function activateReadingOrder() {
 }
 
 
+// This function sets the default spoiler level.
 async function checkSpoilerLevel() {
     if (localStorage.getItem("spoilerLevel") === null) {
         localStorage.setItem("spoilerLevel", "1");
@@ -173,6 +215,7 @@ async function checkSpoilerLevel() {
 }
 
 
+// This function loads the full list of reference terms from the database and stores it in localStorage.
 async function checkReferenceTerms() {
     const query = "SELECT GROUP_CONCAT(DISTINCT title SEPARATOR ',') AS titles FROM reference_titles";
 
@@ -189,6 +232,7 @@ async function checkReferenceTerms() {
 }
 
 
+// This function sets the default font size.
 async function checkFontSize() {
     if (localStorage.getItem("fontSize") === null) {
         localStorage.setItem("fontSize", "normal");
@@ -196,13 +240,15 @@ async function checkFontSize() {
 }
 
 
+// This function sets the site version.
 async function checkVersion() {
-    if (localStorage.getItem("version") != "1.0") {
-        localStorage.setItem("version", "1.0");
+    if (localStorage.getItem("version") != "1.1") {
+        localStorage.setItem("version", "1.1");
     }
 }
 
 
+// If the user has all the data in their storage to run the reader page, this function activates the navigation button.
 async function activateNavigation() {
     let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
     for (let i = 0; i < homepageReadButtons.length; i++) {
@@ -212,6 +258,7 @@ async function activateNavigation() {
 }
 
 
+// Initialization function which runs all the functions above.
 async function initialize() {
     await checkReadingMode();
     await checkLanguage();
@@ -228,6 +275,7 @@ async function initialize() {
 initialize();
 
 
+// Resets the user's local storage data to default values.
 async function resetReader() {
     localStorage.clear();
     let success = await initialize();
@@ -244,21 +292,14 @@ function errorMessage(message) {
 }
 
 
-function chooseLanguageOnLoad() {
-    let full = localStorage.getItem("languageList").split(",");
-    let available = document.getElementsByTagName("section");
+/**
+ * END INITIALIZATION FUNCTIONS
+ */
 
-    if (available.length >= 1) {
-        let a = []
-        for (i = 0; i < available.length; i++) {
-            a.push(available[i].lang);
-        }
 
-        let intersection = full.filter(x => a.includes(x));
-
-        $("section:lang(" + intersection[0] + ")").css("display", "block");
-    }
-}
+/***************************
+ * END UNIVERSAL FUNCTIONS *
+ ***************************/
 
 
 /*****************************
@@ -266,6 +307,7 @@ function chooseLanguageOnLoad() {
  *****************************/
 
 
+// This function returns the best language available for a given story entry, based on the user's language preferences.
 function getOptimalLanguage(combo) {
     return new Promise(resolve => {
         let languageList = localStorage.getItem("languageList").split(",");
@@ -292,9 +334,15 @@ function getOptimalLanguage(combo) {
 }
 
 
-/***************************************************************************
- * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS (WALL OF HISTORY VERSIONS) *
- ***************************************************************************/
+/*********************************
+ * END READER NAVIGATION HELPERS *
+ *********************************/
+
+
+/************************************************
+ * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS *
+ ************************************************/
+
 
 /* This function finds the index of the current page in the active reading order. */
 function findSelf() {
@@ -312,7 +360,7 @@ function findSelf() {
 }
 
 
-/* This function essentially determines if the current page is a leaf. */
+/* This function essentially determines if the current page is a leaf (i.e., a page on which the navigation buttons /might/ appear). */
 function findSelfAbsolute(id) {
     let fullReadingOrder = localStorage.getItem("readingOrder:0");
     if (fullReadingOrder.includes(id)) {
@@ -337,7 +385,7 @@ function getEndPoints(readingOrder) {
 }
 
 
-/* This function takes an ID, version, and language (optional) and jumps straight to that page. */
+/* This function takes an ID, version (optional, but highly encouraged), and language (optional), and jumps straight to that page. */
 async function goToChrono(combo) {
     target = combo.split(".");
     if (target.length == 1) {
@@ -360,6 +408,7 @@ async function goToChrono(combo) {
         window.location.href = "/";
     }
 }
+
 
 /* This function attempts to jump the user back to their most recent spot,
 prompting them to select a reading order if necessary. */
@@ -390,13 +439,7 @@ async function jumpToChrono() {
 }
 
 
-function disambiguate() {
-    generateSelectionModal();
-}
-
-
-/* This function shows the relevant navigation buttons for a given page,
-relative to the active reading order. */
+/* This function shows the relevant navigation buttons for a given page, relative to the active reading order. */
 function showButtonsChrono() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -464,6 +507,7 @@ function savePlaceChrono() {
     }
 }
 
+
 /* This function attempts to jump the user back to their current saved place. */
 function loadPlaceChrono() {
     if (localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder")) === null) {
@@ -472,6 +516,7 @@ function loadPlaceChrono() {
         window.location.href = localStorage.getItem("savePlace:" + sessionStorage.getItem("activeReadingOrder"));
     }
 }
+
 
 /* This function navigates the user to the previous selected page in the active reading order. */
 async function goBackChrono() {
@@ -486,6 +531,7 @@ async function goBackChrono() {
     }
 }
 
+
 /* This function navigates the user to the next selected page in the active reading order. */
 async function goForwardChrono() {
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
@@ -498,6 +544,7 @@ async function goForwardChrono() {
         }
     }
 }
+
 
 /* Helper function for readAsStandalone (interfaces with necessary backend code). */
 function readAsStandaloneSetup(id) {
@@ -513,7 +560,8 @@ function readAsStandaloneSetup(id) {
     });
 }
 
-/* Calls readAsStandaloneSetup(), sets necessary localStorage variables, and jumps the user to the first page. */
+
+/* Calls readAsStandaloneSetup(), sets necessary localStorage variables, and jumps the user to the first page of the selected story. */
 async function readAsStandalone() {
     let currentID = document.getElementById("downloadMarker").innerHTML;
     let newOrder = await readAsStandaloneSetup(currentID);
@@ -522,14 +570,16 @@ async function readAsStandalone() {
     jumpTo();
 }
 
+
 /****************************************************
  * END CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS *
  ****************************************************/
 
 
-/*****************************************************************************
- * SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS (MYTHS AND LEGACY VERSIONS) *
- *****************************************************************************/
+/*************************************************
+ * SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
+ *************************************************/
+
 
 /* This function gets an array of the siblings of the current page. */
 function getArrayTree() {
@@ -548,6 +598,7 @@ function getArrayTree() {
     });
 }
 
+
 /* This function finds the index of the current page in the aforementioned array. */
 async function findSelfTree() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -556,6 +607,7 @@ async function findSelfTree() {
 
     return siblings.indexOf(id);
 }
+
 
 /* This function shows the relevant navigation buttons for a given page. */
 async function showButtonsTree() {
@@ -584,12 +636,14 @@ async function showButtonsTree() {
     }
 }
 
+
 /* This function saves the user’s place.
 TO-DO: Make this parent-specific, and add a selector if the load button is used on the homepage. */
 function savePlaceTree() {
     localStorage.setItem("MythsandLegacySavePlace", window.location);
     alert("Your place was saved successfully.");
 }
+
 
 /* This function attempts to jump the user back to their most recent spot.
 TO-DO: Make this parent-specific, and add a selector is the load button is used on the homepage.
@@ -602,6 +656,7 @@ function jumpToTree() {
     }
 }
 
+
 /* This function attempts to jump the user back to their current saved place.
 TO-DO: Make this parent-specific, and add a selector is the load button is used on the homepage. */
 function loadPlaceTree() {
@@ -611,6 +666,7 @@ function loadPlaceTree() {
         window.location.href = localStorage.getItem("MythsandLegacySavePlace");
     }
 }
+
 
 /* This function navigates the user to the previous selected page in the current array. */
 async function goBackTree() {
@@ -622,6 +678,7 @@ async function goBackTree() {
     window.location.href = "/read/?id=" + siblings[position - 1];
 }
 
+
 /* This function navigates the user to the next selected page in the current array. */
 async function goForwardTree() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -632,6 +689,7 @@ async function goForwardTree() {
     window.location.href = "/read/?id=" + siblings[position + 1];
 }
 
+
 /*****************************************************
  * END SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
  *****************************************************/
@@ -640,6 +698,7 @@ async function goForwardTree() {
 /********************
  * MASTER FUNCTIONS *
  ********************/
+
 
 function goTo(combo) {
     if (localStorage.getItem("readingMode") == "chronology") {
@@ -707,6 +766,7 @@ function showButtons() {
  * IMAGE FUNCTIONS *
  *******************/
 
+
 let images = document.querySelectorAll(".story > img, .story > section > img, #modal-data > img");
 
 // Will need to do all this each time the modal loads.
@@ -735,7 +795,9 @@ for (var i = 0; i < images.length; i++) {
 
 function closeImage() {
     $(".zoom").fadeOut("fast");
-    setTimeout(() => { $(".zoom").remove(); }, 200);
+    setTimeout(() => {
+        $(".zoom").remove();
+    }, 200);
 }
 
 window.onclick = function (event) {
