@@ -595,21 +595,33 @@ function getLeaves($id)
 {
     include("..//php/db_connect.php");
 
-    // Get full list of all leaf nodes in the tree.
-    // Note that the chronology value is necessary to ensure that the ultimate output is ordered "depth blind" — i.e., leaves at a depth of one will not float to the top, ahead of leaves at a depth of two with a lower chronology.
-    $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
-    $result_all_leaves = $mysqli->query($all_leaves_query);
+    if ($id == "0") {
+        $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
+        $result_all_leaves = $mysqli->query($all_leaves_query);
 
-    $all_leaves = array();
-    while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-        array_push($all_leaves, $row_all_leaves["child_id"]);
+        $all_leaves = array();
+        while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
+            array_push($all_leaves, $row_all_leaves["child_id"]);
+        }
+        
+        return "'" . implode('\', \'', $all_leaves) . "'";
+    } else {
+        // Get full list of all leaf nodes in the tree.
+        // Note that the chronology value is necessary to ensure that the ultimate output is ordered "depth blind" — i.e., leaves at a depth of one will not float to the top, ahead of leaves at a depth of two with a lower chronology.
+        $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
+        $result_all_leaves = $mysqli->query($all_leaves_query);
+
+        $all_leaves = array();
+        while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
+            array_push($all_leaves, $row_all_leaves["child_id"]);
+        }
+
+        $nodes = array("\"" . $id . "\"");
+        $leaves = array();
+        $descendant_leaves = getChildren($nodes, $leaves, $all_leaves);
+        // array_intersect() is necessary for aforementioned sorting by chronology.
+        return "'" . implode('\', \'', array_intersect($all_leaves, $descendant_leaves)) . "'";
     }
-
-    $nodes = array("\"" . $id . "\"");
-    $leaves = array();
-    $descendant_leaves = getChildren($nodes, $leaves, $all_leaves);
-    // array_intersect() is necessary for aforementioned sorting by chronology.
-    return "'" . implode('\', \'', array_intersect($all_leaves, $descendant_leaves)) . "'";
 }
 
 

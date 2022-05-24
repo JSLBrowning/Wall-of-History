@@ -37,7 +37,7 @@ function getDetailsAside($id, $lang, $v) {
 
     $words_query = "SELECT word_count FROM woh_content WHERE id='$id' AND content_version='$v' AND content_language='$lang'";
     $words = getDataAside("word_count", $words_query);
-    if (!is_null($words[0])) {
+    if (isset($words[0])) {
         echo "<p>Word Count: " . $words[0] . "</p>\n";
         $successes++;
     } else {
@@ -150,11 +150,13 @@ function getDownload($id, $lang) {
     include("..//php/db_connect.php");
 
     $download_query = "SELECT title FROM woh_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
-    $download_title = getDataAside("title", $download_query)[0];
+    $download_title = getDataAside("title", $download_query);
 
-    if (file_exists("../doc/downloads/" . $id . ".zip")) {
-        echo "<a id='downloadLink' href='/doc/downloads/$id.zip' download='$download_title' target='_blank'><button class='small' id='downloadButton'>Download</button></a>\n";
-        echo "<hr>\n";
+    if (isset($download_title[0])) {
+        if (file_exists("../doc/downloads/" . $id . ".zip")) {
+            echo "<a id='downloadLink' href='/doc/downloads/$id.zip' download='" . $download_title[0] . "' target='_blank'><button class='small' id='downloadButton'>Download</button></a>\n";
+            echo "<hr>\n";
+        }
     }
 }
 

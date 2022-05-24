@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php
+include("..//php/populate.php");
+chooseColors();
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -26,39 +29,17 @@
     <link rel="stylesheet" type="text/css" href="/css/read.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/about.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
     <title>About | Wall of History</title>
 </head>
 
 <body>
     <header>
-        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405"
-            style="cursor: pointer;" onclick="window.location.href='/'">
+        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
-    <aside>
-        <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-        <!-- MAIN NAVIGATION MENU MODAL -->
-        <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
-        <div id="navigationModal" class="modal">
-            <div class="modal-content modal-content-left">
-                <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
-                <p><a href="/read/">Contents</a></p>
-                <p><a href="/reference/">Reference</a></p>
-                <p><a href="/search/">Search</a></p>
-                <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                <p><a href="/contact/">Contact</a></p>
-            </div>
-        </div>
-        <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-        <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
-        <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-        <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-        <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
-    </aside>
     <main>
         <article>
-            <img src="https://wallofhistory.com/img/Profile%20Picture.png" alt="Wall of History logo"
-                title="Wall of History">
+            <img src="https://wallofhistory.com/img/Profile%20Picture.png" alt="Wall of History logo" title="Wall of History">
             <h1>About BIONICLE</h1>
             <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story
                 behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama,
@@ -74,25 +55,51 @@
                 through our <a href="https://linktr.ee/WallofHistory">Linktree</a>.</p>
             <h2>Our History</h2>
             <p>Inspired by multimedia web comics like <em>Homestuck</em>, the earliest version of Wall of History began
-                development on October 1<sup>st</sup>, 2017, with a fan transcription of <a class="nonblock"
-                    href="/read/?id=3ab89c"><em>BIONICLE Chronicles #1: Tale of the Toa</em></a>.
+                development on October 1<sup>st</sup>, 2017, with a fan transcription of <a class="nonblock" href="/read/?id=3ab89c"><em>BIONICLE Chronicles #1: Tale of the Toa</em></a>.
                 The earliest build of the website went live on February 23<span class="superscript">rd</span>, 2019, at
                 about 7:00 AM UTC, and regular content updates continued until July of that same year.</p>
-            <p>To learn more about our history, check out <a class="nonblock"
-                    href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of
+            <p>To learn more about our history, check out <a class="nonblock" href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of
                     History”</a> on MaskOfDestiny.</p>
             <p class="footer">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO
                 Group.</p>
         </article>
         <aside>
-            <a class="twitter-timeline" data-height="500" data-theme="dark"
-                href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
+            <!-- MAIN NAVIGATION MENU MODAL -->
+            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
+            <div id="navigationModal" class="modal">
+                <div class="modal-content modal-content-left">
+                    <p>
+                        <?php
+                        if (count($_GET)) {
+                            echo "<a href=\"/read/\">Contents</a>";
+                        } else {
+                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
+                        }
+                        ?>
+                    </p>
+                    <p><a href="/reference/">Reference</a></p>
+                    <p><a href="/search/">Search</a></p>
+                    <p><a href="/about/">About</a></p>
+                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
+                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
+                    <p><a href="/contact/">Contact</a></p>
+                </div>
+            </div>
+            <button onclick="window.location.href='/settings/';">&#9881; Settings</button>
             <hr>
-            <iframe src="https://discord.com/widget?id=578079637356150785&theme=dark" width="350" height="500"
-                allowtransparency="true" frameborder="0"
-                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
         </aside>
+        <!--
+            <aside>
+                <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <hr>
+                <iframe src="https://discord.com/widget?id=578079637356150785&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </aside>
+        -->
     </main>
     <!-- jQuery -->
     <script src="js/jquery/jquery-3.6.0.min.js"></script>

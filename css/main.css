@@ -839,10 +839,17 @@ del {
     transform: scale(0.9375);
 }
 
+#modal-data .hideShow:hover {
+    transform: scale(1.015625);
+}
+
+#modal-data .hideShow:active {
+    transform: scale(0.984375);
+}
+
 #modal-data .hideShow {
     margin: 0.5em auto;
-    border-top: none;
-    border-bottom: 1px solid var(--border);
+    border: none;
     padding: 0em 1em;
     height: 1.5em;
 }

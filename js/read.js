@@ -51,8 +51,12 @@ function hideShow(button) {
     let currentStyles = window.getComputedStyle(texts[buttonIndex]);
     if (currentStyles.display === "none" || currentStyles.display === "") {
         $(texts[buttonIndex]).slideDown();
+        let oldText = button.innerText;
+        button.innerText = oldText.replace("⮞", "⮟");
     } else {
         $(texts[buttonIndex]).slideUp();
+        let oldText = button.innerText;
+        button.innerText = oldText.replace("⮟", "⮞");
     }
 }
 
