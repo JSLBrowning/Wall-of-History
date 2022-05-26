@@ -33,3 +33,10 @@ body {
     background-attachment: fixed;
     padding-bottom: 4em;
 }
+
+
+@media only screen and (max-width: 720px) {
+    .titleBox {
+        background: linear-gradient(90deg, var(--back2), rgba(0, 22, 0, 0.75)), url("/img/story/contents/O927E6.png") 50% 25%;
+    }
+}

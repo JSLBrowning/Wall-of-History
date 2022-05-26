@@ -65,6 +65,7 @@
     <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <link rel='stylesheet' type='text/css' href='/css/test.css'>
+    <link rel='stylesheet' type='text/css' href='/css/cards.css'>
     <?php
     // Pass in stack cookie.
     populateCSS($id, $lang, $v);
@@ -93,41 +94,27 @@
                 <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
             </div>
             <div class="nav" style="display:none">
-                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">←</button>
+                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">⮜</button>
                 <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
-                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">→</button>
+                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">⮞</button>
             </div>
         </article>
+
         <aside>
-            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-            <!-- MAIN NAVIGATION MENU MODAL -->
-            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
-            <div id="navigationModal" class="modal">
-                <div class="modal-content modal-content-left">
-                    <p>
-                        <?php
-                        if (count($_GET)) {
-                            echo "<a href=\"/read/\">Contents</a>";
-                        } else {
-                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
-                        }
-                        ?>
-                    </p>
-                    <p><a href="/reference/">Reference</a></p>
-                    <p><a href="/search/">Search</a></p>
-                    <p><a href="/about/">About</a></p>
-                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                    <p><a href="/contact/">Contact</a></p>
-                </div>
+            <button class="hideShow" onclick="hideShow(this)"><strong>⮟ </strong>Main Menu</button>
+            <div class="asideMain">
+                <form action="/search/">
+                    <input type="text" required="required" placeholder="Search…" name="q">
+                    <button type="submit">🔎︎</button>
+                </form>
+                <hr>
+                <?php
+                    populateAside($id, $lang, $v);
+                ?>
+                <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+                <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+                <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
             </div>
-            <hr>
-            <?php
-            populateAside($id, $lang, $v);
-            ?>
-            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
-            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
-            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
         </aside>
     </main>
     <!-- Modal -->

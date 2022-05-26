@@ -1,11 +1,10 @@
-html body main {
-    width: 100%;
-    display: flex;
-    flex-flow: row;
+@media screen and (min-width: 720px) {
+    html body main article {
+        width: calc(95% - 240px);
+    }
 }
 
 html body main article {
-    width: calc(95% - 240px);
     max-width: 1280px;
     padding-bottom: 0.5em;
     background-color: var(--back2);
@@ -15,11 +14,6 @@ html body main article {
     overflow: hidden;
 }
 
-html body main article p {
-    margin: 0em;
-    padding-left: 0em;
-    padding-right: 0em;
-}
 
 html body main aside {
     min-width: 240px;
@@ -27,6 +21,18 @@ html body main aside {
 
 main video {
     padding: 0em;
+}
+
+main p {
+    text-align: center;
+    letter-spacing: .0625em;
+    margin: .75em 1.5em;
+    width: calc(100% - 3em);
+}
+
+main hr {
+    margin-top: 1.5em;
+    margin-bottom: 2em;
 }
 
 .homepageReadButton:disabled,
@@ -45,59 +51,48 @@ main video {
     box-shadow: var(--outershadow);
 }
 
-.social a img {
+.social a {
     transition: all .2s ease-in-out;
 }
 
-.social a img:hover {
+.social a:hover {
     transform: scale(1.25);
     box-shadow: none;
 }
 
-.social a img:active {
+.social a:active {
     transform: scale(0.975);
     opacity: 50%;
     box-shadow: none;
 }
 
-@media only screen and (max-width: 960px) {
-    aside{
-        /* REMOVE PREVIOUS SETTINGS */
-        position: fixed;
-        z-index: 20;
-        top: auto;
-        
-        right: auto;
+#indeximg {
+    margin: 0px 0px -18px 0px;
+}
 
-        /* NEW SETTINGS */
-        bottom: 0px;
-        width: 100%;
-        margin: 0em;
-        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
-        flex-direction: row;
-        justify-content: space-between;
-    }
+.social {
+    width: 33.33%;
+    flex-direction: row;
+    margin: 1em auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
 
-    aside button {
-        margin: 0em;
-        width: 20%;
-        border-radius: 0px;
-        border-left: 0px;
-        border-bottom: 0px;
-        box-shadow: none;
-    }
 
-    aside button:last-of-type {
-        border-right: 0px;
-    }
+.social a {
+    width: 2em;
+    height: 2em;
+}
 
-    aside button:hover {
-        transform: none;
-        background-color: var(--back3);
-    }
+.social img {
+    width: 1.5em;
+    height: 1.5em;
+    margin: .25em;
+}
 
-    aside button:active {
-        transform: none;
-        background-color: var(--back1);
-    }
+
+nav button {
+    font-weight: 900;
+    letter-spacing: .125em;
 }

@@ -1,3 +1,8 @@
+/********************
+ * COLORS AND FONTS *
+ ********************/
+
+
 :root {
     --back1: #080808;
     /* RGB08, drop shadow */
@@ -19,6 +24,7 @@
     --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
+
 :root.light {
     --front1: #080808;
     --front2: #161616;
@@ -34,38 +40,41 @@
     --innershadow: 3px 3px 6px var(--back1), inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
 }
 
+
 :root.smallest {
     --pfontsize: 0.75em;
 }
+
 
 :root.smaller {
     --pfontsize: 0.875em;
 }
 
+
 :root.small {
     --pfontsize: 1em;
 }
+
 
 :root {
     --pfontsize: 1.125em;
 }
 
+
 :root.big {
     --pfontsize: 1.25em;
 }
+
 
 :root.bigger {
     --pfontsize: 1.375em;
 }
 
+
 :root.biggest {
     --pfontsize: 1.5em;
 }
 
-* {
-    padding: 0px;
-    margin: 0px;
-}
 
 @font-face {
     font-family: 'TradeMarker';
@@ -73,10 +82,29 @@
     font-weight: bold;
 }
 
+
 @font-face {
     font-family: 'Gill Sans Std';
     src: url('../../fonts/GillSansStd-Light.woff2') format('woff2'), url('../../fonts/GillSansStd-Light.woff') format('woff');
 }
+
+
+/************************
+ * END COLORS AND FONTS *
+ ************************/
+
+
+/***************
+ * CORE STYLES *
+ ***************/
+
+
+* {
+    padding: 0em;
+    margin: 0em;
+    color: var(--front1);
+}
+
 
 body {
     background: url("/img/bgl.png") left no-repeat,
@@ -84,8 +112,27 @@ body {
         var(--back2);
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
-    padding-bottom: 4em;
+    padding-bottom: 3.5em;
 }
+
+
+header,
+main {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+
+    font-family: 'Gill Sans Std';
+    font-style: normal;
+    line-height: 1.5;
+}
+
+
+header {
+    margin: 0.675em auto;
+    width: 100%;
+}
+
 
 img {
     display: block;
@@ -93,46 +140,41 @@ img {
     margin-right: auto;
 }
 
-header,
-main {
-    position: relative;
-    background: var(--back2);
-    overflow: hidden;
-    color: var(--front1);
-    font-family: 'Gill Sans Std';
-    font-style: normal;
-    line-height: 1.5;
-    display: flex;
-    flex-flow: row nowrap;
-}
-
-header {
-    margin: 0.675em auto;
-    width: 100%;
-    background: none;
-}
 
 header img {
     transition: all .2s ease-in-out;
 }
 
+
 header img:hover {
     transform: scale(1.03125);
 }
+
 
 header img:active {
     transform: scale(0.9875);
     filter: brightness(87.5%);
 }
 
+
 main {
-    margin: 1em auto;
-    padding: 0.5em 0px;
+    margin: auto;
+    padding: .5em;
+
+    gap: 1em;
+    justify-content: center;
+    align-items: flex-start;
+
     width: 100%;
-    max-width: 100vw;
+    max-width: calc(100% - 1em);
+
+    background: none;
+    border: none;
+    box-shadow: none;
 }
 
-main h1,
+
+h1,
 h2,
 h3,
 h4 {
@@ -140,91 +182,75 @@ h4 {
     line-height: 1em;
     font-family: 'TradeMarker';
     font-weight: bold;
-    color: var(--front1);
     letter-spacing: 0.125em;
 }
-
-/* MULTIPARENT CAROUSEL */
-.multiparents {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    min-height: 2em;
-}
-
-.multiparents button {
-    margin: 0em;
-    width: 15%;
-    border: 0px;
-    box-shadow: none;
-}
-
-main .multiparents h3 {
-    margin: 0.5em;
-    width: 70%;
-    display: none;
-    margin: 0em;
-}
-
-main .multiparents h3:first-of-type {
-    display: block;
-}
-
-/* /CAROUSEL */
 
 
 main h1 {
     font-size: 2.5em;
 }
 
+
 main h2 {
     font-size: 2em;
 }
+
 
 main h3 {
     font-size: 1.25em;
 }
 
+
+h2 a,
+h3 a {
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+
 main h3 a:active {
     font-size: 0.98125em;
 }
 
-audio {
-    width: 100%;
-}
 
 main p {
-    margin-right: 0.25em;
-    padding: 0.5em;
     font-size: var(--pfontsize);
     text-align: justify;
     text-justify: inter-word;
-    width: 100%;
+    margin: 0.5em;
+    width: calc(100% - 1em);
 }
+
+
+main p a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
 
 main ul {
     list-style: none;
     margin: 0.5em;
 }
 
-#sortable li {
-    margin: 0.25em;
-    background-color: var(--back2);
+
+button {
+    display: inline-block;
+    margin: 0.5em 1em;
+
     border: 1px solid var(--border);
-    border-radius: 0.25em;
-    padding: 0em 0.25em;
-    display: flex;
-    cursor: grab;
+    border-radius: 0.375em;
+    border-left: none;
+    border-right: none;
+
+    background: var(--back2);
+    box-shadow: var(--outershadow);
+    cursor: pointer;
+    font-family: 'Gill Sans Std';
+    transition: all .2s ease-in-out;
 }
 
-#sortable li label {
-    cursor: grab;
-    user-select: none;
-}
-
-#sortable li:hover {
-    background-color: var(--back3);
-}
 
 label {
     display: inline-block;
@@ -235,42 +261,355 @@ label {
     cursor: pointer;
 }
 
+
 label input {
     margin-right: 0.25em;
 }
 
-main a,
-.modal-content a {
-    color: var(--front1);
-}
 
-main a:hover,
-.modal-content a:hover {
+a:hover {
     color: var(--front2);
 }
 
-main a:active,
-.modal-content a:active {
+
+a:active {
     color: var(--front3);
 }
 
-main a:visited,
-.modal-content a:visited {
+
+a:visited {
     color: var(--front1);
 }
 
-main img,
-main video,
-main iframe {
+
+video {
+    max-width: 100%;
+}
+
+
+hr {
+    margin: .5em 0em .5em 0em;
+    border: 0px;
+    border-top: 1px solid var(--border);
+}
+
+
+article {
+    max-width: 720px;
+}
+
+
+section.story,
+aside,
+section.titleBox {
+    position: relative;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: .5em;
+    box-shadow: var(--outershadow);
+}
+
+
+/*******************
+ * END CORE STYLES *
+ *******************/
+
+
+/****************
+ * ASIDE STYLES *
+ ****************/
+
+ aside button.hideShow {
+     display: none;
+ }
+
+
+aside {
+    z-index: 1;
+    min-width: 240px;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .25em 0;
+}
+
+aside button {
+    width: 2em;
+    height: 2em;
+    border-radius: .5em;
+    background: var(--back2);
+    box-shadow: var(--outershadow);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
+    font-size: 1.5em;
+    font-weight: bolder;
+    z-index: 1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    margin: .25em;
+    padding: none;
+}
+
+aside button:focus {
+    outline: 0;
+}
+
+aside a#downloadLink {
+    all: unset;
+    width: 92.5%;
+}
+
+aside a#downloadLink button.small {
+    width: calc(100%-0.5em);
+}
+
+aside button.small {
+    font-size: .75em;
+    height: 20px;
+}
+
+aside button.nocaps {
+    text-transform: initial;
+}
+
+aside p {
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: .75em;
+    letter-spacing: .125em;
+    width: 92.5%;
+    margin: .25em;
+    padding: 0;
+}
+
+aside hr {
+    width: 100%;
+    margin: .5em -.5em;
+}
+
+aside fieldset {
+    width: 95%;
+    margin: 0;
+}
+
+aside fieldset select {
+    flex-basis: initial;
+    color: var(--front2);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: .75em;
+    letter-spacing: .125em;
+    margin: .25em 0;
+}
+
+aside .snippet {
+    text-transform: none;
+}
+
+aside form {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 1.5em;
+    max-height: 1.5em;
+    margin: .375em;
+}
+
+aside form input {
+    width: 75%;
+    max-width: 75%;
+    height: 22px;
+    background-color: var(--back3);
+    border: 1px solid var(--border);
+    border-radius: .25em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: .5em;
+    color: var(--front2);
+    text-transform: uppercase;
+    letter-spacing: .1875em;
+    font-weight: bolder;
+}
+
+aside form button {
+    width: 25%;
+    max-width: 25%;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-left: 0;
+    border-radius: .25em;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin: auto;
+}
+
+aside div hr {
+    width: 100%;
+    margin: .5em 0;
+}
+
+aside button:hover,
+aside button:hover,
+#modal-data button.disambigButton:hover {
+    background-color: var(--back3);
+    transform: none;
+}
+
+aside button:active,
+aside button:active,
+#modal-data button.disambigButton:active {
+    background-color: var(--back2);
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+aside button,
+aside a#downloadLink,
+aside form,
+aside button,
+aside a#downloadLink,
+#modal-data button.disambigButton {
+    width: 92.5%;
+    font-size: .9375em;
+    border: none;
+    color: var(--front2);
+    box-shadow: none;
+    background-color: var(--back);
+    text-transform: uppercase;
+    letter-spacing: .1875em;
+}
+
+
+/********************
+ * END ASIDE STYLES *
+ ********************/
+
+
+/*****************
+ * READER STYLES *
+ *****************/
+
+
+section.titleBox {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+}
+
+
+section.story section.titleBox img {
+    overflow: visible;
+    margin-top: -1.5em;
+    margin-left: -1.5em;
+    padding: 0em;
+    float: left;
+    width: auto;
+    max-width: 33.33%;
+    max-height: 240px;
+    height: auto;
+    border-radius: 0.375em;
+}
+
+
+.multiparents {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    min-height: 2em;
+}
+
+
+.multiparents button {
+    margin: 0em;
+    width: 15%;
+    border: 0px;
+    box-shadow: none;
+}
+
+
+.titleBoxText .multiparents h3 {
+    margin: 0.5em;
+    width: 70%;
+    display: none;
+    margin: 0em;
+}
+
+
+.titleBoxText .multiparents h3:first-of-type {
+    display: block;
+}
+
+
+audio {
+    width: 100%;
+}
+
+
+.titleBox {
+    padding: 1em;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    background-size: cover;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+
+/* This ensures there won't be a weird double border on table of contents pages (i.e., story pages with no story). */
+main section:only-child {
+    border-bottom: none;
+}
+
+
+.titleBoxText {
+    width: 100%;
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: .5em;
+}
+
+
+.titleBoxText h1,
+.titleBoxText h2,
+.titleBoxText h3 {
+    letter-spacing: .25em;
+}
+
+
+.multiparents button {
+    background: none;
+}
+
+
+/*
+ * READER IMAGE STYLES
+ */
+
+
+section.story img,
+section.story video,
+section.story iframe {
     margin: 0em;
     width: 100%;
     padding: 0.5em 0em;
 }
 
+
 section.story img {
     transition: all .2s ease-in-out;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
+
 
 section.story img:hover {
     transform: scale(1.03125);
@@ -278,11 +617,13 @@ section.story img:hover {
     box-shadow: var(--outershadow);
 }
 
+
 section.story img:active {
     transform: scale(0.96875);
     filter: brightness(87.5%);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
+
 
 body .zoom {
     display: flex;
@@ -300,15 +641,19 @@ body .zoom {
     flex-grow: none;
 }
 
+
 .zoom p {
     font-family: "Gill Sans Std";
-    margin: 0.5em;
-    color: var(--front1);
+    margin: 0.25em;
+    padding: 0.25em;
     text-align: center;
+    background-color: rgba(0, 0, 0, 0.75);
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.1875em;
+    box-shadow: 0em 0em 0.25em 0.25em rgba(0, 0, 0, 0.75);
 }
+
 
 .zoom img {
     max-height: 90vh;
@@ -317,379 +662,38 @@ body .zoom {
     margin: 0.5em;
 }
 
-blockquote {
-    margin: 1em;
-    border: 1px solid var(--border);
-    border-radius: 0.375em;
-    box-shadow: var(--innershadow);
-}
 
-blockquote p {
-    font-size: 1.25em;
-}
-
-blockquote p:nth-child(2) {
-    padding-top: 0em;
-    text-align: right;
-}
-
-.quotation:before {
-    content: open-quote;
-    display: inline;
-    height: 0;
-    line-height: 0;
-    position: relative;
-    top: 0.25em;
-    color: #969696;
-    font-size: 2em;
-    padding-right: 0.125em;
-}
-
-.quotation:after {
-    content: close-quote;
-    display: inline;
-    height: 0;
-    line-height: 0;
-    position: relative;
-    top: 0.25em;
-    color: #969696;
-    font-size: 2em;
-    padding-left: 0.125em;
-}
-
-blockquote p:nth-child(3) {
-    margin-top: -0.75em;
-    padding-top: 0em;
-    padding-right: 2.5em;
-    font-family: monospace;
-    font-size: 1em;
-    text-align: right;
-}
-
-blockquote p a {
-    text-decoration: none;
-}
-
-blockquote p a:hover {
-    color: var(--front2);
-    text-decoration: none;
-}
-
-blockquote p a:active {
-    color: var(--front3);
-    text-decoration: none;
-}
-
-blockquote p a:visited {
-    color: var(--front1);
-    text-decoration: none;
-}
-
-#indeximg {
-    margin: 0px 0px -18px 0px;
-}
-
-.social {
-    width: 33.33%;
-    flex-direction: row;
-    margin: auto;
-    margin-bottom: 1em;
-}
-
-.social a {
-    width: 24px;
-    height: 24px;
-}
-
-.social img {
-    width: 24px;
-    height: 24px;
-}
-
-.slidecontrols,
-.savefile,
-.nav,
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.slidecontrols:first-child {
-    border-bottom-left-radius: inherit;
-}
-
-.slidecontrols:last-child {
-    border-bottom-right-radius: inherit;
-}
-
-body button,
-main button,
-.modal-content button {
-    font-family: 'Gill Sans Std';
-    display: inline-block;
-    margin: 0.5em 16px;
-    border: none;
-    border-radius: 16px;
-    background: none;
-    color: var(--front1);
-    border-radius: 0.375em;
-    background: var(--back2);
-    border: 1px solid var(--border);
-    border-left: none;
-    border-right: none;
-    box-shadow: var(--outershadow);
+.imginfobox {
+    position: absolute !important;
+    z-index: 15;
+    bottom: 10%;
+    right: 10%;
+    background-color: rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(255, 255, 255, 0.375);
     cursor: pointer;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
+
+
+.imginfobox:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+
+.imginfobox:active {
+    background-color: rgba(255, 255, 255, 0.375);
+}
+
 
 /*
-main button::before {
-    filter: blur(10px);
-}
-*/
+ * END READER IMAGE STYLES
+ */
 
-.slidecontrols,
-.checkbuttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.slidecontrols button,
-#slidelocationdiv,
-.checkbuttons button {
-    z-index: 1;
-    margin: -8px 0px 0px 0px;
-    border: none;
-    border-bottom-left-radius: 0.75em;
-    border-bottom-right-radius: 0.75em;
-    background-color: var(--back2);
-    width: 33.33%;
-    height: 32px;
-    font-size: 1.25em;
-    box-shadow: none;
-}
+/*
+ * ANCHOR STYLES
+ */
 
-.slidecontrols button {
-    height: 34px;
-    color: #fff;
-    cursor: pointer;
-    border-top: 1px solid var(--back3);
-}
-
-#slidelocationdiv {
-    line-height: 32px;
-    text-align: center;
-    border-top: 1px solid var(--back3);
-}
-
-#slidelocation {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 1em;
-    line-height: 0px;
-    user-select: none;
-}
-
-.slidecontrols button:hover,
-.checkbuttons button:hover {
-    background-color: var(--back3);
-}
-
-.slidecontrols button:active,
-.checkbuttons button:active {
-    background-color: var(--back1);
-}
-
-.checkbuttons {
-    flex-wrap: wrap;
-}
-
-.checkbuttons button {
-    flex-basis: 25%;
-    flex-wrap: wrap;
-    margin-top: 0px;
-    font-size: 0.875em;
-}
-
-.standaloneButton,
-.savefile button {
-    width: 128px;
-    height: 32px;
-    font-size: 1.25em;
-}
-
-.standaloneButton {
-    width: 50%;
-}
-
-nav button,
-.nav button {
-    width: 128px;
-    height: 64px;
-    font-size: 2em;
-    border-left: none;
-    border-right: none;
-}
-
-.standaloneButton:hover,
-.savefile button:hover,
-nav button:hover,
-.nav button:hover {
-    transform: scale(1.0625);
-}
-
-.standaloneButton:active,
-.savefile button:active,
-nav button:active,
-.nav button:active,
-.contentsButton:active,
-#submit:active {
-    transform: scale(0.9375);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--smalloutershadow);
-}
-
-.standaloneButton:focus,
-.savefile button:focus,
-nav button:focus,
-.nav button:focus {
-    outline: 0;
-}
-
-.modalbtn {
-    cursor: pointer;
-    font-weight: bold;
-}
-
-main hr,
-.modalcontent hr {
-    margin-left: 0em;
-    margin-right: 0em;
-    border: 0px;
-    border-top: 1px solid var(--border);
-}
-
-main hr {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.closediv {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-}
-
-.close {
-    text-align: center;
-    color: var(--front1);
-    font-size: 2em;
-    font-weight: bold;
-    padding: 8px;
-}
-
-.close:hover {
-    color: var(--front2);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.close:active {
-    color: var(--front3);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-main h2 a,
-main h3 a {
-    text-decoration: none;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
-}
-
-.contentsButton {
-    margin: 1em auto;
-    /* display: flex;
-    flex-direction: row; */
-    height: 96px;
-    width: 95%;
-    border-radius: 0.5em;
-    padding: 0em;
-    transition: all .2s ease-in-out;
-}
-
-.standaloneButton:focus,
-.contentsButton:focus {
-    outline: 0;
-}
-
-.standaloneButton:hover,
-.contentsButton:hover,
-#submit:hover {
-    transform: scale(1.03125);
-}
-
-.standaloneButton:active,
-.contentsButton:active,
-#submit:active {
-    transform: scale(0.96875);
-    background-color: var(--back2);
-}
-
-.contentsImg {
-    margin: auto;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-basis: 20%;
-    overflow: hidden;
-    position: relative;
-}
-
-.contentsImg img {
-    height: 100%;
-    width: unset;
-    overflow: hidden;
-    padding: 0em;
-    position: absolute;
-    border-radius: 0.5em 0em 0em 0.5em;
-}
-
-.contentsText {
-    padding: 0.5em 1em;
-    flex-basis: 80%;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.contentsText p {
-    font-family: "Trademarker";
-}
-
-.contentsText p:last-of-type {
-    font-family: "Gill Sans Std";
-    padding-top: 0em;
-    padding-bottom: 0em;
-}
-
-.contents p {
-    text-align: center;
-    padding: 0em 0.5em;
-    line-height: 1.25em;
-}
-
-.pages {
-    position: relative;
-}
-
-.anchors {
-    display: flex;
-    flex-direction: row;
-}
 
 .anchor,
 .anchor:visited,
@@ -706,17 +710,20 @@ main h3 a {
     /* MAKE UNSELECTABLE */
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
+
 
 .anchor {
     transition: all .1s ease-in-out;
 }
 
-.anchors p {
-    flex-basis: 98.75;
+
+.anchors {
+    display: flex;
+    flex-direction: row;
 }
+
 
 .anchors:target p,
 .x-target p {
@@ -724,6 +731,22 @@ main h3 a {
     border-radius: 0.125em;
     transition: 0s;
 }
+
+
+/*
+ * END ANCHOR STYLES
+ */
+
+
+/*********************
+ * END READER STYLES *
+ *********************/
+
+
+/*******************
+ * SETTINGS STYLES *
+ *******************/
+
 
 fieldset {
     margin: 1em 0.5em;
@@ -733,84 +756,511 @@ fieldset {
     flex-wrap: wrap;
 }
 
+
 fieldset label {
     flex-basis: 20%;
     font-size: var(--pfontsize);
     cursor: default;
 }
 
+
 fieldset select {
     flex-basis: 75%;
-    margin: 0.25em;
+    margin: 0.25em auto;
     border: 1px solid var(--border);
     background: var(--back2);
-    /* box-shadow: var(--outershadow); */
     border-radius: 0.25em;
-    color: var(--front1);
-    /* NEWER STUFF */
-    margin-left: auto;
-    margin-right: auto;
     height: 2em;
     width: 100%;
 }
 
-main p a {
-    font-weight: 600;
+
+#sortable li {
+    margin: 0.25em;
+    background-color: var(--back2);
+    border: 1px solid var(--border);
+    border-radius: 0.25em;
+    padding: 0em 0.25em;
+    display: flex;
+    cursor: grab;
 }
 
-/* VERSION COMPARISON STYLING */
-#mains {
-    margin: auto;
+
+#sortable li a {
+    width: 100%;
+    text-align: center;
+    font-size: medium;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#sortable li label {
+    cursor: grab;
+    user-select: none;
+}
+
+
+#sortable li:hover {
+    background-color: var(--back3);
+}
+
+
+/* Redo this button to look like the <aside> buttons. */
+#resetButton {
+    margin: -0.5em auto 1em auto;
+    display: block;
+
+    border: none;
+    background: none;
+    box-shadow: none;
+
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75em;
+}
+
+
+#resetButton:hover {
+    transform: scale(1.046875);
+}
+
+
+#resetButton:active {
+    transform: scale(0.953125);
+}
+
+
+#submit {
+    display: block;
+    width: 128px;
+    height: 64px;
+    position: fixed;
+    bottom: 1.5em;
+    right: 1.5em;
+
+    box-shadow: var(--outershadow);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
+
+    font-size: 1.25em;
+    color: var(--front2);
+    text-decoration: none;
+    font-weight: bolder;
+    text-transform: uppercase;
+    letter-spacing: 0.1875em;
+}
+
+
+/***********************
+ * END SETTINGS STYLES *
+ ***********************/
+
+
+/*******************************
+ * NAV/SLIDESHOW BUTTON STYLES *
+ *******************************/
+
+
+.slidecontrols,
+.savefile,
+.nav,
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.slidecontrols:first-child {
+    border-bottom-left-radius: inherit;
+}
+
+
+.slidecontrols:last-child {
+    border-bottom-right-radius: inherit;
+}
+
+
+.slidecontrols {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.slidecontrols button,
+#slidelocationdiv {
+    z-index: 1;
+    margin: -8px 0px 0px 0px;
+    border: none;
+    border-bottom-left-radius: 0.75em;
+    border-bottom-right-radius: 0.75em;
+    background-color: var(--back2);
+    width: 33.33%;
+    height: 32px;
+    font-size: 1.25em;
+    box-shadow: none;
+}
+
+
+.slidecontrols button {
+    height: 34px;
+    color: #fff;
+    cursor: pointer;
+    border-top: 1px solid var(--back3);
+}
+
+
+#slidelocationdiv {
+    line-height: 32px;
+    text-align: center;
+    border-top: 1px solid var(--back3);
+}
+
+
+#slidelocation {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1em;
+    line-height: 0px;
+    user-select: none;
+}
+
+
+.slidecontrols button:hover {
+    background-color: var(--back3);
+}
+
+
+.slidecontrols button:active {
+    background-color: var(--back1);
+}
+
+
+.standaloneButton {
+    width: 50%;
+}
+
+
+.standaloneButton,
+.savefile button,
+.nav button,
+nav button {
+    font-size: 1.25em;
+    width: 7.5em;
+    height: 1.5em;
+    margin: 1.25em;
+    letter-spacing: 0.0625em;
+}
+
+
+.savefile button {
+    margin-bottom: 0.625em;
+}
+
+
+.nav button {
+    margin-top: 0.625em;
+    height: 3em;
+    font-weight: 900;
+}
+
+
+nav button {
+    height: 2em;
+    width: 5em;
+    margin: 0.5em;
+    font-size: 2em;
+    font-weight: 900;
+}
+
+
+.standaloneButton:hover,
+.savefile button:hover,
+nav button:hover,
+.nav button:hover {
+    transform: scale(1.0625);
+}
+
+
+.standaloneButton:active,
+.savefile button:active,
+nav button:active,
+.nav button:active,
+.contentsButton:active,
+#submit:active {
+    transform: scale(0.9375);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--smalloutershadow);
+}
+
+
+.standaloneButton:focus,
+.savefile button:focus,
+nav button:focus,
+.nav button:focus {
+    outline: 0;
+}
+
+
+/***********************************
+ * END NAV/SLIDESHOW BUTTON STYLES *
+ ***********************************/
+
+
+/*************************
+ * STRUCTURE CARD STYLES *
+ *************************/
+
+
+section.structure {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: flex-start;
+}
+
+
+section.structure nav {
+    width: 100%;
+}
+
+
+.padding {
+    min-height: 120px;
+    width: 47.5%;
+    margin: 1.5em 0;
+}
+
+
+.contentsButton {
+    margin: 1em auto;
+    border-radius: .5em;
+    transition: all .2s ease-in-out;
+    width: 90%;
+    height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    width: 80%;
-}
-
-#mains main {
-    margin: 0.5em;
-    max-width: 720px;
+    max-width: 100%;
+    max-height: 200px;
+    /* Why. */
+    border-color: rgb(48, 48, 48);
     padding: 0em;
-    flex-grow: 1;
 }
 
-main:nth-of-type(2) {
-    display: none;
+
+.standaloneButton:focus,
+.contentsButton:focus {
+    outline: 0;
 }
 
-ins,
-del {
-    margin: 1px;
-    border-radius: 0.125em;
-    padding: 1px;
+
+.standaloneButton:hover,
+.contentsButton:hover,
+#submit:hover {
+    transform: scale(1.03125);
 }
 
-#mains main ins {
-    text-decoration: none;
-    background-color: #80FF80;
-    color: #080808;
+
+.standaloneButton:active,
+.contentsButton:active,
+#submit:active {
+    transform: scale(0.96875);
+    background-color: var(--back2);
 }
 
-#mains main del {
-    text-decoration: line-through;
-    background-color: #FF8080;
-    color: #080808;
+
+.contentsImg {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-basis: 20%;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
 }
 
-/* SWAPPER STUFF */
+
+.contentsImg img {
+    height: 100%;
+    width: unset;
+    overflow: hidden;
+    position: absolute;
+    border-radius: .5em 0 0 .5em;
+    padding: 0;
+}
+
+
+.contentsText {
+    flex-basis: 80%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: .5em 1em;
+}
+
+
+.contentsText p {
+    font-family: 'Trademarker';
+}
+
+
+.contentsText p:last-of-type {
+    font-family: "Gill Sans Std";
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+.contents p {
+    text-align: center;
+    line-height: 1.25em;
+    padding: 0 .5em;
+}
+
+
+.noImg {
+    height: 100px;
+}
+
+
+.contentsButton img {
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-right: 0;
+    border-radius: .375em;
+    float: left;
+    display: block;
+    height: 100%;
+    max-height: 144px;
+    width: auto;
+    max-width: 108px;
+    object-fit: cover;
+    border: none;
+    padding: 0;
+}
+
+
+.contentButtonText {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: 95%;
+    gap: .375em;
+    margin: auto .25em;
+    padding: .25em;
+}
+
+
+.contentButtonText p {
+    padding: 0;
+}
+
+
+.contentsButton p {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+    font-size: 1.0625em;
+    margin: 0;
+}
+
+
+.contentsButton p:first-of-type {
+    font-family: 'Trademarker';
+    font-size: 1.25em;
+}
+
+
+.contentsButton p:nth-of-type(2),
+.contentButtonText div.versions,
+.contentButtonText div.tags {
+    padding-right: .5em;
+    overflow: scroll;
+    max-height: 64px;
+}
+
+
+.contentsButton:active {
+    box-shadow: var(--smalloutershadow);
+}
+
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+
+.tags p,
+.tags p:first-of-type {
+    margin: .125em;
+    padding: .125em .25em;
+    width: auto;
+    border-radius: .25em;
+    background-color: darkgray;
+    font-family: "Gill Sans Std";
+    font-size: .9375em;
+    color: #010203;
+}
+
+
+.versions p,
+.versions p:first-of-type {
+    font-family: "Gill Sans Std";
+    color: darkgray;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: .875em;
+    letter-spacing: .125em;
+}
+
+
+.contentButtonText .versions,
+.contentButtonText .tags {
+    font-size: .9375em;
+    width: 100%;
+}
+
+
+.contentButtonText .versions p,
+.contentButtonText .tags p {
+    letter-spacing: .0625em;
+}
+
+
+/*****************************
+ * END STRUCTURE CARD STYLES *
+ *****************************/
+
+
+/******************
+ * SWAPPER STYLES *
+ ******************/
+
+
 .swappable div {
     display: none;
     transition: unset;
 }
+
 
 .swappable .swapdefault {
     display: block;
     transition: unset;
 }
 
+
 .swapper,
-#modal-data .hideShow,
-#resetButton {
+#modal-data .hideShow {
     margin: auto;
     display: block;
 
@@ -827,68 +1277,28 @@ del {
     transition: 0.15s;
 }
 
+
 .swapper:hover,
-#modal-data .hideShow:hover,
-#resetButton:hover {
-    transform: scale(1.0625);
-}
-
-.swapper:active,
-#modal-data .hideShow:active,
-#resetButton:active {
-    transform: scale(0.9375);
-}
-
 #modal-data .hideShow:hover {
     transform: scale(1.015625);
 }
 
+
+.swapper:active,
 #modal-data .hideShow:active {
     transform: scale(0.984375);
 }
 
-#modal-data .hideShow {
-    margin: 0.5em auto;
-    border: none;
-    padding: 0em 1em;
-    height: 1.5em;
-}
 
-#resetButton {
-    margin-top: -0.5em;
-    margin-bottom: 1em;
-    border: 0px;
-}
+/**********************
+ * END SWAPPER STYLES *
+ **********************/
 
-@media only screen and (max-width: 960px) {
-    aside {
-        /* REMOVE PREVIOUS SETTINGS */
-        position: relative;
-        z-index: auto;
-        top: auto;
-        right: auto;
-        /* NEW SETTINGS */
-        margin: 0em;
-        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
-        flex-direction: row;
-        justify-content: space-between;
-    }
 
-    aside button {
-        width: 15%;
-    }
+/*****************
+ * MOBILE STYLES *
+ *****************/
 
-    #mains {
-        width: 95%;
-        flex-direction: column;
-    }
-
-    #mains main {
-        margin: auto;
-        max-width: 960px;
-        width: 100%;
-    }
-}
 
 @media only screen and (max-width: 640px) {
     header img {
@@ -933,7 +1343,6 @@ del {
     header p,
     .modalcontent p {
         font-size: var(--pfontsize);
-        margin-right: 0em;
     }
 
     .social {
@@ -952,13 +1361,13 @@ del {
 
     .savefile button {
         width: 128px;
-        height: 32px;
+        height: 40px;
         font-size: 1em;
     }
 
     .nav button {
         width: 128px;
-        height: 32px;
+        height: 64px;
         font-size: 1em;
     }
 
@@ -974,426 +1383,227 @@ del {
     }
 }
 
-#sortable li a {
-    width: 100%;
-    text-align: center;
-    font-size: medium;
-    text-decoration: none;
-    cursor: pointer;
-}
 
-aside {
-    position: absolute;
-    z-index: 1;
-    top: 0.75em;
-    right: 0.75em;
-    display: flex;
-    flex-direction: column;
-}
+@media only screen and (max-width: 720px) {
 
-aside button {
-    margin: 0.25em;
-    width: 2em;
-    height: 2em;
-    color: var(--front1);
-    border-radius: 0.5em;
-    background: var(--back2);
-    box-shadow: var(--outershadow);
-    border: 1px solid var(--border);
-    border-left: none;
-    border-right: none;
-    padding: none;
-    font-size: 1.5em;
-    font-weight: bolder;
-    z-index: 1;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
-}
-
-aside button:focus {
-    outline: 0;
-}
-
-aside button:hover {
-    transform: scale(1.125);
-}
-
-aside button:active {
-    transform: scale(0.95);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0), -3px -3px 6px rgba(0, 0, 0, 0), var(--smalloutershadow);
-}
-
-#submit {
-    display: block;
-    margin: 10px auto;
-    width: 128px;
-    height: 64px;
-    font-size: 1.25em;
-    position: fixed;
-    bottom: 1em;
-    right: 1em;
-
-    border-radius: 0.25em;
-    transition: all .2s ease-in-out;
-    background-color: var(--back2);
-    box-shadow: none;
-    color: var(--front1);
-
-    box-shadow: var(--outershadow);
-    border: 1px solid var(--border);
-    border-left: none;
-    border-right: none;
-
-    color: var(--front2);
-    text-decoration: none;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1875em;
-}
-
-@media only screen and (min-width: 960px) {
-    aside {
-        position: fixed;
+    /* Side images don't really fit on mobile, so we should just make the background image more prominent. */
+    .titleBox img {
+        display: none;
     }
-}
 
-/* BELOW NEEDS SIGNIFICANT REVISIONS */
-/* May want to change the max-width here so that the aside buttons never overlap with the main block. */
-@media only screen and (max-width: 960px) {
-    aside {
-        /* REMOVE PREVIOUS SETTINGS */
+    .titleBoxText {
+        margin-left: 0em;
+    }
+
+    aside,
+    aside div {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    aside{
+        border-radius: 0em;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+
         position: fixed;
         z-index: 20;
         top: auto;
-
         right: auto;
 
-        /* NEW SETTINGS */
         bottom: 0px;
         width: 100%;
         margin: 0em;
-        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
-        flex-direction: row;
         justify-content: space-between;
     }
 
+    aside button.hideShow {
+        display: block;
+    }
+
+    html body main {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    html body main article {
+        width: 97.5%;
+    }
+
+    aside div.asideMain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    aside form,
     aside button {
-        margin: 0em;
-        width: 20%;
-        border-radius: 0px;
-        border-left: 0px;
-        border-bottom: 0px;
-        box-shadow: none;
-        border-left: none;
-        border-right: none;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    aside button:last-of-type {
-        border-right: 0px;
+    aside button.hideShow,
+    aside form input,
+    aside form button,
+    aside button.small {
+        height: 2em;
+        font-size: 1.0625em;
     }
 
-    aside button:hover {
-        transform: none;
-        background-color: var(--back3);
+    aside form {
+        min-height: 3em;
+        height: 3em;
     }
 
-    aside button:active {
-        transform: none;
-        background-color: var(--back1);
+    aside form input,
+    aside form button {
+        height: 3em;
+        max-height: 3em;
+    }
+
+    aside form input {
+        height: calc(3em - 2px);
+    }
+
+    div.social {
+        width: 80%;
+    }
+
+    section.structure div.padding {
+        width: 100%;
     }
 }
 
-/* Former test.css stuff */
 
-#mains,
-#mains main {
-    overflow: visible;
-}
+/*********************
+ * END MOBILE STYLES *
+ *********************/
 
-#children {
-    margin-top: 2em;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
 
-.padding {
-    margin: 1.5em 0em;
-    min-height: 120px;
-    width: 33.33%;
-    align-content: center;
-}
+/*****************
+ * UNUSED STYLES *
+ *****************/
 
-.noImg {
-    height: 100px;
-}
 
-.contentsButton::before {
-    backdrop-filter: blur(10px);
-}
-
-.contentsButton {
-    margin-left: 5%;
-    width: 90%;
-    margin-right: 5%;
-    height: 100%;
-    max-height: 176px;
-    display: flex;
-    flex-direction: row;
-    border-color: rgb(48, 48, 48);
-}
-
-.contentsButton img {
-    margin-top: -1em;
-    margin-left: -1em;
-    margin-right: 0em;
+blockquote {
+    margin: 1em;
+    border: 1px solid var(--border);
     border-radius: 0.375em;
-    padding: 0em;
-    float: left;
-    display: block;
-    height: 100%;
-    max-height: 144px;
-    width: auto;
-    max-width: 108px;
-    object-fit: cover;
-    border: none;
+    box-shadow: var(--innershadow);
 }
 
-.contentButtonText {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.5em;
-    margin: auto 0.25em;
-    padding: 0.25em;
-    max-height: 95%;
-}
 
-.contentButtonTextLong {
-    font-size: 0.9375em;
-}
-
-.contentButtonText p {
-    padding: 0em;
-}
-
-.contentsButton p {
-    margin: 0px;
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-    font-size: 1.0625em;
-}
-
-.contentsButton p:first-of-type {
-    font-family: "Trademarker";
+blockquote p {
     font-size: 1.25em;
 }
 
-/* REALLY need a better way of handling this. */
-.contentsButton p:nth-of-type(2),
-.contentButtonText div.versions,
-.contentButtonText div.tags {
-    padding-right: 0.5em;
-    overflow: scroll;
-    max-height: 64px;
-}
 
-.contentsButton:active {
-    box-shadow: var(--smalloutershadow);
-}
-
-#cardXCF8IZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/XCF8IZ.png") center;
-    background-size: cover;
-    border-color: #5b757c;
-    border-left: none;
-    border-right: none;
-}
-
-#cardQ2N8NX {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/Q2N8NX.png") center;
-    background-size: cover;
-    border-color: #5a5833;
-    border-left: none;
-    border-right: none;
-}
-
-#cardJBTY4O {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/JBTY4O.png") center;
-    background-size: cover;
-    border-color: #57453e;
-    border-left: none;
-    border-right: none;
-}
-
-#cardECOHYW {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ECOHYW.png") center;
-    background-size: cover;
-    border-color: #3a2f1d;
-    border-left: none;
-    border-right: none;
-}
-
-#cardLHIBBZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/LHIBBZ.png") center;
-    background-size: cover;
-    border-color: #878889;
-    border-left: none;
-    border-right: none;
-}
-
-#cardUELI6L {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/UELI6L.png") center;
-    background-size: cover;
-    border-color: #707d4e;
-    border-left: none;
-    border-right: none;
-}
-
-#card08H6CX {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/08H6CX.png") center;
-    background-size: cover;
-    border-color: #957264;
-    border-left: none;
-    border-right: none;
-}
-
-#card7M5DDC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/7M5DDC.png") center;
-    background-size: cover;
-    border-color: #547288;
-    border-left: none;
-    border-right: none;
-}
-
-#cardCU4QW2 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/CU4QW2.png") center;
-    background-size: cover;
-    border-color: #69827a;
-    border-left: none;
-    border-right: none;
-}
-
-#cardFG9EM8 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/FG9EM8.png") center;
-    background-size: cover;
-    border-color: #8b8f84;
-    border-left: none;
-    border-right: none;
-}
-
-#cardZTL9M8 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ZTL9M8.png") center;
-    background-size: cover;
-    border-color: #4d4443;
-    border-left: none;
-    border-right: none;
-}
-
-#card0NN5ZH {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0NN5ZH.png") center;
-    background-size: cover;
-    border-color: #cfbe9e;
-    border-left: none;
-    border-right: none;
-}
-
-#cardGNO2P6,
-#card89L0VB,
-#card685M4D,
-#card5LTDQZ,
-#cardXJDC9U,
-#card0J81JD,
-#cardKQRMXG {
-    border-left: none;
-    border-right: none;
-}
-
-#card54284C {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/BCC.jpg") center;
-    background-size: cover;
-    border-color: #fc1f04;
-    border-left: none;
-    border-bottom: 1px solid #fc1f04;
-    border-right: none;
-}
-
-#cardGNO2P6 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc1.png") center;
-    border-color: #ff0401;
-}
-
-#card0J81JD {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/0J81JD.png") center;
-    border-color: #93001c;
-}
-
-#card89L0VB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc2.png") center;
-    border-color: #6e92ce;
-}
-
-#card685M4D {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/bc3.png") center;
-    border-color: #448d30;
-}
-
-#card5LTDQZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/BC4_-_Tales_of_the_Masks.png") center;
-    border-color: #ff990b;
-}
-
-#cardXJDC9U {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/test/MoL.png") center;
-    border-color: goldenrod;
-}
-
-#cardKQRMXG {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/KQRMXG.png") center;
-    background-size: contain;
-    border-color: #b6cdd2;
-}
-
-/* TAGS FOR CONTENT CARDS */
-.tags {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: stretch;
-    flex-wrap: wrap;
-}
-
-.tags p,
-.tags p:first-of-type {
-    margin: 0.125em;
-    padding: 0.125em 0.25em;
-    width: auto;
-    border-radius: 0.25em;
-    background-color: darkgray;
-    font-family: "Gill Sans Std";
-    font-size: 0.9375em;
-    color: #010203;
-}
-
-.versions p,
-.versions p:first-of-type {
-    font-family: "Gill Sans Std";
-    color: darkgray;
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 0.875em;
-    letter-spacing: 0.125em;
+blockquote p:nth-child(2) {
+    padding-top: 0em;
+    text-align: right;
 }
 
 
-/* TIMELINE TEST */
+.quotation:before {
+    content: open-quote;
+    display: inline;
+    height: 0;
+    line-height: 0;
+    position: relative;
+    top: 0.25em;
+    color: #969696;
+    font-size: 2em;
+    padding-right: 0.125em;
+}
+
+
+.quotation:after {
+    content: close-quote;
+    display: inline;
+    height: 0;
+    line-height: 0;
+    position: relative;
+    top: 0.25em;
+    color: #969696;
+    font-size: 2em;
+    padding-left: 0.125em;
+}
+
+
+blockquote p:nth-child(3) {
+    margin-top: -0.75em;
+    padding-top: 0em;
+    padding-right: 2.5em;
+    font-family: monospace;
+    font-size: 1em;
+    text-align: right;
+}
+
+
+blockquote p a {
+    text-decoration: none;
+}
+
+
+blockquote p a:hover {
+    color: var(--front2);
+    text-decoration: none;
+}
+
+
+blockquote p a:active {
+    color: var(--front3);
+    text-decoration: none;
+}
+
+
+blockquote p a:visited {
+    color: var(--front1);
+    text-decoration: none;
+}
+
+
+/*
+ * VERSION COMPARISON STYLES
+ */
+
+
+ins,
+del {
+    margin: 1px;
+    border-radius: 0.125em;
+    padding: 1px;
+}
+
+main article section.story ins {
+    text-decoration: none;
+    background-color: #80FF80;
+    color: #080808;
+}
+
+main article section.story del {
+    text-decoration: line-through;
+    background-color: #FF8080;
+    color: #080808;
+}
+
+
+/*
+ * END VERSION COMPARISON STYLES
+ */
+
+
+/*
+ * TIMELINE TEST
+ */
+
+
 #mains main ul {
     list-style-type: disc;
     list-style-position: inside;
 }
+
 
 .red {
     margin: 0em;
@@ -1406,300 +1616,18 @@ aside button:active {
     font-weight: 900;
 }
 
+
 .redstroke {
     -webkit-text-stroke: 1px red;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-.titleBox {
-    padding: 1em;
-    height: auto;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
 
-    /*
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/O927E6.png") center;
-    */
-    background-size: cover;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-}
+/*
+ * END TIMELINE TEST 
+ */
 
-main section:only-child {
-    border-bottom: none;
-}
 
-.titleBoxText {
-    width: 100%;
-    padding-left: 1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.5em;
-}
-
-.titleBoxText h1,
-.titleBoxText h2,
-.titleBoxText h3 {
-    letter-spacing: 0.25em;
-}
-
-.titleBox img {
-    overflow: visible;
-    margin-top: -1.5em;
-    margin-left: -1.5em;
-    padding: 0em;
-    float: left;
-    /*
-    height: 100%;
-    max-height: 144px;
-    width: auto;
-    */
-    max-width: 33.33%;
-    height: auto;
-    border-radius: 0.375em;
-}
-
-.multiparents button {
-    background: none;
-}
-
-/* Side images don't really fit on mobile, so we make the background image more prominent. */
-@media only screen and (max-width: 960px) {
-    /*
-    .titleBox {
-        background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.75)), url("/img/story/contents/O927E6.png") center 25%;
-    }
-    */
-
-    .titleBox img {
-        display: none;
-    }
-}
-
-#mains {
-    max-width: 1280px;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-}
-
-main {
-    margin: auto;
-    align-self: center;
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 100%;
-    background: none;
-    border: none;
-    box-shadow: none;
-}
-
-section.story,
-aside,
-section.titleBox {
-    position: relative;
-    background-color: var(--back2);
-    border: 1px solid var(--border);
-    border-radius: 0.5em;
-    box-shadow: var(--outershadow);
-}
-
-section.titleBox {
-    border: none;
-    border-bottom: 1px solid var(--border);
-    border-bottom-left-radius: 0em;
-    border-bottom-right-radius: 0em;
-    box-shadow: none;
-}
-
-section.structure {
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-}
-
-.padding {
-    width: 50%;
-}
-
-.contentsButton {
-    max-width: 100%;
-    max-height: 182px;
-}
-
-.contentButtonText {
-    gap: 0.375em;
-}
-
-.contentButtonText .versions,
-.contentButtonText .tags {
-    font-size: 0.9375em;
-    width: 100%;
-}
-
-.contentButtonText .versions p,
-.contentButtonText .tags p {
-    letter-spacing: 0.0625em;
-}
-
-article {
-    max-width: 720px;
-}
-
-aside {
-    padding: 0.25em 0;
-    top: initial;
-    right: initial;
-    width: 240px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-aside button,
-aside a#downloadLink {
-    width: 92.5%;
-    font-size: 0.9375em;
-    border: none;
-    color: var(--front2);
-    box-shadow: none;
-    background-color: var(--back);
-    text-transform: uppercase;
-    letter-spacing: 0.1875em;
-}
-
-aside a#downloadLink {
-    all: unset;
-    width: 92.5%;
-}
-
-aside a#downloadLink button.small {
-    width: calc(100% - 0.5em);
-}
-
-aside button.small {
-    font-size: 0.75em;
-    height: 20px;
-}
-
-aside button.nocaps {
-    text-transform: initial;
-}
-
-aside button:hover {
-    background-color: var(--back3);
-    transform: none;
-}
-
-aside button:active {
-    background-color: var(--back2);
-    box-shadow: none;
-    transform: scale(0.95);
-}
-
-aside p {
-    color: var(--front2);
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 0.75em;
-    letter-spacing: 0.125em;
-    padding: 0em;
-    width: 92.5%;
-    margin: 0.25em;
-}
-
-aside hr {
-    margin: 0.5em -0.5em;
-    width: 100%;
-}
-
-aside fieldset {
-    margin: 0em;
-    width: 95%;
-}
-
-aside fieldset select {
-    margin: 0.25em 0em;
-    flex-basis: initial;
-    color: var(--front2);
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 0.75em;
-    letter-spacing: 0.125em;
-}
-
-#children {
-    margin: 0em;
-    max-width: 1280px;
-}
-
-.imginfobox {
-    position: absolute !important;
-    z-index: 15;
-    bottom: 10%;
-    right: 10%;
-    background-color: rgba(255, 255, 255, 0.125);
-    border: 1px solid rgba(255, 255, 255, 0.375);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.imginfobox:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-}
-
-.imginfobox:active {
-    background-color: rgba(255, 255, 255, 0.375);
-}
-
-body main section.story.pages {
-    background: none;
-    border: none;
-    box-shadow: none;
-}
-
-main {
-    padding-top: 1em;
-}
-
-.titleBox img {
-    max-height: 240px;
-    width: auto;
-}
-
-.snippet {
-    text-transform: none;
-}
-
-.modal-content {
-    padding-top: 1em;
-}
-
-#modal-data {
-    position: absolute;
-    top: 0px;
-}
-
-#modal-data img.slideshow {
-    position: relative;
-    width: 60%;
-    margin-top: -1em;
-    overflow: visible;
-    z-index: 25;
-}
-
-.modal-content {
-    overflow: visible;
-}
-
-#modal-data {
-    overflow: visible;
-}
+/*********************
+ * END UNUSED STYLES *
+ *********************/

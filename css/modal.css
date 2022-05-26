@@ -257,3 +257,47 @@
 .modal-text section {
     position: relative;
 }
+
+#modal-data .hideShow:hover {
+    transform: scale(1.015625);
+}
+
+#modal-data .hideShow:active {
+    transform: scale(0.984375);
+}
+
+#modal-data .hideShow {
+    margin: 0.5em auto;
+    border: none;
+    padding: 0em 1em;
+    height: 1.5em;
+}
+
+.modal-content {
+    padding-top: 1em;
+}
+
+#modal-data {
+    position: absolute;
+    top: 0px;
+}
+
+#modal-data img.slideshow {
+    position: relative;
+    width: 60%;
+    margin-top: -1em;
+    overflow: visible;
+    z-index: 25;
+}
+
+.modal-content {
+    overflow: visible;
+}
+
+#modal-data {
+    overflow: visible;
+}
+
+#modal-data button.disambigButton {
+    height: 4em;
+}

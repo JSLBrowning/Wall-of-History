@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php
+    include("/php/populate.php");
+    chooseColors();
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -46,12 +49,11 @@
             <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
             <?php
                 include('/php/db_connect.php');
-                include('/php/populate.php');
                 echo populateStatic("");
             ?>
             <hr>
-            <p style="text-align: center;">Find Us</p>
-            <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <p>Find Us</p>
+            <div class="social">
                 <!-- Replace w/ text-based buttons. -->
                 <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
                     <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
@@ -72,37 +74,29 @@
                     <img src="../img/index/yt_logo_mono_dark.png" width="24px" height="24px">
                 </a>
             </div>
-            <p style="text-align: center;">Share</p>
-            <div class="social" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-                <!-- Replace w/ text-based buttons. -->
-                <a href="https://www.facebook.com/sharer/?u=https%3A%2F%2Fwallofhistory.com%2F" width="24px" height="24px">
-                    <img src="../img/index/f_logo_RGB-White_1024.png" width="24px" height="24px">
-                </a>
-                <a href="https://twitter.com/intent/tweet?text=I'm living the %23BIONICLE legend on @Wall_of_History, and you should be too! https://wallofhistory.com/" width="24px" height="24px">
-                    <img src="../img/index/Twitter_Social_Icon_Circle_White.png" width="24px" height="24px">
-                </a>
-            </div>
         </article>
         <aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong>⮟ </strong>Main Menu</button>
-            <div>
-                <form action="/search/">
-                    <input type="text" required="required" placeholder="Search…" name="q">
-                    <button type="submit">🔎︎</button>
-                </form>
-                <hr>
-                <button class="small" onclick="window.location.href='/read/';">Contents</button>
-                <button class="small" onclick="window.location.href='/reference/';">Reference</button>
-                <button class="small" onclick="window.location.href='/settings/';">Settings</button>
-                <hr>
-                <button class="small" onclick="window.location.href='/about/';">About</button>
-                <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
-                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
-                <button class="small" onclick="window.location.href='/contact/';">Contact</button>
-                <hr>
-                <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
-                <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
-                <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+            <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
+            <div style="display: none;">
+                <div class="asideMain" style="display: flex;">
+                    <form action="/search/">
+                        <input type="text" required="required" placeholder="Search…" name="q">
+                        <button type="submit">🔎︎</button>
+                    </form>
+                    <hr>
+                    <button class="small" onclick="window.location.href='/read/';">Contents</button>
+                    <button class="small" onclick="window.location.href='/reference/';">Reference</button>
+                    <button class="small" onclick="window.location.href='/settings/';">Settings</button>
+                    <hr>
+                    <button class="small" onclick="window.location.href='/about/';">About</button>
+                    <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
+                    <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                    <button class="small" onclick="window.location.href='/contact/';">Contact</button>
+                    <hr>
+                    <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+                    <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+                    <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+                </div>
             </div>
         </aside>
     </main>

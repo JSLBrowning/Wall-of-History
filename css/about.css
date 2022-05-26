@@ -1,14 +1,12 @@
 main{
-    width: 90%;
     max-width: 1080px;
-    display: flex;
-    flex-direction: row;
 }
 
-main article{
-    width: 66.66%;
-    padding: 0em 0.5em;
+
+html body main article p {
+    text-align: justify;
 }
+
 
 main article img{
     margin: 1em auto;
@@ -26,11 +24,6 @@ main article img{
     text-align: center;
 }
 
-main aside{
-    all: initial;
-    width: 33.33%;
-    padding: 0.5em 1em;
-}
 
 main aside a{
     font-family: "Gill Sans Std";
@@ -38,9 +31,6 @@ main aside a{
     text-decoration: none;
 }
 
-main aside hr{
-    margin-right: 0em;
-}
 
 @media only screen and (max-width: 960px) {
     main article{

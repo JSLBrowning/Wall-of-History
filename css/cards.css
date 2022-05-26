@@ -1,0 +1,175 @@
+/***************
+ * CARD STYLES *
+ ***************/
+
+#cardXCF8IZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XCF8IZ.png) center;
+    background-size: cover;
+    border-color: #5b757c;
+}
+
+#cardQ2N8NX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/Q2N8NX.png) center;
+    background-size: cover;
+    border-color: #5a5833;
+}
+
+#cardJBTY4O {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/JBTY4O.png) center;
+    background-size: cover;
+    border-color: #57453e;
+}
+
+#cardECOHYW {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ECOHYW.png) center;
+    background-size: cover;
+    border-color: #3a2f1d;
+}
+
+#cardLHIBBZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LHIBBZ.png) center;
+    background-size: cover;
+    border-color: #878889;
+}
+
+#cardUELI6L {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/UELI6L.png) center;
+    background-size: cover;
+    border-color: #707d4e;
+}
+
+#card08H6CX {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/08H6CX.png) center;
+    background-size: cover;
+    border-color: #957264;
+}
+
+#card7M5DDC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/7M5DDC.png) center;
+    background-size: cover;
+    border-color: #547288;
+}
+
+#cardCU4QW2 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CU4QW2.png) center;
+    background-size: cover;
+    border-color: #69827a;
+}
+
+#cardFG9EM8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/FG9EM8.png) center;
+    background-size: cover;
+    border-color: #8b8f84;
+}
+
+#cardZTL9M8 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ZTL9M8.png) center;
+    background-size: cover;
+    border-color: #4d4443;
+}
+
+#card0NN5ZH {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0NN5ZH.png) center;
+    background-size: cover;
+    border-color: #cfbe9e;
+}
+
+#card54284C {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/cards/BCC.jpg) center;
+    background-size: cover;
+    border-color: #fc1f04;
+}
+
+#cardGNO2P6 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
+    background-size: cover;
+    border-color: #ff0401;
+}
+
+#card0J81JD {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0J81JD.png) center;
+    background-size: cover;
+    border-color: #93001c;
+}
+
+#card89L0VB {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc2.png) center;
+    background-size: cover;
+    border-color: #6e92ce;
+}
+
+#card685M4D {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc3.png) center;
+    background-size: cover;
+    border-color: #448d30;
+}
+
+#card5LTDQZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/BC4_-_Tales_of_the_Masks.png) center;
+    background-size: cover;
+    border-color: #ff990b;
+}
+
+#cardXJDC9U {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/MoL.png) center;
+    background-size: cover;
+    border-color: #594A37;
+}
+
+#cardKQRMXG {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/KQRMXG.png) center;
+    background-size: cover;
+    border-color: #b6cdd2;
+}
+
+#cardWLHSQY {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/WLHSQY.png) center;
+    background-size: cover;
+}
+
+#cardE2PJ0R {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/movies/1/IMG_002.jpg) center;
+    background-size: cover;
+    border-color: #594A37;
+}
+
+#cardQU8PCV {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/QU8PCV.png) center;
+    background-size: cover;
+    border-color: #594A37;
+}
+
+#cardO927E6 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/O927E6.png") center;
+    background-size: cover;
+    border-color: #003A09;
+}
+
+#card8QH3GV {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8QH3GV.png") center;
+    background-size: cover;
+    border-color: #000;
+}
+
+#cardR1J9VR {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/R1J9VR.png") center;
+    background-size: cover;
+    border-color: #00204B;
+}
+
+#cardWV07MQ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/WV07MQ.png") center;
+    background-size: cover;
+    border-color: #3A1C00;
+}
+
+#cardR6LJE0 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/R6LJE0.png") center;
+    background-size: cover;
+    border-color: #779499;
+}
+
+button.contentsButton {
+    border-left: none;
+    border-right: none;
+}
