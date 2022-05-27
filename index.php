@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-    include("/php/populate.php");
-    chooseColors();
+include("/php/populate.php");
+chooseColors();
 ?>
 
 <head>
@@ -39,22 +39,20 @@
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
-    
+
     <main>
         <article>
             <video poster="img/Video Thumbnail.png" controls>
                 <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <!-- WHAT HAPPENED TO THE CODE THAT PICKED ONE OF THESE?!?! -->
             <?php
-                include('/php/db_connect.php');
-                echo populateStatic("");
+            include('/php/db_connect.php');
+            echo populateStatic("");
             ?>
             <hr>
             <p>Find Us</p>
             <div class="social">
-                <!-- Replace w/ text-based buttons. -->
                 <a href="https://discord.com/invite/V7KUyye" width="24px" height="24px">
                     <img src="../img/index/Discord-Logo-White.png" width="24px" height="24px">
                 </a>
@@ -77,8 +75,8 @@
         </article>
         <aside>
             <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
-            <div style="display: none;">
-                <div class="asideMain" style="display: flex;">
+            <div class="asideContainer">
+                <div class="asideMain">
                     <form action="/search/">
                         <input type="text" required="required" placeholder="Search…" name="q">
                         <button type="submit">🔎︎</button>
@@ -102,13 +100,13 @@
     </main>
     <!-- modal -->
     <div id="myModal" class="modal">
-            <!-- modal content -->
-            <div class="modal-content modal-content-center">
-                <div id="modal-data">
-                    <p>No information is available at this time.</p>
-                </div>
+        <!-- modal content -->
+        <div class="modal-content modal-content-center">
+            <div id="modal-data">
+                <p>No information is available at this time.</p>
             </div>
         </div>
+    </div>
     <!-- jQuery -->
     <script src="js/jquery/jquery-3.6.0.min.js"></script>
     <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>

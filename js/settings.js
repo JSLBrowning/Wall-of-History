@@ -1,3 +1,16 @@
+function loadSettings() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementsByClassName("story")[0].innerHTML = this.responseText;
+            fixSettings();
+        }
+    };
+    xmlhttp.open("GET", "../php/populatesettings.php", true);
+    xmlhttp.send();
+}
+
+
 function fixSettings() {
     let WallofHistoryReadingOrder = localStorage.getItem("readingOrder:0").split(",");
     let settingsList = document.getElementById("sortable");
@@ -15,12 +28,12 @@ function fixSettings() {
     }
 }
 
-if (localStorage.getItem("readingOrder:0") != null) {
-    fixSettings();
-}
+
+document.onload = loadSettings();
+
 
 $.noConflict();
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     function initSortable() {
         $("#sortable").sortable();
         $("#sortable").disableSelection();
@@ -45,18 +58,18 @@ jQuery(document).ready(function($) {
     }
 
     function initActions() {
-        $(".ui-state-default").on("change", function(e) {
+        $(".ui-state-default").on("change", function (e) {
             output(e);
         });
-        $(".ui-state-default input").on("click", function(e) {
+        $(".ui-state-default input").on("click", function (e) {
             output(e);
         });
     }
     initActions();
 
-    $("#submit").on("click", function() {
+    $("#submit").on("click", function () {
         let yesCount = 0;
-        let values = $("#sortable input:checkbox").map(function() {
+        let values = $("#sortable input:checkbox").map(function () {
             if (this.checked) {
                 yesCount++;
                 return this.value + ":1";

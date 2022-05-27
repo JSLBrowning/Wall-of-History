@@ -67,9 +67,12 @@ chooseColors();
         <article>
             <section class="story">
                 <h1>Settings</h1>
-                <?php
-                populateSettings();
-                ?>
+                <div class="loadingWrapper">
+                    <div class="loadingIconWrapper">
+                        <div class="loadingIcon"></div>
+                    </div>
+                    <p class="loadingMessage">Loading…</p>
+                </div>
             </section>
             <button id="submit">Submit</button>
         </article>

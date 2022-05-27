@@ -1,3 +1,59 @@
 main {
     flex-direction: row-reverse;
 }
+
+section.story {
+    width: 720px;
+}
+
+h1 {
+    margin: 0.25em 1em;
+}
+
+
+.loadingMessage {
+    color: var(--front1);
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: .1875em;
+}
+
+
+.loadingIconWrapper {
+    margin: 2em calc(50% - 40px) 1em calc(50% - 40px);
+    width: 80px;
+    overflow: visible;
+}
+
+
+.loadingIcon {
+    border: 0.5em solid lightgray;
+    border-radius: 50%;
+    border-top: 0.5em solid gray;
+    width: 64px;
+    height: 64px;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

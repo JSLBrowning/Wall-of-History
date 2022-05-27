@@ -3,9 +3,8 @@ main {
     max-width: 960px;
 }
 
-main img {
+section.story img.slideshow {
     width: 100%;
-    max-width: 960px;
     padding-top: 0em;
 }
 

@@ -334,22 +334,19 @@ aside {
     padding: .25em 0;
 }
 
+aside div div.asideMain {
+    display: flex;
+    flex-direction: column;
+}
+
 aside button {
-    width: 2em;
-    height: 2em;
     border-radius: .5em;
     background: var(--back2);
-    box-shadow: var(--outershadow);
-    border: 1px solid var(--border);
-    border-left: none;
-    border-right: none;
-    font-size: 1.5em;
     font-weight: bolder;
     z-index: 1;
     cursor: pointer;
     transition: all .2s ease-in-out;
-    margin: .25em;
-    padding: none;
+    margin: .25em 3.75%;
 }
 
 aside button:focus {
@@ -377,11 +374,13 @@ aside button.nocaps {
 aside p {
     color: var(--front2);
     text-transform: uppercase;
+    margin: .25em;
+    margin-left: 3.75%;
+    margin-right: 3.75%;
     font-weight: 900;
     font-size: .75em;
     letter-spacing: .125em;
     width: 92.5%;
-    margin: .25em;
     padding: 0;
 }
 
@@ -472,6 +471,8 @@ aside button,
 aside a#downloadLink,
 #modal-data button.disambigButton {
     width: 92.5%;
+    margin-left: 3.75%;
+    margin-right: 3.75%;
     font-size: .9375em;
     border: none;
     color: var(--front2);
@@ -895,13 +896,19 @@ nav {
     z-index: 1;
     margin: -8px 0px 0px 0px;
     border: none;
-    border-bottom-left-radius: 0.75em;
-    border-bottom-right-radius: 0.75em;
+    border-top-left-radius: 0em;
+    border-top-right-radius: 0em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
     background-color: var(--back2);
     width: 33.33%;
-    height: 32px;
     font-size: 1.25em;
     box-shadow: none;
+}
+
+
+#slidelocationdiv {
+    height: 33px;
 }
 
 
@@ -1416,6 +1423,10 @@ section.structure nav {
         width: 100%;
         margin: 0em;
         justify-content: space-between;
+    }
+    
+    aside div.asideContainer {
+        display: none;
     }
 
     aside button.hideShow {
