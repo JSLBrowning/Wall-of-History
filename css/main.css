@@ -22,6 +22,7 @@
     --outershadow: 2px 2px 4px rgba(0, 0, 0, 0.5625);
     --smalloutershadow: 1px 1px 2px rgba(0, 0, 0, 0.5625);
     --innershadow: inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
+    --iconfilter: invert(0%);
 }
 
 
@@ -38,6 +39,7 @@
     --outershadow: 3px 3px 6px rgba(0, 0, 0, 0.5625);
     --smalloutershadow: 1px 1px 2px rgba(0, 0, 0, 0.5625);
     --innershadow: 3px 3px 6px var(--back1), inset 3px 3px 6px var(--back1), inset -3px -3px 6px var(--back3);
+    --iconfilter: invert(100%);
 }
 
 
@@ -467,6 +469,7 @@ aside button:active,
 aside button,
 aside a#downloadLink,
 aside form,
+aside fieldset,
 aside button,
 aside a#downloadLink,
 #modal-data button.disambigButton {
@@ -477,7 +480,7 @@ aside a#downloadLink,
     border: none;
     color: var(--front2);
     box-shadow: none;
-    background-color: var(--back);
+    background-color: var(--back2);
     text-transform: uppercase;
     letter-spacing: .1875em;
 }
@@ -1443,7 +1446,7 @@ section.structure nav {
     }
 
     aside div.asideMain {
-        display: flex;
+        display: none;
         flex-direction: column;
         align-items: center;
     }

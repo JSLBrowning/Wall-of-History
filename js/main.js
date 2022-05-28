@@ -115,6 +115,10 @@ async function checkLanguage() {
         const lang = navigator.language.substring(0, 2);
         localStorage.setItem("languagePreference", lang);
         if ((getCookie("languagePreference") == null) || (getCookie("languagePreference") != lang)) {
+            document.cookie = "languagePreference=" + lang + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+        }
+    } else {
+        if ((getCookie("languagePreference") == null) || (getCookie("languagePreference") != localStorage.getItem("languagePreference"))) {
             document.cookie = "languagePreference=" + localStorage.getItem("languagePreference") + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
         }
     }
@@ -278,12 +282,9 @@ initialize();
 // Resets the user's local storage data to default values.
 async function resetReader() {
     localStorage.clear();
-    let success = await initialize();
-    if (success == true) {
-        alert("Reset complete.");
-    } else {
-        alert("ERROR: Reset failed. Please report to admin@wallofhistory.com.")
-    }
+    initialize().then(() => {
+        alert("Reader reset.");
+    });
 }
 
 

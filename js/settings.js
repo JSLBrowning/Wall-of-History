@@ -29,6 +29,27 @@ function fixSettings() {
 }
 
 
+function exportRoute() {
+    console.log("To be implemented.");
+    // 1. Get all checked items as if storing in localStorage.
+    // 1.a. Alert user that this will export currently checked items, not their current stored route.
+    // 2. Prompt user for route name (store on second line of file).
+    // 2. Save to file (2001-01-01.route, maybe).
+    // 3. Download file to user's computer.
+}
+
+
+function importRoute() {
+    console.log("To be implemented.");
+    // 1. Ask user if they want to override main route or import alongside it.
+    // 2. Prompt user for file to import.
+    // 3. Read file and validate contents.
+    // 3.a. Split by ",".
+    // 3.b. Splite each resulting array by ":".
+    // 3.c. If every import[i][0] is a valid ID, save original string to localStorage.
+}
+
+
 document.onload = loadSettings();
 
 
@@ -86,6 +107,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
+
 function checkAll(sel) {
     if (sel.options[sel.selectedIndex].value == "everything") {
         let boxes = document.querySelectorAll('input[type=checkbox]');
@@ -101,6 +123,7 @@ function checkAll(sel) {
         alert("All " + sel.options[sel.selectedIndex].value + " items have been selected.");
     }
 }
+
 
 function uncheckAll(sel) {
     if (sel.options[sel.selectedIndex].value == "everything") {

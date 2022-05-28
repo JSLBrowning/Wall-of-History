@@ -9,4 +9,5 @@ ol {
 
 li {
     width: fit-content;
+    cursor: pointer;
 }

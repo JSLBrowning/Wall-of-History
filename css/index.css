@@ -4,6 +4,12 @@
     }
 }
 
+
+span.trademarker {
+    font-family: "TradeMarker";
+}
+
+
 html body main article {
     max-width: 1280px;
     padding-bottom: 0.5em;
@@ -19,9 +25,11 @@ html body main aside {
     min-width: 240px;
 }
 
+
 main video {
     padding: 0em;
 }
+
 
 main p {
     text-align: center;
@@ -30,10 +38,12 @@ main p {
     width: calc(100% - 3em);
 }
 
+
 main hr {
     margin-top: 1.5em;
     margin-bottom: 2em;
 }
+
 
 .homepageReadButton:disabled,
 .homepageReadButton[disabled] {
@@ -42,23 +52,28 @@ main hr {
     cursor: default;
 }
 
+
 .homepageReadButton:disabled:hover {
     transform: none;
 }
+
 
 .homepageReadButton:disabled:active {
     transform: none;
     box-shadow: var(--outershadow);
 }
 
+
 .social a {
     transition: all .2s ease-in-out;
 }
+
 
 .social a:hover {
     transform: scale(1.25);
     box-shadow: none;
 }
+
 
 .social a:active {
     transform: scale(0.975);
@@ -66,9 +81,11 @@ main hr {
     box-shadow: none;
 }
 
+
 #indeximg {
     margin: 0px 0px -18px 0px;
 }
+
 
 .social {
     width: 33.33%;
@@ -85,10 +102,12 @@ main hr {
     height: 2em;
 }
 
+
 .social img {
     width: 1.5em;
     height: 1.5em;
     margin: .25em;
+    filter: var(--iconfilter);
 }
 
 

@@ -101,7 +101,7 @@
         </article>
 
         <aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong>⮟ </strong>Main Menu</button>
+            <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
             <div class="asideMain">
                 <form action="/search/">
                     <input type="text" required="required" placeholder="Search…" name="q">

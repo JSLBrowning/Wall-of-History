@@ -42,7 +42,11 @@ chooseColors();
 
     <main>
         <article>
-            <video poster="img/Video Thumbnail.png" controls>
+            <video poster="img/Video Thumbnail.png" controls<?php
+            if (!isset($_COOKIE['languagePreference'])) {
+                echo " autoplay";
+            }
+            ?>>
                 <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>

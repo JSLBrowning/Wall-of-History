@@ -1,18 +1,18 @@
 /* WIP */
-main::before {
-    backdrop-filter: blur(10px);
+:root {
+    --back2: rgba(22, 22, 22, 0.875);
 }
 
-main,
-aside button,
-.savefile button,
-.nav button {
-    backdrop-filter: blur(10px);
-    background-color: rgba(22, 22, 22, 0.875);
+
+section.titleBox,
+div.titleBoxText {
+    background-color: rgba(0, 0, 0, 0);
 }
+
 
 body {
-    background-image: url("/img/test/Metru\ Nui\ blue\ cloud.png");
+    background-color: #383B32;
+    background-image: url("/img/test/Metru-Nui-blue-cloud.jpg");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
