@@ -278,13 +278,46 @@ function loadContentParents($id, $v, $title)
 
 function sanitizeContributors($contributors_array)
 {
+    $sanitized_contributors = array();
     $exploded_contributors = array();
     foreach ($contributors_array as $contributor) {
-        array_push($exploded_contributors, explode(",", $contributor));
+        array_push($exploded_contributors, explode(" by ", $contributor));
     }
 
-    $contributor_types = array_column($exploded_contributors, 0);
+    $contributor_types = array();
+    foreach ($exploded_contributors as $contributor) {
+        array_push($contributor_types, $contributor[0]);
+    }
+
     $unique_contributor_types = array_unique($contributor_types);
+    foreach ($unique_contributor_types as $type) {
+        // If count > 1, get all [1] with that type.
+        //     Append "and " to last.
+        //     Implode with comma.
+        //     Add to sanitized array
+        $count = 0;
+        $latest = array();
+        $contributors = array();
+        foreach ($exploded_contributors as $contributor) {
+            if ($contributor[0] === $type) {
+                array_push($contributors, $contributor[1]);
+                $latest = $contributor;
+                $count++;
+            }
+        }
+
+        if ($count > 1) {
+            $last = array_pop($contributors);
+            $contributors = implode(", ", $contributors);
+            $contributors .= " and " . $last;
+            array_push($sanitized_contributors, implode(" by ", array($type, $contributors)));
+        } else {
+            array_push($sanitized_contributors, $latest);
+        }
+        // Else, pass through to sanitized array as-is.
+    }
+
+    return implode(", ", $sanitized_contributors);
 }
 
 
@@ -300,6 +333,7 @@ function loadContentContributors($id)
             echo "<h3>" . $row["tag"] . "</h3>";
         }
     }
+
     if ($num_rows > 1) {
         echo "<h3>";
         $contributors_array = array();
@@ -307,7 +341,8 @@ function loadContentContributors($id)
         while ($row = $contributors->fetch_assoc()) {
             array_push($contributors_array, $row["tag"]);
         }
-        echo implode(", ", $contributors_array) . "</h3>";
+        sort($contributors_array);
+        echo sanitizeContributors($contributors_array) . "</h3>";
     }
 }
 

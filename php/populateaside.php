@@ -15,6 +15,33 @@ function getDataAside($column, $query)
 }
 
 
+function getAdaptations($id) {
+    $successes = 0;
+
+    $adaptations_query = "SELECT adaptation_id FROM story_adaptations WHERE original_id = '$id'";
+    $adaptations = getDataAside("adaptation_id", $adaptations_query);
+    if (!empty($adaptations)) {
+        $title_query = "SELECT title FROM woh_content WHERE id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getDataAside("title", $title_query);
+
+        echo "<p>Adapted into <a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a>.</p>\n";
+        $successes++;
+    }
+
+    $originals_query = "SELECT original_id FROM story_adaptations WHERE adaptation_id = '$id'";
+    $originals = getDataAside("original_id", $originals_query);
+    if (!empty($originals)) {
+        $title_query = "SELECT title FROM woh_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getDataAside("title", $title_query);
+
+        echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
+        $successes++;
+    }
+
+    return $successes;
+}
+
+
 function getDetailsAside($id, $lang, $v) {
     include("..//php/db_connect.php");
 
@@ -27,6 +54,8 @@ function getDetailsAside($id, $lang, $v) {
         echo "<p class='snippet'>" . $snippet[0] . "</p>\n";
         $successes++;
     }
+
+    $successes = $successes + getAdaptations($id);
 
     $release_query = "SELECT publication_date FROM woh_metadata WHERE id='$id'";
     $release = getDataAside("publication_date", $release_query);
@@ -154,7 +183,7 @@ function getDownload($id, $lang) {
 
     if (isset($download_title[0])) {
         if (file_exists("../doc/downloads/" . $id . ".zip")) {
-            echo "<a id='downloadLink' href='/doc/downloads/$id.zip' download='" . $download_title[0] . "' target='_blank'><button class='small' id='downloadButton'>Download</button></a>\n";
+            echo "<a id='downloadLink' href='/doc/downloads/$id.zip' download='" . strip_tags($download_title[0]) . ".zip' target='_blank'><button class='small' id='downloadButton'>Download</button></a>\n";
             echo "<hr>\n";
         }
     }

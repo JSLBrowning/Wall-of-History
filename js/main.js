@@ -814,3 +814,8 @@ document.addEventListener('keydown', function (event) {
         closeImage();
     }
 });
+
+
+/***********************
+ * END IMAGE FUNCTIONS *
+ * *********************/

@@ -69,7 +69,9 @@ CREATE TABLE IF NOT EXISTS story_tags(
 
 CREATE TABLE IF NOT EXISTS story_adaptations(
     original_id varchar(6) NOT NULL,
-    adaptation_id varchar(6) NOT NULL
+    original_version int,
+    adaptation_id varchar(6) NOT NULL,
+    adaptation_version int
 );
 
 CREATE TABLE IF NOT EXISTS story_equivalents(
@@ -89,6 +91,22 @@ CREATE TABLE WoH_images(
     image_url text
 );
 */
+
+CREATE TABLE IF NOT EXISTS story_reference_extras(
+    id varchar(6),
+    /* The ID of the content this is an extra for. */
+    content_version int,
+    /* The specific version of the content this is an extra for (optional — if blank, it will count for all versions). */
+    content_language varchar (2),
+    /* The specific language of the content this is an extra for (optional — if blank, it will count for all languages). */
+    extra_type text,
+    /* The type of extra this is. Examples: "Concept Art", "Trailer", "Behind the Scenes" */
+    extra_format text,
+    /* The format of the extra — "img" or "video", for example. */
+    extra_source text
+    /* The location of the main content of the extra.
+    In the case of videos, a poster can be included at the same location in the PNG format. */
+);
 
 CREATE TABLE IF NOT EXISTS story_reference_web(
     parent_id varchar(6) NOT NULL,

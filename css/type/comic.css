@@ -5,7 +5,7 @@ main {
 
 section.story img.slideshow {
     width: 100%;
-    padding-top: 0em;
+    padding: 0em;
 }
 
 section.story img.slideshow:hover,

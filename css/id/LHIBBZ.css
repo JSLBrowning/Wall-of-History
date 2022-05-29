@@ -3,6 +3,7 @@
     --back1: #071114;
     /* RGB08, drop shadow */
     --back2: #0E181B;
+    --back2: rgba(14, 24, 27, 0.9375);
     /* RGB22, main background, button:active */
     --back3: #131D20;
     /* RGB32, borders, button:hover, etc. */
@@ -29,9 +30,17 @@
     --fontweight: bold;
 }
 
+
+aside a#downloadLink,
+.asideMain > *,
+.asideMain a > * {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
 body {
     background-image: linear-gradient(180deg, rgba(14, 24, 27, 0.125) 0%, #0E181B 100%),
-        url("/img/test/PrettyMetruNui.png");
+        url("/img/test/PrettyMetruNui.jpg");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

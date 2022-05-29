@@ -357,11 +357,13 @@ aside button:focus {
 
 aside a#downloadLink {
     all: unset;
+    display: block;
     width: 92.5%;
 }
 
 aside a#downloadLink button.small {
-    width: calc(100%-0.5em);
+    width: 100%;
+    margin: 0em;
 }
 
 aside button.small {
@@ -375,7 +377,6 @@ aside button.nocaps {
 
 aside p {
     color: var(--front2);
-    text-transform: uppercase;
     margin: .25em;
     margin-left: 3.75%;
     margin-right: 3.75%;
@@ -384,6 +385,17 @@ aside p {
     letter-spacing: .125em;
     width: 92.5%;
     padding: 0;
+}
+
+aside p em {
+    color: var(--front2);
+}
+
+aside p a,
+aside p a em {
+    font-weight: 900;
+    color: var(--front1);
+    cursor: pointer;
 }
 
 aside hr {
@@ -502,6 +514,12 @@ section.titleBox {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: none;
+}
+
+
+section.titleBox,
+div.titleBoxText {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -897,7 +915,7 @@ nav {
 .slidecontrols button,
 #slidelocationdiv {
     z-index: 1;
-    margin: -8px 0px 0px 0px;
+    margin: 0em;
     border: none;
     border-top-left-radius: 0em;
     border-top-right-radius: 0em;
