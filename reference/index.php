@@ -71,7 +71,6 @@
                         echo "<button onclick='goTo(\"" . $row["story_id"] . "\")'>" . $row["story_id"] . "</button> ";
                     }
                 } else {
-                    echo "<h1>⚄</h1>";
                     echo "<h1>Reference</h1>";
                     include("..//php/db_connect.php");
                     // Create selection statement.

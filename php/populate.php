@@ -301,7 +301,7 @@ function sanitizeContributors($contributors_array)
         foreach ($exploded_contributors as $contributor) {
             if ($contributor[0] === $type) {
                 array_push($contributors, $contributor[1]);
-                $latest = $contributor;
+                $latest = implode(" by ", $contributor);
                 $count++;
             }
         }
