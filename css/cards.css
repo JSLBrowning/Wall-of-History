@@ -169,6 +169,30 @@
     border-color: #779499;
 }
 
+#cardFB8NQ0 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A7.png") center;
+    background-size: cover;
+    border-color: limegreen;
+}
+
+#card0ODDBR {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A8.png") center;
+    background-size: cover;
+    border-color: orange;
+}
+
+#cardPTMJ5P {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/a9.png") center;
+    background-size: cover;
+    border-color: #8f8c4f;
+}
+
+#card3PJT80 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A10.png") center;
+    background-size: cover;
+    border-color: red;
+}
+
 button.contentsButton {
     border-left: none;
     border-right: none;

@@ -19,3 +19,7 @@ body {
     background-attachment: fixed;
     padding-bottom: 4em;
 }
+
+.contentsButton {
+    border-color: #594A37;
+}

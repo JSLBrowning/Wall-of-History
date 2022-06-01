@@ -13,3 +13,7 @@ body {
     background-size: cover;
     padding-bottom: 4em;
 }
+
+.contentsButton {
+    border-color: #d5b278;
+}
