@@ -593,7 +593,7 @@ main section:only-child {
 
 .titleBoxText {
     width: 100%;
-    padding-left: 1em;
+    padding: 0em .5em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
