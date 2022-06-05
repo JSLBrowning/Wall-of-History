@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('America/New_York');
+
 // Generic query function.
 function getDataAside($column, $query)
 {
@@ -15,7 +17,24 @@ function getDataAside($column, $query)
 }
 
 
-function getAdaptations($id) {
+function getAdaptedFrom($id) {
+    $successes = 0;
+
+    $originals_query = "SELECT original_id FROM story_adaptations WHERE adaptation_id = '$id'";
+    $originals = getDataAside("original_id", $originals_query);
+    if (!empty($originals)) {
+        $title_query = "SELECT title FROM woh_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getDataAside("title", $title_query);
+
+        echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
+        $successes++;
+    }
+
+    return $successes;
+}
+
+
+function getAdaptedInto($id) {
     $successes = 0;
 
     $adaptations_query = "SELECT adaptation_id FROM story_adaptations WHERE original_id = '$id'";
@@ -25,16 +44,6 @@ function getAdaptations($id) {
         $title = getDataAside("title", $title_query);
 
         echo "<p>Adapted into <a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a>.</p>\n";
-        $successes++;
-    }
-
-    $originals_query = "SELECT original_id FROM story_adaptations WHERE adaptation_id = '$id'";
-    $originals = getDataAside("original_id", $originals_query);
-    if (!empty($originals)) {
-        $title_query = "SELECT title FROM woh_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
-        $title = getDataAside("title", $title_query);
-
-        echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
         $successes++;
     }
 
@@ -55,14 +64,16 @@ function getDetailsAside($id, $lang, $v) {
         $successes++;
     }
 
-    $successes = $successes + getAdaptations($id);
+    $successes = $successes + getAdaptedFrom($id);
 
     $release_query = "SELECT publication_date FROM woh_metadata WHERE id='$id'";
     $release = getDataAside("publication_date", $release_query);
     if (!empty($release)) {
-        echo "<p>Release Date: " . $release[0] . "</p>\n";
+        echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
         $successes++;
     }
+
+    $successes = $successes + getAdaptedInto($id);
 
     $words_query = "SELECT word_count FROM woh_content WHERE id='$id' AND content_version='$v' AND content_language='$lang'";
     $words = getDataAside("word_count", $words_query);

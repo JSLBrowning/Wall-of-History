@@ -23,3 +23,9 @@ body {
 .contentsButton {
     border-color: #594A37;
 }
+
+main article section.story,
+main aside {
+    border-right: 0px;
+    border-left: 0px;
+}

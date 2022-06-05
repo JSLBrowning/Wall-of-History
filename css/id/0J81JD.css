@@ -34,3 +34,9 @@ body {
     background-attachment: fixed;
     padding-bottom: 4em;
 }
+
+main article section.story,
+main aside {
+    border-right: 0px;
+    border-left: 0px;
+}

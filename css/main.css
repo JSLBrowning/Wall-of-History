@@ -220,6 +220,7 @@ main p {
     font-size: var(--pfontsize);
     text-align: justify;
     text-justify: inter-word;
+    hyphens: none;
     margin: 0.5em;
     width: calc(100% - 1em);
 }
@@ -985,7 +986,7 @@ nav button {
     font-size: 1.25em;
     width: 7.5em;
     height: 1.5em;
-    margin: 1.25em;
+    margin: 1em;
     letter-spacing: 0.0625em;
 }
 

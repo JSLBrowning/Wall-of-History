@@ -127,18 +127,16 @@ CREATE TABLE IF NOT EXISTS story_reference_web(
  * Reference pages will display a source link if data was from some story material, while story pages with reference parents will simply link back to them like other story materials link back to story parents.
  */
 
+
 CREATE TABLE IF NOT EXISTS reference_metadata (
     subject_id varchar(6),
     /* Subject IDs are used to identify entries as referring to the same character or concept, even if entries have slightly different names. */
     entry_id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
-    snippet text,
-    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
-    small_image text,
-    /* Self-explanatory. */
     publication_date date
     /* These data entries are for individual sections of reference works, such as one entry from the BIONICLE Encyclopedia. As such, they can have individual publication dates. */
 );
+
 
 CREATE TABLE IF NOT EXISTS reference_content (
     entry_id varchar(6) PRIMARY KEY,
@@ -150,6 +148,8 @@ CREATE TABLE IF NOT EXISTS reference_content (
     version_title text,
     /* ...and this string identifies the version (for example, "Updated"). */
     /* If no version titles, default to name of parents? */
+    snippet text,
+    /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
     spoiler_level int,
     /* Story items have spoiler levels as well, which allows you to prevent readers from reading about something they haven’t seen happen yet. */
     header int NOT NULL,
@@ -160,12 +160,10 @@ CREATE TABLE IF NOT EXISTS reference_content (
     /* Self-explanatory. */
 );
 
+
 CREATE TABLE IF NOT EXISTS reference_titles (
     entry_id varchar(6) NOT NULL,
     /* Self-explantory. */
-    spoiler_level int,
-    /* On compilation pages, only display titles below current spoiler level. */
-    /* Speaking of which, put spoiling entries under hide/show thingies. */
     title text NOT NULL
     /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
     /* If title refers to multiple subjects, ?s=[title] leads to a disambiguation page. */
@@ -173,14 +171,13 @@ CREATE TABLE IF NOT EXISTS reference_titles (
 );
 
 CREATE TABLE IF NOT EXISTS reference_images (
-    entry_id varchar(6) NOT NULL,
-    /* Self-explantory. */
-    spoiler_level int,
-    /* Self-explantory. */
+    id varchar(6) NOT NULL,
+    /* Can be entry ID or subject ID (for desirable images not used elsewhere). */
     image_path text NOT NULL,
+    /* Can also be a video, actually. Order by type then spoiler level — images of 1, videos of 1, images of 2, and so on. */
     /* Be sure to use DISTINCT for compilation pages. */
     caption text
-    /* Self-explantory. */
+    /* Self-explantory. Can be "OGP" for OGP images. OGP images will not be rendered on reference modals or pages. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_quotes (
@@ -188,8 +185,10 @@ CREATE TABLE IF NOT EXISTS reference_quotes (
     /* Self-explantory. */
     spoiler_level int,
     /* Self-explanatory. */
-    quote text NOT NULL
+    quote text NOT NULL,
     /* This will be a quote from or about a character/thing. Subjects can have any number of quotes, and one will be chosen at random when a subject page (or reference modal, if the spoiler levels match) is loaded. */
+    source text
+    /* This is the source of the quote, in the form of an ID combo — i.e., ID.version.lang, ID.version (preferable), or ID. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_appearances (
