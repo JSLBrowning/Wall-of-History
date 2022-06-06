@@ -1,3 +1,10 @@
+/*
+ * Concept for an improved version of this:
+ * 1. On activation of plusDivs, traverse up to parent (slidecontrols div), then begin looping up siblings.
+ * 2. Stop looping when you find the next sibling that is not a .slideshow.
+ * 3. Operate on those.
+ */
+
 if ($("#slidelocation").length > 0) {
     var x = document.getElementsByClassName("slideshow");
     var slideIndex = 1;

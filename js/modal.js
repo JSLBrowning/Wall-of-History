@@ -102,6 +102,7 @@ function getModalContent(identifier) {
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("modal-data").innerHTML = this.responseText;
+            detectSlideshow();
         }
     };
     xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject + "&sl=" + localStorage.getItem("spoilerLevel"), true);

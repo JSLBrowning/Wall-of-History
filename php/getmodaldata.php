@@ -10,7 +10,7 @@ $q = $_REQUEST["q"];
 $sl = $_REQUEST["sl"];
 
 // Fetch all subjects that use this name (within the current spoiler level).
-$sql_subjects = "SELECT DISTINCT subject_id FROM reference_metadata WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$q' AND spoiler_level<=$sl ORDER BY spoiler_level ASC)";
+$sql_subjects = "SELECT DISTINCT subject_id FROM reference_metadata WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$q')";
 
 $result_subjects = $mysqli->query($sql_subjects);
 $subjects = [];
@@ -43,7 +43,7 @@ if ($result_subjects->num_rows > 0) {
 function get_alternate_names($subject_id, $name, $spoiler_level) {
     include("..//php/db_connect.php");
 
-    $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) AND title != '$name' ORDER BY spoiler_level ASC";
+    $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id') AND entry_id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level) AND title != '$name'";
     $result_titles = $mysqli->query($sql_titles);
 
     $alt_names = [];
@@ -108,18 +108,28 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     include("..//php/db_connect.php");
 
     // Create selection statement for images.
-    $sql_images = "SELECT image_path, caption FROM reference_images WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$name' AND spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
+    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level)";
     $result_images = $mysqli->query($sql_images);
 
     if ($result_images->num_rows == 1) {
         $row_images = mysqli_fetch_assoc($result_images);
-        echo "<img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
+        echo "<img class='slideshow' src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
     } else if ($result_images->num_rows > 1) {
-        echo "<div class='modalSlideshow'>";
+        $count = 0;
         while ($row_images = mysqli_fetch_assoc($result_images)) {
-            echo "<img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
+            $noshow = " style='display:none'";
+            $path = $row_images['image_path'];
+            if ($count == 0) {
+                $noshow = "";
+            }
+            if ((strpos($path, '.mp4') !== false) || (strpos($path, '.m4v') !== false)) {
+                echo "<video class='slideshow'$noshow controls><source src='$path' type='video/mp4'></video>";
+            } else {
+                echo "<img class='slideshow'$noshow src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
+            }
+            $count++;
         }
-        echo "</div>";
+        echo "<div class=\"slidecontrols\"><button id=\"slideshowback\" onclick=\"plusDivs(-1)\" style=\"width: 35%; display: none;\">←</button><div id=\"slidelocationdiv\" style=\"width: 50%;\"><p id=\"slidelocation\"></p></div><button id=\"slideshowforward\" onclick=\"plusDivs(+1)\" style=\"width: 50%;\">→</button></div>";
     }
 
     echo "<h1>$name</h1>";
