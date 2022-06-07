@@ -40,14 +40,14 @@ function hideShow(button) {
         let nextSibling = button.nextElementSibling;
         let currentStyles = window.getComputedStyle(nextSibling);
         if (currentStyles.display === "none" || currentStyles.display === "") {
-            while(nextSibling) {
+            while (nextSibling) {
                 $(nextSibling).slideDown();
                 nextSibling = nextSibling.nextElementSibling;
             }
             let oldText = button.innerText;
             button.innerText = oldText.replace("⮞", "⮟");
         } else {
-            while(nextSibling) {
+            while (nextSibling) {
                 $(nextSibling).slideUp();
                 nextSibling = nextSibling.nextElementSibling;
             }
@@ -768,31 +768,37 @@ function showButtons() {
  *******************/
 
 
-let images = document.querySelectorAll(".story > img, .story > section > img, #modal-data > img");
+function addZoomEventListeners() {
+    let images = document.querySelectorAll(".story > img, .story > section > img, #modal-data > img");
 
-// Will need to do all this each time the modal loads.
+    // Will need to do all this each time the modal loads.
 
-for (var i = 0; i < images.length; i++) {
-    images[i].addEventListener("click", function () {
-        let src = this.src;
-        let alt = this.alt;
-        let img = document.createElement("img");
-        img.setAttribute("src", src);
+    for (var i = 0; i < images.length; i++) {
+        images[i].addEventListener("click", function () {
+            let src = this.src;
+            let alt = this.alt;
+            let img = document.createElement("img");
+            img.setAttribute("src", src);
 
-        let zoom = document.createElement("div");
-        zoom.classList.add("zoom");
-        zoom.appendChild(img);
+            let zoom = document.createElement("div");
+            zoom.classList.add("zoom");
+            zoom.appendChild(img);
 
-        if (alt != ("img" || "" || null)) {
-            let caption = document.createElement("p");
-            caption.innerHTML = alt;
-            zoom.appendChild(caption);
-        }
+            if (alt != ("img" || "" || null)) {
+                let caption = document.createElement("p");
+                caption.innerHTML = alt;
+                zoom.appendChild(caption);
+            }
 
-        document.body.appendChild(zoom);
-        $(".zoom").fadeTo("fast", 1);
-    });
+            document.body.appendChild(zoom);
+            $(".zoom").fadeTo("fast", 1);
+        });
+    }
 }
+
+
+document.onload = addZoomEventListeners();
+
 
 function closeImage() {
     $(".zoom").fadeOut("fast");
@@ -801,6 +807,7 @@ function closeImage() {
     }, 200);
 }
 
+
 window.onclick = function (event) {
     if (event.target.classList.contains('zoom')) {
         closeImage();
@@ -808,6 +815,7 @@ window.onclick = function (event) {
         generalToggle();
     }
 }
+
 
 document.addEventListener('keydown', function (event) {
     if (event.key === "Escape") {

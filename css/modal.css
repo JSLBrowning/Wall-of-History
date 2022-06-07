@@ -251,7 +251,7 @@
 .modal-text {
     margin-top: 0.5em;
     overflow: scroll;
-    max-height: calc(66.66% - 1em);
+    max-height: calc(57.75% - 1em);
 }
 
 .modal-text section {
@@ -284,7 +284,7 @@
 
 #modal-data img.slideshow {
     position: relative;
-    width: 60%;
+    width: auto;
     margin-top: -1em;
     overflow: visible;
     z-index: 25;

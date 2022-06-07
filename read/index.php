@@ -62,9 +62,7 @@
     populateHead($id, $lang, $v);
     ?>
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
-    <link rel='stylesheet' type='text/css' href='/css/contents.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
-    <link rel='stylesheet' type='text/css' href='/css/test.css'>
     <link rel='stylesheet' type='text/css' href='/css/cards.css'>
     <?php
     // Pass in stack cookie.

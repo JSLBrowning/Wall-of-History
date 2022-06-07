@@ -19,6 +19,7 @@ section.story img.slideshow {
 section.story img.slideshow:hover,
 section.story img.slideshow:active {
     transform: none;
+    box-shadow: none;
 }
 
 .story img:hover {

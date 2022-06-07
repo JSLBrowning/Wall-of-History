@@ -1,18 +1,13 @@
-/*
- * Concept for an improved version of this:
- * 1. On activation of plusDivs, traverse up to parent (slidecontrols div), then begin looping up siblings.
- * 2. Stop looping when you find the next sibling that is not a .slideshow.
- * 3. Operate on those.
- */
-
 if ($("#slidelocation").length > 0) {
     var x = document.getElementsByClassName("slideshow");
     var slideIndex = 1;
     showDivs(slideIndex);
 
+    
     function plusDivs(n) {
         showDivs(slideIndex += n);
     }
+
 
     function showDivs(n) {
         var i;
@@ -48,9 +43,10 @@ if ($("#slidelocation").length > 0) {
         }
     }
 
+
     // Update the below to only respect the "highest" slideshow.
     // I.e., if the reference modal has a slideshow, arrows should only move those images, even if there's a comic underneath.
-    // Might be possible to find the slideshow with the highest Z-index.
+    // Tried to make this happen by using the z-index of the slideshow(s), but that didn't work.
     window.addEventListener("keydown", function (event) {
         if (event.defaultPrevented) {
             return;

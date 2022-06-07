@@ -108,18 +108,19 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     include("..//php/db_connect.php");
 
     // Create selection statement for images.
-    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level)";
+    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
     $result_images = $mysqli->query($sql_images);
 
     if ($result_images->num_rows == 1) {
         $row_images = mysqli_fetch_assoc($result_images);
         echo "<img class='slideshow' src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
     } else if ($result_images->num_rows > 1) {
-        $count = 0;
+        $position = 0;
+        $count = mysqli_num_rows($result_images);
         while ($row_images = mysqli_fetch_assoc($result_images)) {
             $noshow = " style='display:none'";
             $path = $row_images['image_path'];
-            if ($count == 0) {
+            if ($position == $count - 1) {
                 $noshow = "";
             }
             if ((strpos($path, '.mp4') !== false) || (strpos($path, '.m4v') !== false)) {
@@ -127,32 +128,33 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
             } else {
                 echo "<img class='slideshow'$noshow src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
             }
-            $count++;
+            $position++;
         }
-        echo "<div class=\"slidecontrols\"><button id=\"slideshowback\" onclick=\"plusDivs(-1)\" style=\"width: 35%; display: none;\">←</button><div id=\"slidelocationdiv\" style=\"width: 50%;\"><p id=\"slidelocation\"></p></div><button id=\"slideshowforward\" onclick=\"plusDivs(+1)\" style=\"width: 50%;\">→</button></div>";
     }
 
     echo "<h1>$name</h1>";
     get_alternate_names($subject_id, $name, $spoiler_level);
 
-    $sql_main = "SELECT main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
+    $sql_main = "SELECT main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
     $result_main = $mysqli->query($sql_main);
 
-    $main = "";
+    $main = "<div class=\"modal-text\">";
     if ($result_main->num_rows > 0) {
         while ($row_main = mysqli_fetch_assoc($result_main)) {
-            // echo $row_main['main'];
-            $main .= $row_main['main'];
+            $current_main = $row_main['main'];
+            $doc = new DOMDocument();
+            $doc->loadHTML($current_main);
+
+            $selector = new DOMXPath($doc);
+            foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
+                $a->parentNode->removeChild($a);
+            }
+
+            $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\">⮟ SOURCE: [PUT TITLE HERE EVENTUALLY]</button>";
+            $main .= "<section class=\"showable\">" . $doc->saveXML() . "</section>";
         }
 
-        $doc = new DOMDocument();
-        $doc->loadHTML($main);
-
-        $selector = new DOMXPath($doc);
-        foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
-            $a->parentNode->removeChild($a);
-        }
-
-        echo $doc->saveHTML($doc->documentElement);
+        $main .= "</div>";
+        echo $main;
     }
 }

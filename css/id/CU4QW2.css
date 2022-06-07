@@ -1,0 +1,9 @@
+body {
+    background-color: #8798a8;
+    background-image: url("/img/test/PhantokaCombined.jpg");
+    background-attachment: fixed;
+    background-position: top left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: 4em;
+}

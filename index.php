@@ -29,7 +29,6 @@ chooseColors();
     <!-- Put anything in read.css that's needed here into main.css. -->
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/test.css">
     <title>Wall of History</title>
 </head>
 

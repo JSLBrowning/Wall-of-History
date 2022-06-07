@@ -193,6 +193,14 @@
     border-color: red;
 }
 
+
+#card3G8Z9M {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/3G8Z9M.png") center;
+    background-size: cover;
+    border-color: whitesmoke;
+}
+
+
 button.contentsButton {
     border-left: none;
     border-right: none;
