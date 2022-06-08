@@ -94,9 +94,9 @@ chooseColors();
                     <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
                     <button class="small" onclick="window.location.href='/contact/';">Contact</button>
                     <hr>
-                    <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
-                    <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
-                    <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+                    <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
+                    <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
+                    <button class="small" onclick="swapPalettes()">Swap Palette</button>
                 </div>
             </div>
         </aside>

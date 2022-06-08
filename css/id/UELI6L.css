@@ -16,7 +16,7 @@ div.titleBoxText {
 body {
     background-color: var(--back2);
     background-image: linear-gradient(180deg, rgba(37, 31, 19, 0.5) 0%, #251f13 100%),
-        url("/img/test/Metru-Nui-blue-cloud.jpg");
+        url("/img/test/Metru\ Nui\ blue\ cloud.webp");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

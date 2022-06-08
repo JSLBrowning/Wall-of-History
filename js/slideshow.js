@@ -1,78 +1,56 @@
-if ($("#slidelocation").length > 0) {
-    var x = document.getElementsByClassName("slideshow");
-    var slideIndex = 1;
-    showDivs(slideIndex);
+/******************************
+ * NEW MEDIA PLAYER FUNCTIONS *
+ ******************************/
 
-    
-    function plusDivs(n) {
-        showDivs(slideIndex += n);
+
+function setPosition(trigger) {
+    console.log('1');
+    let slideShow = trigger.parentElement.parentElement;
+    let slides = slideShow.getElementsByClassName("mediaplayercontents")[0];
+    slideShow.getElementsByClassName("slidelocation")[0].textContent = "1 / " + slides.length.toString();
+    trigger.parentElement.remove();
+}
+
+
+function backNav(button) {
+    direction = -1;
+    slideshowNav(button, direction);
+}
+
+
+function forwardNav(button) {
+    direction = 1;
+    slideshowNav(button, direction);
+}
+
+
+function slideshowNav(button, direction) {
+    let slideshow = button.parentElement.parentElement;
+    let slides = slideshow.getElementsByClassName("mediaplayercontents")[0];
+    for (let i = 0; i < slides.children.length; i++) {
+        styles = getComputedStyle(slides.children[i]);
+        if (styles.display == "block") {
+            slides.children[i].style.display = "none";
+            let newCurrent = slides.children[i + direction];
+            newCurrent.style.display = "block";
+
+            let locationText = slideshow.getElementsByClassName("slidelocation")[0];
+            let location = i + direction + 1;
+            locationText.textContent = location.toString() + " / " + slides.children.length.toString();
+
+            let forwardButton = button.parentElement.lastElementChild;
+            let backButton = button.parentElement.firstElementChild;
+
+            if ($(newCurrent).index() == slides.children.length - 1) {
+                forwardButton.style.display = "none";
+            } else if ($(newCurrent).index() == 0) {
+                backButton.style.display = "none";
+            } else {
+                forwardButton.style.display = "block";
+                backButton.style.display = "block";
+            }
+
+            break;
+        }
     }
-
-
-    function showDivs(n) {
-        var i;
-        if (n > x.length) {
-            slideIndex = 1
-        }
-        if (n < 1) {
-            slideIndex = x.length
-        };
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        x[slideIndex - 1].style.display = "block";
-
-        document.getElementById("slidelocation").textContent = slideIndex.toString() + " / " + x.length.toString();
-
-        if (slideIndex == 1) {
-            $("#slideshowback").hide();
-            $("#slideshowforward").show();
-            $("#slidelocationdiv").css("width", "50%");
-            $("#slideshowforward").css("width", "50%");
-        } else if (slideIndex == x.length) {
-            $("#slideshowforward").hide();
-            $("#slideshowback").show();
-            $("#slideshowback").css("width", "50%");
-            $("#slidelocationdiv").css("width", "50%");
-        } else {
-            $("#slideshowback").show();
-            $("#slideshowforward").show();
-            $("#slideshowback").css("width", "35%");
-            $("#slidelocationdiv").css("width", "30%");
-            $("#slideshowforward").css("width", "35%");
-        }
-    }
-
-
-    // Update the below to only respect the "highest" slideshow.
-    // I.e., if the reference modal has a slideshow, arrows should only move those images, even if there's a comic underneath.
-    // Tried to make this happen by using the z-index of the slideshow(s), but that didn't work.
-    window.addEventListener("keydown", function (event) {
-        if (event.defaultPrevented) {
-            return;
-        }
-
-        switch (event.code) {
-            case "ArrowLeft":
-                if (slideIndex != 1) {
-                    plusDivs(-1);
-
-                    if (document.getElementsByClassName("zoom") != null) {
-                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
-                    }
-                }
-                break;
-            case "ArrowRight":
-                if (slideIndex != x.length) {
-                    plusDivs(+1);
-
-                    if (document.getElementsByClassName("zoom") != null) {
-                        document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
-                    }
-                }
-                break;
-        }
-
-        event.preventDefault();
-    }, true);
 }

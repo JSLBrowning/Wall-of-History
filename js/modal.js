@@ -29,6 +29,14 @@ if (window.location.href.indexOf("read") > -1) {
  */
 
 
+function emptyModal() {
+    setTimeout(() => {
+        console.log("Emptying modal.");
+        document.getElementById("modal-data").innerHTML = "";
+      }, 375);
+}
+
+
 function toggleModal(id) {
     let targetModal = document.getElementById(id);
     let targetModalContent = document.getElementById(id).children[0];
@@ -45,6 +53,7 @@ function toggleModal(id) {
         }
     } else {
         targetModal.classList.remove("modal-visible");
+        emptyModal();
         if (targetModalContent.classList.contains("modal-content-left-visible")) {
             targetModalContent.classList.remove("modal-content-left-visible");
         } else if (targetModalContent.classList.contains("modal-content-right-visible")) {
@@ -63,10 +72,13 @@ function generalToggle() {
         modals[i].children[0].classList.remove("modal-content-left-visible");
         if (modals[i].children[0].classList.contains("modal-content-left-visible")) {
             modals[i].children[0].classList.remove("modal-content-left-visible");
+            emptyModal();
         } else if (modals[i].children[0].classList.contains("modal-content-right-visible")) {
             modals[i].children[0].classList.remove("modal-content-right-visible");
+            emptyModal();
         } else if (modals[i].children[0].classList.contains("modal-content-center-visible")) {
             modals[i].children[0].classList.remove("modal-content-center-visible");
+            emptyModal();
         }
     }
 }
