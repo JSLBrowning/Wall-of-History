@@ -9,7 +9,7 @@
 // This function takes the color palette cookie and returns the appropriate CSS class, inserting it into the <html> tag, ideally before the page even finishes loading for the end user.
 function chooseColors()
 {
-    if (!isset($_COOKIE["colorPreference"])) {
+    if (isset($_COOKIE["colorPreference"])) {
         echo "<html lang='en " . $_COOKIE["colorPreference"] . "'>";
     } else {
         echo "<html lang='en'>";

@@ -42,9 +42,11 @@ function slideshowNav(button, direction) {
             let backButton = button.parentElement.firstElementChild;
 
             if ($(newCurrent).index() == slides.children.length - 1) {
+                backButton.style.display = "block";
                 forwardButton.style.display = "none";
             } else if ($(newCurrent).index() == 0) {
                 backButton.style.display = "none";
+                forwardButton.style.display = "block";
             } else {
                 forwardButton.style.display = "block";
                 backButton.style.display = "block";

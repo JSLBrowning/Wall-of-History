@@ -40,7 +40,7 @@ aside a#downloadLink,
 
 body {
     background-image: linear-gradient(180deg, rgba(14, 24, 27, 0.5) 0%, #0E181B 100%),
-        url("/img/test/PrettyMetruNui.jpg");
+        url("/img/test/PrettyMetruNui.webp");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

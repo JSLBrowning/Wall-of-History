@@ -628,20 +628,23 @@ section.story iframe {
 }
 
 
-section.story img {
+section.story img,
+div.mediaplayercontents img {
     transition: all .2s ease-in-out;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 
 
-section.story img:hover {
+section.story img:hover,
+div.mediaplayercontents img:hover {
     transform: scale(1.03125);
     cursor: pointer;
     box-shadow: var(--outershadow);
 }
 
 
-section.story img:active {
+section.story img:active,
+div.mediaplayercontents img:active {
     transform: scale(0.96875);
     filter: brightness(87.5%);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
@@ -1214,7 +1217,7 @@ section.structure nav {
 .contentButtonText div.tags {
     padding-right: .5em;
     overflow: scroll;
-    max-height: 64px;
+    max-height: 48px;
 }
 
 
@@ -1687,7 +1690,7 @@ div.mediaplayercontents > *:first-child {
 div#modal-data div.mediaplayer {
     margin: auto;
     margin-top: -1em;
-    max-width: 80%;
+    max-width: 90%;
     height: 33.33%;
     display: flex;
     flex-direction: column;
@@ -1696,6 +1699,13 @@ div#modal-data div.mediaplayer {
 
 div.mediaplayercontents {
     max-height: calc(100% - 2em);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-grow: 2;
+    border-radius: .5em;
 }
 
 div.mediaplayercontents img,
@@ -1704,6 +1714,12 @@ div.mediaplayercontents video {
     max-height: 100%;
     width: auto;
     max-width: 100%;
+    border-radius: .5em;
+}
+
+div.mediaplayercontents video {
+    min-height: 100%;
+    background-color: rgba(8, 8, 8, 0.75);
 }
 
 div.mediaplayer div.mediaplayercontrols {
@@ -1724,15 +1740,17 @@ div.mediaplayercontrols div {
 
 div.mediaplayercontrols button,
 div.mediaplayercontrols div {
+    margin: 0em 0.375em;
     background: none;
     border: none;
     box-shadow: none;
-    transition: all .2 ease-in-out;
+    transition: all .2s ease-in-out;
 }
 
 div.mediaplayercontrols button:hover,
 div.mediaplayercontrols div:hover {
     background-color: var(--back3);
+    border-radius: .375em;
 }
 
 div.mediaplayercontrols button:hover {
