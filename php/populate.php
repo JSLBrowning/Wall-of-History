@@ -25,11 +25,9 @@ function getData($column, $query)
 
     $data = [];
     $result = $mysqli->query($query);
-    if (!is_bool($result)) {
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = $result->fetch_assoc()) {
-                array_push($data, $row[$column]);
-            }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($data, $row[$column]);
         }
     }
     return $data;
@@ -566,7 +564,7 @@ function getLeaves($id)
                 array_push($all_leaves, $row_all_leaves["child_id"]);
             }
         }
-        
+
         return "'" . implode('\', \'', $all_leaves) . "'";
     } else {
         // Get full list of all leaf nodes in the tree.
