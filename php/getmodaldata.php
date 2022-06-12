@@ -1,5 +1,5 @@
 <?php
-include("..//php/db_connect.php");
+include("db_connect.php");
 
 /********************************************
  * Update all of this for language support. *
@@ -41,7 +41,7 @@ if ($result_subjects->num_rows > 0) {
  * Used to generate disambiguation buttons and on correctly-loaded modals
  */
 function get_alternate_names($subject_id, $name, $spoiler_level) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id') AND entry_id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level) AND title != '$name'";
     $result_titles = $mysqli->query($sql_titles);
@@ -57,7 +57,7 @@ function get_alternate_names($subject_id, $name, $spoiler_level) {
 
 
 function get_source($entry_id) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $sql_source = "SELECT source FROM reference_metadata WHERE entry_id='$entry_id'";
     $result_source = $mysqli->query($sql_source);
@@ -73,7 +73,7 @@ function get_source($entry_id) {
  * Function to prompt user for a selection when there is more than one subject with a given name.
  */
 function generate_disambiguation_buttons($subject, $title, $sl) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     echo "<button onclick='reloadModal($subject)'>";
 
@@ -105,7 +105,7 @@ function generate_disambiguation_buttons($subject, $title, $sl) {
  * Function to fetch data if only one subject ID is returned.
  */
 function get_one_subject($subject_id, $name, $spoiler_level) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     // Create selection statement for images.
     $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
@@ -131,22 +131,31 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     echo "<h1>$name</h1>";
     get_alternate_names($subject_id, $name, $spoiler_level);
 
-    $sql_main = "SELECT main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
+    $sql_main = "SELECT entry_id, main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
     $result_main = $mysqli->query($sql_main);
 
     $main = "<div class=\"modal-text\">";
     if ($result_main->num_rows > 0) {
         while ($row_main = mysqli_fetch_assoc($result_main)) {
+            $current_entry = $row_main['entry_id'];
             $current_main = $row_main['main'];
             $doc = new DOMDocument();
             $doc->loadHTML($current_main);
+
+            $sql_parent = "SELECT title FROM reference_titles WHERE entry_id IN (SELECT parent_id FROM woh_web WHERE child_id='$current_entry')";
+            $result_parent = $mysqli->query($sql_parent);
+            $parent_title = "";
+            if ($result_parent->num_rows > 0) {
+                $row_parent = mysqli_fetch_assoc($result_parent);
+                $parent_title = $row_parent['title'];
+            }
 
             $selector = new DOMXPath($doc);
             foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
                 $a->parentNode->removeChild($a);
             }
 
-            $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\">⮟ SOURCE: [PUT TITLE HERE EVENTUALLY]</button>";
+            $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\">⮟ SOURCE: $parent_title</button>";
             $main .= "<section class=\"showable\">" . $doc->saveXML() . "</section>";
         }
 

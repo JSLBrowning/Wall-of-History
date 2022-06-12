@@ -1,5 +1,5 @@
 <?php
-include("..//php/db_connect.php");
+include("db_connect.php");
 
 // Create selection statement.
 $sql = "SELECT GROUP_CONCAT(DISTINCT content_language /* ORDER BY COUNT(content_language) DESC */ SEPARATOR ',') FROM woh_content";

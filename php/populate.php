@@ -21,13 +21,15 @@ function chooseColors()
 // Can be used for simplifying functions that require several simple queries.
 function getData($column, $query)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $data = [];
     $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($data, $row[$column]);
+    if (!is_bool($result)) {
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($data, $row[$column]);
+            }
         }
     }
     return $data;
@@ -39,18 +41,18 @@ function getData($column, $query)
  ***************************/
 
 
-/*******************************
- * .STORY POPULATION FUNCTIONS *
+/******************************
+ * STORY POPULATION FUNCTIONS *
  * These functions populate the
  * reader page, from top (head)
  * to bottom (main).
- *******************************/
+ ******************************/
 
 
 // This function populates the <head> of the page with content-specific OGP data.
 function populateHead($id, $lang, $v)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $result = $mysqli->query("SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"");
     $num_rows = mysqli_num_rows($result);
@@ -114,7 +116,7 @@ function populateHead($id, $lang, $v)
 function populateCSS($id)
 {
     // Type
-    include("..//php/db_connect.php");
+    include("db_connect.php");
     $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
@@ -128,6 +130,7 @@ function populateCSS($id)
     If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
     If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
+    Make this break at collections, so that Tale of the Toa will never be Bohrok-themed.
     */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
@@ -209,7 +212,7 @@ function populateCSS($id)
 // This function loads a unique header for a page, if it has one.
 function loadHeader($id)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
     $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
     // Make this recurse up to get parents if none.
     $result_header = $mysqli->query($sql_header);
@@ -234,7 +237,7 @@ function loadHeader($id)
 // This function gets the parent(s), if any, of the current page, and displays them.
 function loadContentParents($id, $v, $title)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $parents_query = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
     $parents = $mysqli->query($parents_query);
@@ -323,7 +326,7 @@ function sanitizeContributors($contributors_array)
 
 function loadContentContributors($id)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $contributors_query = "SELECT detailed_tag AS tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
     $contributors = $mysqli->query($contributors_query);
@@ -350,7 +353,7 @@ function loadContentContributors($id)
 // This function loads the content for the .story section of a page.
 function loadContent($id, $v, $lang)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     // Determine if this content is divided into pages, and respond accordingly.
     $pages_query = "SELECT COUNT(tag) AS tag_count FROM woh_tags WHERE id='$id' AND tag='pages'";
@@ -411,7 +414,7 @@ function getDetails($id, $primeversion, $lang)
 
 function addChildrenNew($id, $lang, $v, $collection_bool)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     if ($id === "0") {
         $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
@@ -463,7 +466,7 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
 // This function finds any and all children that a given piece of content has, then echoes them in a list format.
 function addChildren($id, $lang, $v)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $sql_child_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v'";
     $child_count = getData("id_count", $sql_child_count);
@@ -522,9 +525,9 @@ function populateStaticGenerator($base_path, $lang)
     $path = getcwd();
 
     if ($base_path != "") {
-        $path .= "\static\\" . $base_path . "\\" . $lang . ".html";
+        $path .= "/" . "static/" . $base_path . "/" . $lang . ".html";
     } else {
-        $path .= "\static\\" . $lang . ".html";
+        $path .= "/" . "static/" . $lang . ".html";
     }
 
     return $path;
@@ -551,15 +554,17 @@ function populateStatic($base_path)
 
 function getLeaves($id)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     if ($id == "0") {
         $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
         $result_all_leaves = $mysqli->query($all_leaves_query);
 
         $all_leaves = array();
-        while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-            array_push($all_leaves, $row_all_leaves["child_id"]);
+        if (!is_bool($result_all_leaves)) {
+            while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
+                array_push($all_leaves, $row_all_leaves["child_id"]);
+            }
         }
         
         return "'" . implode('\', \'', $all_leaves) . "'";
@@ -570,8 +575,10 @@ function getLeaves($id)
         $result_all_leaves = $mysqli->query($all_leaves_query);
 
         $all_leaves = array();
-        while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-            array_push($all_leaves, $row_all_leaves["child_id"]);
+        if (!is_bool($result_all_leaves)) {
+            while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
+                array_push($all_leaves, $row_all_leaves["child_id"]);
+            }
         }
 
         $nodes = array("\"" . $id . "\"");
@@ -586,7 +593,7 @@ function getLeaves($id)
 // Recursive function to get all children of a given node, separating out the leaves.
 function getChildren($nodes, $leaves, $all_leaves)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $imploded_nodes = implode(",", $nodes);
     $sql_children = "SELECT child_id, child_version FROM woh_web WHERE parent_id IN ($imploded_nodes) AND child_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection')";

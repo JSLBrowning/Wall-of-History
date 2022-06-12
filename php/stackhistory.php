@@ -1,5 +1,5 @@
 <?php
-include("..//php/db_connect.php");
+include("db_connect.php");
 
 // get the ID parameter from XmlHttpRequest.
 $id = $_REQUEST["id"];

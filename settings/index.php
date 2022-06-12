@@ -78,15 +78,15 @@ chooseColors();
         </article>
     </main>
     <!-- jQuery -->
-    <script src="/js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
-    <script src="/js/main.js"></script>
-    <script src="/js/palette.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/palette.js"></script>
     <!-- Settings Drivers -->
-    <script src="/js/settings.js"></script>
+    <script src="../js/settings.js"></script>
     <!-- Modal Drivers -->
-    <script src="/js/modal.js"></script>
+    <script src="../js/modal.js"></script>
 </body>
 
 </html>

@@ -322,9 +322,9 @@ section.titleBox {
  * ASIDE STYLES *
  ****************/
 
- aside button.hideShow {
-     display: none;
- }
+aside button.hideShow {
+    display: none;
+}
 
 
 aside {
@@ -1062,6 +1062,11 @@ section.structure {
 }
 
 
+section.structure h2 {
+    margin-top: .5em;
+}
+
+
 section.structure nav {
     width: 100%;
 }
@@ -1085,6 +1090,21 @@ section.structure nav {
     max-width: 100%;
     max-height: 200px;
     padding: 0em;
+}
+
+
+.contentsButton::-webkit-scrollbar,
+.contentsButtonText::-webkit-scrollbar,
+.contentsButtonText p::-webkit-scrollbar {
+    display: none;
+}
+
+
+.contentsButton,
+.contentsButtonText,
+.contentsButtonText p {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 
@@ -1436,7 +1456,7 @@ section.structure nav {
         width: 100%;
     }
 
-    aside{
+    aside {
         border-radius: 0em;
         border-left: none;
         border-right: none;
@@ -1452,7 +1472,7 @@ section.structure nav {
         margin: 0em;
         justify-content: space-between;
     }
-    
+
     aside div.asideContainer {
         display: none;
     }
@@ -1476,6 +1496,10 @@ section.structure nav {
         align-items: center;
     }
 
+    aside div.asideMain p {
+        font-size: 0.9375em;
+    }
+
     aside form,
     aside button {
         margin-left: auto;
@@ -1486,23 +1510,23 @@ section.structure nav {
     aside form input,
     aside form button,
     aside button.small {
-        height: 2em;
+        height: 1.375em;
         font-size: 1.0625em;
     }
 
     aside form {
-        min-height: 3em;
-        height: 3em;
+        min-height: 2em;
+        height: 2em;
     }
 
     aside form input,
     aside form button {
-        height: 3em;
-        max-height: 3em;
+        height: 2em;
+        max-height: 2em;
     }
 
     aside form input {
-        height: calc(3em - 2px);
+        height: calc(2em - 2px);
     }
 
     div.social {
@@ -1683,7 +1707,7 @@ div.mediaplayercontents video {
 }
 
 
-div.mediaplayercontents > *:first-child {
+div.mediaplayercontents>*:first-child {
     display: block;
 }
 

@@ -184,15 +184,15 @@
         ?>
     </main>
     <!-- jQuery -->
-    <script src="/js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
-    <script src="/js/main.js"></script>
+    <script src="../js/main.js"></script>
     <!-- Reader Drivers -->
-    <script src="/js/lineselection/initlines.js"></script>
-    <script src="/js/slideshow.js"></script>
+    <script src="../js/lineselection/initlines.js"></script>
+    <script src="../js/slideshow.js"></script>
     <!-- Modal Drivers -->
-    <script src="/js/modal.js"></script>
+    <script src="../js/modal.js"></script>
     <!-- Autocomplete -->
     <script>
         // Fix this.

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include("/php/populate.php");
+include("./php/populate.php");
 chooseColors();
 ?>
 
@@ -50,7 +50,7 @@ chooseColors();
                 Your browser does not support the video tag.
             </video>
             <?php
-            include('/php/db_connect.php');
+            include('./php/db_connect.php');
             echo populateStatic("");
             ?>
             <hr>

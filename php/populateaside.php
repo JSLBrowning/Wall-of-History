@@ -4,7 +4,7 @@ date_default_timezone_set('America/New_York');
 // Generic query function.
 function getDataAside($column, $query)
 {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $data = [];
     $result = $mysqli->query($query);
@@ -52,7 +52,7 @@ function getAdaptedInto($id) {
 
 
 function getDetailsAside($id, $lang, $v) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $successes = 0;
 
@@ -98,7 +98,7 @@ function getDetailsAside($id, $lang, $v) {
 
 
 function getSettings($id, $lang, $v) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $successes = 0;
 
@@ -187,7 +187,7 @@ function getSettings($id, $lang, $v) {
 
 
 function getDownload($id, $lang) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     $download_query = "SELECT title FROM woh_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
     $download_title = getDataAside("title", $download_query);
@@ -202,7 +202,7 @@ function getDownload($id, $lang) {
 
 
 function populateAside($id, $lang, $v) {
-    include("..//php/db_connect.php");
+    include("db_connect.php");
 
     // 1. Echo main menu.
     // 2. Echo details (snippet [.snippet], release date [if any], word count [if any]).

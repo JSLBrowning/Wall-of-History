@@ -2,7 +2,7 @@
 
     // Each ID should only be fetched once, with the title being that of the language of the... ya know, closest to the top of the list. And... version 1.
     // This function generates the list of contents seen on the settings page. Once that's done, it's up to the JavaScript to give that list functionality.
-    include("..//php/db_connect.php");
+    include("db_connect.php");
     echo "<h1>Settings</h1>";
 
     // First, find all the unique tags with which we select items, and make the selector.

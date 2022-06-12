@@ -1,5 +1,5 @@
 <?php
-include("..//php/db_connect.php");
+include("db_connect.php");
 
 // Get the query.
 $query = $_REQUEST["q"];

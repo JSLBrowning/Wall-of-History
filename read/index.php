@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <?php
-    include("..//php/populate.php");
-    chooseColors();
+include("../php/db_connect.php");
+include("../php/populate.php");
+include("../php/populateaside.php");
+chooseColors();
 ?>
 
 <head>
@@ -11,8 +13,6 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <?php
-    include("..//php/db_connect.php");
-    include("..//php/populateaside.php");
     if (count($_GET)) {
         if (isset($_GET["s"])) {
             $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
@@ -107,11 +107,20 @@
                 </form>
                 <hr>
                 <?php
-                    populateAside($id, $lang, $v);
+                populateAside($id, $lang, $v);
                 ?>
-                <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
-                <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
-                <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+                <button class="small" onclick="window.location.href='/read/';">Contents</button>
+                <button class="small" onclick="window.location.href='/reference/';">Reference</button>
+                <button class="small" onclick="window.location.href='/settings/';">Settings</button>
+                <hr>
+                <button class="small" onclick="window.location.href='/about/';">About</button>
+                <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
+                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                <button class="small" onclick="window.location.href='/contact/';">Contact</button>
+                <hr>
+                <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
+                <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
+                <button class="small" onclick="swapPalettes()">Swap Palette</button>
             </div>
         </aside>
     </main>
@@ -123,20 +132,20 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="/js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="/js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Reading Order Drivers -->
-    <script src="/js/readingorders.js"></script>
+    <script src="../js/readingorders.js"></script>
     <!-- Core Site Drivers -->
-    <script src="/js/main.js"></script>
+    <script src="../js/main.js"></script>
     <!-- Reader Drivers -->
-    <script src="/js/read.js"></script>
-    <script src="/js/lineselection/initlines.js"></script>
-    <script src="/js/slideshow.js"></script>
+    <script src="../js/read.js"></script>
+    <script src="../js/lineselection/initlines.js"></script>
+    <script src="../js/slideshow.js"></script>
     <!-- Modal Drivers -->
-    <script src="/js/modal.js"></script>
+    <script src="../js/modal.js"></script>
     <!-- Ruffle (Flash Driver) -->
-    <script src="/js/ruffle/ruffle.js"></script>
+    <script src="../js/ruffle/ruffle.js"></script>
     <!-- Unused
     <script src="/js/compare/compare.js"></script>
     -->
