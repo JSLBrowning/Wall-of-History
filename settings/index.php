@@ -37,32 +37,26 @@ chooseColors();
     </header>
     <main>
         <aside>
-            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-            <!-- MAIN NAVIGATION MENU MODAL -->
-            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776; Main Menu</button>
-            <div id="navigationModal" class="modal">
-                <div class="modal-content modal-content-left">
-                    <p>
-                        <?php
-                        if (count($_GET)) {
-                            echo "<a href=\"/read/\">Contents</a>";
-                        } else {
-                            echo "<a onclick=\"jumpTo()\" style=\"cursor: pointer;\">Read</a>";
-                        }
-                        ?>
-                    </p>
-                    <p><a href="/reference/">Reference</a></p>
-                    <p><a href="/search/">Search</a></p>
-                    <p><a href="/about/">About</a></p>
-                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                    <p><a href="/contact/">Contact</a></p>
-                </div>
+            <button class="hideShow" onclick="hideShow(this)"><strong>⮟ </strong>Main Menu</button>
+            <div>
+                <form action="/search/">
+                    <input type="text" required="required" placeholder="Search…" name="q">
+                    <button type="submit">🔎︎</button>
+                </form>
+                <hr>
+                <button class="small" onclick="window.location.href='/read/';">Contents</button>
+                <button class="small" onclick="window.location.href='/reference/';">Reference</button>
+                <button class="small" onclick="window.location.href='/settings/';">Settings</button>
+                <hr>
+                <button class="small" onclick="window.location.href='/about/';">About</button>
+                <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
+                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                <button class="small" onclick="window.location.href='/contact/';">Contact</button>
+                <hr>
+                <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
+                <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
+                <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
             </div>
-            <hr>
-            <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
-            <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
-            <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
         </aside>
         <article>
             <section class="story">

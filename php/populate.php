@@ -399,7 +399,7 @@ function loadContent($id, $v, $lang)
 
 function getDetails($id, $primeversion, $lang)
 {
-    $versionquery = "SELECT DISTINCT version_title FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
+    $versionquery = "SELECT * FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
     echo "<p>" . implode(", ", getData("version_title", $versionquery)) . "</p>\n";
 
     $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
@@ -407,6 +407,16 @@ function getDetails($id, $primeversion, $lang)
 
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
     echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+
+    /*$tagsquery = "SELECT detailed_tag FROM woh_tags WHERE id = '$id'";
+    $tags = getData("detailed_tag", $tagsquery);
+    if (!empty($tags)) {
+        echo "<div class='tags'>";
+        foreach ($tags as $tag) {
+            echo "<p class='tag'>" . $tag . "</p>";
+        }
+        echo "</div>";
+    }*/
 }
 
 

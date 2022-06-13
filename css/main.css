@@ -1246,7 +1246,7 @@ section.structure nav {
 }
 
 
-.tags {
+.versions .tags {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -1255,8 +1255,8 @@ section.structure nav {
 }
 
 
-.tags p,
-.tags p:first-of-type {
+.versions .tags p,
+.versions .tags p:first-of-type {
     margin: .125em;
     padding: .125em .25em;
     width: auto;

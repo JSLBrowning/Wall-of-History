@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php
+include("..//php/populate.php");
+chooseColors();
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -65,25 +68,28 @@
             ?>
         </article>
         <aside>
-            <!-- Look into loading external modal content into a single modal on the fly: https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file -->
-            <!-- MAIN NAVIGATION MENU MODAL -->
-            <button id="navigationButton" onclick="toggleModal('navigationModal')">&#9776;</button>
-            <div id="navigationModal" class="modal">
-                <div class="modal-content modal-content-left">
-                    <p><a onclick="jumpTo()" style="cursor: pointer;">Read</a></p>
-                    <p><a href="/read/">Contents</a></p>
-                    <p><a href="/search/">Search</a></p>
-                    <p><a href="/about/">About</a></p>
-                    <p><a href="https://blog.wallofhistory.com/">Blog</a></p>
-                    <p><a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a></p>
-                    <p><a href="/contact/">Contact</a></p>
+            <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
+            <div class="asideContainer">
+                <div class="asideMain">
+                    <form action="/search/">
+                        <input type="text" required="required" placeholder="Search…" name="q">
+                        <button type="submit">🔎︎</button>
+                    </form>
+                    <hr>
+                    <button class="small" onclick="window.location.href='/read/';">Contents</button>
+                    <button class="small" onclick="window.location.href='/reference/';">Reference</button>
+                    <button class="small" onclick="window.location.href='/settings/';">Settings</button>
+                    <hr>
+                    <button class="small" onclick="window.location.href='/about/';">About</button>
+                    <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
+                    <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                    <button class="small" onclick="window.location.href='/contact/';">Contact</button>
+                    <hr>
+                    <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
+                    <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
+                    <button class="small" onclick="swapPalettes()">Swap Palette</button>
                 </div>
             </div>
-            <!-- SETTINGS MENU MODAL (WILL REDIRECT TO GLOBAL SETTINGS PAGE ON GLOBAL TABLE OF CONTENTS (NO ID PARAMETER)) -->
-            <button id="settingsButton" onclick="window.location.href='/settings/';">&#9881;</button>
-            <button id="paletteSwapButton" onclick="swapPalettes()">☀</button>
-            <button id="paletteSwapButton" onclick="increaseFontSize()">↑</button>
-            <button id="paletteSwapButton" onclick="decreaseFontSize()">↓</button>
         </aside>
     </main>
 
