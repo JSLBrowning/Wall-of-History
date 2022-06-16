@@ -782,8 +782,10 @@ function addZoomEventListeners() {
 
             let zoom = document.createElement("div");
             zoom.classList.add("zoom");
-            console.log(1);
-            zoom.appendChild(img);
+            // zoom.appendChild(img);
+
+            document.body.appendChild(zoom);
+            init3D();
 
             if (alt != ("img" || "" || null)) {
                 let caption = document.createElement("p");
@@ -791,7 +793,6 @@ function addZoomEventListeners() {
                 zoom.appendChild(caption);
             }
 
-            document.body.appendChild(zoom);
             $(".zoom").fadeTo("fast", 1);
         });
     }

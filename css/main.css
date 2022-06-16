@@ -1118,8 +1118,10 @@ section.structure nav {
 }
 
 .contentsButton {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 
@@ -1802,4 +1804,12 @@ div.mediaplayercontrols p {
     max-height: 100%;
     text-align: center;
     margin: auto 0em;
+}
+
+canvas:focus {
+    outline: none;
+}
+
+canvas {
+    border-radius: .5em;
 }
