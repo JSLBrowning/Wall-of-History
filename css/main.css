@@ -1098,18 +1098,28 @@ section.structure nav {
 }
 
 
-.contentsButton::-webkit-scrollbar,
-.contentsButtonText::-webkit-scrollbar,
-.contentsButtonText p::-webkit-scrollbar {
+.contentsButton ::-webkit-scrollbar,
+.contentButtonText ::-webkit-scrollbar,
+.contentButtonText p ::-webkit-scrollbar {
     display: none;
 }
 
 
 .contentsButton,
-.contentsButtonText,
-.contentsButtonText p {
+.contentButtonText,
+.contentButtonText p {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+
+.contentsButton ::-webkit-scrollbar {
+    display: none;
+}
+
+.contentsButton {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 

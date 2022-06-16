@@ -149,6 +149,9 @@ chooseColors();
     <!-- Unused
     <script src="/js/compare/compare.js"></script>
     -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="/js/3d.js"></script>
 </body>
 
 </html>

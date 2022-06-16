@@ -782,6 +782,7 @@ function addZoomEventListeners() {
 
             let zoom = document.createElement("div");
             zoom.classList.add("zoom");
+            console.log(1);
             zoom.appendChild(img);
 
             if (alt != ("img" || "" || null)) {

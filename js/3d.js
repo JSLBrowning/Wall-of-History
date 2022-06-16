@@ -11,15 +11,15 @@ renderer.setClearColor(0x000000, 0.75);
 
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry(1, 1.469, 0.0625);
+const geometry = new THREE.BoxGeometry(1, 1.443, 0.0510);
 const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const bookMaterial = new THREE.MeshBasicMaterial({ map: loader.load('/img/story/contents/GNO2P6.png') });
 const materials = [
-    new THREE.MeshBasicMaterial({ color: 0xfdf5e8 }),
+    new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTEdge.jpg') }),
     new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTSide.jpg') }),
-    new THREE.MeshBasicMaterial({ color: 0xfdf5e8 }),
-    new THREE.MeshBasicMaterial({ color: 0xfdf5e8 }),
-    new THREE.MeshBasicMaterial({ map: loader.load('/img/story/contents/GNO2P6.png') }),
+    new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTTop.jpg') }),
+    new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTTop.jpg') }),
+    new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTFront.webp') }),
     new THREE.MeshBasicMaterial({ map: loader.load('/img/test/TotTBack.jpg') }),
 ];
 const book = new THREE.Mesh(geometry, materials);
