@@ -240,6 +240,7 @@ main p a {
 main ul {
     list-style: none;
     margin: 0.5em;
+    min-width: 80%;
 }
 
 
@@ -1093,7 +1094,7 @@ section.structure nav {
     display: flex;
     flex-direction: row;
     max-width: 100%;
-    max-height: 200px;
+    max-height: 180px;
     padding: 0em;
 }
 
@@ -1221,9 +1222,9 @@ section.structure nav {
 .contentButtonText {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     max-height: 95%;
-    gap: .375em;
+    gap: .4375em;
     margin: auto .25em;
     padding: .25em;
 }
@@ -1255,6 +1256,11 @@ section.structure nav {
     padding-right: .5em;
     overflow: scroll;
     max-height: 48px;
+}
+
+
+.contentButtonText div.versions {
+    max-height: 56px;
 }
 
 

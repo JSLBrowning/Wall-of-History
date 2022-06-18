@@ -27,11 +27,23 @@ function populateReferenceSubjects()
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $entryid = $row["subject_id"];
-            $sql_name = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$entryid')";
+
+            // Get name.
+            $sql_name = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$entryid') LIMIT 1";
             $result_name = $mysqli->query($sql_name);
+
+            // Get image, if any.
+            $sql_image = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT reference_metadata.entry_id FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.subject_id='$entryid' ORDER BY reference_content.spoiler_level) AND image_path NOT LIKE '%.mp4%' LIMIT 1";
+            $result_image = $mysqli->query($sql_image);
+            $img = "";
+            if ($result_image->num_rows > 0) {
+                $row_image = mysqli_fetch_assoc($result_image);
+                $img = "<img src='" . $row_image['image_path'] . "' alt='".$row_image['caption']."'>";
+            }
+
             if ($result_name->num_rows > 0) {
                 while ($row_name = mysqli_fetch_assoc($result_name)) {
-                    echo "<div class='padding'><button class='contentsButton' onclick=\"window.location.href='/reference/?id=" . $entryid . "';\"><div class='contentButtonText'><p>" . $row_name['title'] . "</p></div></button></div>";
+                    echo "<div class='padding'><button class='contentsButton' onclick=\"window.location.href='/reference/?id=" . $entryid . "';\">" . $img . "<div class='contentButtonText'><p>" . $row_name['title'] . "</p></div></button></div>";
                 }
             }
         }
@@ -55,7 +67,7 @@ function populateReferenceContent($subject)
         }
         $sql_appreances = "SELECT DISTINCT story_id FROM reference_appearances WHERE subject_id='" . $_GET['id'] . "'";
         $result_appreances = $mysqli->query($sql_appreances);
-        echo "Appears in: ";
+        echo "<p>Appears in: <p>";
         while ($row = $result_appreances->fetch_assoc()) {
             echo "<button onclick='goTo(\"" . $row["story_id"] . "\")'>" . $row["story_id"] . "</button> ";
         }

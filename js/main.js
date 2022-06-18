@@ -770,6 +770,9 @@ function showButtons() {
 
 function addZoomEventListeners() {
     let images = document.querySelectorAll(".story > img, .story > section > img, .mediaplayercontents > img");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id');
 
     // Will need to do all this each time the modal loads.
 
@@ -782,17 +785,35 @@ function addZoomEventListeners() {
 
             let zoom = document.createElement("div");
             zoom.classList.add("zoom");
-            // zoom.appendChild(img);
 
             document.body.appendChild(zoom);
-            init3D();
 
-            if (alt != ("img" || "" || null)) {
-                let caption = document.createElement("p");
-                caption.innerHTML = alt;
-                zoom.appendChild(caption);
-            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let check = this.responseText;
+                    if (check != "false") {
+                        dimensions = check.split(",");
+                        console.log(dimensions);
+                        init3D(dimensions[0], dimensions[1], dimensions[2], id);
+                    } else {
+                        zoom.appendChild(img);
+                        if (alt != ("img" || "" || null)) {
+                            let caption = document.createElement("p");
+                            caption.innerHTML = alt;
+                            zoom.appendChild(caption);
+                        }
+                    }
+                }
+            };
+            xmlhttp.open("GET", "/php/check3d.php?id=" + id, true);
+            xmlhttp.send();
 
+            let exit = document.createElement("span");
+            exit.classList.add("exitSpan");
+            exit.setAttribute("onclick", "closeImage();");
+            exit.innerHTML = "🞮";
+            zoom.appendChild(exit);
             $(".zoom").fadeTo("fast", 1);
         });
     }

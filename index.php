@@ -46,7 +46,7 @@ chooseColors();
                 echo " autoplay";
             }
             ?>>
-                <source src="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
+                <source src="/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <?php

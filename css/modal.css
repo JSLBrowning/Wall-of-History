@@ -90,6 +90,18 @@
     /* Horizontal scroll bar is still showing up on occasion. */
 }
 
+
+.modal-content-center ::-webkit-scrollbar {
+    display: none;
+}
+
+
+.modal-content-center {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
 @media only screen and (max-width: 680px) {
     .modal-content-center {
         left: 5%;
@@ -109,6 +121,33 @@
     height: 90%;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
     overflow-y: auto;
+}
+
+
+span.exitSpan {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    max-width: 2em;
+    max-height: 2em;
+    font-size: 2em;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--front1);
+    transition: all 0.2s ease-in-out;
+    opacity: 0.75;
+}
+
+
+span.exitSpan:hover {
+    color: var(--front2);
+    transform: scale(1.03125);
+}
+
+
+span.exitSpan:active {
+    color: var(--front3);
+    transform: scale(0.9875);
 }
 
 
