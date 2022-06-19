@@ -26,6 +26,21 @@
     border-color: #3a2f1d;
 }
 
+#cardW40PF3 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/W40PF3.png) center;
+    background-size: cover;
+}
+
+#cardVTKQYB {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/VTKQYB.png) center;
+    background-size: cover;
+}
+
+#cardYTCP2V {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/YTCP2V.png) center;
+    background-size: cover;
+}
+
 #cardLHIBBZ {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LHIBBZ.png) center;
     background-size: cover;

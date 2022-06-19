@@ -25,7 +25,7 @@ main article section.story video[poster]{
 }
 
 main article section.story video::cue {
-    font-family: 'Gill Sans Std';
+    font-family: 'Gill Sans Std', Helvetica Now, Helvetica, Arial, sans-serif;
     font-weight: 900;
 }
 

@@ -128,9 +128,10 @@ span.exitSpan {
     position: absolute;
     top: 1em;
     right: 1em;
-    max-width: 2em;
-    max-height: 2em;
+    max-width: 1em;
+    max-height: 1em;
     font-size: 2em;
+    line-height: 1em;
     border-radius: 50%;
     cursor: pointer;
     color: var(--front1);
@@ -166,7 +167,7 @@ span.exitSpan:active {
     text-align: center;
     padding: 8px 8px;
     line-height: 1.25em;
-    font-family: 'TradeMarker';
+    font-family: 'TradeMarker', Helvetica Now, Helvetica, Arial, sans-serif;
     font-weight: bold;
     color: var(--front1);
 }
@@ -184,7 +185,7 @@ span.exitSpan:active {
     position: relative;
     overflow: hidden;
     color: var(--front2);
-    font-family: 'Gill Sans Std';
+    font-family: 'Gill Sans Std', Helvetica Now, Helvetica, Arial, sans-serif;
     font-style: normal;
     line-height: 1.5em;
     font-size: 1em;
@@ -221,7 +222,7 @@ span.exitSpan:active {
 
 .modal-content ul,
 .modal-content li {
-    font-family: 'Gill Sans Std';
+    font-family: 'Gill Sans Std', Helvetica Now, Helvetica, Arial, sans-serif;
     font-size: 0.9375em;
     color: var(--front1);
     list-style: inside circle;

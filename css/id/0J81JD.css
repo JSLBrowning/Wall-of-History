@@ -32,11 +32,18 @@ body {
         linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #620013 100%);
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
-    padding-bottom: 4em;
 }
+
 
 main article section.story,
 main aside {
     border-right: 0px;
     border-left: 0px;
+}
+
+
+@media only screen and (max-width: 720px) {
+    .titleBox {
+        background: linear-gradient(90deg, var(--back2), rgba(24, 0, 0, 0.75)), url("/img/story/contents/0J81JD.png") 50% 25%;
+    }
 }

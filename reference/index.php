@@ -29,26 +29,11 @@ chooseColors();
     <link rel="stylesheet" type="text/css" href="/css/read.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <title><?php
-            if (count($_GET) == 1) {
-                include("..//php/db_connect.php");
-
-                $id = $_GET["id"];
-                $sql_id = "SELECT IFNULL((SELECT entry_id FROM reference_metadata WHERE subject_id = '$id' LIMIT 1), '$id') AS id";
-                $result_id = $mysqli->query($sql_id);
-                if (mysqli_num_rows($result_id) > 0) {
-                    while ($row_id = mysqli_fetch_assoc($result_id)) {
-                        $id = $row_id["id"];
-                        $sql_title = "SELECT title FROM reference_titles WHERE entry_id = '$id' ORDER BY LENGTH(title) LIMIT 1";
-                        $result_title = $mysqli->query($sql_title);
-                        if (mysqli_num_rows($result_title) > 0) {
-                            while ($row_title = mysqli_fetch_assoc($result_title)) {
-                                echo strip_tags($row_title["title"]);
-                            }
-                        }
-                    }
-                }
+            include("..//php/populatereference.php");
+            if (isset($_GET['id'])) {
+                populateTitle($_GET['id']);
             } else {
-                echo "Reference";
+                populateTitle("");
             }
             ?> | Wall of History</title>
 </head>
@@ -61,10 +46,8 @@ chooseColors();
         <article>
             <?php
             if (count($_GET) == 1) {
-                include("..//php/populatereference.php");
                 populateReferenceContent($_GET["id"]);
             } else {
-                include("..//php/populatereference.php");
                 populateReferenceSubjects();
             }
             ?>

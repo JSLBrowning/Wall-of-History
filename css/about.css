@@ -26,7 +26,7 @@ main article img{
 
 
 main aside a{
-    font-family: "Gill Sans Std";
+    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
     text-align: center;
     text-decoration: none;
 }

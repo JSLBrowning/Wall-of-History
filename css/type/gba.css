@@ -14,7 +14,7 @@ main{
     margin: auto;
     padding: 0em .5em;
 
-    font-family: "Gill Sans Std";
+    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
     color: var(--front1);
 }
 

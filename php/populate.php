@@ -131,7 +131,7 @@ function populateCSS($id)
     Make this break at collections, so that Tale of the Toa will never be Bohrok-themed.
     */
     // Grandparent
-    $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='" . $id . "');";
+    $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='$id' AND parent_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection'));";
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows > 1) {
@@ -164,7 +164,7 @@ function populateCSS($id)
     // Parent
     // Add above disambiguation code to this.
     // Also, update read.js line ~151.
-    $sql = "SELECT parent_id FROM woh_web WHERE child_id ='" . $id . "';";
+    $sql = "SELECT parent_id FROM woh_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection');";
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows > 1) {

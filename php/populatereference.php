@@ -1,7 +1,26 @@
 <?php
-function populateTitle($subject)
+function populateTitle($id)
 {
-    echo "$subject | Wall of History";
+    if ($id != "") {
+        include("db_connect.php");
+
+        $sql_id = "SELECT IFNULL((SELECT entry_id FROM reference_metadata WHERE subject_id = '$id' LIMIT 1), '$id') AS id";
+        $result_id = $mysqli->query($sql_id);
+        if (mysqli_num_rows($result_id) > 0) {
+            while ($row_id = mysqli_fetch_assoc($result_id)) {
+                $id = $row_id["id"];
+                $sql_title = "SELECT title FROM reference_titles WHERE entry_id = '$id' ORDER BY LENGTH(title) LIMIT 1";
+                $result_title = $mysqli->query($sql_title);
+                if (mysqli_num_rows($result_title) > 0) {
+                    while ($row_title = mysqli_fetch_assoc($result_title)) {
+                        echo strip_tags($row_title["title"]);
+                    }
+                }
+            }
+        }
+    } else {
+        echo "Reference";
+    }
 }
 
 

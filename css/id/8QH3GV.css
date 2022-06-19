@@ -23,5 +23,4 @@ body {
         linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #0C0D09 100%);
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
-    padding-bottom: 4em;
 }
