@@ -2,6 +2,33 @@
 <?php
 include("..//php/populate.php");
 chooseColors();
+
+
+include("..//php/populatereference.php");
+
+if (count($_GET)) {
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    } else {
+        $id = "0";
+    }
+
+    if (isset($_GET["lang"])) {
+        $lang = $_GET["lang"];
+    } else {
+        $lang = "en";
+    }
+
+    if (isset($_GET["v"])) {
+        $v = $_GET["v"];
+    } else {
+        $v = "1";
+    }
+} else {
+    $id = "0";
+    $lang = "en";
+    $v = "1";
+}
 ?>
 
 <head>
@@ -29,13 +56,8 @@ chooseColors();
     <link rel="stylesheet" type="text/css" href="/css/read.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <title><?php
-            include("..//php/populatereference.php");
-            if (isset($_GET['id'])) {
-                populateTitle($_GET['id']);
-            } else {
-                populateTitle("");
-            }
-            ?> | Wall of History</title>
+            populateTitle($id);
+            ?></title>
 </head>
 
 <body>
@@ -45,11 +67,7 @@ chooseColors();
     <main>
         <article>
             <?php
-            if (count($_GET) == 1) {
-                populateReferenceContent($_GET["id"]);
-            } else {
-                populateReferenceSubjects();
-            }
+            populateReferenceContent($id, $lang);
             ?>
         </article>
         <aside>

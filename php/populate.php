@@ -84,7 +84,7 @@ function populateHead($id, $lang, $v)
         if ($chapter_count[0] > 0) {
             $parent_query = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $id . "' LIMIT 1";
             $parent = strip_tags(getData("title", $parent_query)[0]);
-            $title = $parent . ": " . $title;
+            $title = $title . " | " . $parent;
         }
 
         // Get lower-priority image, if available.
