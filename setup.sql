@@ -133,8 +133,10 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
     /* Subject IDs are used to identify entries as referring to the same character or concept, even if entries have slightly different names. */
     entry_id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
-    publication_date date
+    publication_date date,
     /* These data entries are for individual sections of reference works, such as one entry from the BIONICLE Encyclopedia. As such, they can have individual publication dates. */
+    chronology int
+    /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */
 );
 
 
@@ -162,6 +164,8 @@ CREATE TABLE IF NOT EXISTS reference_content (
 
 
 CREATE TABLE IF NOT EXISTS reference_titles (
+    subject_id varchar(6),
+    /* Self-explantory. */
     entry_id varchar(6) NOT NULL,
     /* Self-explantory. */
     title text NOT NULL

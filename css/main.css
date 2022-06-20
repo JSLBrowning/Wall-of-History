@@ -91,8 +91,19 @@
 }
 
 
+@font-face {
+    font-family: 'Matoran';
+    src: url('../../fonts/BIONRG__.woff2') format('woff2'), url('../../fonts/BIONRG__.woff') format('woff');
+}
+
+
 .trademarker {
     font-family: "TradeMarker", Helvetica Now, Helvetica, Arial, sans-serif;
+}
+
+
+.matoran {
+    font-family: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
 }
 
 
