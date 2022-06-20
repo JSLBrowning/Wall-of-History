@@ -140,6 +140,9 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
 );
 
 
+/* Separate subjects into different table? */
+
+
 CREATE TABLE IF NOT EXISTS reference_content (
     entry_id varchar(6) PRIMARY KEY,
     /* Self-explantory — it's the same ID as above. */
