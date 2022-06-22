@@ -10,7 +10,7 @@ $q = $_REQUEST["q"];
 $sl = $_REQUEST["sl"];
 
 // Fetch all subjects that use this name (within the current spoiler level).
-$sql_subjects = "SELECT DISTINCT subject_id FROM reference_metadata WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$q')";
+$sql_subjects = "SELECT DISTINCT subject_id FROM reference_subjects WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$q')";
 
 $result_subjects = $mysqli->query($sql_subjects);
 $subjects = [];
@@ -108,7 +108,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     include("db_connect.php");
 
     // Create selection statement for images.
-    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
+    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE entry_id IN (SELECT entry_id FROM reference_titles WHERE title='$name') AND entry_id IN (SELECT entry_id FROM reference_content WHERE spoiler_level<=$spoiler_level ORDER BY spoiler_level DESC)";
     $result_images = $mysqli->query($sql_images);
     $image_count = $result_images->num_rows;
 
@@ -131,7 +131,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
     echo "<h1>$name</h1>";
     get_alternate_names($subject_id, $name, $spoiler_level);
 
-    $sql_main = "SELECT entry_id, main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
+    $sql_main = "SELECT entry_id, main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_subjects WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
     $result_main = $mysqli->query($sql_main);
 
     $main = "<div class=\"modal-text\">";

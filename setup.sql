@@ -128,9 +128,15 @@ CREATE TABLE IF NOT EXISTS story_reference_web(
  */
 
 
-CREATE TABLE IF NOT EXISTS reference_metadata (
+CREATE TABLE IF NOT EXISTS reference_subjects (
+    /* This table is necessary because some reference entries (such as “Muaka & Kane-Ra” on BIONICLE.com) can cover multiple subjects at once. */
     subject_id varchar(6),
     /* Subject IDs are used to identify entries as referring to the same character or concept, even if entries have slightly different names. */
+    entry_id varchar(6)
+);
+
+
+CREATE TABLE IF NOT EXISTS reference_metadata (
     entry_id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
     publication_date date,
@@ -171,6 +177,10 @@ CREATE TABLE IF NOT EXISTS reference_titles (
     /* Self-explantory. */
     entry_id varchar(6) NOT NULL,
     /* Self-explantory. */
+    title_language varchar(2) DEFAULT "en",
+    /* Self-explantory. */
+    title_version int DEFAULT 1,
+    /* Self-explantory. */
     title text NOT NULL
     /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
     /* If title refers to multiple subjects, ?s=[title] leads to a disambiguation page. */
@@ -178,8 +188,14 @@ CREATE TABLE IF NOT EXISTS reference_titles (
 );
 
 CREATE TABLE IF NOT EXISTS reference_images (
-    id varchar(6) NOT NULL,
+    subject_id varchar(6),
+    /* Self-explantory. */
+    entry_id varchar(6) NOT NULL,
     /* Can be entry ID or subject ID (for desirable images not used elsewhere). */
+    image_version int,
+    /* If necessary (such as in the case of BEU) — can be NULL otherwise. */
+    image_language varchar(2),
+    /* If necessary — can be NULL otherwise. */
     image_path text NOT NULL,
     /* Can also be a video, actually. Order by type then spoiler level — images of 1, videos of 1, images of 2, and so on. */
     /* Be sure to use DISTINCT for compilation pages. */
@@ -201,6 +217,8 @@ CREATE TABLE IF NOT EXISTS reference_quotes (
 CREATE TABLE IF NOT EXISTS reference_appearances (
     story_id varchar(6) NOT NULL,
     /* This refers to a woh_metadata entry in which a character or object appears. */
+    story_version int DEFAULT 1,
+    /* Self-explanatory. */
     subject_id varchar(6) NOT NULL,
     /* This refers to the character or object itself. */
     appearance_type boolean

@@ -53,7 +53,7 @@ if (count($_GET)) {
     <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/css/read.css">
+    <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <title><?php
             populateTitle($id);
@@ -67,7 +67,7 @@ if (count($_GET)) {
     <main>
         <article>
             <?php
-            populateReferenceContent($id, $lang);
+            populateReferenceContent($id, $v, $lang);
             ?>
         </article>
         <aside>
