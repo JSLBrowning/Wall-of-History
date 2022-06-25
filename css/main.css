@@ -1851,7 +1851,6 @@ canvas {
 .zoom div.mediaplayer div.mediaplayercontents video {
     background-color: rgba(0, 0, 0, 0);
     min-height: initial;
-    min-width: 100%;
     height: auto;
 }
 
