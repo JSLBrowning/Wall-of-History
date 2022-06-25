@@ -7,17 +7,31 @@ section.titleBox img {
     display: none;
 }
 
+
+section.story {
+    border-left: 0px;
+    border-right: 0px;
+}
+
+
 div.titleBoxText {
     padding: 0em;
 }
 
-section.story img.slideshow {
+section.story div.mediaplayer div.mediaplayercontents img {
     width: 100%;
+    border-radius: 0em;
     padding: 0em;
 }
 
-section.story img.slideshow:hover,
-section.story img.slideshow:active {
+
+section.story div.mediaplayer div.mediaplayercontrols {
+    margin: 0.5em;
+}
+
+
+section.story div.mediaplayer div.mediaplayercontents img:hover,
+section.story div.mediaplayer div.mediaplayercontents img:active {
     transform: none;
     box-shadow: none;
 }

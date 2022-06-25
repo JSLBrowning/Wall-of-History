@@ -1101,10 +1101,11 @@ section.structure nav {
     border-radius: .5em;
     transition: all .2s ease-in-out;
     width: 90%;
-    height: 100%;
     display: flex;
     flex-direction: row;
     max-width: 100%;
+    min-height: 160px;
+    height: 100%;
     max-height: 160px;
     padding: 0em;
 }
@@ -1280,7 +1281,7 @@ section.structure nav {
 }
 
 
-.versions .tags {
+.tags {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -1289,8 +1290,8 @@ section.structure nav {
 }
 
 
-.versions .tags p,
-.versions .tags p:first-of-type {
+.tags p,
+.tags p:first-of-type {
     margin: .125em;
     padding: .125em .25em;
     width: auto;
@@ -1834,4 +1835,72 @@ canvas:focus {
 
 canvas {
     border-radius: .5em;
+}
+
+
+.zoom .mediaplayer {
+    height: 85%;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 0.5em;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontents video {
+    background-color: rgba(0, 0, 0, 0);
+    min-height: initial;
+    min-width: 100%;
+    height: auto;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols {
+    height: 2em;
+    width: 100%;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button,
+.zoom div.mediaplayer div.mediaplayercontrols div {
+    background-color: var(--back2);
+    border-radius: 0.375em;
+    user-select: none;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:hover,
+.zoom div.mediaplayer div.mediaplayercontrols div:hover {
+    background-color: var(--back3);
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:hover {
+    transform: scale(1.015625);
+    cursor: pointer;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols div.slidelocationdiv p.slidelocation {
+    height: 100%;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:active {
+    background-color: var(--back1);
+    transform: scale(0.984375);
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontents img:hover,
+.zoom div.mediaplayer div.mediaplayercontents img:active {
+    transform: none;
+    box-shadow: none;
+}
+
+
+.zoom div.mediaplayer p {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
 }

@@ -101,11 +101,7 @@ CREATE TABLE IF NOT EXISTS story_reference_extras(
     /* The specific language of the content this is an extra for (optional — if blank, it will count for all languages). */
     extra_type text,
     /* The type of extra this is. Examples: "Concept Art", "Trailer", "Behind the Scenes" */
-    extra_format text,
-    /* The format of the extra — "img" or "video", for example. */
-    extra_source text
-    /* The location of the main content of the extra.
-    In the case of videos, a poster can be included at the same location in the PNG format. */
+    extra_main text
 );
 
 CREATE TABLE IF NOT EXISTS story_reference_web(

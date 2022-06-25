@@ -26,6 +26,12 @@ function forwardNav(button) {
 
 function slideshowNav(button, direction) {
     let slideshow = button.parentElement.parentElement;
+
+    // Improve this.
+    $("video").each(function () {
+        $(this).get(0).pause();
+    });
+
     let slides = slideshow.getElementsByClassName("mediaplayercontents")[0];
     for (let i = 0; i < slides.children.length; i++) {
         styles = getComputedStyle(slides.children[i]);
@@ -56,3 +62,37 @@ function slideshowNav(button, direction) {
         }
     }
 }
+
+
+/*
+window.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+
+    switch (event.code) {
+        case "ArrowLeft":
+            console.log("left");
+            if (slideIndex != 1) {
+                plusDivs(-1);
+
+                if (document.getElementsByClassName("zoom") != null) {
+                    document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
+                }
+            }
+            break;
+        case "ArrowRight":
+            console.log("right");
+            if (slideIndex != x.length) {
+                plusDivs(+1);
+
+                if (document.getElementsByClassName("zoom") != null) {
+                    document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex + 1].src;
+                }
+            }
+            break;
+    }
+
+    event.preventDefault();
+}, true);
+*/

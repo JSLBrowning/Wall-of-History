@@ -186,6 +186,21 @@ function getSettings($id, $lang, $v) {
 }
 
 
+function getExtras($id, $v, $lang) {
+    include("db_connect.php");
+
+    $extra_query = "SELECT extra_type FROM story_reference_extras WHERE id='$id' AND content_version=$v AND content_language='$lang'";
+    $extras = getDataAside("extra_type", $extra_query);
+
+    if (!empty($extras)) {
+        foreach ($extras as $extra) {
+            echo "<button class='small' onclick='zoomExtras(\"$extra\");'>$extra</button>";
+        }
+        echo "<hr>\n";
+    }
+}
+
+
 function getDownload($id, $lang) {
     include("db_connect.php");
 
@@ -213,6 +228,7 @@ function populateAside($id, $lang, $v) {
     getSettings($id, $lang, $v);
     // 4. Echo extras.
     // 4.i. If any of above are NOT NULL, echo <hr>.
+    getExtras($id, $v, $lang);
     // 5. If file exists with ID, echo download link and <hr>.
     getDownload($id, $lang);
     // 6. Echo universal settings buttons.
