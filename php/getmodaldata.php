@@ -51,7 +51,9 @@ function get_alternate_names($subject_id, $name, $spoiler_level) {
         while ($row_titles = mysqli_fetch_assoc($result_titles)) {
             array_push($alt_names, $row_titles['title']);
         }
-        echo "<h2 class='altNames'>AKA " . implode(", ", $alt_names) . "</h2>";
+        return "<h2 class='altNames'>AKA " . implode(", ", $alt_names) . "</h2>";
+    } else {
+        return "";
     }
 }
 
@@ -128,13 +130,11 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
         echo "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
     }
 
-    echo "<h1>$name</h1>";
-    get_alternate_names($subject_id, $name, $spoiler_level);
-
     $sql_main = "SELECT entry_id, main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_subjects WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
     $result_main = $mysqli->query($sql_main);
 
-    $main = "<div class=\"modal-text\">";
+    $main = "<div class=\"modal-text\"><h1>$name</h1>" . get_alternate_names($subject_id, $name, $spoiler_level);
+
     if ($result_main->num_rows > 0) {
         while ($row_main = mysqli_fetch_assoc($result_main)) {
             $current_entry = $row_main['entry_id'];

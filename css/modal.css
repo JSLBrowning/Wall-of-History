@@ -287,9 +287,9 @@ span.exitSpan:active {
 }
 
 .modal-text {
-    margin-top: 0.5em;
+    margin-top: 1.5em;
     overflow: scroll;
-    max-height: calc(57.75% - 1em);
+    max-height: calc(65% - 1em);
 }
 
 .modal-text section {

@@ -1759,10 +1759,12 @@ div#modal-data div.mediaplayer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 0.5em;
 }
 
 div.mediaplayercontents {
-    max-height: calc(100% - 2em);
+    /* max-height: calc(100% - 2em); */
+    max-height: 100%;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;

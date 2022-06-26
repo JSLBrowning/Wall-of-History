@@ -222,6 +222,13 @@
 }
 
 
+#card2FC589 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/2FC589.png") center;
+    background-size: cover;
+    border-color: #cb9e36;
+}
+
+
 button.contentsButton {
     border-left: none;
     border-right: none;
