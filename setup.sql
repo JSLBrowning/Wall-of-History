@@ -177,10 +177,12 @@ CREATE TABLE IF NOT EXISTS reference_titles (
     /* Self-explantory. */
     title_version int DEFAULT 1,
     /* Self-explantory. */
-    title text NOT NULL
+    title text NOT NULL,
     /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
     /* If title refers to multiple subjects, ?s=[title] leads to a disambiguation page. */
     /* When jumping from a disambiguation page to a subject page, try to find a distinct title for that subject, or use the ID if there is none. */
+    order int
+    /* If an entry contains multiple images or titles, this value can be used to order them. For example, on the dedicated reference page, the highest title will be displayed first, ensuring an entry for Tahu NUVA doesn't display an image for Tahu MATA. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_images (
@@ -195,8 +197,10 @@ CREATE TABLE IF NOT EXISTS reference_images (
     image_path text NOT NULL,
     /* Can also be a video, actually. Order by type then spoiler level — images of 1, videos of 1, images of 2, and so on. */
     /* Be sure to use DISTINCT for compilation pages. */
-    caption text
+    caption text,
     /* Self-explantory. Can be "OGP" for OGP images. OGP images will not be rendered on reference modals or pages. */
+    order int
+    /* If an entry contains multiple images or titles, this value can be used to order them. For example, on the dedicated reference page, the highest image will be displayed first, ensuring an entry for Tahu NUVA doesn't display an image for Tahu MATA. */
 );
 
 CREATE TABLE IF NOT EXISTS reference_quotes (

@@ -29,16 +29,17 @@ function populateTitle($id)
 function populateReferenceChildren($parent_id, $v, $lang) {
     include("db_connect.php");
 
-    $sql_children = "SELECT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_version='$v' AND reference_content.content_language='$lang' ORDER BY reference_metadata.publication_date ASC";
+    $sql_children = "SELECT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' ORDER BY reference_metadata.publication_date ASC";
     if ($parent_id != "0") {
-        $sql_children = "SELECT reference_metadata.entry_id AS entry_id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id' AND parent_version=$v) AND reference_content.content_version=$v AND reference_content.content_language='$lang' ORDER BY reference_metadata.chronology ASC";
-        // SELECT reference_metadata.entry_id, reference_metadata.publication_date, reference_content.snippet, reference_content.word_count FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='32C9EC' AND parent_version=1) AND reference_content.content_version=1 AND reference_content.content_language='en' ORDER BY reference_metadata.chronology ASC
+        $sql_children = "SELECT DISTINCT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' ORDER BY reference_metadata.chronology ASC";
+        // AND parent_version=$v) AND reference_content.content_version=$v
+        // May now produce multiple cards for each version of a thing. Need to fix that.
     }
     $result_children = $mysqli->query($sql_children);
 
     if (mysqli_num_rows($result_children) > 0) {
         while ($row_children = mysqli_fetch_assoc($result_children)) {
-            $id = $row_children["entry_id"];
+            $id = $row_children["id"];
             $date = $row_children["pub_date"];
             $snippet = $row_children["snippet"];
             $words = $row_children["words"];
@@ -51,6 +52,10 @@ function populateReferenceChildren($parent_id, $v, $lang) {
             if (mysqli_num_rows($result_child_image) > 0) {
                 while ($row_child_image = mysqli_fetch_assoc($result_child_image)) {
                     $img = "<img src='" . $row_child_image["image_path"] . "' alt='" . $row_child_image["caption"] . "'>";
+                }
+            } else {
+                if (file_exists("..//img/reference/contents/" . $id . ".PNG")) {
+                    $img = "<img src='/img/reference/contents/" . $id . ".png' alt='No image available'>";
                 }
             }
 
@@ -112,23 +117,9 @@ function populateAllSubjects() {
 function populateReferenceHomepage()
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section></section><section class='structure'><h2>Sources</h2><section class='structure'>";
-    // Create selection statement.
-    $sql = "SELECT entry_id, title FROM reference_titles WHERE entry_id NOT IN (SELECT child_id FROM woh_web) ORDER BY title ASC";
-    // Perfom selection.
-    $result = $mysqli->query($sql);
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='padding'><button class='contentsButton' onclick=\"window.location.href='/reference/?id=" . $row["entry_id"] . "';\"><div class='contentButtonText'><p>" . $row['title'] . "</p></div></button></div>";
-        }
-        echo "</section><h2>Subjects</h2><section class='structure'>";
-    } else {
-        echo "ERROR: Query failed. Please report to admin@wallofhistory.com.";
-    }
-
-    populateAllSubjects();
-
-    echo "</section></section>";
+    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section></section><section class='structure'>";
+    populateReferenceChildren("0", "1", "en");
+    echo "</section>";
 }
 
 

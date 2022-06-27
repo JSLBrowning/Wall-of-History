@@ -219,17 +219,21 @@ function getDownload($id, $lang) {
 function populateAside($id, $lang, $v) {
     include("db_connect.php");
 
-    // 1. Echo main menu.
-    // 2. Echo details (snippet [.snippet], release date [if any], word count [if any]).
-    // 2.i. If any of above are NOT NULL, echo <hr>.
-    getDetailsAside($id, $lang, $v);
-    // 3. Echo version selectors.
-    // 3.i. If any of above are NOT NULL, echo <hr>.
-    getSettings($id, $lang, $v);
-    // 4. Echo extras.
-    // 4.i. If any of above are NOT NULL, echo <hr>.
-    getExtras($id, $v, $lang);
-    // 5. If file exists with ID, echo download link and <hr>.
-    getDownload($id, $lang);
-    // 6. Echo universal settings buttons.
+    if (strpos($_SERVER["REQUEST_URI"], "read") !== false) {
+        // 1. Echo main menu.
+        // 2. Echo details (snippet [.snippet], release date [if any], word count [if any]).
+        // 2.i. If any of above are NOT NULL, echo <hr>.
+        getDetailsAside($id, $lang, $v);
+        // 3. Echo version selectors.
+        // 3.i. If any of above are NOT NULL, echo <hr>.
+        getSettings($id, $lang, $v);
+        // 4. Echo extras.
+        // 4.i. If any of above are NOT NULL, echo <hr>.
+        getExtras($id, $v, $lang);
+        // 5. If file exists with ID, echo download link and <hr>.
+        getDownload($id, $lang);
+        // 6. Echo universal settings buttons.
+    } else if (strpos($_SERVER["REQUEST_URI"], "reference") !== false) {
+        
+    }
 }

@@ -81,11 +81,8 @@ chooseColors();
         <article>
             <?php
             loadContent($id, $v, $lang);
+            addChildren($id, $lang, $v);
             ?>
-            <section class="structure">
-                <?php
-                addChildren($id, $lang, $v);
-                ?>
             </section>
             <div class="savefile" style="display:none;">
                 <button type="savefilebutton" onclick="savePlace()">Save Place</button>

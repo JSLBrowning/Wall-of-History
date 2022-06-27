@@ -498,13 +498,9 @@ function addChildren($id, $lang, $v)
     $content_count = getData("id_count", $sql_content_count);
 
     if ($collection_count[0] > 0 && $content_count[0] > 0) {
-        echo "<h2>Collections</h2>";
-        // https://www.mysqltutorial.org/mysql-recursive-cte/
-        // https://stackoverflow.com/questions/50405786/get-leaf-nodes-for-a-specific-tree-in-mysql
-        // https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
-        addChildrenNew($id, $lang, $v, true);
-        echo "<h2>Contents</h2>";
         addChildrenNew($id, $lang, $v, false);
+        echo "<h2>Collections</h2>";
+        addChildrenNew($id, $lang, $v, true);
     } else if ($collection_count[0] > 0 && $content_count[0] == 0) {
         addChildrenNew($id, $lang, $v, true);
     } else if ($collection_count[0] == 0 && $content_count[0] > 0) {

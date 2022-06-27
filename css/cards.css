@@ -229,6 +229,27 @@
 }
 
 
+#card32C9EC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/32C9EC.png") center;
+    background-size: cover;
+    border-color: red;
+}
+
+
+#card8DC1BB {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/8DC1BB.png") center;
+    background-size: cover;
+    border-color: #383f27;
+}
+
+
+#card7E0194 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/OGB.png") center;
+    background-size: cover;
+    border-color: silver;
+}
+
+
 button.contentsButton {
     border-left: none;
     border-right: none;
