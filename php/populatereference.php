@@ -26,7 +26,8 @@ function populateTitle($id)
 }
 
 
-function populateReferenceChildren($parent_id, $v, $lang) {
+function populateReferenceChildren($parent_id, $v, $lang)
+{
     include("db_connect.php");
 
     $sql_children = "SELECT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' ORDER BY reference_metadata.publication_date ASC";
@@ -43,10 +44,10 @@ function populateReferenceChildren($parent_id, $v, $lang) {
             $date = $row_children["pub_date"];
             $snippet = $row_children["snippet"];
             $words = $row_children["words"];
-            $sql_child_title = "SELECT title FROM reference_titles WHERE entry_id='$id' AND (title_version='$v' OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY LENGTH(title) LIMIT 1";
+            $sql_child_title = "SELECT title FROM reference_titles WHERE entry_id='$id' AND (title_version='$v' OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC LIMIT 1";
             $result_child_title = $mysqli->query($sql_child_title);
-            
-            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$v OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' ORDER BY LENGTH(image_path) LIMIT 1";
+
+            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$v OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' ORDER BY image_order DESC LIMIT 1";
             $result_child_image = $mysqli->query($sql_child_image);
             $img = "";
             if (mysqli_num_rows($result_child_image) > 0) {
@@ -71,7 +72,8 @@ function populateReferenceChildren($parent_id, $v, $lang) {
 }
 
 
-function populateAllSubjects() {
+function populateAllSubjects()
+{
     include("db_connect.php");
 
     $sql = "SELECT DISTINCT subject_id FROM reference_subjects";

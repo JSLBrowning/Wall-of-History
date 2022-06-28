@@ -1,7 +1,11 @@
 USE test;
 /* Replace with your own database. */
 
-/* CONTENT SETUP */
+
+/*****************
+ * CONTENT SETUP *
+ *****************/
+
 
 CREATE TABLE IF NOT EXISTS story_metadata(
     id varchar(6) PRIMARY KEY,
@@ -17,6 +21,7 @@ CREATE TABLE IF NOT EXISTS story_metadata(
     default_version int
     /* Determines which version is displayed on the table of contents. */
 );
+
 
 CREATE TABLE IF NOT EXISTS story_content(
     id varchar(6),
@@ -46,12 +51,14 @@ CREATE TABLE IF NOT EXISTS story_content(
     PRIMARY KEY (id, content_language, content_version)
 );
 
+
 CREATE TABLE IF NOT EXISTS story_headers(
     header_id int PRIMARY KEY,
     /* Self-explantory. */
     html mediumtext
     /* Self-explanatory. */
 );
+
 
 CREATE TABLE IF NOT EXISTS story_tags(
     id varchar(6),
@@ -67,12 +74,14 @@ CREATE TABLE IF NOT EXISTS story_tags(
     /* This is the only part of this database design that's liable to change — this is a more descriptive version of the tag that will be displayed to users. For example, if you put “author” and “Carlos D’Anda” above, you would put “Illustrated by Carlos D’Anda” here. */
 );
 
+
 CREATE TABLE IF NOT EXISTS story_adaptations(
     original_id varchar(6) NOT NULL,
     original_version int,
     adaptation_id varchar(6) NOT NULL,
     adaptation_version int
 );
+
 
 CREATE TABLE IF NOT EXISTS story_equivalents(
     left_id varchar(6) NOT NULL,
@@ -82,8 +91,9 @@ CREATE TABLE IF NOT EXISTS story_equivalents(
     default_id varchar(6) NOT NULL
 );
 
+
 /* To be used eventually. Examples: "cover", "banner", "OGP"
-CREATE TABLE WoH_images(
+CREATE TABLE story_images(
     content_id varchar(6),
     content_language varchar(2),
     content_version int,
@@ -91,6 +101,7 @@ CREATE TABLE WoH_images(
     image_url text
 );
 */
+
 
 CREATE TABLE IF NOT EXISTS story_reference_extras(
     id varchar(6),
@@ -104,6 +115,7 @@ CREATE TABLE IF NOT EXISTS story_reference_extras(
     extra_main text
 );
 
+
 CREATE TABLE IF NOT EXISTS story_reference_web(
     parent_id varchar(6) NOT NULL,
     /* This is the shit that really matters right here — the web that connects all the nested tables of contents. BIONICLE Chronicles is the parent to Tale of the Toa, which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
@@ -114,14 +126,15 @@ CREATE TABLE IF NOT EXISTS story_reference_web(
     child_version int DEFAULT 1
 );
 
-/* REFERENCE SETUP
- * Multiple guidebooks were released for the BIONICLE universe, with many having entries on the same characters and concepts.
- * As such, this table treats each entry from each guidebook as a unique entity.
- * Entities can have multiple names attached to them, such as in the case of “Tahu” and “Tahu Nuva.”
- * On a rendered reference page for a name, all entries for that name will be displayed, along with all associated images.
- * Note that there’s no “reference_web” — since reference materials sometimes contained story content (“Birth of a Dark Hunter”) and story materials sometimes contained reference content (comics), woh_web will connect the two.
- * Reference pages will display a source link if data was from some story material, while story pages with reference parents will simply link back to them like other story materials link back to story parents.
- */
+
+/*********************
+ * END CONTENT SETUP *
+ *********************/
+
+
+/*******************
+ * REFERENCE SETUP *
+ *******************/
 
 
 CREATE TABLE IF NOT EXISTS reference_subjects (
@@ -140,9 +153,6 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
     chronology int
     /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */
 );
-
-
-/* Separate subjects into different table? */
 
 
 CREATE TABLE IF NOT EXISTS reference_content (
@@ -181,9 +191,10 @@ CREATE TABLE IF NOT EXISTS reference_titles (
     /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
     /* If title refers to multiple subjects, ?s=[title] leads to a disambiguation page. */
     /* When jumping from a disambiguation page to a subject page, try to find a distinct title for that subject, or use the ID if there is none. */
-    order int
+    title_order int
     /* If an entry contains multiple images or titles, this value can be used to order them. For example, on the dedicated reference page, the highest title will be displayed first, ensuring an entry for Tahu NUVA doesn't display an image for Tahu MATA. */
 );
+
 
 CREATE TABLE IF NOT EXISTS reference_images (
     subject_id varchar(6),
@@ -199,9 +210,10 @@ CREATE TABLE IF NOT EXISTS reference_images (
     /* Be sure to use DISTINCT for compilation pages. */
     caption text,
     /* Self-explantory. Can be "OGP" for OGP images. OGP images will not be rendered on reference modals or pages. */
-    order int
+    image_order int
     /* If an entry contains multiple images or titles, this value can be used to order them. For example, on the dedicated reference page, the highest image will be displayed first, ensuring an entry for Tahu NUVA doesn't display an image for Tahu MATA. */
 );
+
 
 CREATE TABLE IF NOT EXISTS reference_quotes (
     subject_id text NOT NULL,
@@ -214,6 +226,7 @@ CREATE TABLE IF NOT EXISTS reference_quotes (
     /* This is the source of the quote, in the form of an ID combo — i.e., ID.version.lang, ID.version (preferable), or ID. */
 );
 
+
 CREATE TABLE IF NOT EXISTS reference_appearances (
     story_id varchar(6) NOT NULL,
     /* This refers to a woh_metadata entry in which a character or object appears. */
@@ -224,6 +237,7 @@ CREATE TABLE IF NOT EXISTS reference_appearances (
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
 );
+
 
 CREATE TABLE IF NOT EXISTS reference_greg (
     question_id varchar(6) NOT NULL,
@@ -239,9 +253,15 @@ CREATE TABLE IF NOT EXISTS reference_greg (
     permalink text
 );
 
+
 CREATE TABLE IF NOT EXISTS reference_greg_subjects (
     question_id varchar(6) NOT NULL,
     /* Self-explanatory. */
     subject_id varchar(6) NOT NULL
     /* Self-explanatory. */
 );
+
+
+/***********************
+ * END REFERENCE SETUP *
+ ***********************/
