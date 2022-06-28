@@ -149,7 +149,47 @@ function populateReferenceSubjectPage($subject, $lang)
 function populateReferenceParentPage($parent, $v, $lang)
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3></div></section>";
+    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
+
+    // Use carousel for titles.
+    $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE entry_id='$parent' AND (title_version=$v OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC";
+    $result_titles = $mysqli->query($sql_titles);
+    $title_count = $result_titles->num_rows;
+    if ($title_count == 1) {
+        while ($row_titles = $result_titles->fetch_assoc()) {
+            echo "<h1>" . $row_titles["title"] . "</h1>";
+        }
+    } else if ($title_count > 1) {
+        echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
+        while ($row_titles = $result_titles->fetch_assoc()) {
+            echo "<h1>" . $row_titles["title"] . "</h1>";
+        }
+        echo "<button onclick='carouselForward(this)'>⮞</button></div>";
+    }
+
+    echo "</div></section>";
+
+
+    // Create selection statement for images.
+    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE entry_id='$parent' AND (image_version=$v OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) ORDER BY image_order DESC";
+    $result_images = $mysqli->query($sql_images);
+    $image_count = $result_images->num_rows;
+
+    if ($image_count == 1) {
+        $row_images = mysqli_fetch_assoc($result_images);
+        echo "<div class='mediaplayer'><div class='mediaplayercontents'><img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'></div></div>";
+    } else if ($image_count > 1) {
+        echo "<div class='mediaplayer'><div class='mediaplayercontents'>";
+        while ($row_images = mysqli_fetch_assoc($result_images)) {
+            $path = $row_images['image_path'];
+            if ((strpos($path, '.mp4') !== false) || (strpos($path, '.m4v') !== false)) {
+                echo "<video controls><source src='$path' type='video/mp4'></video>";
+            } else {
+                echo "<img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
+            }
+        }
+        echo "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
+    }
 
     $sql = "SELECT main FROM reference_content WHERE entry_id='$parent' AND content_language='$lang'";
     $result = $mysqli->query($sql);

@@ -72,26 +72,28 @@ if (count($_GET)) {
         </article>
         <aside>
             <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
-            <div class="asideContainer">
-                <div class="asideMain">
-                    <form action="/search/">
-                        <input type="text" required="required" placeholder="Search…" name="q">
-                        <button type="submit">🔎︎</button>
-                    </form>
-                    <hr>
-                    <button class="small" onclick="window.location.href='/read/';">Contents</button>
-                    <button class="small" onclick="window.location.href='/reference/';">Reference</button>
-                    <button class="small" onclick="window.location.href='/settings/';">Settings</button>
-                    <hr>
-                    <button class="small" onclick="window.location.href='/about/';">About</button>
-                    <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
-                    <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
-                    <button class="small" onclick="window.location.href='/contact/';">Contact</button>
-                    <hr>
-                    <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
-                    <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
-                    <button class="small" onclick="swapPalettes()">Swap Palette</button>
-                </div>
+            <div class="asideMain">
+                <form action="/search/">
+                    <input type="text" required="required" placeholder="Search…" name="q">
+                    <button type="submit">🔎︎</button>
+                </form>
+                <hr>
+                <?php
+                include("..//php/populateaside.php");
+                populateAside($id, $lang, $v);
+                ?>
+                <button class="small" onclick="window.location.href='/read/';">Contents</button>
+                <button class="small" onclick="window.location.href='/reference/';">Reference</button>
+                <button class="small" onclick="window.location.href='/settings/';">Settings</button>
+                <hr>
+                <button class="small" onclick="window.location.href='/about/';">About</button>
+                <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
+                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                <button class="small" onclick="window.location.href='/contact/';">Contact</button>
+                <hr>
+                <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
+                <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
+                <button class="small" onclick="swapPalettes()">Swap Palette</button>
             </div>
         </aside>
     </main>

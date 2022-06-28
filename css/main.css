@@ -571,6 +571,7 @@ section.story section.titleBox img {
 }
 
 
+.titleBoxText .multiparents h1,
 .titleBoxText .multiparents h3 {
     margin: 0.5em;
     width: 70%;
@@ -579,6 +580,7 @@ section.story section.titleBox img {
 }
 
 
+.titleBoxText .multiparents h1:first-of-type,
 .titleBoxText .multiparents h3:first-of-type {
     display: block;
 }
@@ -1831,13 +1833,24 @@ div.mediaplayercontrols p {
     margin: auto 0em;
 }
 
+
+/*
+ * 3D STYLES
+ */
+
 canvas:focus {
     outline: none;
 }
 
+
 canvas {
     border-radius: .5em;
 }
+
+
+/*
+ * ZOOMED MEDIA PLAYER STYLES
+ */
 
 
 .zoom .mediaplayer {
@@ -1905,3 +1918,28 @@ canvas {
     background-color: rgba(0, 0, 0, 0);
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
 }
+
+
+/*
+ * ARTICLE MEDIA PLAYER STYLES
+ */
+
+
+section.story div.mediaplayer {
+    margin: 0.5em;
+    max-width: 320px;
+    max-height: 320px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+
+section.story div.mediaplayer div.mediaplayercontents img,
+section.story div.mediaplayer div.mediaplayercontents video {
+    max-width: 320px;
+    max-height: 320px;
+    padding: 0em;
+}
+

@@ -148,8 +148,10 @@ CREATE TABLE IF NOT EXISTS reference_subjects (
 CREATE TABLE IF NOT EXISTS reference_metadata (
     entry_id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. */
+    entry_version int,
+    /* Self-explanatory. BIONICLE Encyclopedia would be 1, Updated would be 2. */
     publication_date date,
-    /* These data entries are for individual sections of reference works, such as one entry from the BIONICLE Encyclopedia. As such, they can have individual publication dates. */
+    /* Self-explanatory. */
     chronology int
     /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */
 );

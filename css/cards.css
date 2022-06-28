@@ -232,7 +232,7 @@
 #card32C9EC {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/32C9EC.png") center;
     background-size: cover;
-    border-color: red;
+    border-color: #0d8cd1;
 }
 
 
