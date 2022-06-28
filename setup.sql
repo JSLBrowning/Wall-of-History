@@ -173,9 +173,9 @@ CREATE TABLE IF NOT EXISTS reference_titles (
     /* Self-explantory. */
     entry_id varchar(6) NOT NULL,
     /* Self-explantory. */
-    title_language varchar(2) DEFAULT "en",
-    /* Self-explantory. */
     title_version int DEFAULT 1,
+    /* Self-explantory. */
+    title_language varchar(2) DEFAULT "en",
     /* Self-explantory. */
     title text NOT NULL,
     /* If title only ever refers to one subject, ?s=[title] leads directly to compilation page for that subject. */
