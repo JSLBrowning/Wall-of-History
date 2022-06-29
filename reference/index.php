@@ -55,6 +55,7 @@ if (count($_GET)) {
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/css/reference.css">
     <title><?php
             populateTitle($id);
             ?></title>

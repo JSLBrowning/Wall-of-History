@@ -249,6 +249,8 @@ function loadContentParents($id, $v, $title)
         // Get and display image, if any.
         if (file_exists("../img/story/contents/" . $id . ".png")) {
             echo "<img src='/img/story/contents/" . $id . ".png' alt='" . $title[0] . "'>\n";
+        } else if (file_exists("../img/story/contents/" . $id . ".webp")) {
+            echo "<img src='/img/story/contents/" . $id . ".webp' alt='" . $title[0] . "'>\n";
         }
         echo "<div class='titleBoxText'>";
 
@@ -456,6 +458,8 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
                 echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $row["content_version"] . "\")'>";
                 if (file_exists("../img/story/contents/" . $uniqueid . ".png")) {
                     echo "<img src='/img/story/contents/" . $uniqueid . ".png' alt='" . $row["title"] . "'>";
+                } else if (file_exists("../img/story/contents/" . $uniqueid . ".webp")) {
+                    echo "<img src='/img/story/contents/" . $uniqueid . ".webp' alt='" . $row["title"] . "'>";
                 } else if ($row["small_image"] != NULL) {
                     echo "<img src='" . $row["small_image"] . "'>";
                 }

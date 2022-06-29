@@ -763,6 +763,52 @@ function showButtons() {
  ************************/
 
 
+/********************
+ * MODULE FUNCTIONS *
+ ********************/
+
+
+// These can be tested on “The Legend of Mata Nui,” which has three parents.
+// Make these update CSS where applicable: https://stackoverflow.com/questions/574944/how-to-load-up-css-files-using-javascript
+function carouselForward(button) {
+    let parents = button.parentElement.querySelectorAll("h1, h3");
+    for (let i = 0; i < parents.length; i++) {
+        let currentStyles = window.getComputedStyle(parents[i]);
+        if ((currentStyles.display != "none") && (i < parents.length - 1)) {
+            parents[i].style.display = "none";
+            parents[i + 1].style.display = "block";
+            break;
+        } else if ((currentStyles.display != "none") && (i == parents.length - 1)) {
+            parents[i].style.display = "none";
+            parents[0].style.display = "block";
+            break;
+        }
+    }
+}
+
+
+function carouselBack(button) {
+    let parents = button.parentElement.querySelectorAll("h1, h3");
+    for (let i = 0; i < parents.length; i++) {
+        let currentStyles = window.getComputedStyle(parents[i]);
+        if ((currentStyles.display != "none") && (i > 0)) {
+            parents[i].style.display = "none";
+            parents[i - 1].style.display = "block";
+            break;
+        } else if ((currentStyles.display != "none") && (i == 0)) {
+            parents[i].style.display = "none";
+            parents[parents.length - 1].style.display = "block";
+            break;
+        }
+    }
+}
+
+
+/************************
+ * END MODULE FUNCTIONS *
+ ************************/
+
+
 /*******************
  * IMAGE FUNCTIONS *
  *******************/

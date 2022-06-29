@@ -116,15 +116,6 @@ function populateAllSubjects()
 }
 
 
-function populateReferenceHomepage()
-{
-    include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section></section><section class='structure'>";
-    populateReferenceChildren("0", "1", "en");
-    echo "</section>";
-}
-
-
 function populateReferenceSubjectPage($subject, $lang)
 {
     include("db_connect.php");
@@ -146,12 +137,34 @@ function populateReferenceSubjectPage($subject, $lang)
 }
 
 
-function populateReferenceParentPage($parent, $v, $lang)
+function populateReferencePage($parent, $v, $lang)
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
+    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'>";
 
-    // Use carousel for titles.
+
+    // Get and list parent(s) of current content.
+    $sql_parents = "SELECT DISTINCT parent_id, parent_version FROM woh_web WHERE child_id='$parent'";
+    $result_parents = $mysqli->query($sql_parents);
+    if ($result_parents->num_rows > 0) {
+        while ($row_parents = $result_parents->fetch_assoc()) {
+            $parent_id = $row_parents["parent_id"];
+            $v = $row_parents["parent_version"];
+            $sql_parent_title = "SELECT DISTINCT(title) FROM reference_titles WHERE entry_id='$parent_id' AND (title_version=$v OR title_version IS NULL) LIMIT 1";
+            $result_parent_title = $mysqli->query($sql_parent_title);
+            if ($result_parent_title->num_rows > 0) {
+                while ($row_parent_title = $result_parent_title->fetch_assoc()) {
+                    echo "<h3><a onclick='window.location.href=\"/reference/?id=" . $parent_id . "\"'>" . $row_parent_title["title"] . "</a></h3>";
+                    break;
+                }
+            }
+        }
+    } else {
+        echo "<h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
+    }
+
+
+    // Get and list title(s) of current content.
     $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE entry_id='$parent' AND (title_version=$v OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC";
     $result_titles = $mysqli->query($sql_titles);
     $title_count = $result_titles->num_rows;
@@ -170,7 +183,7 @@ function populateReferenceParentPage($parent, $v, $lang)
     echo "</div></section>";
 
 
-    // Create selection statement for images.
+    // Get and display images, in a media player if necessary.
     $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE entry_id='$parent' AND (image_version=$v OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) ORDER BY image_order DESC";
     $result_images = $mysqli->query($sql_images);
     $image_count = $result_images->num_rows;
@@ -191,26 +204,38 @@ function populateReferenceParentPage($parent, $v, $lang)
         echo "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
     }
 
+
+    // Get main content.
     $sql = "SELECT main FROM reference_content WHERE entry_id='$parent' AND content_language='$lang'";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
         echo $row["main"];
     }
 
-    echo "</section>";
 
-    echo "<section class='structure'>";
+    // Close out main section and display child links, if any children.
+    echo "</section><section class='structure'>";
     populateReferenceChildren($parent, $v, $lang);
     echo "</section>";
 }
 
 
+/*******************
+ * MAIN POPULATORS *
+ *******************/
+
+
 function populateReferenceContent($id, $v, $lang)
 {
+    include("db_connect.php");
+
     if ($id == "0") {
-        populateReferenceHomepage();
+        echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section></section><section class='structure'>";
+        populateReferenceChildren($id, $v, $lang);
+        echo "</section><section class='structure'>";
+        populateAllSubjects();
+        echo "</section>";
     } else {
-        include("db_connect.php");
 
         $sql_subjects = "SELECT DISTINCT subject_id FROM reference_subjects";
         $result_subjects = $mysqli->query($sql_subjects);
@@ -231,7 +256,7 @@ function populateReferenceContent($id, $v, $lang)
         }
 
         if (in_array($id, $entries)) {
-            populateReferenceParentPage($id, $v, $lang);
+            populateReferencePage($id, $v, $lang);
         } else if (in_array($id, $subjects)) {
             populateReferenceSubjectPage($id, $lang);
         }

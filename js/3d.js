@@ -25,12 +25,12 @@ function init3D(width, height, depth, id) {
     loader = new THREE.TextureLoader(loadManager);
     const geometry = new THREE.BoxGeometry(width, height, depth);
     const materials = [
-        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/1.jpg') }),
-        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/2.jpg') }),
-        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/3.jpg') }),
-        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/4.jpg') }),
+        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/1.webp') }),
+        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/2.webp') }),
+        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/3.webp') }),
+        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/4.webp') }),
         new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/5.webp') }),
-        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/6.jpg') }),
+        new THREE.MeshBasicMaterial({ map: loader.load('/img/3d/' + id + '/6.webp') }),
     ];
     const book = new THREE.Mesh(geometry, materials);
 

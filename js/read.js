@@ -44,45 +44,15 @@ function swap(swappableID) {
 }
 
 
-// These can be tested on “The Legend of Mata Nui,” which has three parents.
-// Make these update CSS where applicable: https://stackoverflow.com/questions/574944/how-to-load-up-css-files-using-javascript
-function carouselForward(button) {
-    let parents = button.parentElement.getElementsByTagName("h3");
-    for (let i = 0; i < parents.length; i++) {
-        let currentStyles = window.getComputedStyle(parents[i]);
-        if ((currentStyles.display != "none") && (i < parents.length - 1)) {
-            parents[i].style.display = "none";
-            parents[i + 1].style.display = "block";
-            break;
-        } else if ((currentStyles.display != "none") && (i == parents.length - 1)) {
-            parents[i].style.display = "none";
-            parents[0].style.display = "block";
-        }
-    }
-}
-
-function carouselBack(button) {
-    let parents = button.parentElement.getElementsByTagName("h3");
-    for (let i = 0; i < parents.length; i++) {
-        let currentStyles = window.getComputedStyle(parents[i]);
-        if ((currentStyles.display != "none") && (i > 0)) {
-            parents[i].style.display = "none";
-            parents[i - 1].style.display = "block";
-            break;
-        } else if ((currentStyles.display != "none") && (i == 0)) {
-            parents[0].style.display = "none";
-            parents[parents.length - 1].style.display = "block";
-        }
-    }
-}
-
 function check() {
     if (sessionStorage.getItem("activeReadingOrder") === null && Object.keys(localStorage).filter(name => name.includes('readingOrder')).length == 1) {
         sessionStorage.setItem("activeReadingOrder", "0");
     }
 }
 
+
 let checkInterval = window.setInterval(check(), 500);
+
 
 function getCookie(cname) {
     let name = cname + "=";

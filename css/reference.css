@@ -1,0 +1,39 @@
+.pronunciation {
+    margin: 1em 1.5em 0em 1.5em;
+    font-weight: bolder;
+}
+
+
+section.story {
+    overflow: hidden;
+    /* Necessary so images won't overflow on reference page. Might break other things? */
+}
+
+
+section.story img:hover {
+    box-shadow: none;
+}
+
+
+/*
+ * ARTICLE MEDIA PLAYER STYLES
+ */
+
+
+ section.story div.mediaplayer {
+    margin: 0.5em;
+    max-width: 320px;
+    max-height: 320px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+
+section.story div.mediaplayer div.mediaplayercontents img,
+section.story div.mediaplayer div.mediaplayercontents video {
+    max-width: 320px;
+    max-height: 320px;
+    padding: 0em;
+}
