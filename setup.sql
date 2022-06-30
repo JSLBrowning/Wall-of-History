@@ -146,19 +146,20 @@ CREATE TABLE IF NOT EXISTS reference_subjects (
 
 
 CREATE TABLE IF NOT EXISTS reference_metadata (
-    entry_id varchar(6) PRIMARY KEY,
+    entry_id varchar(6),
     /* The ID can be any six character-long alphanumeric string. */
     entry_version int,
     /* Self-explanatory. BIONICLE Encyclopedia would be 1, Updated would be 2. */
     publication_date date,
     /* Self-explanatory. */
-    chronology int
+    chronology int,
     /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */
+    PRIMARY KEY (entry_id, entry_version)
 );
 
 
 CREATE TABLE IF NOT EXISTS reference_content (
-    entry_id varchar(6) PRIMARY KEY,
+    entry_id varchar(6),
     /* Self-explantory — it's the same ID as above. */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters... */
@@ -177,6 +178,7 @@ CREATE TABLE IF NOT EXISTS reference_content (
     /* Identical functionality to woh_content main column. */
     word_count int
     /* Self-explanatory. */
+    /* PRIMARY KEY (entry_id, content_version, content_language) */
 );
 
 

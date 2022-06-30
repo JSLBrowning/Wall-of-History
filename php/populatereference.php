@@ -30,7 +30,7 @@ function populateReferenceChildren($parent_id, $v, $lang)
 {
     include("db_connect.php");
 
-    $sql_children = "SELECT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' ORDER BY reference_metadata.publication_date ASC";
+    $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' GROUP BY combo ORDER BY reference_metadata.publication_date ASC";
     if ($parent_id != "0") {
         $sql_children = "SELECT DISTINCT reference_metadata.entry_id AS id, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' ORDER BY reference_metadata.chronology ASC";
         // AND parent_version=$v) AND reference_content.content_version=$v
@@ -40,14 +40,16 @@ function populateReferenceChildren($parent_id, $v, $lang)
 
     if (mysqli_num_rows($result_children) > 0) {
         while ($row_children = mysqli_fetch_assoc($result_children)) {
-            $id = $row_children["id"];
+            $id = explode(".", $row_children["combo"])[0];
+            $newv = explode(".", $row_children["combo"])[1];
+            $vtitle = $row_children["vtitle"];
             $date = $row_children["pub_date"];
             $snippet = $row_children["snippet"];
             $words = $row_children["words"];
-            $sql_child_title = "SELECT title FROM reference_titles WHERE entry_id='$id' AND (title_version='$v' OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC LIMIT 1";
+            $sql_child_title = "SELECT title FROM reference_titles WHERE entry_id='$id' AND (title_version='$newv' OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC LIMIT 1";
             $result_child_title = $mysqli->query($sql_child_title);
 
-            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$v OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' ORDER BY image_order DESC LIMIT 1";
+            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$newv OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' ORDER BY image_order DESC LIMIT 1";
             $result_child_image = $mysqli->query($sql_child_image);
             $img = "";
             if (mysqli_num_rows($result_child_image) > 0) {
@@ -55,7 +57,9 @@ function populateReferenceChildren($parent_id, $v, $lang)
                     $img = "<img src='" . $row_child_image["image_path"] . "' alt='" . $row_child_image["caption"] . "'>";
                 }
             } else {
-                if (file_exists("..//img/reference/contents/" . $id . ".PNG")) {
+                if (file_exists("..//img/reference/contents/" . $id . "." . $newv . "." . $lang . ".PNG")) {
+                    $img = "<img src='/img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png' alt='No image available'>";
+                } else if (file_exists("..//img/reference/contents/" . $id . ".PNG")) {
                     $img = "<img src='/img/reference/contents/" . $id . ".png' alt='No image available'>";
                 }
             }
@@ -64,7 +68,7 @@ function populateReferenceChildren($parent_id, $v, $lang)
                 while ($row_child_title = mysqli_fetch_assoc($result_child_title)) {
                     $title = $row_child_title["title"];
 
-                    echo "<div class='padding'><button class='contentsButton' id='card$id' onclick=\"window.location.href='/reference/?id=" . $id . "';\">" . $img . "<div class='contentButtonText'><p>" . $title . "</p><p>" . $snippet . "</p><div class='versions'><p>RELEASED " . date('F jS, Y', strtotime($date)) . "</p><p>WORD COUNT: " . $words . "</p></div></div></button></div>";
+                    echo "<div class='padding'><button class='contentsButton' id='card$id' onclick=\"window.location.href='/reference/?id=" . $id . "&v=$newv';\">" . $img . "<div class='contentButtonText'><p>" . $title . "</p><p>" . $snippet . "</p><div class='versions'><p>$vtitle</p><p>RELEASED " . date('F jS, Y', strtotime($date)) . "</p><p>WORD COUNT: " . $words . "</p></div></div></button></div>";
                 }
             }
         }

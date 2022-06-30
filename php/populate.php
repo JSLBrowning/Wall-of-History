@@ -408,7 +408,10 @@ function getDetails($id, $primeversion, $lang)
     echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
 
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
-    echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+    $words = getData("word_count", $wordquery);
+    if ($words[0] != "") {
+        echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+    }
 
     /*$tagsquery = "SELECT detailed_tag FROM woh_tags WHERE id = '$id'";
     $tags = getData("detailed_tag", $tagsquery);
@@ -430,9 +433,8 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
         $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
     } else {
         if ($collection_bool == false) {
-            $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-            /* Okay, it works, but it's not elegant — the downward recursion (@ IFNULL) for the chronology values only works for one level. Should try to replace that with true recursion. */
-            /* Also, woh_content.content_version=1 isn't right, it needs to match the web. */
+            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+            // Need to make this so it gets the child version right.
         } else {
             $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         }
@@ -451,11 +453,12 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
         // This loop echoes the individual children.
         while ($row = $result->fetch_assoc()) {
             $uniqueid = $row["cid"];
+            $uniquev = $row["content_version"];
 
             if (in_array($uniqueid, $uniquea)) {
                 continue;
             } else {
-                echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $row["content_version"] . "\")'>";
+                echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $uniquev . "\")'>";
                 if (file_exists("../img/story/contents/" . $uniqueid . ".png")) {
                     echo "<img src='/img/story/contents/" . $uniqueid . ".png' alt='" . $row["title"] . "'>";
                 } else if (file_exists("../img/story/contents/" . $uniqueid . ".webp")) {
@@ -465,7 +468,7 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
                 }
                 $snippet = (string) $row["snippet"];
                 echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
-                getDetails($uniqueid, $row["content_version"], $lang);
+                getDetails($uniqueid, $uniquev, $lang);
                 echo "</div></div></button></div>";
             }
             array_push($uniquea, $uniqueid);
