@@ -140,7 +140,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
             $current_entry = $row_main['entry_id'];
             $current_main = $row_main['main'];
             $doc = new DOMDocument();
-            $doc->loadHTML($current_main);
+            $doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">'.$current_main);
 
             $sql_parent = "SELECT title FROM reference_titles WHERE entry_id IN (SELECT parent_id FROM woh_web WHERE child_id='$current_entry')";
             $result_parent = $mysqli->query($sql_parent);

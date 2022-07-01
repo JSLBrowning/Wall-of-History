@@ -229,13 +229,6 @@
 }
 
 
-#card32C9EC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/32C9EC.png") center;
-    background-size: cover;
-    border-color: #0d8cd1;
-}
-
-
 #card8DC1BB {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/8DC1BB.png") center;
     background-size: cover;
@@ -247,6 +240,48 @@
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/OGB.png") center;
     background-size: cover;
     border-color: silver;
+}
+
+
+#card753869 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/753869.png") center;
+    background-size: cover;
+    border-color: #2e54aa;
+}
+
+
+#card943E43 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/943E43.png") center;
+    background-size: cover;
+    border-color: #d2562b;
+}
+
+
+#card320100 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/320100.png") center;
+    background-size: cover;
+    border-color: darkgreen;
+}
+
+
+#cardCE2EF4 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/CE2EF4.png") center;
+    background-size: cover;
+    border-color: #6b9490;
+}
+
+
+#card32C9EC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/32C9EC.2.en.png") center;
+    background-size: cover;
+    border-color: red;
+}
+
+
+#cardABE5BC {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
+    background-size: cover;
+    border-color: red;
 }
 
 
