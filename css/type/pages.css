@@ -11,8 +11,14 @@ body main section.pages {
     position: relative;
 }
 
-span.pages {
+
+span.pages:first-of-type {
     margin-top: 0.5em;
+}
+
+
+span.pages {
+    margin-top: 0.25em;
 }
 
 span.pages .page {
