@@ -34,6 +34,21 @@ function getData($column, $query)
 }
 
 
+function getImages($id, $v, $lang, $caption) {
+    $formats = [".webp", ".jpg", ".jpeg", ".png"];
+    $names = ["$id.$v.$lang", "$id.$v", "$id"];
+    foreach ($names as $name) {
+        foreach ($formats as $format) {
+            $image = "/img/story/contents/$name$format";
+            if (file_exists(".." . $image)) {
+                return "<img src='" . $image . "' alt='" . $caption . "'>";
+            }
+        }
+    }
+    return "";
+}
+
+
 /***************************
  * END UNIVERSAL FUNCTIONS *
  ***************************/
@@ -246,12 +261,7 @@ function loadContentParents($id, $v, $title)
     } else if ((!($id === "0")) && ($num_parents === 0)) {
         echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
     } else {
-        // Get and display image, if any.
-        if (file_exists("../img/story/contents/" . $id . ".png")) {
-            echo "<img src='/img/story/contents/" . $id . ".png' alt='" . $title[0] . "'>\n";
-        } else if (file_exists("../img/story/contents/" . $id . ".webp")) {
-            echo "<img src='/img/story/contents/" . $id . ".webp' alt='" . $title[0] . "'>\n";
-        }
+        echo getImages($id, $v, "NULL", $title[0]);
         echo "<div class='titleBoxText'>";
 
         if ($num_parents === 1) {
@@ -433,7 +443,7 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
         $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
     } else {
         if ($collection_bool == false) {
-            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id AND woh_content.content_version=woh_web.child_version WHERE woh_web.parent_id = \"$id\" AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
             // Need to make this so it gets the child version right.
         } else {
             $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
@@ -459,10 +469,9 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
                 continue;
             } else {
                 echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $uniquev . "\")'>";
-                if (file_exists("../img/story/contents/" . $uniqueid . ".png")) {
-                    echo "<img src='/img/story/contents/" . $uniqueid . ".png' alt='" . $row["title"] . "'>";
-                } else if (file_exists("../img/story/contents/" . $uniqueid . ".webp")) {
-                    echo "<img src='/img/story/contents/" . $uniqueid . ".webp' alt='" . $row["title"] . "'>";
+                $image = getImages($uniqueid, $uniquev, $lang, $row["title"]);
+                if ($image != "") {
+                    echo $image;
                 } else if ($row["small_image"] != NULL) {
                     echo "<img src='" . $row["small_image"] . "'>";
                 }
