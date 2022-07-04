@@ -285,6 +285,49 @@
 }
 
 
+#card1EN6EC {
+    background: linear-gradient(90deg, #36211D, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/1EN6EC.png") center;
+    background-size: cover;
+    border-color: #af3b24;
+}
+
+
+#cardZYZBM9 {
+    background: linear-gradient(90deg, #113023, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/ZYZBM9.png") center;
+    background-size: cover;
+    border-color: #18793a;
+}
+
+
+#cardEC7AOP {
+    background: linear-gradient(90deg, #0C2735, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/EC7AOP.png") center;
+    background-size: cover;
+    border-color: #045581;
+}
+
+
+#card5PC6M8 {
+    /* Initial background color is back2 blended with border color with three midpoints, closest to back2. */
+    background: linear-gradient(90deg, #101619, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5PC6M8.png") center;
+    background-size: cover;
+    border-color: #151011;
+}
+
+
+#card5L9VU7 {
+    background: linear-gradient(90deg, #4A4A22, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5L9VU7.png") center;
+    background-size: cover;
+    border-color: #ffdf38;
+}
+
+
+#card0BSZ48 {
+    background: linear-gradient(90deg, #1D3754, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/0BSZ48.png") center;
+    background-size: cover;
+    border-color: #4a95ff;
+}
+
+
 button.contentsButton {
     border-left: none;
     border-right: none;
