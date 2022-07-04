@@ -1294,13 +1294,13 @@ section.structure nav {
 
 .tags p,
 .tags p:first-of-type {
-    margin: .125em;
-    padding: .125em .25em;
+    margin: .0625em .125em;
+    padding: .0625em .125em;
     width: auto;
     border-radius: .25em;
-    background-color: darkgray;
+    background-color: gray;
     font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
-    font-size: .9375em;
+    font-size: .875em;
     color: #010203;
 }
 

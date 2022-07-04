@@ -143,7 +143,6 @@ function populateCSS($id)
     If that doesn't work, try the tree of the chronology-- ID for a match.
     Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
     If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
-    Make this break at collections, so that Tale of the Toa will never be Bohrok-themed.
     */
     // Grandparent
     $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='$id' AND parent_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection'));";
@@ -156,7 +155,7 @@ function populateCSS($id)
         }
 
         if (isset($_COOKIE["historyStack"])) {
-            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
+            echo "<h1>". implode(",", $history) . "</h1>\n";
 
             foreach ($history as $value) {
                 if (in_array($value, $options)) {
@@ -411,9 +410,16 @@ function loadContent($id, $v, $lang)
 
 function getDetails($id, $primeversion, $lang)
 {
-    $versionquery = "SELECT * FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
-    echo "<p>" . implode(", ", getData("version_title", $versionquery)) . "</p>\n";
+    echo "<div class='versions'>";
 
+    $versionquery = "SELECT * FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
+    $versions = getData("version_title", $versionquery);
+    if (count($versions) <= 2) {
+        echo "<p>" . implode(", ", $versions) . "</p>\n";
+    } else {
+        echo "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
+    }
+    
     $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
     echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
 
@@ -423,7 +429,9 @@ function getDetails($id, $primeversion, $lang)
         echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
     }
 
-    /*$tagsquery = "SELECT detailed_tag FROM woh_tags WHERE id = '$id'";
+    echo "</div>";
+
+    $tagsquery = "SELECT detailed_tag FROM woh_tags WHERE id = '$id' AND (tag_type='author' OR tag_type='type')";
     $tags = getData("detailed_tag", $tagsquery);
     if (!empty($tags)) {
         echo "<div class='tags'>";
@@ -431,7 +439,7 @@ function getDetails($id, $primeversion, $lang)
             echo "<p class='tag'>" . $tag . "</p>";
         }
         echo "</div>";
-    }*/
+    }
 }
 
 
@@ -476,9 +484,9 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
                     echo "<img src='" . $row["small_image"] . "'>";
                 }
                 $snippet = (string) $row["snippet"];
-                echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p><div class='versions'>";
+                echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p>";
                 getDetails($uniqueid, $uniquev, $lang);
-                echo "</div></div></button></div>";
+                echo "</div></button></div>";
             }
             array_push($uniquea, $uniqueid);
         }

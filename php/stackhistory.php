@@ -3,9 +3,10 @@ include("db_connect.php");
 
 // get the ID parameter from XmlHttpRequest.
 $id = $_REQUEST["id"];
+$v = $_REQUEST["v"];
 
 // Create selection statement.
-$sql = "SELECT parent_id FROM woh_web WHERE child_id='$id'";
+$sql = "SELECT parent_id FROM woh_web WHERE child_id='$id' AND child_version=$v";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
