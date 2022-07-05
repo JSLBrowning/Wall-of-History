@@ -1387,6 +1387,221 @@ section.structure nav {
  **********************/
 
 
+/***********************
+ * MEDIA PLAYER STYLES *
+ ***********************/
+
+
+div.mediaplayercontents span img,
+div.mediaplayercontents span div {
+    display: block;
+}
+
+
+div.mediaplayercontents img,
+div.mediaplayercontents video,
+div.mediaplayercontents span {
+    display: none;
+}
+
+
+div.mediaplayercontents>*:first-child {
+    display: block;
+}
+
+div#modal-data div.mediaplayer {
+    margin: auto;
+    margin-top: -1em;
+    max-width: 90%;
+    height: 33.33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5em;
+}
+
+div.mediaplayercontents {
+    max-height: calc(100% - 2em);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-grow: 2;
+    border-radius: .5em;
+}
+
+div.mediaplayercontents:only-child {
+    max-height: 100%;
+}
+
+div.mediaplayercontents img,
+div.mediaplayercontents video {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+    border-radius: .5em;
+}
+
+div.mediaplayercontents video {
+    min-height: 100%;
+    background-color: rgba(8, 8, 8, 0.75);
+}
+
+div.mediaplayer div.mediaplayercontrols {
+    height: 1.5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+div.mediaplayercontrols button,
+div.mediaplayercontrols div {
+    margin: 0.5em 1em;
+    width: 33.33%;
+    flex-grow: 1;
+    height: 100%;
+}
+
+div.mediaplayercontrols button,
+div.mediaplayercontrols div {
+    margin: 0em 0.375em;
+    background: none;
+    border: none;
+    box-shadow: none;
+    transition: all .2s ease-in-out;
+}
+
+div.mediaplayercontrols button:hover,
+div.mediaplayercontrols div:hover {
+    background-color: var(--back3);
+    border-radius: .375em;
+}
+
+div.mediaplayercontrols button:hover {
+    transform: scale(1.0625);
+    cursor: pointer;
+}
+
+div.mediaplayercontrols p {
+    width: 100%;
+    max-height: 100%;
+    text-align: center;
+    margin: auto 0em;
+}
+
+
+/*
+ * ZOOMED MEDIA PLAYER STYLES
+ */
+
+
+.zoom .mediaplayer {
+    height: 85%;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 0.5em;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontents video {
+    background-color: rgba(0, 0, 0, 0);
+    min-height: initial;
+    height: auto;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols {
+    height: 2em;
+    width: 100%;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button,
+.zoom div.mediaplayer div.mediaplayercontrols div {
+    background-color: var(--back2);
+    border-radius: 0.375em;
+    font-size: 1.25em;
+    font-weight: bolder;
+    user-select: none;
+}
+
+
+div.mediaplayer div.mediaplayercontrols button,
+div.mediaplayer div.mediaplayercontrols div {
+    user-select: none;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:hover,
+.zoom div.mediaplayer div.mediaplayercontrols div:hover {
+    background-color: var(--back3);
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:hover {
+    transform: scale(1.015625);
+    cursor: pointer;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols div.slidelocationdiv p.slidelocation {
+    height: 100%;
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontrols button:active {
+    background-color: var(--back1);
+    transform: scale(0.984375);
+}
+
+
+.zoom div.mediaplayer div.mediaplayercontents img:hover,
+.zoom div.mediaplayer div.mediaplayercontents img:active {
+    transform: none;
+    box-shadow: none;
+}
+
+
+.zoom div.mediaplayer p {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+
+/*
+ * END ZOOMED MEDIA PLAYER STYLES
+ */
+
+
+/***************************
+ * END MEDIA PLAYER STYLES *
+ ***************************/
+
+
+/*************
+ * 3D STYLES *
+ *************/
+
+canvas:focus {
+    outline: none;
+}
+
+
+canvas {
+    border-radius: .5em;
+}
+
+
+/*****************
+ * END 3D STYLES *
+ *****************/
+
+
 /*****************
  * MOBILE STYLES *
  *****************/
@@ -1736,203 +1951,3 @@ main article section.story del {
 /*********************
  * END UNUSED STYLES *
  *********************/
-
-
-/***************************
- * NEW MEDIA PLAYER STYLES *
- ***************************/
-
-
-div.mediaplayercontents span img,
-div.mediaplayercontents span div {
-    display: block;
-}
-
-
-div.mediaplayercontents img,
-div.mediaplayercontents video,
-div.mediaplayercontents span {
-    display: none;
-}
-
-
-div.mediaplayercontents>*:first-child {
-    display: block;
-}
-
-div#modal-data div.mediaplayer {
-    margin: auto;
-    margin-top: -1em;
-    max-width: 90%;
-    height: 33.33%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.5em;
-}
-
-div.mediaplayercontents {
-    max-height: calc(100% - 2em);
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    flex-grow: 2;
-    border-radius: .5em;
-}
-
-div.mediaplayercontents:only-child {
-    max-height: 100%;
-}
-
-div.mediaplayercontents img,
-div.mediaplayercontents video {
-    height: auto;
-    max-height: 100%;
-    width: auto;
-    max-width: 100%;
-    border-radius: .5em;
-}
-
-div.mediaplayercontents video {
-    min-height: 100%;
-    background-color: rgba(8, 8, 8, 0.75);
-}
-
-div.mediaplayer div.mediaplayercontrols {
-    height: 1.5em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
-}
-
-div.mediaplayercontrols button,
-div.mediaplayercontrols div {
-    margin: 0.5em 1em;
-    width: 33.33%;
-    flex-grow: 1;
-    height: 100%;
-}
-
-div.mediaplayercontrols button,
-div.mediaplayercontrols div {
-    margin: 0em 0.375em;
-    background: none;
-    border: none;
-    box-shadow: none;
-    transition: all .2s ease-in-out;
-}
-
-div.mediaplayercontrols button:hover,
-div.mediaplayercontrols div:hover {
-    background-color: var(--back3);
-    border-radius: .375em;
-}
-
-div.mediaplayercontrols button:hover {
-    transform: scale(1.0625);
-    cursor: pointer;
-}
-
-div.mediaplayercontrols p {
-    width: 100%;
-    max-height: 100%;
-    text-align: center;
-    margin: auto 0em;
-}
-
-
-/*
- * 3D STYLES
- */
-
-canvas:focus {
-    outline: none;
-}
-
-
-canvas {
-    border-radius: .5em;
-}
-
-
-/*
- * ZOOMED MEDIA PLAYER STYLES
- */
-
-
-.zoom .mediaplayer {
-    height: 85%;
-    width: 85%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    gap: 0.5em;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontents video {
-    background-color: rgba(0, 0, 0, 0);
-    min-height: initial;
-    height: auto;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols {
-    height: 2em;
-    width: 100%;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols button,
-.zoom div.mediaplayer div.mediaplayercontrols div {
-    background-color: var(--back2);
-    border-radius: 0.375em;
-    font-size: 1.25em;
-    font-weight: bolder;
-    user-select: none;
-}
-
-
-div.mediaplayer div.mediaplayercontrols button,
-div.mediaplayer div.mediaplayercontrols div {
-    user-select: none;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols button:hover,
-.zoom div.mediaplayer div.mediaplayercontrols div:hover {
-    background-color: var(--back3);
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols button:hover {
-    transform: scale(1.015625);
-    cursor: pointer;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols div.slidelocationdiv p.slidelocation {
-    height: 100%;
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontrols button:active {
-    background-color: var(--back1);
-    transform: scale(0.984375);
-}
-
-
-.zoom div.mediaplayer div.mediaplayercontents img:hover,
-.zoom div.mediaplayer div.mediaplayercontents img:active {
-    transform: none;
-    box-shadow: none;
-}
-
-
-.zoom div.mediaplayer p {
-    background-color: rgba(0, 0, 0, 0);
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
-}

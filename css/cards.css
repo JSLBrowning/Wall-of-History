@@ -1,12 +1,9 @@
-/***************
- * CARD STYLES *
- ***************/
-
 #cardXCF8IZ {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XCF8IZ.png) center;
     background-size: cover;
     border-color: #5b757c;
 }
+
 
 #cardQ2N8NX {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/Q2N8NX.png) center;
@@ -14,11 +11,13 @@
     border-color: #5a5833;
 }
 
+
 #cardJBTY4O {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/JBTY4O.png) center;
     background-size: cover;
     border-color: #57453e;
 }
+
 
 #cardECOHYW {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ECOHYW.png) center;
@@ -26,20 +25,24 @@
     border-color: #3a2f1d;
 }
 
+
 #cardW40PF3 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/W40PF3.png) center;
     background-size: cover;
 }
+
 
 #cardVTKQYB {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/VTKQYB.png) center;
     background-size: cover;
 }
 
+
 #cardYTCP2V {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/YTCP2V.png) center;
     background-size: cover;
 }
+
 
 #cardLHIBBZ {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LHIBBZ.png) center;
@@ -47,11 +50,13 @@
     border-color: #878889;
 }
 
+
 #cardUELI6L {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/UELI6L.png) center;
     background-size: cover;
     border-color: #707d4e;
 }
+
 
 #card08H6CX {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/08H6CX.png) center;
@@ -59,11 +64,13 @@
     border-color: #957264;
 }
 
+
 #card7M5DDC {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/7M5DDC.png) center;
     background-size: cover;
     border-color: #547288;
 }
+
 
 #cardCU4QW2 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CU4QW2.png) center;
@@ -71,11 +78,13 @@
     border-color: #69827a;
 }
 
+
 #cardFG9EM8 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/FG9EM8.png) center;
     background-size: cover;
     border-color: #8b8f84;
 }
+
 
 #cardZTL9M8 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ZTL9M8.png) center;
@@ -83,24 +92,32 @@
     border-color: #4d4443;
 }
 
+
 #card0NN5ZH {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0NN5ZH.png) center;
     background-size: cover;
     border-color: #cfbe9e;
 }
 
+
+/* BIONICLE Chronicles Collection */
 #card54284C {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/cards/BCC.jpg) center;
     background-size: cover;
     border-color: #fc1f04;
 }
 
+
+/* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
     background-size: cover;
     border-color: #ff0401;
 }
 
+
+/* BIONICLE Chronicles #1: Tale of the Toa: “Tahu — Toa of Fire”;
+   Tahu/Tahu Nuva (Reference Subject) */
 #card0J81JD,
 #cardD287EB {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0J81JD.png) center;
@@ -108,29 +125,38 @@
     border-color: #93001c;
 }
 
+
+/* BIONICLE Chronicles #2: Beware the Bohrok */
 #card89L0VB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc2.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
     background-size: cover;
     border-color: #6e92ce;
 }
 
+
+/* BIONICLE Chronicles #3: Makuta’s Revenge */
 #card685M4D {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc3.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
     background-size: cover;
     border-color: #448d30;
 }
 
+
+/* BIONICLE Chronicles #4: Tales of the Masks */
 #card5LTDQZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/BC4_-_Tales_of_the_Masks.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
     background-size: cover;
     border-color: #ff990b;
 }
 
+
+/* BIONICLE: Mask of Light (Novelization) */
 #cardXJDC9U {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/MoL.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XJDC9U.png) center;
     background-size: cover;
     border-color: #594A37;
 }
+
 
 #cardKQRMXG {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/KQRMXG.png) center;
@@ -138,10 +164,12 @@
     border-color: #b6cdd2;
 }
 
+
 #cardWLHSQY {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/WLHSQY.png) center;
     background-size: cover;
 }
+
 
 #cardE2PJ0R {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/movies/1/IMG_002.jpg) center;
@@ -149,11 +177,13 @@
     border-color: #594A37;
 }
 
+
 #cardQU8PCV {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/QU8PCV.png) center;
     background-size: cover;
     border-color: #594A37;
 }
+
 
 #cardO927E6,
 #cardAF368C {
@@ -162,12 +192,14 @@
     border-color: #003A09;
 }
 
+
 #card8QH3GV,
 #cardD2A01E {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8QH3GV.png") center;
     background-size: cover;
     border-color: #000;
 }
+
 
 #cardR1J9VR,
 #card8C8007 {
@@ -176,12 +208,14 @@
     border-color: #00204B;
 }
 
+
 #cardWV07MQ,
 #card4FC952 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/WV07MQ.png") center;
     background-size: cover;
     border-color: #3A1C00;
 }
+
 
 #cardR6LJE0,
 #cardD69C39 {
@@ -190,11 +224,13 @@
     border-color: #779499;
 }
 
+
 #cardFB8NQ0 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A7.png") center;
     background-size: cover;
     border-color: limegreen;
 }
+
 
 #card0ODDBR {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A8.png") center;
@@ -202,11 +238,13 @@
     border-color: orange;
 }
 
+
 #cardPTMJ5P {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/a9.png") center;
     background-size: cover;
     border-color: #8f8c4f;
 }
+
 
 #card3PJT80 {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A10.png") center;
@@ -292,6 +330,7 @@
 }
 
 
+/* BIONICLE Adventures #1: Mystery of Metru Nui */
 #card1EN6EC {
     background: linear-gradient(90deg, #36211D, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/1EN6EC.png") center;
     background-size: cover;
@@ -299,6 +338,7 @@
 }
 
 
+/* BIONICLE Adventures #2: Trial by Fire */
 #cardZYZBM9 {
     background: linear-gradient(90deg, #113023, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/ZYZBM9.png") center;
     background-size: cover;
@@ -306,6 +346,7 @@
 }
 
 
+/* BIONICLE Adventures #3: The Darkness Below */
 #cardEC7AOP {
     background: linear-gradient(90deg, #0C2735, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/EC7AOP.png") center;
     background-size: cover;
@@ -313,6 +354,7 @@
 }
 
 
+/* BIONICLE Adventures #4: Legends of Metru Nui */
 #card5PC6M8 {
     /* Initial background color is back2 blended with border color with three midpoints, closest to back2. */
     background: linear-gradient(90deg, #101619, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5PC6M8.png") center;
@@ -321,6 +363,7 @@
 }
 
 
+/* BIONICLE Adventures #5: Voyage of Fear */
 #card5L9VU7 {
     background: linear-gradient(90deg, #4A4A22, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5L9VU7.png") center;
     background-size: cover;
@@ -328,6 +371,7 @@
 }
 
 
+/* BIONICLE Adventures #6: Maze of Shadows */
 #card0BSZ48 {
     background: linear-gradient(90deg, #1D3754, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/0BSZ48.png") center;
     background-size: cover;

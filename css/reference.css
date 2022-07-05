@@ -1,12 +1,11 @@
-.pronunciation {
-    margin: 1em 1.5em 0em 1.5em;
-    font-weight: bolder;
+section.story {
+    overflow: hidden;
 }
 
 
-section.story {
-    overflow: hidden;
-    /* Necessary so images won't overflow on reference page. Might break other things? */
+section.story p.pronunciation {
+    margin: 1em 1.5em 0em 1.5em;
+    font-weight: bolder;
 }
 
 
@@ -20,7 +19,7 @@ section.story img:hover {
  */
 
 
- section.story div.mediaplayer {
+section.story div.mediaplayer {
     margin: 0.5em;
     max-width: 320px;
     max-height: 320px;
@@ -37,3 +36,8 @@ section.story div.mediaplayer div.mediaplayercontents video {
     max-height: 320px;
     padding: 0em;
 }
+
+
+/*
+ * END ARTICLE MEDIA PLAYER STYLES
+ */
