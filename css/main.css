@@ -1253,14 +1253,14 @@ section.structure nav {
     width: 100%;
     max-width: 100%;
     text-align: left;
-    font-size: 1.0625em;
+    font-size: 1em;
     margin: 0;
 }
 
 
 .contentsButton p:first-of-type {
     font-family: 'Trademarker', Helvetica Now, Helvetica, Arial, sans-serif;
-    font-size: 1.25em;
+    font-size: 1.1875em;
 }
 
 
@@ -1311,8 +1311,8 @@ section.structure nav {
     color: darkgray;
     text-transform: uppercase;
     font-weight: 900;
-    font-size: .875em;
-    letter-spacing: .125em;
+    font-size: .8125em;
+    letter-spacing: .0625em;
 }
 
 
@@ -1320,12 +1320,6 @@ section.structure nav {
 .contentButtonText .tags {
     font-size: .9375em;
     width: 100%;
-}
-
-
-.contentButtonText .versions p,
-.contentButtonText .tags p {
-    letter-spacing: .0625em;
 }
 
 

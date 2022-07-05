@@ -110,9 +110,9 @@
 
 /* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
+    background: linear-gradient(90deg, #421C17, rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
     background-size: cover;
-    border-color: #ff0401;
+    border-color: #c72f19;
 }
 
 
@@ -128,7 +128,7 @@
 
 /* BIONICLE Chronicles #2: Beware the Bohrok */
 #card89L0VB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
+    background: linear-gradient(90deg, #2C3544, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
     background-size: cover;
     border-color: #6e92ce;
 }
@@ -136,7 +136,7 @@
 
 /* BIONICLE Chronicles #3: Makuta’s Revenge */
 #card685M4D {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
+    background: linear-gradient(90deg, #22341D, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
     background-size: cover;
     border-color: #448d30;
 }
@@ -144,7 +144,7 @@
 
 /* BIONICLE Chronicles #4: Tales of the Masks */
 #card5LTDQZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
+    background: linear-gradient(90deg, #503713, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
     background-size: cover;
     border-color: #ff990b;
 }
@@ -317,16 +317,23 @@
 
 
 #cardABE5BC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
+    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
     background-size: cover;
-    border-color: red;
+    border-color: #ed2226;
+}
+
+
+#card39FB06 {
+    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/39FB06.png") center;
+    background-size: cover;
+    border-color: #ed2226;
 }
 
 
 #card8E55D4 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8E55D4.png") center;
+    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8E55D4.png") center;
     background-size: cover;
-    border-color: red;
+    border-color: #ed2226;
 }
 
 
