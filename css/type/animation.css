@@ -1,7 +1,29 @@
 main {
-    width: 90%;
-    max-width: 960px;
+    max-width: 97.5%;
 }
+
+
+main article {
+    max-width: 1440px;
+}
+
+
+main article section.story {
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+}
+
+
+main article section.story section.titleBox img {
+    display: none;
+}
+
+
+main article section.story video {
+    margin-bottom: -0.5em;
+    padding: 0em;
+}
+
 
 @media only screen and (max-width: 640px) {
     main {

@@ -1,7 +1,44 @@
+/* Chapter 1: Quest for the Masks */
 #cardXCF8IZ {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XCF8IZ.png) center;
     background-size: cover;
     border-color: #5b757c;
+}
+
+
+/* BIONICLE: Quest for the Maks (TCG) */
+#cardCGEC7C {
+    background: linear-gradient(90deg, #010203, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CGEC7C.png) center;
+    background-size: cover;
+    border-color: #010203;
+}
+
+
+/* BIONICLE #1: The Coming of the Toa */
+#cardN621SQ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/N621SQ.png) center;
+    background-size: cover;
+}
+
+
+/* BIONICLE #2: Deep Into Darkness */
+#cardBWWAVH {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/BWWAVH.png) center;
+    background-size: cover;
+}
+
+
+/* BIONICLE #3: Triumph of the Toa */
+#cardUNV6Z1 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/UNV6Z1.png) center;
+    background-size: cover;
+}
+
+
+/* BIONICLE: Challenge of the Rahi */
+#cardLJUX6G {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LJUX6G.png) center;
+    background-size: cover;
 }
 
 
@@ -102,7 +139,7 @@
 
 /* BIONICLE Chronicles Collection */
 #card54284C {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/cards/BCC.jpg) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/54284C.jpg) center;
     background-size: cover;
     border-color: #fc1f04;
 }
@@ -110,7 +147,7 @@
 
 /* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
-    background: linear-gradient(90deg, #421C17, rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
     background-size: cover;
     border-color: #c72f19;
 }
@@ -128,7 +165,7 @@
 
 /* BIONICLE Chronicles #2: Beware the Bohrok */
 #card89L0VB {
-    background: linear-gradient(90deg, #2C3544, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
     background-size: cover;
     border-color: #6e92ce;
 }
@@ -136,7 +173,7 @@
 
 /* BIONICLE Chronicles #3: Makuta’s Revenge */
 #card685M4D {
-    background: linear-gradient(90deg, #22341D, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
     background-size: cover;
     border-color: #448d30;
 }
@@ -144,7 +181,7 @@
 
 /* BIONICLE Chronicles #4: Tales of the Masks */
 #card5LTDQZ {
-    background: linear-gradient(90deg, #503713, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
     background-size: cover;
     border-color: #ff990b;
 }
@@ -158,6 +195,7 @@
 }
 
 
+/* Mata Nui: The Online Game Walkthrough */
 #cardKQRMXG {
     background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/KQRMXG.png) center;
     background-size: cover;
@@ -316,22 +354,25 @@
 }
 
 
+/* BIONICLE #1: Rise of the Toa Nuva */
 #cardABE5BC {
-    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
     background-size: cover;
     border-color: #ed2226;
 }
 
 
+/* BIONICLE #2: Challenge of the Rahkshi */
 #card39FB06 {
-    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/39FB06.png") center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/39FB06.png") center;
     background-size: cover;
     border-color: #ed2226;
 }
 
 
+/* BIONICLE #3: City of Legends */
 #card8E55D4 {
-    background: linear-gradient(90deg, #4C191A, rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8E55D4.png") center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8E55D4.png") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -383,6 +424,53 @@
     background: linear-gradient(90deg, #1D3754, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/0BSZ48.png") center;
     background-size: cover;
     border-color: #4a95ff;
+}
+
+
+#cardP0SOQS {
+    background: linear-gradient(90deg, #040607, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/P0SOQS.png") center;
+    background-size: cover;
+    border-color: #000;
+}
+
+
+/* BIONICLE Adventures #7: Web of the Visorak */
+#cardFB8NQ0 {
+    background: linear-gradient(90deg, #31461E, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/FB8NQ0.png") center;
+    background-size: cover;
+    border-color: #56bc3f;
+}
+
+
+/* BIONICLE Adventures #8: Challenge of the Hordika */
+#card0ODDBR {
+    background: linear-gradient(90deg, #5C3E13, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/0ODDBR.png") center;
+    background-size: cover;
+    border-color: #ff9b12;
+}
+
+
+/* BIONICLE Adventures #9: Web of Shadows */
+#cardPTMJ5P {
+    background: linear-gradient(90deg, #403A22, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/PTMJ5P.png") center;
+    background-size: cover;
+    border-color: #8f8c4f;
+}
+
+
+/* BIONICLE Adventures #10: Time Trap */
+#card3PJT80 {
+    background: linear-gradient(90deg, #5B190F, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/3PJT80.png") center;
+    background-size: cover;
+    border-color: #fd0801;
+}
+
+
+/* BIONICLE 3: Web of Shadows */
+#cardMB376M {
+    background: linear-gradient(90deg, #2D3112, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/MB376M.jpg") center;
+    background-size: cover;
+    border-color: #446710;
 }
 
 
