@@ -378,6 +378,30 @@
 }
 
 
+/* BIONICLE #4: Trial by Fire */
+#card321BD5 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/321BD5.jpg") center;
+    background-size: cover;
+    border-color: #ed2226;
+}
+
+
+/* BIONICLE #6: The Underwater City */
+#card7A3DD7 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/7A3DD7.jpeg") center;
+    background-size: cover;
+    border-color: #ed2226;
+}
+
+
+/* BIONICLE #7: Realm of Fear */
+#cardAC83F6 {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/AC83F6.jpg") center;
+    background-size: cover;
+    border-color: #ed2226;
+}
+
+
 /* BIONICLE Adventures #1: Mystery of Metru Nui */
 #card1EN6EC {
     background: linear-gradient(90deg, #36211D, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/1EN6EC.png") center;

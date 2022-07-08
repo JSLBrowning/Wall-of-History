@@ -116,7 +116,7 @@ function populateHead($id, $lang, $v)
         }
 
         echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
-            <meta content='" . $row["snippet"] . "' property='og:description'/>\n
+            <meta content='" . strip_tags($row["snippet"]) . "' property='og:description'/>\n
             <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n

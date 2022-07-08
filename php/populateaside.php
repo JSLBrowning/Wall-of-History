@@ -68,9 +68,11 @@ function getDetailsAside($id, $lang, $v) {
 
     $release_query = "SELECT publication_date FROM woh_metadata WHERE id='$id'";
     $release = getDataAside("publication_date", $release_query);
-    if ($release[0] != "") {
-        echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
-        $successes++;
+    if (!empty($release)) {
+        if ($release[0] != "") {
+            echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
+            $successes++;
+        }
     }
 
     $successes = $successes + getAdaptedInto($id);

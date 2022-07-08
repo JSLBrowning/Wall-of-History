@@ -97,6 +97,12 @@
 }
 
 
+@font-face {
+    font-family: 'Vahki';
+    src: url('../../fonts/Vahki.woff2') format('woff2'), url('../../fonts/Vahki.woff') format('woff');
+}
+
+
 .trademarker {
     font-family: "TradeMarker", Helvetica Now, Helvetica, Arial, sans-serif;
 }
@@ -104,6 +110,14 @@
 
 .matoran {
     font-family: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+}
+
+
+.vahki {
+    font-family: "Vahki", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    letter-spacing: .25em;
+    color: var(--front2);
 }
 
 
