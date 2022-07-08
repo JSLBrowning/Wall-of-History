@@ -31,6 +31,10 @@ main article section.titleBox {
     padding: 0.125em 0em;
 }
 
+section.titleBox img {
+    display: none;
+}
+
 div.savefile button,
 div.nav button {
     margin: 0.875em;

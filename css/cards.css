@@ -8,7 +8,7 @@
 
 /* BIONICLE: Quest for the Maks (TCG) */
 #cardCGEC7C {
-    background: linear-gradient(90deg, #010203, rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CGEC7C.png) center;
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CGEC7C.png) center;
     background-size: cover;
     border-color: #010203;
 }
@@ -471,6 +471,35 @@
     background: linear-gradient(90deg, #2D3112, rgba(37, 31, 19, 0.9375)), url("/img/story/contents/MB376M.jpg") center;
     background-size: cover;
     border-color: #446710;
+}
+
+
+/* BIONICLE Legends #6: City of the Lost */
+#cardU8QKTF {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/U8QKTF.1.en.png") center;
+    background-size: cover;
+}
+
+
+/* BIONICLE Legends #7: Prisoners of the Pit */
+#cardAJK6HZ {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/AJK6HZ.1.en.png") center;
+    background-size: cover;
+}
+
+
+/* BIONICLE Legends #8: Downfall */
+#cardSDZM1Y {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/SDZM1Y.1.en.png") center;
+    background-size: cover;
+}
+
+
+/* BIONICLE Legends #9: Shadows in the Sky */
+#cardCH45TV {
+    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/CH45TV.png") center;
+    background-size: cover;
+    border-color: silver;
 }
 
 

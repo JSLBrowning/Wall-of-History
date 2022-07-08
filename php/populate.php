@@ -155,8 +155,7 @@ function populateCSS($id)
         }
 
         if (isset($_COOKIE["historyStack"])) {
-            echo "<h1>". implode(",", $history) . "</h1>\n";
-
+            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
             foreach ($history as $value) {
                 if (in_array($value, $options)) {
                     if (file_exists("..//css/id/" . $value . ".css")) {
@@ -421,7 +420,10 @@ function getDetails($id, $primeversion, $lang)
     }
     
     $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
-    echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
+    $release = getData("publication_date", $releasequery);
+    if ($release[0] != "") {
+        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
+    }
 
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
     $words = getData("word_count", $wordquery);

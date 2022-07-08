@@ -1,8 +1,8 @@
 body {
     background-color: #8798a8;
-    background-image: url("/img/test/PhantokaCombined.jpg");
+    background-image: url("/img/test/img290x681_Left_BG.webp");
     background-attachment: fixed;
     background-position: top left;
-    background-size: cover;
+    background-size: auto auto;
     background-repeat: no-repeat;
 }
