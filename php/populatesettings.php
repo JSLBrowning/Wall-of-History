@@ -59,14 +59,14 @@
         $num_chap = mysqli_num_rows($result_chapter);
         if ($num_chap == 0) {
             echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-            echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row["title"] . " <a href='/read/?id=" . $row["cid"] . "&v=1'>🢅</a></label>\n";
+            echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row["title"] . " <a href='/read/?id=" . $row["cid"] . "&v=1'><span class='linkarrow'></span></a></label>\n";
         } else {
             $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["cid"] . "' LIMIT 1";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {
                 echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
-                echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row_title["title"] . ": " . $row["title"] . " <a href='/read/?id=" . $row["cid"] . "&v=1'>🢅</a></label>\n";
+                echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row_title["title"] . ": " . $row["title"] . " <a href='/read/?id=" . $row["cid"] . "&v=1'><span class='linkarrow'></span></a></label>\n";
             }
         }
         echo "</li>\n";

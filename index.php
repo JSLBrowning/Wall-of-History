@@ -77,7 +77,7 @@ chooseColors();
             </div>
         </article>
         <aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
+            <button class="hideShow" onclick="hideShow(this)"><strong><span class='rightarrow'></span> </strong>Main Menu</button>
             <div class="asideContainer">
                 <div class="asideMain">
                     <form action="/search/">
@@ -97,6 +97,7 @@ chooseColors();
                     <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
                     <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
                     <button class="small" onclick="swapPalettes()">Swap Palette</button>
+                    <button class="small" onclick="matoranMode()">Matoran Mode</button>
                 </div>
             </div>
         </aside>

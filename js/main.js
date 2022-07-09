@@ -45,14 +45,14 @@ function hideShow(button) {
                 nextSibling = nextSibling.nextElementSibling;
             }
             let oldText = button.innerText;
-            button.innerText = oldText.replace("⮞", "⮟");
+            button.innerText = oldText.replace("<span class='rightarrow'></span>", "<span class='downarrow'></span>");
         } else {
             while (nextSibling) {
                 $(nextSibling).slideUp();
                 nextSibling = nextSibling.nextElementSibling;
             }
             let oldText = button.innerText;
-            button.innerText = oldText.replace("⮟", "⮞");
+            button.innerText = oldText.replace("<span class='downarrow'></span>", "<span class='rightarrow'></span>");
         }
     } else {
         let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
@@ -62,11 +62,11 @@ function hideShow(button) {
         if (currentStyles.display === "none" || currentStyles.display === "") {
             $(texts[buttonIndex]).slideDown();
             let oldText = button.innerText;
-            button.innerText = oldText.replace("⮞", "⮟");
+            button.innerText = oldText.replace("<span class='rightarrow'></span>", "<span class='downarrow'></span>");
         } else {
             $(texts[buttonIndex]).slideUp();
             let oldText = button.innerText;
-            button.innerText = oldText.replace("⮟", "⮞");
+            button.innerText = oldText.replace("<span class='downarrow'></span>", "<span class='rightarrow'></span>");
         }
     }
 }
@@ -858,7 +858,7 @@ function addZoomEventListeners() {
             let exit = document.createElement("span");
             exit.classList.add("exitSpan");
             exit.setAttribute("onclick", "closeImage();");
-            exit.innerHTML = "🞮";
+            exit.innerHTML = "";
             zoom.appendChild(exit);
             $(".zoom").fadeTo("fast", 1);
         });

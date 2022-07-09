@@ -49,7 +49,7 @@ function populateReferenceChildren($parent_id, $v, $lang)
             $sql_child_title = "SELECT title FROM reference_titles WHERE entry_id='$id' AND (title_version='$newv' OR title_version IS NULL) AND (title_language='$lang' OR title_language IS NULL) ORDER BY title_order DESC LIMIT 1";
             $result_child_title = $mysqli->query($sql_child_title);
 
-            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$newv OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' ORDER BY image_order DESC LIMIT 1";
+            $sql_child_image = "SELECT image_path, caption FROM reference_images WHERE entry_id='$id' AND (image_version=$newv OR image_version IS NULL) AND (image_language='$lang' OR image_language IS NULL) AND image_path NOT LIKE '%.mp4%' AND image_path NOT LIKE '%.m4v%' ORDER BY image_order DESC LIMIT 1";
             $result_child_image = $mysqli->query($sql_child_image);
             $img = "";
             if (mysqli_num_rows($result_child_image) > 0) {
@@ -177,11 +177,11 @@ function populateReferencePage($parent, $v, $lang)
             echo "<h1>" . $row_titles["title"] . "</h1>";
         }
     } else if ($title_count > 1) {
-        echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
+        echo "<div class='multiparents'><button onclick='carouselBack(this)'><span class='leftarrow'></span></button>";
         while ($row_titles = $result_titles->fetch_assoc()) {
             echo "<h1>" . $row_titles["title"] . "</h1>";
         }
-        echo "<button onclick='carouselForward(this)'>⮞</button></div>";
+        echo "<button onclick='carouselForward(this)'><span class='rightarrow'></span></button></div>";
     }
 
     echo "</div></section>";

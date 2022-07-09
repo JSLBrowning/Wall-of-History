@@ -15,11 +15,9 @@
     --back1: #B1B1B2;
 }
 
-html,
-body{
-    min-height: 100%;
-    background: var(--back2);
-    background: linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #263B54 100%);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+body {
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(43, 64, 89, .875) 100%), url("/img/test/mahrinui.webp");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }

@@ -98,32 +98,105 @@
 
 
 @font-face {
+    font-family: 'Rahkshi';
+    src: url('../../fonts/Rahkshi.woff2') format('woff2'), url('../../fonts/Rahkshi.woff') format('woff');
+}
+
+
+@font-face {
     font-family: 'Vahki';
     src: url('../../fonts/Vahki.woff2') format('woff2'), url('../../fonts/Vahki.woff') format('woff');
 }
 
 
+:root {
+    --trademarker: "Trademarker", Helvetica Now, Helvetica, Arial, sans-serif;
+    --gillsans: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    --rahkshi: "Rahkshi", Helvetica Now, Helvetica, Arial, sans-serif;
+    --vahki: "Vahki", Helvetica Now, Helvetica, Arial, sans-serif;
+    --matoran: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+}
+
+
+:root.matoran {
+    --trademarker: "Matoran", "Trademarker", Helvetica Now, Helvetica, Arial, sans-serif;
+    --gillsans: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    --rahkshi: "Matoran", "Rahkshi", Helvetica Now, Helvetica, Arial, sans-serif;
+    --vahki: "Matoran", "Vahki", Helvetica Now, Helvetica, Arial, sans-serif;
+    --matoran: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+}
+
+
 .trademarker {
-    font-family: "TradeMarker", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--trademarker);
 }
 
 
 .matoran {
-    font-family: "Matoran", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--matoran);
 }
 
 
 .vahki {
-    font-family: "Vahki", "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--vahki);
     font-weight: 100;
     letter-spacing: .25em;
     color: var(--front2);
 }
 
 
+.rahkshi {
+    font-family: var(--rahkshi);
+    font-weight: 100;
+    letter-spacing: .25em;
+    color: var(--front2);
+}
+
+
+div.contentButtonText span.rahkshi {
+    font-size: x-small;
+    color: var(--front1);
+}
+
+
 /************************
  * END COLORS AND FONTS *
  ************************/
+
+
+/**********
+ * ARROWS *
+ **********/
+
+
+span.rightarrow:after {
+    content: '⮞';
+}
+
+
+span.leftarrow:after {
+    content: '⮜';
+}
+
+
+span.downarrow:after {
+    content: '⮟';
+}
+
+
+span.linkarrow:after {
+    content: '🢅';
+}
+
+
+span.exitSpan:after {
+    content: '🞮';
+}
+
+
+/**************
+ * END ARROWS *
+ **************/
 
 
 /***************
@@ -154,7 +227,7 @@ main {
     display: flex;
     flex-flow: row nowrap;
 
-    font-family: 'Gill Sans Std', Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     font-style: normal;
     line-height: 1.5;
 }
@@ -212,7 +285,7 @@ h3,
 h4 {
     text-align: center;
     line-height: 1em;
-    font-family: 'TradeMarker', Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--trademarker);
     font-weight: bold;
     letter-spacing: 0.125em;
 }
@@ -281,7 +354,7 @@ button {
     background: var(--back2);
     box-shadow: var(--outershadow);
     cursor: pointer;
-    font-family: 'Gill Sans Std', Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     transition: all .2s ease-in-out;
 }
 
@@ -301,17 +374,20 @@ label input {
 }
 
 
-a:hover {
+a:hover,
+a span:hover {
     color: var(--front2);
 }
 
 
-a:active {
+a:active,
+a span:active {
     color: var(--front3);
 }
 
 
-a:visited {
+a:visited,
+a span:visited {
     color: var(--front1);
 }
 
@@ -702,7 +778,7 @@ body .zoom {
 
 
 .zoom p {
-    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     margin: 0.25em;
     padding: 0.25em;
     text-align: center;
@@ -1207,12 +1283,12 @@ section.structure nav {
 
 
 .contentsText p {
-    font-family: 'Trademarker', Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--trademarker);
 }
 
 
 .contentsText p:last-of-type {
-    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -1273,7 +1349,7 @@ section.structure nav {
 
 
 .contentsButton p:first-of-type {
-    font-family: 'Trademarker', Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--trademarker);
     font-size: 1.1875em;
 }
 
@@ -1313,7 +1389,7 @@ section.structure nav {
     width: auto;
     border-radius: .25em;
     background-color: gray;
-    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     font-size: .875em;
     color: #010203;
 }
@@ -1321,7 +1397,7 @@ section.structure nav {
 
 .versions p,
 .versions p:first-of-type {
-    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+    font-family: var(--gillsans);
     color: darkgray;
     text-transform: uppercase;
     font-weight: 900;
@@ -1450,6 +1526,12 @@ div.mediaplayercontents video {
     width: auto;
     max-width: 100%;
     border-radius: .5em;
+}
+
+div.mediaplayercontents span {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 div.mediaplayercontents video {
@@ -1705,7 +1787,6 @@ canvas {
 
 
 @media only screen and (max-width: 720px) {
-
     /* Side images don't really fit on mobile, so we should just make the background image more prominent. */
     .titleBox img {
         display: none;
@@ -1762,7 +1843,12 @@ canvas {
     }
 
     aside div.asideMain p {
-        font-size: 0.9375em;
+        font-size: 0.875em;
+    }
+
+    aside p {
+        margin: .25em .5em;
+        width: calc(100% - 1em);
     }
 
     aside form,
@@ -1775,8 +1861,12 @@ canvas {
     aside form input,
     aside form button,
     aside button.small {
-        height: 1.375em;
-        font-size: 1.0625em;
+        height: 1.25em;
+        font-size: 0.9375em;
+    }
+
+    aside button.small {
+        width: 100%;
     }
 
     aside form {
@@ -1800,6 +1890,30 @@ canvas {
 
     section.structure div.padding {
         width: 100%;
+    }
+
+    span.rightarrow:after {
+        content: '→';
+    }
+    
+    
+    span.leftarrow:after {
+        content: '←';
+    }
+    
+    
+    span.downarrow:after {
+        content: '↓';
+    }
+    
+    
+    span.linkarrow:after {
+        content: '➚';
+    }
+
+
+    span.exitSpan:after {
+        content: 'X';
     }
 }
 

@@ -63,6 +63,10 @@ function correct() {
             document.documentElement.classList.toggle("light");
         }
     }
+
+    if (localStorage.getItem("matoranMode") === "matoran") {
+        document.documentElement.classList.toggle("matoran");
+    }
 }
 
 correct();
@@ -82,6 +86,24 @@ function swapPalettes() {
         location.reload();
     }
 }
+
+
+function matoranMode() {
+    if (localStorage.getItem("matoranMode") === "matoran") {
+        localStorage.removeItem("matoranMode");
+        document.cookie = "matoranMode=no; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+        document.documentElement.classList.toggle('matoran');
+    } else {
+        localStorage.setItem("matoranMode", "matoran");
+        document.cookie = "matoranMode=matoran; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
+        document.documentElement.classList.toggle('matoran');
+    }
+
+    if (window.location.pathname.includes("about")) {
+        location.reload();
+    }
+}
+
 
 function increaseFontSize() {
     let currentFontSize = localStorage.getItem("fontSize");

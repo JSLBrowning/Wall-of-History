@@ -157,7 +157,7 @@ function zoomExtras(type) {
             let exit = document.createElement("span");
             exit.classList.add("exitSpan");
             exit.setAttribute("onclick", "closeImage();");
-            exit.innerHTML = "🞮";
+            exit.innerHTML = "";
             zoom.appendChild(exit);
             $(".zoom").fadeTo("fast", 1);
         }

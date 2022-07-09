@@ -85,18 +85,18 @@ chooseColors();
             ?>
             </section>
             <div class="savefile" style="display:none;">
-                <button type="savefilebutton" onclick="savePlace()">Save Place</button>
-                <button type="savefilebutton" onclick="loadPlace()">Load Place</button>
+                <button type="savefilebutton" onclick="savePlace()">Save</button>
+                <button type="savefilebutton" onclick="loadPlace()">Load</button>
             </div>
             <div class="nav" style="display:none">
-                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none">⮜</button>
+                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none"><span class="leftarrow"></span></button>
                 <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
-                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none">⮞</button>
+                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none"><span class="rightarrow"></span></button>
             </div>
         </article>
 
         <aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong>⮞ </strong>Main Menu</button>
+            <button class="hideShow" onclick="hideShow(this)"><strong><span class="rightarrow"></span> </strong>Main Menu</button>
             <div class="asideMain">
                 <form action="/search/">
                     <input type="text" required="required" placeholder="Search…" name="q">
@@ -118,6 +118,7 @@ chooseColors();
                 <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
                 <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
                 <button class="small" onclick="swapPalettes()">Swap Palette</button>
+                <button class="small" onclick="matoranMode()">Matoran Mode</button>
             </div>
         </aside>
     </main>

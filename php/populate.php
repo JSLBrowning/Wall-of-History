@@ -271,7 +271,7 @@ function loadContentParents($id, $v, $title)
                 }
             }
         } else if ($num_parents > 1) {
-            echo "<div class='multiparents'><button onclick='carouselBack(this)'>⮜</button>";
+            echo "<div class='multiparents'><button onclick='carouselBack(this)'><span class='leftarrow'></span></button>";
             while ($row = $parents->fetch_assoc()) {
                 $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 // ORDER BY chronology, title ASC
@@ -281,7 +281,7 @@ function loadContentParents($id, $v, $title)
                     echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
                 }
             }
-            echo "<button onclick='carouselForward(this)'>⮞</button></div>";
+            echo "<button onclick='carouselForward(this)'><span class='rightarrow'></span></button></div>";
         }
     }
 }

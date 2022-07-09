@@ -45,3 +45,10 @@ body {
     background-position: center;
     background-size: cover;
 }
+
+
+@media only screen and (max-width: 640px) {
+    :root {
+        --back2: #0e181b;
+    }
+}

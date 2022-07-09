@@ -63,7 +63,7 @@ chooseColors();
                 Group.</p>
         </article>
         <aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong>⮟ </strong>Main Menu</button>
+            <button class="hideShow" onclick="hideShow(this)"><strong><span class='rightarrow'></span> </strong>Main Menu</button>
             <div>
                 <form action="/search/">
                     <input type="text" required="required" placeholder="Search…" name="q">
@@ -82,6 +82,7 @@ chooseColors();
                 <button class="small" onclick="increaseFontSize()">Increase Font Size</button>
                 <button class="small" onclick="decreaseFontSize()">Decrease Font Size</button>
                 <button class="small" onclick="swapPalettes()">Swap Color Palette</button>
+                <button class="small" onclick="matoranMode()">Matoran Mode</button>
             </div>
         </aside>
         <!--

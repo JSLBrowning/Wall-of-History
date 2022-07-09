@@ -16,3 +16,12 @@ body {
 .contentsButton {
     border-color: #d5b278;
 }
+
+
+@media only screen and (max-width: 720px) {
+    :root {
+        --back2: rgb(37, 18, 9);
+        --back3: rgb(49, 24, 12);
+        --border: rgb(49, 24, 12);
+    }
+}
