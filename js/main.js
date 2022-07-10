@@ -44,15 +44,15 @@ function hideShow(button) {
                 $(nextSibling).slideDown();
                 nextSibling = nextSibling.nextElementSibling;
             }
-            let oldText = button.innerText;
-            button.innerText = oldText.replace("<span class='rightarrow'></span>", "<span class='downarrow'></span>");
+            let oldText = button.innerHTML;
+            button.innerHTML = oldText.replace("<span class=\"rightarrow\"></span>", "<span class=\"downarrow\"></span>");
         } else {
             while (nextSibling) {
                 $(nextSibling).slideUp();
                 nextSibling = nextSibling.nextElementSibling;
             }
-            let oldText = button.innerText;
-            button.innerText = oldText.replace("<span class='downarrow'></span>", "<span class='rightarrow'></span>");
+            let oldText = button.innerHTML;
+            button.innerHTML = oldText.replace("<span class=\"downarrow\"></span>", "<span class=\"rightarrow\"></span>");
         }
     } else {
         let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
@@ -61,12 +61,12 @@ function hideShow(button) {
         let currentStyles = window.getComputedStyle(texts[buttonIndex]);
         if (currentStyles.display === "none" || currentStyles.display === "") {
             $(texts[buttonIndex]).slideDown();
-            let oldText = button.innerText;
-            button.innerText = oldText.replace("<span class='rightarrow'></span>", "<span class='downarrow'></span>");
+            let oldText = button.innerHTML;
+            button.innerHTML = oldText.replace("<span class=\"rightarrow\"></span>", "<span class=\"downarrow\"></span>");
         } else {
             $(texts[buttonIndex]).slideUp();
-            let oldText = button.innerText;
-            button.innerText = oldText.replace("<span class='downarrow'></span>", "<span class='rightarrow'></span>");
+            let oldText = button.innerHTML;
+            button.innerHTML = oldText.replace("<span class=\"downarrow\"></span>", "<span class=\"rightarrow\"></span>");
         }
     }
 }

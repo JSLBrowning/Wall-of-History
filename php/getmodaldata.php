@@ -36,7 +36,7 @@ if ($result_subjects->num_rows > 0) {
 }
 
 
-/**
+/*
  * Function to fetch alternate names for a given subject.
  * Used to generate disambiguation buttons and on correctly-loaded modals
  */
@@ -130,7 +130,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
         echo "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
     }
 
-    $sql_main = "SELECT entry_id, main FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_subjects WHERE subject_id='$subject_id' AND spoiler_level<=$spoiler_level) ORDER BY spoiler_level DESC";
+    $sql_main = "SELECT entry_id, main, spoiler_level FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_subjects WHERE subject_id='$subject_id') ORDER BY spoiler_level ASC";
     $result_main = $mysqli->query($sql_main);
 
     $main = "<div class=\"modal-text\"><h1>$name</h1>" . get_alternate_names($subject_id, $name, $spoiler_level);
@@ -139,6 +139,7 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
         while ($row_main = mysqli_fetch_assoc($result_main)) {
             $current_entry = $row_main['entry_id'];
             $current_main = $row_main['main'];
+            $current_spoiler_level = $row_main['spoiler_level'];
             $doc = new DOMDocument();
             $doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">'.$current_main);
 
@@ -155,8 +156,13 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
                 $a->parentNode->removeChild($a);
             }
 
-            $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\">⮟ SOURCE: $parent_title</button>";
-            $main .= "<section class=\"showable\">" . $doc->saveXML() . "</section>";
+            if ($current_spoiler_level > $spoiler_level) {
+                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='rightarrow'></span> SOURCE: $parent_title (Potential Spoilers)</button>";
+                $main .= "<section class=\"showable\" style=\"display: none;\">" . $doc->saveXML() . "</section>";
+            } else {
+                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='downarrow'></span> SOURCE: $parent_title</button>";
+                $main .= "<section class=\"showable\">" . $doc->saveXML() . "</section>";
+            }
         }
 
         $main .= "</div>";
