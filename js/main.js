@@ -843,7 +843,7 @@ function carouselBack(button) {
 
 
 function addZoomEventListeners() {
-    let images = document.querySelectorAll(".story > img, .story > section > img, .mediaplayercontents > img");
+    let images = document.querySelectorAll(".story > img, .story > section > img, .mediaplayercontents > img, .mediaplayercontents > span > img");
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');

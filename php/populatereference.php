@@ -30,7 +30,7 @@ function populateReferenceChildren($parent_id, $v, $lang)
 {
     include("db_connect.php");
 
-    $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' GROUP BY combo ORDER BY reference_metadata.publication_date ASC";
+    $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle ORDER BY reference_metadata.publication_date ASC";
     if ($parent_id != "0") {
         $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' ORDER BY reference_metadata.chronology ASC";
         // AND parent_version=$v) AND reference_content.content_version=$v
@@ -57,10 +57,10 @@ function populateReferenceChildren($parent_id, $v, $lang)
                     $img = "<img src='" . $row_child_image["image_path"] . "' alt='" . $row_child_image["caption"] . "'>";
                 }
             } else {
-                if (file_exists("..//img/reference/contents/" . $id . "." . $newv . "." . $lang . ".PNG")) {
-                    $img = "<img src='/img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png' alt='No image available'>";
-                } else if (file_exists("..//img/reference/contents/" . $id . ".PNG")) {
-                    $img = "<img src='/img/reference/contents/" . $id . ".png' alt='No image available'>";
+                if (file_exists("..//img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png")) {
+                    $img = "<img src='/img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png'>";
+                } else if (file_exists("..//img/reference/contents/" . $id . ".png")) {
+                    $img = "<img src='/img/reference/contents/" . $id . ".png'>";
                 }
             }
 

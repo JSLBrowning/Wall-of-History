@@ -196,7 +196,8 @@ span.linkarrow:after {
 
 
 span.exitSpan:after {
-    content: '🞮';
+    /* content: '🞮'; */
+    content: 'X';
 }
 
 
