@@ -1,5 +1,5 @@
 :root {
-    --back2clear: var(--back2clear);
+    --back2clear: rgba(22, 22, 22, 0.9375);
     /* RGB22, main background, button:active */
 }
 
@@ -158,7 +158,7 @@
 
 /* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/test/bc1.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/GNO2P6.webp) center;
     background-size: cover;
     border-color: #c72f19;
 }

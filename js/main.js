@@ -1,3 +1,20 @@
+// Replace with function that gets ID from semantic in case of semantic tags in use.
+if (sessionStorage.getItem("activeReadingOrder") != null) {
+    var url = window.location.href;
+    if(url.indexOf('?id=') != -1) {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = urlParams.get('id');
+        if (localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).includes(id)) {
+            console.log("ID is in active reading order.");
+        } else {
+            console.log("ID is not in active reading order. Clearing…");
+            sessionStorage.removeItem("activeReadingOrder");
+        }
+    }
+}
+
+
 /***********************
  * UNIVERSAL FUNCTIONS *
  ***********************/
@@ -70,29 +87,6 @@ function hideShow(button) {
         }
     }
 }
-
-
-/*
-function getIDFromSemantic(semantic) {
-    query = "SELECT id FROM woh_tags WHERE detailed_tag='" + semantic + "'";
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            return this.responseText;
-        }
-    };
-    xmlhttp.open("GET", "/php/query.php?q=" + query + "&c=id", true);
-    xmlhttp.send();
-}
-
-
-// WHY is this getting undefined??
-var url = window.location.href;
-if(url.indexOf('?s=') != -1) {
-    console.log(getIDFromSemantic(url.split('?s=')[1]));
-}
-*/
 
 
 /**
@@ -850,7 +844,6 @@ function carouselBack(button) {
 
 function addZoomEventListeners() {
     let images = document.querySelectorAll(".story > img, .story > section > img, .mediaplayercontents > img");
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');
