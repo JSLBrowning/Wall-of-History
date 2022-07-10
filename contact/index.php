@@ -10,15 +10,15 @@ chooseColors();
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
     <!-- STANDARD -->
-    <meta property="og:url" content="https://wallofhistory.com/about/" />
+    <meta property="og:url" content="https://wallofhistory.com/contact/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="About | Wall of History" />
+    <meta property="og:title" content="Contact | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="About | Wall of History" />
+    <meta name="twitter:title" content="Contact | Wall of History" />
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
     <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
@@ -29,7 +29,7 @@ chooseColors();
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/about.css">
     <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <title>About | Wall of History</title>
+    <title>Contact | Wall of History</title>
 </head>
 
 <body>
@@ -38,7 +38,7 @@ chooseColors();
     </header>
     <main>
         <article>
-            <img src="https://wallofhistory.com/img/Profile%20Picture.png" alt="Wall of History logo" title="Wall of History">
+        <img src="/img/social/logo.png" alt="Wall of History logo" title="Wall of History">
             <h1>Contact</h1>
             <p>If you would like to contact Wall of Histor,y, please send us an <a href="mailto:admin@wallofhistory.com">email</a>, or message our official <a class="nonblock" href="https://www.facebook.com/WallofHistory/">Facebook</a>, <a class="nonblock" href="https://www.instagram.com/wall_of_history/">Instagram</a>,
                 or <a class="nonblock" href="https://twitter.com/Wall_of_History">Twitter</a> accounts.</p>
@@ -66,14 +66,6 @@ chooseColors();
                 <button class="small" onclick="matoranMode()">Matoran Mode</button>
             </div>
         </aside>
-        <!--
-            <aside>
-                <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <hr>
-                <iframe src="https://discord.com/widget?id=578079637356150785&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-            </aside>
-        -->
     </main>
     <!-- jQuery -->
     <script src="../js/jquery/jquery-3.6.0.min.js"></script>

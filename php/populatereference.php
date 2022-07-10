@@ -32,7 +32,7 @@ function populateReferenceChildren($parent_id, $v, $lang)
 
     $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle ORDER BY reference_metadata.publication_date ASC";
     if ($parent_id != "0") {
-        $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' ORDER BY reference_metadata.chronology ASC";
+        $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle, reference_metadata.chronology FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle, chronology ORDER BY reference_metadata.chronology ASC";
         // AND parent_version=$v) AND reference_content.content_version=$v
         // May now produce multiple cards for each version of a thing. Need to fix that.
     }
@@ -101,7 +101,7 @@ function populateAllSubjects()
                 }
             }
 
-            // Get image, if any.
+            /* Get image, if any.
             $sql_image = "SELECT DISTINCT image_path, caption FROM reference_images WHERE subject_id='$entryid' AND entry_id IN (SELECT reference_content.entry_id FROM (reference_subjects JOIN reference_content ON reference_subjects.entry_id=reference_content.entry_id) JOIN reference_images ON reference_subjects.subject_id=reference_images.subject_id WHERE reference_subjects.subject_id='$entryid' ORDER BY reference_content.spoiler_level ASC) AND image_path NOT LIKE '%.mp4%' LIMIT 1";
             $result_image = $mysqli->query($sql_image);
             $img = "";
@@ -109,10 +109,11 @@ function populateAllSubjects()
                 $row_image = mysqli_fetch_assoc($result_image);
                 $img = "<img src='" . $row_image['image_path'] . "' alt='" . $row_image['caption'] . "'>";
             }
+            */
 
             if ($result_name->num_rows > 0) {
                 while ($row_name = mysqli_fetch_assoc($result_name)) {
-                    echo "<div class='padding'><button class='contentsButton' id='card$entryid' onclick=\"window.location.href='/reference/?id=" . $entryid . "';\">" . $img . "<div class='contentButtonText'><p>" . $row_name['title'] . $snippet . "</p></div></button></div>";
+                    echo "<div class='padding'><button class='contentsButton' id='card$entryid' onclick=\"window.location.href='/reference/?id=" . $entryid . "';\"><div class='contentButtonText'><p>" . $row_name['title'] . $snippet . "</p></div></button></div>";
                 }
             }
         }

@@ -38,29 +38,17 @@ chooseColors();
     </header>
     <main>
         <article>
-            <img src="https://wallofhistory.com/img/social/Profile%20Picture.png" alt="Wall of History logo" title="Wall of History">
+            <img src="/img/social/logo.png" alt="Wall of History logo" title="Wall of History">
             <h1>About BIONICLE</h1>
-            <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story
-                behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama,
-                and action, it has inspired movies,
-                novels, [and] web fiction.” — Greg Farshtey</p>
+            <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama, and action, it has inspired movies, novels, [and] web fiction.” — Greg Farshtey</p>
             <hr>
             <h1>About Wall of History</h1>
-            <p>Wall of History is a web archive of the entire BIONICLE legend, created by a fan who wanted to provide
-                others with an accessible way to experience it. The website is an eternal work in progress, so if you
-                have any comments or suggestions,
-                please contact us using one of the methods on the <a href="/contact/">contact</a> page.</p>
-            <p>Wall of History is active on several social media platforms, and all of our accounts can be accessed
-                through our <a href="https://linktr.ee/WallofHistory">Linktree</a>.</p>
+            <p>Wall of History is a web archive of the entire BIONICLE legend, created by a fan who wanted to provide others with an accessible way to experience it. The website is an eternal work in progress, so if you have any comments or suggestions, please contact us using one of the methods on the <a href="/contact/">contact</a> page.</p>
+            <p>Wall of History is active on several social media platforms, and all of our accounts can be accessed through our <a href="https://linktr.ee/WallofHistory">Linktree</a>.</p>
             <h2>Our History</h2>
-            <p>Inspired by multimedia web comics like <em>Homestuck</em>, the earliest version of Wall of History began
-                development on October 1<sup>st</sup>, 2017, with a fan transcription of <a class="nonblock" href="/read/?id=3ab89c"><em>BIONICLE Chronicles #1: Tale of the Toa</em></a>.
-                The earliest build of the website went live on February 23<span class="superscript">rd</span>, 2019, at
-                about 7:00 AM UTC, and regular content updates continued until July of that same year.</p>
-            <p>To learn more about our history, check out <a class="nonblock" href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of
-                    History”</a> on Mask of Destiny.</p>
-            <p class="footer">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO
-                Group.</p>
+            <p>Inspired by multimedia web comics like <em>Homestuck</em>, the earliest version of Wall of History began development on October 1<sup>st</sup>, 2017, with a fan transcription of <a class="nonblock" href="/read/?id=3ab89c"><em>BIONICLE Chronicles #1: Tale of the Toa</em></a>. The earliest build of the website went live on February 23<span class="superscript">rd</span>, 2019, at about 7:00 AM UTC, and regular content updates continued until July of that same year.</p>
+            <p>To learn more about our history, check out <a class="nonblock" href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of History”</a> on Mask of Destiny.</p>
+            <p class="footer">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO Group.</p>
         </article>
         <aside>
             <button class="hideShow" onclick="hideShow(this)"><strong><span class='rightarrow'></span> </strong>Main Menu</button>
@@ -85,14 +73,6 @@ chooseColors();
                 <button class="small" onclick="matoranMode()">Matoran Mode</button>
             </div>
         </aside>
-        <!--
-            <aside>
-                <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/Wall_of_History?ref_src=twsrc%5Etfw">Tweets by Wall_of_History</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <hr>
-                <iframe src="https://discord.com/widget?id=578079637356150785&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-            </aside>
-        -->
     </main>
     <!-- jQuery -->
     <script src="../js/jquery/jquery-3.6.0.min.js"></script>
