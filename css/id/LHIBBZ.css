@@ -3,7 +3,7 @@
     --back1: #071114;
     /* RGB08, drop shadow */
     --back2: #0e181b;
-    --back2: rgba(14, 24, 27, 0.9375);
+    --back2clear: rgba(14, 24, 27, 0.9375);
     /* RGB22, main background, button:active */
     --back3: #131D20;
     /* RGB32, borders, button:hover, etc. */
@@ -28,6 +28,8 @@
     --back2: #E5E6EB;
     --back1: #B1B1B2;
     --fontweight: bold;
+
+    --versions: #071114;
 }
 
 

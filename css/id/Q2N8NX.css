@@ -3,7 +3,7 @@
 :root {
     --back1: #041004;
     --back2: #001700;
-    --back2card: rgba(0, 23, 0, 0.9375);
+    --back2clear: rgba(0, 23, 0, 0.9375);
     --back3: #182D11;
     --border: #182D11;
     --back4: #314321;
@@ -31,7 +31,7 @@
 
 .contentsButton {
     border-color: olivedrab;
-    background: linear-gradient(90deg, var(--back2), var(--back2card)), url(/img/story/contents/Q2N8NX.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/Q2N8NX.png) center;
     background-size: cover;
 }
 
@@ -44,13 +44,13 @@
 
 
 #card89L0VB {
-    background: linear-gradient(90deg, var(--back2), var(--back2card)), url(/img/test/bc2.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/test/bc2.png) center;
     background-size: cover;
     border-color: #6e92ce;
 }
 
 
 #cardWLHSQY {
-    background: linear-gradient(90deg, var(--back2), var(--back2card)), url(/img/story/contents/WLHSQY.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/WLHSQY.png) center;
     background-size: cover;
 }

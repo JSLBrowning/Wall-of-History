@@ -72,6 +72,29 @@ function hideShow(button) {
 }
 
 
+/*
+function getIDFromSemantic(semantic) {
+    query = "SELECT id FROM woh_tags WHERE detailed_tag='" + semantic + "'";
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            return this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "/php/query.php?q=" + query + "&c=id", true);
+    xmlhttp.send();
+}
+
+
+// WHY is this getting undefined??
+var url = window.location.href;
+if(url.indexOf('?s=') != -1) {
+    console.log(getIDFromSemantic(url.split('?s=')[1]));
+}
+*/
+
+
 /**
  * INITIALIZATION FUNCTIONS
  */
@@ -414,6 +437,17 @@ async function goToChrono(combo) {
 /* This function attempts to jump the user back to their most recent spot,
 prompting them to select a reading order if necessary. */
 async function jumpToChrono() {
+    let routeCount = 0;
+    for (let key in localStorage) {
+        if (key.includes("readingOrder")) {
+            routeCount++;
+        }
+    }
+
+    if (routeCount == 1) {
+        localStorage.setItem("activeReadingOrder", "0");
+    }
+
     if (sessionStorage.getItem("activeReadingOrder") === null) {
         generateSelectionModal();
     } else if ((sessionStorage.getItem("activeReadingOrder") != null) && (localStorage.getItem("savePlace:" + (sessionStorage.getItem("activeReadingOrder"))) === null)) {
@@ -816,6 +850,7 @@ function carouselBack(button) {
 
 function addZoomEventListeners() {
     let images = document.querySelectorAll(".story > img, .story > section > img, .mediaplayercontents > img");
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');

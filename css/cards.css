@@ -1,6 +1,17 @@
+:root {
+    --back2clear: var(--back2clear);
+    /* RGB22, main background, button:active */
+}
+
+
+:root.light {
+    --back2clear: rgba(229, 230, 235, 0.9375);
+}
+
+
 /* Chapter 1: Quest for the Masks */
 #cardXCF8IZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XCF8IZ.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/XCF8IZ.png) center;
     background-size: cover;
     border-color: #5b757c;
 }
@@ -8,7 +19,7 @@
 
 /* BIONICLE: Quest for the Maks (TCG) */
 #cardCGEC7C {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CGEC7C.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/CGEC7C.png) center;
     background-size: cover;
     border-color: #010203;
 }
@@ -16,122 +27,122 @@
 
 /* BIONICLE #1: The Coming of the Toa */
 #cardN621SQ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/N621SQ.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/N621SQ.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE #2: Deep Into Darkness */
 #cardBWWAVH {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/BWWAVH.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/BWWAVH.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE #3: Triumph of the Toa */
 #cardUNV6Z1 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/UNV6Z1.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/UNV6Z1.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE: Challenge of the Rahi */
 #cardLJUX6G {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LJUX6G.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/LJUX6G.png) center;
     background-size: cover;
 }
 
 
 #cardQ2N8NX {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/Q2N8NX.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/Q2N8NX.png) center;
     background-size: cover;
     border-color: #5a5833;
 }
 
 
 #cardJBTY4O {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/JBTY4O.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/JBTY4O.png) center;
     background-size: cover;
     border-color: #57453e;
 }
 
 
 #cardECOHYW {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ECOHYW.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/ECOHYW.png) center;
     background-size: cover;
     border-color: #3a2f1d;
 }
 
 
 #cardW40PF3 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/W40PF3.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/W40PF3.png) center;
     background-size: cover;
 }
 
 
 #cardVTKQYB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/VTKQYB.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/VTKQYB.png) center;
     background-size: cover;
 }
 
 
 #cardYTCP2V {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/YTCP2V.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/YTCP2V.png) center;
     background-size: cover;
 }
 
 
 #cardLHIBBZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/LHIBBZ.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/LHIBBZ.png) center;
     background-size: cover;
     border-color: #878889;
 }
 
 
 #cardUELI6L {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/UELI6L.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/UELI6L.png) center;
     background-size: cover;
     border-color: #707d4e;
 }
 
 
 #card08H6CX {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/08H6CX.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/08H6CX.png) center;
     background-size: cover;
     border-color: #957264;
 }
 
 
 #card7M5DDC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/7M5DDC.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/7M5DDC.png) center;
     background-size: cover;
     border-color: #547288;
 }
 
 
 #cardCU4QW2 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/CU4QW2.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/CU4QW2.png) center;
     background-size: cover;
     border-color: #69827a;
 }
 
 
 #cardFG9EM8 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/FG9EM8.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/FG9EM8.png) center;
     background-size: cover;
     border-color: #8b8f84;
 }
 
 
 #cardZTL9M8 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/ZTL9M8.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/ZTL9M8.png) center;
     background-size: cover;
     border-color: #4d4443;
 }
 
 
 #card0NN5ZH {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0NN5ZH.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/0NN5ZH.png) center;
     background-size: cover;
     border-color: #cfbe9e;
 }
@@ -139,7 +150,7 @@
 
 /* BIONICLE Chronicles Collection */
 #card54284C {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/54284C.jpg) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/54284C.jpg) center;
     background-size: cover;
     border-color: #fc1f04;
 }
@@ -147,7 +158,7 @@
 
 /* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/test/bc1.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/test/bc1.png) center;
     background-size: cover;
     border-color: #c72f19;
 }
@@ -157,7 +168,7 @@
    Tahu/Tahu Nuva (Reference Subject) */
 #card0J81JD,
 #cardD287EB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/0J81JD.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/0J81JD.png) center;
     background-size: cover;
     border-color: #93001c;
 }
@@ -165,7 +176,7 @@
 
 /* BIONICLE Chronicles #2: Beware the Bohrok */
 #card89L0VB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/89L0VB.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/89L0VB.png) center;
     background-size: cover;
     border-color: #6e92ce;
 }
@@ -173,7 +184,7 @@
 
 /* BIONICLE Chronicles #3: Makuta’s Revenge */
 #card685M4D {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/685M4D.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/685M4D.png) center;
     background-size: cover;
     border-color: #448d30;
 }
@@ -181,7 +192,7 @@
 
 /* BIONICLE Chronicles #4: Tales of the Masks */
 #card5LTDQZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/5LTDQZ.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/5LTDQZ.png) center;
     background-size: cover;
     border-color: #ff990b;
 }
@@ -189,7 +200,7 @@
 
 /* BIONICLE: Mask of Light (Novelization) */
 #cardXJDC9U {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/XJDC9U.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/XJDC9U.png) center;
     background-size: cover;
     border-color: #594A37;
 }
@@ -197,27 +208,27 @@
 
 /* Mata Nui: The Online Game Walkthrough */
 #cardKQRMXG {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/KQRMXG.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/KQRMXG.png) center;
     background-size: cover;
     border-color: #b6cdd2;
 }
 
 
 #cardWLHSQY {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/WLHSQY.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/WLHSQY.png) center;
     background-size: cover;
 }
 
 
 #cardE2PJ0R {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/movies/1/IMG_002.jpg) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/movies/1/IMG_002.jpg) center;
     background-size: cover;
     border-color: #594A37;
 }
 
 
 #cardQU8PCV {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url(/img/story/contents/QU8PCV.png) center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/QU8PCV.png) center;
     background-size: cover;
     border-color: #594A37;
 }
@@ -225,7 +236,7 @@
 
 #cardO927E6,
 #cardAF368C {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/O927E6.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/O927E6.png") center;
     background-size: cover;
     border-color: #003A09;
 }
@@ -233,7 +244,7 @@
 
 #card8QH3GV,
 #cardD2A01E {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8QH3GV.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/8QH3GV.png") center;
     background-size: cover;
     border-color: #000;
 }
@@ -241,7 +252,7 @@
 
 #cardR1J9VR,
 #card8C8007 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/R1J9VR.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/R1J9VR.png") center;
     background-size: cover;
     border-color: #00204B;
 }
@@ -249,7 +260,7 @@
 
 #cardWV07MQ,
 #card4FC952 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/WV07MQ.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/WV07MQ.png") center;
     background-size: cover;
     border-color: #3A1C00;
 }
@@ -257,98 +268,98 @@
 
 #cardR6LJE0,
 #cardD69C39 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/R6LJE0.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/R6LJE0.png") center;
     background-size: cover;
     border-color: #779499;
 }
 
 
 #cardFB8NQ0 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A7.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/cards/A7.png") center;
     background-size: cover;
     border-color: limegreen;
 }
 
 
 #card0ODDBR {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A8.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/cards/A8.png") center;
     background-size: cover;
     border-color: orange;
 }
 
 
 #cardPTMJ5P {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/a9.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/cards/a9.png") center;
     background-size: cover;
     border-color: #8f8c4f;
 }
 
 
 #card3PJT80 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/cards/A10.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/cards/A10.png") center;
     background-size: cover;
     border-color: red;
 }
 
 
 #card3G8Z9M {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/3G8Z9M.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/3G8Z9M.png") center;
     background-size: cover;
     border-color: whitesmoke;
 }
 
 
 #card2FC589 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/2FC589.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/2FC589.png") center;
     background-size: cover;
     border-color: #cb9e36;
 }
 
 
 #card8DC1BB {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/8DC1BB.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/8DC1BB.png") center;
     background-size: cover;
     border-color: #383f27;
 }
 
 
 #card7E0194 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/OGB.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/OGB.png") center;
     background-size: cover;
     border-color: silver;
 }
 
 
 #card753869 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/753869.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/753869.png") center;
     background-size: cover;
     border-color: #2e54aa;
 }
 
 
 #card943E43 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/943E43.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/943E43.png") center;
     background-size: cover;
     border-color: #d2562b;
 }
 
 
 #card320100 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/320100.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/320100.png") center;
     background-size: cover;
     border-color: darkgreen;
 }
 
 
 #cardCE2EF4 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/CE2EF4.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/CE2EF4.png") center;
     background-size: cover;
     border-color: #6b9490;
 }
 
 
 #card32C9EC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/reference/contents/32C9EC.2.en.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/reference/contents/32C9EC.2.en.png") center;
     background-size: cover;
     border-color: red;
 }
@@ -356,7 +367,7 @@
 
 /* BIONICLE #1: Rise of the Toa Nuva */
 #cardABE5BC {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/ABE5BC.webp") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/ABE5BC.webp") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -364,7 +375,7 @@
 
 /* BIONICLE #2: Challenge of the Rahkshi */
 #card39FB06 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/39FB06.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/39FB06.png") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -372,7 +383,7 @@
 
 /* BIONICLE #3: City of Legends */
 #card8E55D4 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/8E55D4.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/8E55D4.png") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -380,7 +391,7 @@
 
 /* BIONICLE #4: Trial by Fire */
 #card321BD5 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/321BD5.jpg") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/321BD5.jpg") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -388,7 +399,7 @@
 
 /* BIONICLE #6: The Underwater City */
 #card7A3DD7 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/7A3DD7.jpeg") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/7A3DD7.jpeg") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -396,7 +407,7 @@
 
 /* BIONICLE #7: Realm of Fear */
 #cardAC83F6 {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/AC83F6.jpg") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/AC83F6.jpg") center;
     background-size: cover;
     border-color: #ed2226;
 }
@@ -404,7 +415,7 @@
 
 /* BIONICLE Adventures #1: Mystery of Metru Nui */
 #card1EN6EC {
-    background: linear-gradient(90deg, #36211D, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/1EN6EC.png") center;
+    background: linear-gradient(90deg, #36211D, var(--back2clear)), url("/img/story/contents/1EN6EC.png") center;
     background-size: cover;
     border-color: #af3b24;
 }
@@ -412,7 +423,7 @@
 
 /* BIONICLE Adventures #2: Trial by Fire */
 #cardZYZBM9 {
-    background: linear-gradient(90deg, #113023, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/ZYZBM9.png") center;
+    background: linear-gradient(90deg, #113023, var(--back2clear)), url("/img/story/contents/ZYZBM9.png") center;
     background-size: cover;
     border-color: #18793a;
 }
@@ -420,7 +431,7 @@
 
 /* BIONICLE Adventures #3: The Darkness Below */
 #cardEC7AOP {
-    background: linear-gradient(90deg, #0C2735, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/EC7AOP.png") center;
+    background: linear-gradient(90deg, #0C2735, var(--back2clear)), url("/img/story/contents/EC7AOP.png") center;
     background-size: cover;
     border-color: #045581;
 }
@@ -429,7 +440,7 @@
 /* BIONICLE Adventures #4: Legends of Metru Nui */
 #card5PC6M8 {
     /* Initial background color is back2 blended with border color with three midpoints, closest to back2. */
-    background: linear-gradient(90deg, #101619, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5PC6M8.png") center;
+    background: linear-gradient(90deg, #101619, var(--back2clear)), url("/img/story/contents/5PC6M8.png") center;
     background-size: cover;
     border-color: #151011;
 }
@@ -437,7 +448,7 @@
 
 /* BIONICLE Adventures #5: Voyage of Fear */
 #card5L9VU7 {
-    background: linear-gradient(90deg, #4A4A22, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/5L9VU7.png") center;
+    background: linear-gradient(90deg, #4A4A22, var(--back2clear)), url("/img/story/contents/5L9VU7.png") center;
     background-size: cover;
     border-color: #ffdf38;
 }
@@ -445,14 +456,14 @@
 
 /* BIONICLE Adventures #6: Maze of Shadows */
 #card0BSZ48 {
-    background: linear-gradient(90deg, #1D3754, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/0BSZ48.png") center;
+    background: linear-gradient(90deg, #1D3754, var(--back2clear)), url("/img/story/contents/0BSZ48.png") center;
     background-size: cover;
     border-color: #4a95ff;
 }
 
 
 #cardP0SOQS {
-    background: linear-gradient(90deg, #040607, rgba(14, 24, 27, 0.9375)), url("/img/story/contents/P0SOQS.png") center;
+    background: linear-gradient(90deg, #040607, var(--back2clear)), url("/img/story/contents/P0SOQS.png") center;
     background-size: cover;
     border-color: #000;
 }
@@ -500,28 +511,28 @@
 
 /* BIONICLE Legends #6: City of the Lost */
 #cardU8QKTF {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/U8QKTF.1.en.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/U8QKTF.1.en.png") center;
     background-size: cover;
 }
 
 
 /* BIONICLE Legends #7: Prisoners of the Pit */
 #cardAJK6HZ {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/AJK6HZ.1.en.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/AJK6HZ.1.en.png") center;
     background-size: cover;
 }
 
 
 /* BIONICLE Legends #8: Downfall */
 #cardSDZM1Y {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/SDZM1Y.1.en.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/SDZM1Y.1.en.png") center;
     background-size: cover;
 }
 
 
 /* BIONICLE Legends #9: Shadows in the Sky */
 #cardCH45TV {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/contents/CH45TV.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/CH45TV.png") center;
     background-size: cover;
     border-color: silver;
 }

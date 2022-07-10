@@ -1,4 +1,4 @@
 .contentsButton {
-    background: linear-gradient(90deg, var(--back2), rgba(22, 22, 22, 0.9375)), url("/img/story/misc/qftmgeneric.png") center;
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/misc/qftmgeneric.png") center;
     background-size: cover;
 }

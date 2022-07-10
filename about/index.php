@@ -38,7 +38,7 @@ chooseColors();
     </header>
     <main>
         <article>
-            <img src="https://wallofhistory.com/img/Profile%20Picture.png" alt="Wall of History logo" title="Wall of History">
+            <img src="https://wallofhistory.com/img/social/Profile%20Picture.png" alt="Wall of History logo" title="Wall of History">
             <h1>About BIONICLE</h1>
             <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story
                 behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama,
@@ -58,7 +58,7 @@ chooseColors();
                 The earliest build of the website went live on February 23<span class="superscript">rd</span>, 2019, at
                 about 7:00 AM UTC, and regular content updates continued until July of that same year.</p>
             <p>To learn more about our history, check out <a class="nonblock" href="https://www.maskofdestiny.com/news/the-history-of-wall-of-history/">“The History of Wall of
-                    History”</a> on MaskOfDestiny.</p>
+                    History”</a> on Mask of Destiny.</p>
             <p class="footer">BIONICLE and the BIONICLE logo are trademarks of the LEGO Group. © 2001 - 2010 The LEGO
                 Group.</p>
         </article>
@@ -76,7 +76,7 @@ chooseColors();
                 <hr>
                 <button class="small" onclick="window.location.href='/about/';">About</button>
                 <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
-                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/tags/wall-of-history';">News</button>
                 <button class="small" onclick="window.location.href='/contact/';">Contact</button>
                 <hr>
                 <button class="small" onclick="increaseFontSize()">Increase Font Size</button>

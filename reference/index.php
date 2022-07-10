@@ -89,7 +89,7 @@ if (count($_GET)) {
                 <hr>
                 <button class="small" onclick="window.location.href='/about/';">About</button>
                 <button class="small" onclick="window.location.href='blog.wallofhistory.com';">Blog</button>
-                <button class="small" onclick="window.location.href='maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/tags/wall-of-history';">News</button>
                 <button class="small" onclick="window.location.href='/contact/';">Contact</button>
                 <hr>
                 <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
