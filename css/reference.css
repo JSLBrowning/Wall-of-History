@@ -5,13 +5,65 @@ section.story {
 
 section.story p.pronunciation,
 section.story p.domain {
-    margin: 1em 1.5em 0em 1.5em;
+    text-align: center;
     font-weight: bolder;
 }
 
 
 section.story img:hover {
     box-shadow: none;
+}
+
+
+section.titleBox {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+
+section.titleBox div.mediaplayer div.mediaplayercontents img {
+    margin: 0em;
+}
+
+
+section.story section.titleBox div.mediaplayer div.mediaplayercontents {
+    height: 240px;
+    width: 320px;
+}
+
+
+section.story section.titleBox div.mediaplayer div.mediaplayercontents img,
+section.story section.titleBox div.mediaplayer div.mediaplayercontents video {
+    height: 100%;
+}
+
+
+section.story section.titleBox div.mediaplayer {
+    margin: -.5em;
+}
+
+
+div.titleBoxText {
+    margin: auto 0em;
+}
+
+
+.anchors p,
+.anchors ul {
+    margin: 0.5em;
+}
+
+
+.anchors ul {
+    margin-left: 1em;
+}
+
+
+p a:hover,
+p a:active,
+p a span:hover,
+p a span:active {
+    color: var(--front1);
 }
 
 
@@ -42,3 +94,10 @@ section.story div.mediaplayer div.mediaplayercontents video {
 /*
  * END ARTICLE MEDIA PLAYER STYLES
  */
+
+
+@media only screen and (max-width: 640px) {
+    section.story section.titleBox div.mediaplayer {
+        display: none;
+    }
+}

@@ -157,10 +157,10 @@ function get_one_subject($subject_id, $name, $spoiler_level) {
             }
 
             if ($current_spoiler_level > $spoiler_level) {
-                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='rightarrow'></span> SOURCE: $parent_title (Potential Spoilers)</button>";
+                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='rightarrow'></span>SOURCE: $parent_title (Potential Spoilers)</button>";
                 $main .= "<section class=\"showable\" style=\"display: none;\">" . $doc->saveXML() . "</section>";
             } else {
-                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='downarrow'></span> SOURCE: $parent_title</button>";
+                $main .= "<button class=\"hideShow\" onclick=\"hideShow(this)\"><span class='downarrow'></span>SOURCE: $parent_title</button>";
                 $main .= "<section class=\"showable\">" . $doc->saveXML() . "</section>";
             }
         }

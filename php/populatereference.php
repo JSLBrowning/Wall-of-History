@@ -57,9 +57,9 @@ function populateReferenceChildren($parent_id, $v, $lang)
                     $img = "<img src='" . $row_child_image["image_path"] . "' alt='" . $row_child_image["caption"] . "'>";
                 }
             } else {
-                if (file_exists("..//img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png")) {
+                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png")) {
                     $img = "<img src='/img/reference/contents/" . $id . "." . $newv . "." . $lang . ".png'>";
-                } else if (file_exists("..//img/reference/contents/" . $id . ".png")) {
+                } else if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/img/reference/contents/" . $id . ".png")) {
                     $img = "<img src='/img/reference/contents/" . $id . ".png'>";
                 }
             }
@@ -76,47 +76,49 @@ function populateReferenceChildren($parent_id, $v, $lang)
 }
 
 
-function populateAllSubjects()
+function populateAllSubjects($page)
 {
     include("db_connect.php");
 
-    $sql = "SELECT DISTINCT subject_id FROM reference_subjects";
+    $skip = (intval($page) - 1) * 30;
+    $sql = "SELECT DISTINCT GROUP_CONCAT(DISTINCT reference_titles.title) AS titles, reference_subjects.subject_id FROM reference_titles JOIN reference_subjects ON reference_titles.subject_id=reference_subjects.subject_id WHERE reference_subjects.subject_id IS NOT NULL GROUP BY reference_subjects.subject_id ORDER BY reference_titles.title ASC LIMIT $skip, 31";
+
     $result = $mysqli->query($sql);
+    $more = false;
+    if ($result->num_rows > 30) {
+        $more = true;
+    } else {
+        $more = false;
+    }
+
+    echo "<section class='structure'>";
 
     if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $entryid = $row["subject_id"];
-
-            // Get name.
-            $sql_name = "SELECT DISTINCT title FROM reference_titles WHERE entry_id IN (SELECT entry_id FROM reference_metadata WHERE subject_id='$entryid') LIMIT 1";
-            $result_name = $mysqli->query($sql_name);
-
-            // Get snippet.
-            $sql_snippet = "SELECT DISTINCT snippet FROM reference_content WHERE entry_id IN (SELECT entry_id FROM reference_subjects WHERE subject_id='$entryid') LIMIT 1";
-            $result_snippet = $mysqli->query($sql_snippet);
-            $snippet = '';
-            if (mysqli_num_rows($result_snippet) > 0) {
-                while ($row_snippet = mysqli_fetch_assoc($result_snippet)) {
-                    $snippet = "<p>" . $row_snippet["snippet"] . "</p>";
-                }
+        $done = 0;
+        while (($row = mysqli_fetch_assoc($result)) && ($done < 30)) {
+            $subject = $row["subject_id"];
+            $title = explode(",", $row["titles"]);
+            $main_title = $title[0];
+            $secondary_titles = "";
+            if (count($title) > 1) {
+                $secondary_titles = "<p>AKA " . implode(", ", array_slice($title, 1)) . "</p>";
             }
-
-            /* Get image, if any.
-            $sql_image = "SELECT DISTINCT image_path, caption FROM reference_images WHERE subject_id='$entryid' AND entry_id IN (SELECT reference_content.entry_id FROM (reference_subjects JOIN reference_content ON reference_subjects.entry_id=reference_content.entry_id) JOIN reference_images ON reference_subjects.subject_id=reference_images.subject_id WHERE reference_subjects.subject_id='$entryid' ORDER BY reference_content.spoiler_level ASC) AND image_path NOT LIKE '%.mp4%' LIMIT 1";
-            $result_image = $mysqli->query($sql_image);
-            $img = "";
-            if ($result_image->num_rows > 0) {
-                $row_image = mysqli_fetch_assoc($result_image);
-                $img = "<img src='" . $row_image['image_path'] . "' alt='" . $row_image['caption'] . "'>";
-            }
-            */
-
-            if ($result_name->num_rows > 0) {
-                while ($row_name = mysqli_fetch_assoc($result_name)) {
-                    echo "<div class='padding'><button class='contentsButton' id='card$entryid' onclick=\"window.location.href='/reference/?id=" . $entryid . "';\"><div class='contentButtonText'><p>" . $row_name['title'] . $snippet . "</p></div></button></div>";
-                }
-            }
+            echo "<div class='padding small'><button class='contentsButton small' id='card$subject' onclick=\"window.location.href='/reference/?id=" . $subject . "';\"><div class='contentButtonText'><p>" . $main_title . "</p>$secondary_titles</div></button></div>";
+            $done++;
         }
+    }
+
+    echo "</section>";
+
+    if ($more || ($skip != 0)) {
+        echo "<div class='nav'>";
+        if ($skip != 0) {
+            echo "<button type='navbutton' onclick='goBack()' id='backbutton'><span class='leftarrow'></span></button>";
+        }
+        if ($more) {
+            echo "<button type='navbutton' onclick='goForward()' id='forwardbutton'><span class='rightarrow'></span></button>";
+        }
+        echo "</div>";
     }
 }
 
@@ -124,19 +126,103 @@ function populateAllSubjects()
 function populateReferenceSubjectPage($subject, $lang)
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3></div></section>";
 
-    $sql = "SELECT main FROM reference_content WHERE entry_id IN (SELECT DISTINCT entry_id FROM reference_subjects WHERE subject_id='" . $_GET['id'] . "')";
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo $row["main"];
+    $sql_titles = "SELECT DISTINCT title FROM reference_titles WHERE subject_id='$subject' AND (title_language='$lang' OR title_language IS NULL) ORDER BY title ASC";
+    $result_titles = $mysqli->query($sql_titles);
+    $titles = "";
+    if ($result_titles->num_rows == 1) {
+        while ($row_titles = mysqli_fetch_assoc($result_titles)) {
+            $title = $row_titles["title"];
+            $titles .= "<h1>" . $title . "</h1>";
+        }
+    } else if ($result_titles->num_rows > 1) {
+        $count = 0;
+        $secondary_titles = array();
+        while ($row_titles = mysqli_fetch_assoc($result_titles)) {
+            if ($count == 0) {
+                $title = $row_titles["title"];
+                $titles .= "<h1>" . $title . "</h1>";
+                $count++;
+            } else {
+                $title = $row_titles["title"];
+                array_push($secondary_titles, $title);
+            }
+        }
+        $titles .= "<h2>AKA " . implode(", ", $secondary_titles) . "</h2>";
     }
+
+
+    // Get image from entry.
+    $sql_images = "SELECT DISTINCT image_path, caption FROM reference_images WHERE subject_id='$subject' AND (image_language='$lang' OR image_language IS NULL) ORDER BY image_order ASC";
+    $result_images = $mysqli->query($sql_images);
+    $image_count = $result_images->num_rows;
+    $images = '';
+
+    if ($image_count == 1) {
+        $row_images = mysqli_fetch_assoc($result_images);
+        $images .= "<div class='mediaplayer'><div class='mediaplayercontents'><img src='" . $row_images['image_path'] . "' alt='" . $row_images['caption'] . "'></div></div>";
+    } else if ($image_count > 1) {
+        $images .= "<div class='mediaplayer'><div class='mediaplayercontents'>";
+        while ($row_images = mysqli_fetch_assoc($result_images)) {
+            $path = $row_images['image_path'];
+            if ((strpos($path, '.mp4') !== false) || (strpos($path, '.m4v') !== false)) {
+                $images .= "<video controls><source src='$path' type='video/mp4'></video>";
+            } else {
+                $images .= "<img src='" . $row_images['image_path'] . "' alt='" . $row_images['caption'] . "'>";
+            }
+        }
+        $images .= "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
+    }
+    
+
+    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/subjects/\"'>Reference</a></h3>$titles</div>$images</section>";
+
+
+    $sql = "SELECT entry_id, content_version, main, version_title FROM reference_content WHERE entry_id IN (SELECT DISTINCT entry_id FROM reference_subjects WHERE subject_id='" . $_GET['id'] . "')";
+    $result = $mysqli->query($sql);
+    $row_cnt = $result->num_rows;
+    $rows_done = 0;
+    while ($row = $result->fetch_assoc()) {
+        $id = $row["entry_id"];
+        $version = $row["content_version"];
+        $version_title = $row["version_title"];
+        if ($version_title != "") {
+            $version_title = "(" . $version_title . ")";
+        }
+
+        $doc = new DOMDocument();
+        $doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">'.$row["main"]);
+
+        $selector = new DOMXPath($doc);
+        foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
+            $a->parentNode->removeChild($a);
+        }
+
+        echo $doc->saveXML();
+
+        $sql_parent = "SELECT entry_id, title FROM reference_titles WHERE entry_id IN (SELECT parent_id FROM woh_web WHERE child_id='$id')";
+        $result_parent = $mysqli->query($sql_parent);
+        $parent_title = "";
+        if ($result_parent->num_rows > 0) {
+            $row_parent = mysqli_fetch_assoc($result_parent);
+            $parent_title = $row_parent['title'];
+            echo "<p class='center'>Source: <a href='/reference/?id=$id&v=$version'>$parent_title $version_title <span class='linkarrow'></span></a></p>";
+        }
+
+        $rows_done++;
+        if ($rows_done != $row_cnt) {
+            echo "<hr>";
+        }
+    }
+
+    /*
     $sql_appreances = "SELECT DISTINCT story_id FROM reference_appearances WHERE subject_id='" . $_GET['id'] . "'";
     $result_appreances = $mysqli->query($sql_appreances);
     echo "<p>Appears in: <p>";
     while ($row = $result_appreances->fetch_assoc()) {
         echo "<button onclick='goTo(\"" . $row["story_id"] . "\")'>" . $row["story_id"] . "</button> ";
     }
+    */
 
     echo "</section>";
 }
@@ -195,7 +281,7 @@ function populateReferencePage($parent, $v, $lang)
 
     if ($image_count == 1) {
         $row_images = mysqli_fetch_assoc($result_images);
-        echo "<div class='mediaplayer'><div class='mediaplayercontents'><img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'></div></div>";
+        echo "<div class='mediaplayer'><div class='mediaplayercontents'><img src='" . $row_images['image_path'] . "' alt='" . $row_images['caption'] . "'></div></div>";
     } else if ($image_count > 1) {
         echo "<div class='mediaplayer'><div class='mediaplayercontents'>";
         while ($row_images = mysqli_fetch_assoc($result_images)) {
@@ -203,7 +289,7 @@ function populateReferencePage($parent, $v, $lang)
             if ((strpos($path, '.mp4') !== false) || (strpos($path, '.m4v') !== false)) {
                 echo "<video controls><source src='$path' type='video/mp4'></video>";
             } else {
-                echo "<img src='" . $row_images['image_path'] . "' alt='".$row_images['caption']."'>";
+                echo "<img src='" . $row_images['image_path'] . "' alt='" . $row_images['caption'] . "'>";
             }
         }
         echo "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
@@ -230,15 +316,14 @@ function populateReferencePage($parent, $v, $lang)
  *******************/
 
 
-function populateReferenceContent($id, $v, $lang)
+function populateReferenceContent($id, $v, $lang, $pg)
 {
     include("db_connect.php");
 
     if ($id == "0") {
-        echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section></section><section class='structure'>";
+        echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section><p class='center'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p></section><section class='structure'>";
         populateReferenceChildren($id, $v, $lang);
-        echo "</section><h1>Subjects</h1><section class='structure'>";
-        populateAllSubjects();
+        // populateAllSubjects($pg);
         echo "</section>";
     } else {
 
@@ -266,4 +351,13 @@ function populateReferenceContent($id, $v, $lang)
             populateReferenceSubjectPage($id, $lang);
         }
     }
+}
+
+
+function populateReferenceContentSubjects($pg)
+{
+    include("db_connect.php");
+
+    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section><p class='center'>Currently organized by subject. You can also organize by <a href='/reference/'>sources</a>.</p></section>";
+    populateAllSubjects($pg);
 }

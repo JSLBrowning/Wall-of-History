@@ -538,6 +538,26 @@
 }
 
 
+#card74E1A3 {
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/reference/Vakama\ 1.png) center 33.33%;
+    background-size: cover;
+    border-color: orangered;
+}
+
+
+#card74270E {
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/reference/Toa\ Nuva\ 1.png) center 55%;
+    background-size: cover;
+}
+
+
+#cardA5DA2A {
+    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/reference/Matau\ 1.png) center 45%;
+    background-size: cover;
+    border-color: green;
+}
+
+
 button.contentsButton {
     border-left: none;
     border-right: none;

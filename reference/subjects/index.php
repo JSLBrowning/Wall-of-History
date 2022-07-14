@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <?php
-include("..//php/populate.php");
+include("..//..//php/populate.php");
 chooseColors();
 
 
-include("..//php/populatereference.php");
+include("..//..//php/populatereference.php");
 
 if (count($_GET)) {
     if (isset($_GET["id"])) {
@@ -63,6 +63,7 @@ if (count($_GET)) {
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/reference.css">
+    <link rel="stylesheet" type="text/css" href="/css/subjects.css">
     <title><?php
             populateTitle($id);
             ?></title>
@@ -75,7 +76,7 @@ if (count($_GET)) {
     <main>
         <article>
             <?php
-            populateReferenceContent($id, $v, $lang, $pg);
+            populateReferenceContentSubjects($pg);
             ?>
         </article>
         <aside>
@@ -87,7 +88,7 @@ if (count($_GET)) {
                 </form>
                 <hr>
                 <?php
-                include("..//php/populateaside.php");
+                include("..//..//php/populateaside.php");
                 populateAside($id, $lang, $v);
                 ?>
                 <button class="small" onclick="window.location.href='/read/';">Contents</button>
@@ -118,16 +119,16 @@ if (count($_GET)) {
         </div>
     </div>
     <!-- jQuery -->
-    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <script src="../../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
-    <script src="../js/main.js"></script>
-    <script src="../js/palette.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/palette.js"></script>
     <!-- Reader Drivers -->
-    <script src="../js/lineselection/initlines.js"></script>
-    <script src="../js/slideshow.js"></script>
+    <script src="../../js/lineselection/initlines.js"></script>
+    <script src="../../js/slideshow.js"></script>
     <!-- Modal Drivers -->
-    <script src="../js/modal.js"></script>
+    <script src="../../js/modal.js"></script>
 </body>
 
 </html>

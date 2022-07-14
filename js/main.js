@@ -762,18 +762,42 @@ function loadPlace() {
 }
 
 function goBack() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        goBackChrono();
-    } else {
-        goBackTree();
+    if (window.location.href.includes("reference")) {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        let page = urlParams.get("pg");
+        if (page != null) {
+            if (page == "2") {
+                window.location.href = "/reference/subjects/";
+            } else {
+                window.location.href = "/reference/subjects/?pg=" + (parseInt(page) - 1);
+            }
+        }
+    } else if (window.location.href.includes("read")) {
+        if (localStorage.getItem("readingMode") == "chronology") {
+            goBackChrono();
+        } else {
+            goBackTree();
+        }
     }
 }
 
 function goForward() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        goForwardChrono();
-    } else {
-        goForwardTree();
+    if (window.location.href.includes("reference")) {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        let page = urlParams.get("pg");
+        if (page != null) {
+            window.location.href = "/reference/subjects/?pg=" + (parseInt(page) + 1);
+        } else {
+            window.location.href = "/reference/subjects/?pg=2";
+        }
+    } else if (window.location.href.includes("read")) {
+        if (localStorage.getItem("readingMode") == "chronology") {
+            goForwardChrono();
+        } else {
+            goForwardTree();
+        }
     }
 }
 
