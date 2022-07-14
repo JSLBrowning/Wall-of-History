@@ -196,13 +196,14 @@ span.downarrow:after {
 
 
 span.linkarrow:after {
-    content: '🢅';
+    /* content: '🢅'; */
+    content: '🡭';
 }
 
 
 span.exitSpan:after {
     /* content: '🞮'; */
-    content: 'X';
+    content: '🞬';
 }
 
 
