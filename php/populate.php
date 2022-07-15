@@ -49,6 +49,21 @@ function getImages($id, $v, $lang, $caption) {
 }
 
 
+function getOGPImages($id, $v, $lang) {
+    $formats = [".webp", ".jpg", ".jpeg", ".png"];
+    $names = ["$id.$v.$lang", "$id.$v", "$id"];
+    foreach ($names as $name) {
+        foreach ($formats as $format) {
+            $image = "/img/ogp/$name$format";
+            if (file_exists(".." . $image)) {
+                return $image;
+            }
+        }
+    }
+    return "/img/ogp.png";
+}
+
+
 /***************************
  * END UNIVERSAL FUNCTIONS *
  ***************************/
@@ -67,25 +82,29 @@ function populateHead($id, $lang, $v)
 {
     include("db_connect.php");
 
-    $result = $mysqli->query("SELECT title, snippet, large_image FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"");
+    $result = $mysqli->query("SELECT title, snippet, theme_color FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"");
     $num_rows = mysqli_num_rows($result);
-    $image_options = array("/img/ogp.png");
+    $image = getOGPImages($id, $v, $lang);
 
     // If query returns no result, determine whether or not user is on the table of contents, and respond accordingly.
     if ((!($id == 0)) && ($num_rows == 0)) {
-        echo "<meta content='404 | Wall of History' property='og:title'/>\n
+        echo "<meta property='og:site_name' content='Wall of History'>\n
+            <meta content='404 | Wall of History' property='og:title'/>\n
             <meta content='Six heroes. One destiny.' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <meta name='theme-color' content='#938170'>\n
             <title>404 | Wall of History</title>\n";
-        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404/'\"/>\n";
+        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404.html'\"/>\n";
     } else if ($id == 0 && $num_rows == 0) {
-        echo "<meta content='Table of Contents | Wall of History' property='og:title'/>\n
+        echo "<meta property='og:site_name' content='Wall of History'>\n
+            <meta content='Table of Contents | Wall of History' property='og:title'/>\n
             <meta content='Six heroes. One destiny.' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <meta name='theme-color' content='#938170'>\n
             <title>Table of Contents | Wall of History</title>\n";
     }
 
@@ -102,24 +121,13 @@ function populateHead($id, $lang, $v)
             $title = $title . " | " . $parent;
         }
 
-        // Get lower-priority image, if available.
-        if (!is_null($row["large_image"])) {
-            array_unshift($image_options, $row["large_image"]);
-        }
-
-        // Get higher-priority images, if available.
-        $possible_locations = array("/img/ogp/" . $id . ".png", "/img/ogp" . $id . "_" . $lang . ".png", "/img/ogp" . $id . "_" . $v . ".png", "/img/ogp" . $id . "_" . $v . "_" . $lang . ".png");
-        foreach ($possible_locations as $location) {
-            if (file_exists(".." . $location)) {
-                array_unshift($image_options, $location);
-            }
-        }
-
-        echo "<meta content='" . $title . " | Wall of History' property='og:title'/>\n
+        echo "<meta property='og:site_name' content='Wall of History'>\n
+            <meta content='" . $title . " | Wall of History' property='og:title'/>\n
             <meta content='" . strip_tags($row["snippet"]) . "' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image_options[0] . "' property='og:image'/>\n
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
             <meta content='summary_large_image' name='twitter:card'/>\n
             <meta content='@Wall_of_History' name='twitter:site'/>\n
+            <meta name='theme-color' content='#" . $row['theme_color'] . "'>\n
             <title>" . $title . " | Wall of History</title>\n";
     }
 }

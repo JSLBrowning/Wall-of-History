@@ -9,8 +9,11 @@
 :root {
     --back1: rgb(0, 8, 0);
     --back2: rgb(0, 22, 0);
+    --back2clear: rgba(0, 22, 0, .75);
+    --back3: rgb(0, 32, 0);
     --border: rgb(0, 32, 0);
 }
+
 
 :root.light {
     --front1: #001303;
@@ -24,6 +27,7 @@
     --back2: #E5E6EB;
     --back1: #B1B1B2;
 }
+
 
 body {
     background: url("/img/bgl.png") left no-repeat,

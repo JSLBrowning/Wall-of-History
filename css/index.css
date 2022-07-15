@@ -8,9 +8,12 @@
 html body main article {
     max-width: 1280px;
     padding-bottom: 0.5em;
-    background-color: var(--back2);
+    background-color: var(--back2clear);
     border: 1px solid var(--border);
     border-radius: 0.5em;
+    border-left: none;
+    border-right: none;
+    backdrop-filter: blur(16px);
     box-shadow: var(--outershadow);
     overflow: hidden;
 }
@@ -37,6 +40,11 @@ main p {
 main hr {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
+}
+
+
+.homepageReadButton {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 

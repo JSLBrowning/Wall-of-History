@@ -18,8 +18,10 @@ CREATE TABLE IF NOT EXISTS story_metadata(
     /* This number determines what information will display by default when reference modals are opened. */
     recommended boolean,
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
-    default_version int
+    default_version int,
     /* Determines which version is displayed on the table of contents. */
+    theme_color varchar(6) DEFAULT "938170"
+    /* Defines the theme_color <meta> tag. */
 );
 
 

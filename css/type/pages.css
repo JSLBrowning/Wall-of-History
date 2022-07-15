@@ -42,7 +42,7 @@ body main .pages p {
 
 
 section.story section.titleBox {
-    background-color: rgba(22, 22, 22, .5);
+    background-color: var(--back2clear);
     backdrop-filter: blur(16px);
     
     border-left: none;
@@ -54,7 +54,7 @@ section.story section.titleBox {
 
 body main section.story span.pages {
     display: block;
-    background-color: rgba(22, 22, 22, .5);
+    background-color: var(--back2clear);
     backdrop-filter: blur(16px);
 
     border: 1px solid var(--border);
