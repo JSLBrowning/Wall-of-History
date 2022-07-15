@@ -1,11 +1,11 @@
 :root {
-    --back2clear: rgba(22, 22, 22, 0.9375);
+    --back2clear: rgba(22, 22, 22, 0.5);
     /* RGB22, main background, button:active */
 }
 
 
 :root.light {
-    --back2clear: rgba(229, 230, 235, 0.9375);
+    --back2clear: rgba(229, 230, 235, 0.5);
 }
 
 
@@ -387,7 +387,7 @@
 
 /* BIONICLE Adventures #1: Mystery of Metru Nui */
 #card1EN6EC {
-    background: linear-gradient(90deg, #36211D, var(--back2clear)), url("/img/story/contents/1EN6EC.png") center;
+    background: linear-gradient(90deg, rgba(54, 33, 29, .5), var(--back2clear));
     background-size: cover;
     border-color: #af3b24;
 }
@@ -395,7 +395,7 @@
 
 /* BIONICLE Adventures #2: Trial by Fire */
 #cardZYZBM9 {
-    background: linear-gradient(90deg, #113023, var(--back2clear)), url("/img/story/contents/ZYZBM9.png") center;
+    background: linear-gradient(90deg, rgba(17, 48, 35, .5), var(--back2clear));
     background-size: cover;
     border-color: #18793a;
 }
@@ -403,7 +403,7 @@
 
 /* BIONICLE Adventures #3: The Darkness Below */
 #cardEC7AOP {
-    background: linear-gradient(90deg, #0C2735, var(--back2clear)), url("/img/story/contents/EC7AOP.png") center;
+    background: linear-gradient(90deg, rgba(12, 39, 53, .5), var(--back2clear));
     background-size: cover;
     border-color: #045581;
 }
@@ -412,7 +412,7 @@
 /* BIONICLE Adventures #4: Legends of Metru Nui */
 #card5PC6M8 {
     /* Initial background color is back2 blended with border color with three midpoints, closest to back2. */
-    background: linear-gradient(90deg, #101619, var(--back2clear)), url("/img/story/contents/5PC6M8.png") center;
+    background: linear-gradient(90deg, rgba(16, 22, 25, .5), var(--back2clear));
     background-size: cover;
     border-color: #151011;
 }
@@ -420,7 +420,7 @@
 
 /* BIONICLE Adventures #5: Voyage of Fear */
 #card5L9VU7 {
-    background: linear-gradient(90deg, #4A4A22, var(--back2clear)), url("/img/story/contents/5L9VU7.png") center;
+    background: linear-gradient(90deg, rgba(74, 74, 34, .5), var(--back2clear));
     background-size: cover;
     border-color: #ffdf38;
 }
@@ -428,14 +428,14 @@
 
 /* BIONICLE Adventures #6: Maze of Shadows */
 #card0BSZ48 {
-    background: linear-gradient(90deg, #1D3754, var(--back2clear)), url("/img/story/contents/0BSZ48.png") center;
+    background: linear-gradient(90deg, rgba(29, 55, 84, .5), var(--back2clear));
     background-size: cover;
     border-color: #4a95ff;
 }
 
 
 #cardP0SOQS {
-    background: linear-gradient(90deg, #040607, var(--back2clear)), url("/img/story/contents/P0SOQS.png") center;
+    background: linear-gradient(90deg, rgba(4, 6, 7, .5), var(--back2clear));
     background-size: cover;
     border-color: #000;
 }

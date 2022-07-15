@@ -40,20 +40,28 @@ body main .pages p {
     display: inline;
 }
 
-/* PAGES */
-section.titleBoxPages {
-    background-color: var(--back2);
-    border: 1px solid var(--border);
-    border-radius: .5em .5em 0em 0em;
-    box-shadow: var(--outershadow);
+
+section.story section.titleBox {
+    background-color: rgba(22, 22, 22, .5);
+    backdrop-filter: blur(16px);
+    
+    border-left: none;
+    border-right: none;
+    border-bottom-left-radius: .25em;
+    border-bottom-right-radius: .25em;
 }
 
 
 body main section.story span.pages {
     display: block;
-    background-color: var(--back2);
+    background-color: rgba(22, 22, 22, .5);
+    backdrop-filter: blur(16px);
+
     border: 1px solid var(--border);
-    border-radius: 0.125em;
+    border-left: none;
+    border-right: none;
+    border-radius: 0.25em;
+
     box-shadow: var(--outershadow);
 }
 

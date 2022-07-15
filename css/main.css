@@ -8,7 +8,7 @@
     /* RGB08, drop shadow */
     --back2: #161616;
     /* RGB22, main background, button:active */
-    --back2clear: var(--back2clear);
+    --back2clear: rgba(22, 22, 22, 0.5);
     --back3: #202020;
     /* RGB32, borders, button:hover, etc. */
     --border: #202020;
@@ -37,7 +37,7 @@
     --back4: #FFFFFF;
     --back3: #F9F9FA;
     --back2: #E5E6EB;
-    --back2clear: rgba(229, 230, 235, 0.9375);
+    --back2clear: rgba(229, 230, 235, 0.5);
     --back1: #B1B1B2;
     --fontweight: bold;
     --outershadow: 3px 3px 6px rgba(0, 0, 0, 0.5625);
@@ -363,7 +363,8 @@ button {
     border-left: none;
     border-right: none;
 
-    background: var(--back2);
+    background: var(--back2clear);
+    backdrop-filter: blur(16px);
     box-shadow: var(--outershadow);
     cursor: pointer;
     font-family: var(--gillsans);
@@ -588,14 +589,16 @@ aside div hr {
 
 aside button:hover,
 aside button:hover,
-#modal-data button.disambigButton:hover {
+#modal-data button.disambigButton:hover,
+button.swapper:hover {
     background-color: var(--back3);
     transform: none;
 }
 
 aside button:active,
 aside button:active,
-#modal-data button.disambigButton:active {
+#modal-data button.disambigButton:active,
+button.swapper:active {
     background-color: var(--back2);
     box-shadow: none;
     transform: scale(0.95);
@@ -607,7 +610,8 @@ aside form,
 aside fieldset,
 aside button,
 aside a#downloadLink,
-#modal-data button.disambigButton {
+#modal-data button.disambigButton,
+button.swapper {
     width: 92.5%;
     margin-left: 3.75%;
     margin-right: 3.75%;
@@ -618,6 +622,11 @@ aside a#downloadLink,
     background-color: var(--back2);
     text-transform: uppercase;
     letter-spacing: .1875em;
+}
+
+
+aside fieldset {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -919,7 +928,7 @@ fieldset select {
     margin: 0.25em auto;
     border: 1px solid var(--border);
     background: var(--back2);
-    border-radius: 0.25em;
+    border-radius: .5em;
     height: 2em;
     width: 100%;
 }
@@ -1463,34 +1472,16 @@ section.structure nav {
 }
 
 
-.swapper,
+button.swapper,
 #modal-data .hideShow {
-    margin: auto;
-    display: block;
-
-    /* CLEAR APPEARANCE */
-    border: none;
-    background: none;
-    box-shadow: none;
-
-    border-top: 1px solid var(--border);
+    margin: auto 25% auto 25%;
+    width: 50%;
+    height: 20px;
+    padding: .125em;
     text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 0.75em;
-
-    transition: 0.15s;
-}
-
-
-.swapper:hover,
-#modal-data .hideShow:hover {
-    transform: scale(1.015625);
-}
-
-
-.swapper:active,
-#modal-data .hideShow:active {
-    transform: scale(0.984375);
+    letter-spacing: .25em;
+    font-size: .8125em;
+    font-weight: bolder;
 }
 
 
@@ -2114,8 +2105,10 @@ main article section.story del {
 
 section.story,
 section.structure button.contentsButton,
+.savefile button,
+.nav button,
 aside {
-    background-color: rgba(22, 22, 22, .5);
+    background-color: var(--back2clear);
     backdrop-filter: blur(16px);
 }
 
