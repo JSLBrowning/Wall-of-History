@@ -11,65 +11,51 @@
 
 /* Chapter 1: Quest for the Masks */
 #cardXCF8IZ {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/XCF8IZ.png) center;
-    background-size: cover;
     border-color: #5b757c;
 }
 
 
 /* BIONICLE: Quest for the Maks (TCG) */
 #cardCGEC7C {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/CGEC7C.png) center;
-    background-size: cover;
     border-color: #010203;
 }
 
 
 /* BIONICLE #1: The Coming of the Toa */
 #cardN621SQ {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/N621SQ.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE #2: Deep Into Darkness */
 #cardBWWAVH {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/BWWAVH.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE #3: Triumph of the Toa */
 #cardUNV6Z1 {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/UNV6Z1.png) center;
     background-size: cover;
 }
 
 
 /* BIONICLE: Challenge of the Rahi */
 #cardLJUX6G {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/LJUX6G.png) center;
     background-size: cover;
 }
 
 
 #cardQ2N8NX {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/Q2N8NX.png) center;
-    background-size: cover;
     border-color: #5a5833;
 }
 
 
 #cardJBTY4O {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/JBTY4O.png) center;
-    background-size: cover;
     border-color: #57453e;
 }
 
 
 #cardECOHYW {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/ECOHYW.png) center;
-    background-size: cover;
     border-color: #3a2f1d;
 }
 
@@ -93,15 +79,11 @@
 
 
 #cardLHIBBZ {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/LHIBBZ.png) center;
-    background-size: cover;
     border-color: #878889;
 }
 
 
 #cardUELI6L {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/UELI6L.png) center;
-    background-size: cover;
     border-color: #707d4e;
 }
 
@@ -150,16 +132,13 @@
 
 /* BIONICLE Chronicles Collection */
 #card54284C {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/54284C.jpg) center;
-    background-size: cover;
-    border-color: #fc1f04;
+    border-color: #cf3e20;
 }
 
 
 /* BIONICLE Chronicles #1: Tale of the Toa */
 #cardGNO2P6 {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/GNO2P6.webp) center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #c72f19;
 }
 
@@ -176,24 +155,21 @@
 
 /* BIONICLE Chronicles #2: Beware the Bohrok */
 #card89L0VB {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/89L0VB.png) center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #6e92ce;
 }
 
 
 /* BIONICLE Chronicles #3: Makuta’s Revenge */
 #card685M4D {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/685M4D.png) center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #448d30;
 }
 
 
 /* BIONICLE Chronicles #4: Tales of the Masks */
 #card5LTDQZ {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/5LTDQZ.png) center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #ff990b;
 }
 
@@ -208,8 +184,7 @@
 
 /* Mata Nui: The Online Game Walkthrough */
 #cardKQRMXG {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url(/img/story/contents/KQRMXG.png) center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #b6cdd2;
 }
 
@@ -310,8 +285,7 @@
 
 
 #card2FC589 {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/2FC589.png") center;
-    background-size: cover;
+    backdrop-filter: blur(8px);
     border-color: #cb9e36;
 }
 
@@ -367,8 +341,6 @@
 
 /* BIONICLE #1: Rise of the Toa Nuva */
 #cardABE5BC {
-    background: linear-gradient(90deg, var(--back2), var(--back2clear)), url("/img/story/contents/ABE5BC.webp") center;
-    background-size: cover;
     border-color: #ed2226;
 }
 

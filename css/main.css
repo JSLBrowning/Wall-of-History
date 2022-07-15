@@ -225,8 +225,8 @@ span.exitSpan:after {
 
 
 body {
-    background: url("/img/bgl.png") left no-repeat,
-        url("/img/bgr.png") right no-repeat,
+    background: url("/img/bgl.webp") left no-repeat,
+        url("/img/bgr.webp") right no-repeat,
         var(--back2);
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
@@ -427,6 +427,8 @@ section.titleBox {
     position: relative;
     background-color: var(--back2);
     border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
     border-radius: .5em;
     box-shadow: var(--outershadow);
 }
@@ -2103,3 +2105,23 @@ main article section.story del {
 /*********************
  * END UNUSED STYLES *
  *********************/
+
+
+/***************
+ * TEST STYLES *
+ ***************/
+
+
+section.story,
+section.structure button.contentsButton,
+aside {
+    background-color: rgba(22, 22, 22, .5);
+    backdrop-filter: blur(16px);
+}
+
+
+section.story section.titleBox,
+aside a#downloadLink {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: none;
+}

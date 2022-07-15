@@ -12,13 +12,15 @@ chooseColors();
     <!-- STANDARD -->
     <meta property="og:url" content="https://wallofhistory.com/settings/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Wall of History" />
+    <meta property="og:site_name" content="Wall of History">
+    <meta property="og:title" content="Settings | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta name="theme-color" content="#938170">
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Wall of History" />
+    <meta name="twitter:title" content="Settings | Wall of History" />
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
     <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />

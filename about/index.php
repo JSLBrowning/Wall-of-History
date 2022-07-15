@@ -12,10 +12,12 @@ chooseColors();
     <!-- STANDARD -->
     <meta property="og:url" content="https://wallofhistory.com/about/" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wall of History">
     <meta property="og:title" content="About | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta name="theme-color" content="#938170">
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="About | Wall of History" />
@@ -38,7 +40,7 @@ chooseColors();
     </header>
     <main>
         <article>
-            <img src="/img/social/logo.png" alt="Wall of History logo" title="Wall of History">
+            <img src="/img/social/logo.webp" alt="Wall of History logo" title="Wall of History">
             <h1>About BIONICLE</h1>
             <p>“Since it began in 2001, the BIONICLE universe has grown from being a construction toyline with a story behind it to a modern mythology. Filled with amazing locations, interesting characters, mystery, drama, and action, it has inspired movies, novels, [and] web fiction.” — Greg Farshtey</p>
             <hr>

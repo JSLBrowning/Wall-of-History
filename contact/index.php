@@ -12,10 +12,12 @@ chooseColors();
     <!-- STANDARD -->
     <meta property="og:url" content="https://wallofhistory.com/contact/" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wall of History">
     <meta property="og:title" content="Contact | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta name="theme-color" content="#938170">
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Contact | Wall of History" />
@@ -38,7 +40,7 @@ chooseColors();
     </header>
     <main>
         <article>
-        <img src="/img/social/logo.png" alt="Wall of History logo" title="Wall of History">
+        <img src="/img/social/logo.webp" alt="Wall of History logo" title="Wall of History">
             <h1>Contact</h1>
             <p>If you would like to contact Wall of Histor,y, please send us an <a href="mailto:admin@wallofhistory.com">email</a>, or message our official <a class="nonblock" href="https://www.facebook.com/WallofHistory/">Facebook</a>, <a class="nonblock" href="https://www.instagram.com/wall_of_history/">Instagram</a>,
                 or <a class="nonblock" href="https://twitter.com/Wall_of_History">Twitter</a> accounts.</p>

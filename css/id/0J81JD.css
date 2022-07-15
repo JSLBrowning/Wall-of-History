@@ -22,23 +22,43 @@
 :root {
     --back1: rgb(8, 0, 0);
     --back2: rgb(24, 0, 0);
+    --back2clear: rgba(24, 0, 0, .75);
+    --back2clearer: rgba(24, 0, 0, .5);
     --back3: rgb(32, 0, 0);
     --border: rgb(48, 0, 0);
 }
 
+
 body {
-    background: url("/img/bgl.png") left no-repeat,
-        url("/img/bgr.png") right no-repeat,
-        linear-gradient(180deg, var(--back2) 0%, var(--back2) 50%, #620013 100%);
-    background-size: clamp(180px, 40%, 808px) auto;
+    background: linear-gradient(0deg, var(--back2clear) 0%, var(--back2clearer) 100%), url("/img/test/tahu.webp");
+    background-size: cover;
     background-attachment: fixed;
 }
 
 
-main article section.story,
+main article section.story {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: none;
+}
+
+
+main article section.story section.titleBox,
+main article section.story span.pages,
 main aside {
     border-right: 0px;
     border-left: 0px;
+    background-color: var(--back2clear);
+    backdrop-filter: blur(16px);
+}
+
+
+section.story section.titleBox img {
+    display: none;
+}
+
+
+aside fieldset {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 
