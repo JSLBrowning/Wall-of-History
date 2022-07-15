@@ -1,5 +1,6 @@
 :root {
     --back2: rgba(37, 18, 9, 0.875);
+    --back2clear: rgba(37, 18, 9, 0.75);
     --back3: rgba(37, 18, 9, 0.5);
     --border: rgba(37, 18, 9, 0.9375);
 }

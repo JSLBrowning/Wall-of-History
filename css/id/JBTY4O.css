@@ -4,6 +4,7 @@
     /* RGB08, drop shadow */
     --back2: #0B0F1A;
     /* RGB22, main background, button:active */
+    --back2clear: rgba(11, 15, 26, .75);
     --back3: #10141F;
     /* RGB32, borders, button:hover, etc. */
     --border: #10141F;

@@ -18,6 +18,12 @@ chooseColors();
     <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
     <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
     <meta name="theme-color" content="#938170">
+    <!-- VIDEO TEST -->
+    <meta property="og:video" content="http://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
+    <meta property="og:video:secure_url" content="https://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
+    <meta property="og:video:type" content="application/mp4" />
+    <meta property="og:video:width" content="2556" />
+    <meta property="og:video:height" content="1024" />
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="About | Wall of History" />

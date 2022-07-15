@@ -2,6 +2,7 @@
 :root {
     --back1: #1a150d;
     --back2: #251f13;
+    --back2clear: rgba(37, 31, 19, .75);
     --back3: #302819;
     --border: #302819;
 }

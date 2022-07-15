@@ -1,3 +1,8 @@
+:root {
+    --back2clear: rgba(22, 22, 22, .75);
+}
+
+
 body {
     background-color: #8798a8;
     background-image: url("/img/test/img290x681_Left_BG.webp");
