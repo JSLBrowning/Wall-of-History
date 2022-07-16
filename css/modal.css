@@ -229,8 +229,7 @@ span.exitSpan:active {
 }
 
 .modal-content ul {
-    margin: 1em;
-    margin-top: -0.5em;
+    margin: .5em 1em;
 }
 
 .modal-content li {
@@ -296,20 +295,25 @@ span.exitSpan:active {
     position: relative;
 }
 
-#modal-data .hideShow:hover {
-    transform: scale(1.015625);
+
+#modal-data .hideShow {
+    border: none;
+    box-shadow: none;
+    width: 80%;
+    margin: 1em 10% auto 10%;
 }
 
+
+#modal-data .hideShow:hover {
+    background-color: var(--back3);
+}
+
+
 #modal-data .hideShow:active {
+    background-color: var(--back2);
     transform: scale(0.984375);
 }
 
-#modal-data .hideShow {
-    margin: 0.5em auto;
-    border: none;
-    padding: 0em 1em;
-    height: 1.5em;
-}
 
 .modal-content {
     padding-top: 1em;

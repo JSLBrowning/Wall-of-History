@@ -49,7 +49,6 @@ aside,
 section.story section.titleBox,
 aside fieldset,
 aside a#downloadLink {
-    background-color: rgba(0, 0, 0, 0);
     backdrop-filter: none;
 }
 
