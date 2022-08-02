@@ -212,6 +212,11 @@ function populateCSS($id)
             if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
                 echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
             }
+
+            // Temporary/hardcoded solution to the multi-grandparent disambiguation problem.
+            if (file_exists("..//css/id/override/" . $row["parent_id"] . ".css")) {
+                echo "<link rel='stylesheet' type='text/css' href='/css/id/override/" . $row["parent_id"] . ".css'>\n";
+            }
         }
     }
 
