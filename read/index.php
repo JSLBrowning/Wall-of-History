@@ -143,6 +143,12 @@ chooseColors();
     <!-- Modal Drivers -->
     <script src="../js/modal.js"></script>
     <!-- Ruffle (Flash Driver) -->
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "autoplay": "off"
+        }
+    </script>
     <script src="../js/ruffle/ruffle.js"></script>
     <!-- Unused
     <script src="/js/compare/compare.js"></script>
