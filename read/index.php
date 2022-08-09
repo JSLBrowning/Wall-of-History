@@ -146,7 +146,10 @@ chooseColors();
     <script>
         window.RufflePlayer = window.RufflePlayer || {};
         window.RufflePlayer.config = {
-            "autoplay": "off"
+            "autoplay": "off",
+            "contextMenu": true,
+            "menu": true,
+            "quality": "best"
         }
     </script>
     <script src="../js/ruffle/ruffle.js"></script>
