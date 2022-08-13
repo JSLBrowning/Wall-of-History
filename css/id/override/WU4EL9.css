@@ -28,3 +28,8 @@
     --back1: #B1B1B2;
     --fontweight: bold;
 }
+
+
+main article section.story section.titleBox img {
+    display: none;
+}
