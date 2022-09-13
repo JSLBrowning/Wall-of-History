@@ -1758,10 +1758,26 @@ canvas {
     }
 
 
-    header img {
-        max-width: 90%;
-        height: auto;
+    header {
+        max-width: 80%;
     }
+
+
+    header img {
+        max-width: 100%;
+        height: auto;
+        max-height: 72px;
+    }
+
+
+    a.chip-wrapper,
+    img.chip-img {
+        min-width: 0px;
+        min-height: 0px;
+        max-width: 48px;
+        max-height: 48px;
+    }
+
 
     main {
         margin: 8px auto;
