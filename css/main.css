@@ -263,6 +263,13 @@ a.chip-wrapper:focus {
 }
 
 
+.chip-img:hover,
+.chip-img:active,
+.chip-img:focus {
+    transform: none;
+}
+
+
 header,
 main {
     position: relative;
