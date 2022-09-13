@@ -76,6 +76,9 @@ chooseColors();
         loadHeader($id, $lang, $v);
         echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
+        <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
+            <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="img/chips/mod.webp" width="64" height="64">
+        </a>
     </header>
     <main>
         <article>

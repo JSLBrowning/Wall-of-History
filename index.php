@@ -37,9 +37,14 @@ chooseColors();
 <body>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="sckJu8Ly"></script>
+
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
+
+    <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
+        <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="img/chips/mod.webp" width="64" height="64">
+    </a>
 
     <main>
         <article>

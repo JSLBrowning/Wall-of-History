@@ -73,6 +73,9 @@ if (count($_GET)) {
 <body>
     <header>
         <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
+            <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="img/chips/mod.webp" width="64" height="64">
+        </a>
     </header>
     <main>
         <article>

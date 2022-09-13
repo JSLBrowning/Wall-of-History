@@ -234,6 +234,35 @@ body {
 }
 
 
+a.chip-wrapper {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    display: block;
+    min-width: 64px;
+    min-height: 64px;
+
+    z-index: 19;
+}
+
+
+a.chip-wrapper:hover,
+a.chip-wrapper:active,
+a.chip-wrapper:focus {
+    text-decoration: none;
+    filter: brightness(.5);
+    cursor: pointer;
+}
+
+
+.chip-img {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+
 header,
 main {
     position: relative;
