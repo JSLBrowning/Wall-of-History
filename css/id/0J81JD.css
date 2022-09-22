@@ -43,8 +43,7 @@ main article section.story {
 
 
 main article section.story section.titleBox,
-main article section.story span.pages,
-main aside {
+main article section.story span.pages {
     border-right: 0px;
     border-left: 0px;
     background-color: var(--back2clear);

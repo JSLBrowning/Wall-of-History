@@ -100,4 +100,10 @@ section.story div.mediaplayer div.mediaplayercontents video {
     section.story section.titleBox div.mediaplayer {
         display: none;
     }
+
+
+    section.story div.mediaplayer {
+        float: none;
+        margin: 0.5em auto;
+    }
 }
