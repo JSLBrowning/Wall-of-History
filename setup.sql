@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS story_metadata(
     /* This number determines what information will display by default when reference modals are opened. */
     recommended boolean,
     /* This boolean defines whether or not the work is included in the default reading order for the site — Quest for the Toa (the GBA game) is on Wall of History's, for example, while Maze of Shadows (the GBA game) isn't. */
-    default_version int,
+    default_version int DEFAULT 1,
     /* Determines which version is displayed on the table of contents. */
     theme_color varchar(6) DEFAULT "938170"
     /* Defines the theme_color <meta> tag. */
@@ -32,12 +32,8 @@ CREATE TABLE IF NOT EXISTS story_content(
     /* This integer identifies the version of the content in the URL parameters... */
     version_title text,
     /* ...and this string identifies the version (for example, "Standard"). */
-    content_language varchar (2) DEFAULT "en",
-    /* This is the language of the content in question, in the form of a two-character ISO 639-1 code. */
-    small_image text,
-    /* This should be the URL of a square (or at least close to square) icon for the work in question. Chapters of larger works do not NEED this, as the program can recurse up the parent's image (but you can give each chapter a unique image if you want). */
-    large_image text,
-    /* This is the image that will appear in the summary cards generated for the work in question, so they should be banners. Twitter, for example, uses a 2:1 aspect ratio for these. */
+    content_language varchar (3) DEFAULT "eng",
+    /* This is the language of the content in question, in the form of a two-character ISO 639-1 or ISO 639-3 code. */
     title text NOT NULL,
     /* Self-explantory, I'm sure. Titles should be minimal — the first chapter of Tale of the Toa is simply titled “Tahu — Toa of Fire,” not “BIONICLE Chronicles #1: Tale of the Toa: ‘Tahu — Toa of Fire.’” */
     subtitle text,
