@@ -10,7 +10,7 @@ USE test;
 CREATE TABLE IF NOT EXISTS story_metadata(
     id varchar(6) PRIMARY KEY,
     /* The ID can be any six character-long alphanumeric string. Wall of History's are essentially random — I run the titles of works through a hashing algorithm, and the algorithm spits out six characters of gibberish to uniquely identify them. */
-    publication_date date,
+    release_date date,
     /* This can be ignored — the front end doesn't currently do anything with it anyway, but the idea is that it'll eventually display the publication dates of anything that has one. */
     chronology int,
     /* This number, along with the boolean below, defines the default reading order for contents of the site. Only the actual contents of the site should have a chronology value — Tale of the Toa as a whole does not have one, for example, but the individual chapters of Tale of the Toa do. */
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
     /* The ID can be any six character-long alphanumeric string. */
     entry_version int,
     /* Self-explanatory. BIONICLE Encyclopedia would be 1, Updated would be 2. */
-    publication_date date,
+    release_date date,
     /* Self-explanatory. */
     chronology int,
     /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */

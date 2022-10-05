@@ -66,8 +66,8 @@ function getDetailsAside($id, $lang, $v) {
 
     $successes = $successes + getAdaptedFrom($id);
 
-    $release_query = "SELECT publication_date FROM woh_metadata WHERE id='$id'";
-    $release = getDataAside("publication_date", $release_query);
+    $release_query = "SELECT release_date FROM woh_metadata WHERE id='$id'";
+    $release = getDataAside("release_date", $release_query);
     if (!empty($release)) {
         if ($release[0] != "") {
             echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
@@ -111,8 +111,8 @@ function getDetailsAsideReference($id, $v, $lang) {
         $successes++;
     }
 
-    $release_query = "SELECT publication_date FROM reference_metadata WHERE entry_id='$id'";
-    $release = getDataAside("publication_date", $release_query);
+    $release_query = "SELECT release_date FROM reference_metadata WHERE entry_id='$id'";
+    $release = getDataAside("release_date", $release_query);
     if (!empty($release)) {
         echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
         $successes++;

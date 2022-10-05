@@ -432,10 +432,10 @@ function getDetails($id, $primeversion, $lang)
         echo "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
     }
     
-    $releasequery = "SELECT publication_date FROM woh_metadata WHERE id = '$id'";
-    $release = getData("publication_date", $releasequery);
+    $releasequery = "SELECT release_date FROM woh_metadata WHERE id = '$id'";
+    $release = getData("release_date", $releasequery);
     if ($release[0] != "") {
-        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
+        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("release_date", $releasequery))) . "</p>\n";
     }
 
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
