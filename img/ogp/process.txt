@@ -2,11 +2,11 @@
 2. Guassian blur > 32px.
 3. Canvas size > height > 628px.
 4. Add back cover, center in left half.
-5. 64pt font for main title, (48pt for version/subtitle).
+5. 64pt font for main title, (48pt for version/subtitle). TradeMarker Bold.
     a. <-VA-> 144.
     b. Line height 64pt (originally 72, revise?).
 6. Stroke of 4, rasterize.
-7. Drop shadow of 4, rasterize.
+7. Drop shadow of 4, rasterize. 135 degrees.
 8. Center in empty space to right of cover.
 9. Merge both top layers, center as one piece.
 IF ABOVE IS TOO TIGHT, space-evenly cover and text before adding shadow.
