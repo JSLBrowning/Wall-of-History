@@ -148,7 +148,7 @@ async function checkLanguage() {
         localStorage.setItem("languageList", languageList);
 
         // Step 2: Get preferred language.
-        const lang = navigator.language.substring(0, 2);
+        const lang = update_iso_codes(navigator.language.substring(0, 2));
         localStorage.setItem("languagePreference", lang);
         if ((getCookie("languagePreference") == null) || (getCookie("languagePreference") != lang)) {
             document.cookie = "languagePreference=" + lang + "; expires=Sat, 3 Nov 3021 12:00:00 UTC; path=/; SameSite=Lax;";
@@ -307,7 +307,7 @@ async function initialize() {
     }
 
     // If languageList contains the word "ERROR," clear.
-    if (localStorage.getItem("languageList").includes("ERROR")) {
+    if (localStorage.getItem("languageList") != null && localStorage.getItem("languageList").includes("ERROR")) {
         localStorage.clear();
     }
 
