@@ -11,13 +11,9 @@ $dir = "../img/3d/" . $id;
 
 
 // Try to get data.
-if (file_exists($dir)) {
-    if (file_exists($dir . "/cfg.txt")) {
-        $data = file_get_contents($dir . "/cfg.txt");
-        echo $data;
-    } else {
-        echo "false";
-    }
+if (file_exists($dir) && file_exists($dir . "/cfg.txt")) {
+    $data = file_get_contents($dir . "/cfg.txt");
+    echo $data;
 } else {
     echo "false";
 }

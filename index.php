@@ -39,7 +39,7 @@ chooseColors();
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="sckJu8Ly"></script>
 
     <header>
-        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.webp" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
 
     <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
@@ -48,7 +48,7 @@ chooseColors();
 
     <main>
         <article>
-            <video poster="img/Video Thumbnail.png" controls<?php
+            <video poster="img/Video Thumbnail.webp" controls<?php
             if (!isset($_COOKIE['languagePreference'])) {
                 echo " autoplay";
             }
@@ -119,7 +119,7 @@ chooseColors();
         </div>
     </div>
     <!-- jQuery -->
-    <script src="js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery/jquery-3.6.3.min.js"></script>
     <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
     <script src="js/main.js"></script>

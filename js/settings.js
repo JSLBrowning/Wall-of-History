@@ -55,11 +55,16 @@ document.onload = loadSettings();
 
 $.noConflict();
 jQuery(document).ready(function ($) {
+    let sortInterval = setInterval(initSortable, 1000);
+
     function initSortable() {
         $("#sortable").sortable();
         $("#sortable").disableSelection();
+        // If #sortable exists...
+        if ($("#sortable").length) {
+            clearInterval(sortInterval);
+        }
     }
-    initSortable();
 
     let arrFields = new Array();
 

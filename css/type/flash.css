@@ -35,4 +35,8 @@ main h2:last-of-type {
     #warning{
         display: block;
     }
+
+    div.progressBarContainer {
+        display: none;
+    }
 }

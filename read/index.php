@@ -133,7 +133,7 @@ chooseColors();
         </div>
     </div>
     <!-- jQuery -->
-    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery/jquery-3.6.3.min.js"></script>
     <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Reading Order Drivers -->
     <script src="../js/readingorders.js"></script>
@@ -156,6 +156,7 @@ chooseColors();
         }
     </script>
     <script src="../js/ruffle/ruffle.js"></script>
+    <script src="../js/flash.js"></script>
     <!-- Unused
     <script src="/js/compare/compare.js"></script>
     -->

@@ -35,7 +35,7 @@ chooseColors();
 
 <body>
     <header>
-        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.webp" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
         <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
             <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">
         </a>
@@ -78,13 +78,14 @@ chooseColors();
         </article>
     </main>
     <!-- jQuery -->
-    <script src="../js/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery/jquery-3.6.3.min.js"></script>
     <script src="../js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
     <script src="../js/main.js"></script>
     <script src="../js/palette.js"></script>
     <!-- Settings Drivers -->
     <script src="../js/settings.js"></script>
+    <script src="../js/indeterminate.js"></script>
     <!-- Modal Drivers -->
     <script src="../js/modal.js"></script>
 </body>

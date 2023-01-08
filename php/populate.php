@@ -88,23 +88,23 @@ function populateHead($id, $lang, $v)
 
     // If query returns no result, determine whether or not user is on the table of contents, and respond accordingly.
     if ((!($id == 0)) && ($num_rows == 0)) {
-        echo "<meta property='og:site_name' content='Wall of History'>\n
-            <meta content='404 | Wall of History' property='og:title'/>\n
-            <meta content='Six heroes. One destiny.' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
-            <meta content='summary_large_image' name='twitter:card'/>\n
-            <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <meta name='theme-color' content='#938170'>\n
+        echo "<meta property='og:site_name' content='Wall of History'>
+            <meta content='404 | Wall of History' property='og:title'/>
+            <meta content='Six heroes. One destiny.' property='og:description'/>
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
+            <meta content='summary_large_image' name='twitter:card'/>
+            <meta content='@Wall_of_History' name='twitter:site'/>
+            <meta name='theme-color' content='#938170'>
             <title>404 | Wall of History</title>\n";
         echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404.html'\"/>\n";
     } else if ($id == 0 && $num_rows == 0) {
-        echo "<meta property='og:site_name' content='Wall of History'>\n
-            <meta content='Table of Contents | Wall of History' property='og:title'/>\n
-            <meta content='Six heroes. One destiny.' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
-            <meta content='summary_large_image' name='twitter:card'/>\n
-            <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <meta name='theme-color' content='#938170'>\n
+        echo "<meta property='og:site_name' content='Wall of History'>
+            <meta content='Table of Contents | Wall of History' property='og:title'/>
+            <meta content='Six heroes. One destiny.' property='og:description'/>
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
+            <meta content='summary_large_image' name='twitter:card'/>
+            <meta content='@Wall_of_History' name='twitter:site'/>
+            <meta name='theme-color' content='#938170'>
             <title>Table of Contents | Wall of History</title>\n";
     }
 
@@ -121,13 +121,13 @@ function populateHead($id, $lang, $v)
             $title = $title . " | " . $parent;
         }
 
-        echo "<meta property='og:site_name' content='Wall of History'>\n
-            <meta content='" . $title . " | Wall of History' property='og:title'/>\n
-            <meta content='" . strip_tags($row["snippet"]) . "' property='og:description'/>\n
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>\n
-            <meta content='summary_large_image' name='twitter:card'/>\n
-            <meta content='@Wall_of_History' name='twitter:site'/>\n
-            <meta name='theme-color' content='#" . $row['theme_color'] . "'>\n
+        echo "<meta property='og:site_name' content='Wall of History'>
+            <meta content='" . $title . " | Wall of History' property='og:title'/>
+            <meta content='" . strip_tags($row["snippet"]) . "' property='og:description'/>
+            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
+            <meta content='summary_large_image' name='twitter:card'/>
+            <meta content='@Wall_of_History' name='twitter:site'/>
+            <meta name='theme-color' content='#" . $row['theme_color'] . "'>
             <title>" . $title . " | Wall of History</title>\n";
     }
 }
@@ -243,7 +243,7 @@ function loadHeader($id)
     $num_rows = mysqli_num_rows($result_header);
 
     if ($num_rows == 0) {
-        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
+        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.webp\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
     } else {
         while ($row_header = $result_header->fetch_assoc()) {
             echo $row_header["html"];

@@ -1,5 +1,8 @@
 {
-    "readingorder":"chronology",
-    "wordcount":true,
-    "releasedate":true
+    "readingOrder":"tree",
+    "wordCount":true,
+    "releaseDate":true,
+    "rootName":"Table of Contents",
+    "referenceEnabled":false,
+    "settingsEnabled":false
 }

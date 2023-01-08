@@ -1749,6 +1749,49 @@ canvas {
  *****************/
 
 
+/****************
+ * FLASH STYLES *
+ ****************/
+
+div.progressBarContainer {
+    height: 2.5rem;
+}
+
+
+progress {
+    -webkit-appearance: none;
+    appearance: none;
+
+    margin: .75rem;
+    border: none;
+    border-radius: 0.25rem;
+    width: calc(100% - 1.5rem);
+    height: 1rem;
+
+    background-color: rgba(0, 0, 0, .25);
+}
+
+
+progress::-webkit-progress-bar {
+    background-color: rgba(0, 0, 0, .25);
+}
+
+
+progress::-webkit-progress-value {
+    background-color: #938170;
+}
+
+
+progress::-moz-progress-bar {
+    background-color: #938170;
+}
+
+
+/********************
+ * END FLASH STYLES *
+ ********************/
+
+
 /*****************
  * MOBILE STYLES *
  *****************/

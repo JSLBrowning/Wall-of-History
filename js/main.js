@@ -1,9 +1,9 @@
 // Replace with function that gets ID from semantic in case of semantic tags in use.
 if (sessionStorage.getItem("activeReadingOrder") != null) {
-    var url = window.location.href;
+    const url = window.location.href;
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
     if(url.indexOf('?id=') != -1) {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
         const id = urlParams.get('id');
         if (localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).includes(id)) {
             console.log("ID is in active reading order.");
@@ -11,6 +11,22 @@ if (sessionStorage.getItem("activeReadingOrder") != null) {
             console.log("ID is not in active reading order. Clearing…");
             sessionStorage.removeItem("activeReadingOrder");
         }
+    } else if (url.indexOf('?s=') != -1) {
+        const semantic = urlParams.get('s');
+        semantic_query = "SELECT id FROM woh_tags WHERE detailed_tag = \"" + semantic + "\"";
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).includes(this.responseText)) {
+                    console.log("ID is in active reading order.");
+                } else {
+                    console.log("ID is not in active reading order. Clearing…");
+                    sessionStorage.removeItem("activeReadingOrder");
+                }
+            }
+        };
+        xmlhttp.open("GET", "../php/query.php?q=" + semantic_query + "&c=id", true);
+        xmlhttp.send();
     }
 }
 
@@ -98,8 +114,11 @@ function hideShow(button) {
 async function checkReadingMode() {
     if (localStorage.getItem("readingMode") === null) {
         loadJSON(async function (response) {
-            let readingMode = JSON.parse(response).readingorder;
-            localStorage.setItem("readingMode", readingMode);
+            let readingMode = JSON.parse(response).readingOrder;
+            // If readingMode is defined...
+            if (readingMode != null) {
+                localStorage.setItem("readingMode", readingMode);
+            }
         });
     }
 }
@@ -244,7 +263,9 @@ async function checkReferenceTerms() {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                localStorage.setItem("referenceTerms", this.responseText);
+                if (this.responseText != "") {
+                    localStorage.setItem("referenceTerms", this.responseText);
+                }
             }
         };
         xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=titles", true);
@@ -281,6 +302,15 @@ async function activateNavigation() {
 
 // Initialization function which runs all the functions above.
 async function initialize() {
+    if (localStorage.getItem("version") != "1.1") {
+        localStorage.clear();
+    }
+
+    // If languageList contains the word "ERROR," clear.
+    if (localStorage.getItem("languageList").includes("ERROR")) {
+        localStorage.clear();
+    }
+
     await checkReadingMode();
     await checkLanguage();
     await checkColorScheme();
@@ -302,11 +332,6 @@ async function resetReader() {
     initialize().then(() => {
         alert("Reader reset.");
     });
-}
-
-
-function errorMessage(message) {
-    alert(message);
 }
 
 
@@ -367,7 +392,7 @@ function findSelf() {
     let readingOrder = localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).split(",");
     let index, result;
     const urlParams = new URLSearchParams(window.location.search);
-    let currentID = document.getElementById("downloadMarker").innerHTML;
+    const currentID = urlParams.get('id');
     for (index = 0; index < readingOrder.length; index++) {
         let candidate = readingOrder[index].substring(0, readingOrder[index].indexOf(":")).split(".")[0];
         if (candidate == currentID) {
@@ -403,31 +428,6 @@ function getEndPoints(readingOrder) {
 }
 
 
-/* This function takes an ID, version (optional, but highly encouraged), and language (optional), and jumps straight to that page. */
-async function goToChrono(combo) {
-    target = combo.split(".");
-    if (target.length == 1) {
-        let id = target[0];
-        let v = "1";
-        let lang = await getOptimalLanguage(id + "." + v);
-        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
-    } else if (target.length == 2) {
-        let id = target[0];
-        let v = target[1];
-        let lang = await getOptimalLanguage(combo);
-        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
-    } else if (target.length == 3) {
-        let id = target[0];
-        let v = target[1];
-        let lang = target[2];
-        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
-    } else {
-        alert("ERROR: Redirection failed. Please report to admin@wallofhistory.com.");
-        window.location.href = "/";
-    }
-}
-
-
 /* This function attempts to jump the user back to their most recent spot,
 prompting them to select a reading order if necessary. */
 async function jumpToChrono() {
@@ -439,7 +439,7 @@ async function jumpToChrono() {
     }
 
     if (routeCount == 1) {
-        localStorage.setItem("activeReadingOrder", "0");
+        sessionStorage.setItem("activeReadingOrder", "0");
     }
 
     if (sessionStorage.getItem("activeReadingOrder") === null) {
@@ -554,7 +554,7 @@ async function goBackChrono() {
     for (index = currentNumber - 1; index < readingOrder.length; index--) {
         if (readingOrder[index].includes(":1")) {
             next = readingOrder[index].split(":")[0];
-            goToChrono(next);
+            goTo(next);
             break;
         }
     }
@@ -568,7 +568,7 @@ async function goForwardChrono() {
     for (index = currentNumber + 1; index < readingOrder.length; index++) {
         if (readingOrder[index].includes(":1")) {
             next = readingOrder[index].split(":")[0];
-            goToChrono(next);
+            goTo(next);
             break;
         }
     }
@@ -612,9 +612,6 @@ async function readAsStandalone() {
 
 /* This function gets an array of the siblings of the current page. */
 function getArrayTree() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get("id");
-
     return new Promise(resolve => {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
@@ -632,9 +629,21 @@ function getArrayTree() {
 async function findSelfTree() {
     const urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get("id");
-    let siblings = await getArrayTree();
+    let siblings = await getArrayTree(id);
 
     return siblings.indexOf(id);
+}
+
+
+/* This function determines if it’s appropriate to show the save/load buttons. */
+async function showSavePlaceButtons() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get("id");
+    let childCount = parseInt(await getNumChildren(id));
+    if (childCount == 0) {
+        let saveButtons = document.getElementsByClassName("savefile");
+        saveButtons[0].style.display = "flex";
+    }
 }
 
 
@@ -642,26 +651,26 @@ async function findSelfTree() {
 async function showButtonsTree() {
     const urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get("id");
-    let siblings = await getArrayTree();
+    let siblings = await getArrayTree(id);
     siblings = siblings.split(",");
 
     if (id == siblings[0]) {
-        let saveButtons = document.getElementsByClassName("savefile");
-        saveButtons[0].style.display = "flex";
+        showSavePlaceButtons();
         let forwardButton = document.getElementById("forwardbutton");
         forwardButton.style.display = "block";
+        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
     } else if (id == siblings[siblings.length - 1]) {
-        let saveButtons = document.getElementsByClassName("savefile");
-        saveButtons[0].style.display = "flex";
+        showSavePlaceButtons();
         let backButton = document.getElementById("backbutton");
         backButton.style.display = "block";
+        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
     } else if (siblings.includes(id)) {
-        let saveButtons = document.getElementsByClassName("savefile");
-        saveButtons[0].style.display = "flex";
+        showSavePlaceButtons();
         let backButton = document.getElementById("backbutton");
         let forwardButton = document.getElementById("forwardbutton");
         backButton.style.display = "block";
         forwardButton.style.display = "block";
+        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
     }
 }
 
@@ -701,7 +710,7 @@ function loadPlaceTree() {
 async function goBackTree() {
     const urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get("id");
-    let siblings = await getArrayTree();
+    let siblings = await getArrayTree(id);
     siblings = siblings.split(",");
     let position = siblings.indexOf(id);
     window.location.href = "/read/?id=" + siblings[position - 1];
@@ -712,7 +721,7 @@ async function goBackTree() {
 async function goForwardTree() {
     const urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get("id");
-    let siblings = await getArrayTree();
+    let siblings = await getArrayTree(id);
     siblings = siblings.split(",");
     let position = siblings.indexOf(id);
     window.location.href = "/read/?id=" + siblings[position + 1];
@@ -729,11 +738,27 @@ async function goForwardTree() {
  ********************/
 
 
-function goTo(combo) {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        goToChrono(combo);
+/* This function takes an ID, version (optional, but highly encouraged), and language (optional), and jumps straight to that page. */
+async function goTo(combo) {
+    target = combo.split(".");
+    if (target.length == 1) {
+        let id = target[0];
+        let v = "1";
+        let lang = await getOptimalLanguage(id + "." + v);
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    } else if (target.length == 2) {
+        let id = target[0];
+        let v = target[1];
+        let lang = await getOptimalLanguage(combo);
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
+    } else if (target.length == 3) {
+        let id = target[0];
+        let v = target[1];
+        let lang = target[2];
+        window.location.href = ("/read/?id=" + id + "&v=" + v + "&lang=" + lang);
     } else {
-        alert("ERROR: Navigation failed. Please report to admin@wallofhistory.com.")
+        alert("ERROR: Redirection failed. Please report to admin@wallofhistory.com.");
+        window.location.href = "/";
     }
 }
 
