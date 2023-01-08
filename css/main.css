@@ -1434,7 +1434,7 @@ section.structure nav {
 .contentButtonText div.tags {
     padding-right: .5em;
     overflow: scroll;
-    max-height: 48px;
+    max-height: 72px;
 }
 
 

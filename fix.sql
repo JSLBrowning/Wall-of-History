@@ -29,3 +29,7 @@ UPDATE story_content SET content_language = 'nld' WHERE content_language = 'nl';
 UPDATE story_content SET content_language = 'por' WHERE content_language = 'pt';
 UPDATE story_content SET content_language = 'kor' WHERE content_language = 'ko';
 /* SELECT DISTINCT content_language FROM story_content; */
+
+
+UPDATE story_metadata SET publication_date = NULL WHERE id = "Q2N8NX" OR id = "JBTY4O" OR id = "ECOHYW" OR id = "LHIBBZ" OR id = "UELI6L" OR id = "08H6CX" OR id = "7M5DDC" OR id = "CU4QW2" OR id = "FG9EM8" OR id = "ZTL9M8" OR id = "0NN5ZH";
+UPDATE story_content SET version_title = NULL WHERE id = "Q2N8NX" OR id = "JBTY4O" OR id = "ECOHYW" OR id = "LHIBBZ" OR id = "UELI6L" OR id = "08H6CX" OR id = "7M5DDC" OR id = "CU4QW2" OR id = "FG9EM8" OR id = "ZTL9M8" OR id = "0NN5ZH";

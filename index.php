@@ -48,7 +48,7 @@ chooseColors();
 
     <main>
         <article>
-            <video poster="img/Video Thumbnail.webp" controls<?php
+            <video poster="img/video2.webp" controls<?php
             if (!isset($_COOKIE['languagePreference'])) {
                 echo " autoplay";
             }
@@ -98,7 +98,7 @@ chooseColors();
                     <hr>
                     <button class="small" onclick="window.location.href='/about/';">About</button>
                     <button class="small" onclick="window.location.href='https://blog.wallofhistory.com';">Blog</button>
-                    <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/tags/wall-of-history';">News</button>
+                    <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/news/tags/wall-of-history';">News</button>
                     <button class="small" onclick="window.location.href='/contact/';">Contact</button>
                     <hr>
                     <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>

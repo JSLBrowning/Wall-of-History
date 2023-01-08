@@ -422,29 +422,41 @@ function loadContent($id, $v, $lang)
 
 function getDetails($id, $primeversion, $lang)
 {
-    echo "<div class='versions'>";
+    $data_count = 0;
+    $output = "<div class='versions'>\n";
 
-    $versionquery = "SELECT * FROM story_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
+    $versionquery = "SELECT version_title FROM story_content WHERE id = '$id' AND content_language = '$lang' AND version_title IS NOT NULL ORDER BY content_version ASC LIMIT 3";
     $versions = getData("version_title", $versionquery);
-    if (count($versions) <= 2) {
-        echo "<p>" . implode(", ", $versions) . "</p>\n";
-    } else {
-        echo "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
+    if (count($versions) > 0 && count($versions) <= 2) {
+        // Increment data_count.
+        $data_count++;
+        $output .= "<p>" . implode(", ", $versions) . "</p>\n";
+    } else if (count($versions) > 2) {
+        // Increment data_count.
+        $data_count++;
+        $output .= "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
     }
     
     $releasequery = "SELECT publication_date FROM story_metadata WHERE id = '$id'";
     $release = getData("publication_date", $releasequery);
     if ($release[0] != "") {
-        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
+        // Increment data_count.
+        $data_count++;
+        $output .= "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
     }
 
     $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM story_content WHERE id = '$id' and content_version = '$primeversion'";
     $words = getData("word_count", $wordquery);
     if ($words[0] != "") {
-        echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
+        // Increment data_count.
+        $data_count++;
+        $output .= "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
     }
 
-    echo "</div>";
+    $output .= "</div>";
+    if ($data_count > 0) {
+        echo $output;
+    }
 
     $tagsquery = "SELECT detailed_tag FROM story_tags WHERE id = '$id' AND (tag_type='author' OR tag_type='type')";
     $tags = getData("detailed_tag", $tagsquery);
@@ -495,8 +507,6 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
                 $image = getImages($uniqueid, $uniquev, $lang, $row["title"]);
                 if ($image != "") {
                     echo $image;
-                } else if ($row["small_image"] != NULL) {
-                    echo "<img src='" . $row["small_image"] . "'>";
                 }
                 $snippet = (string) $row["snippet"];
                 echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p>";
