@@ -13,7 +13,7 @@ if (sessionStorage.getItem("activeReadingOrder") != null) {
         }
     } else if (url.indexOf('?s=') != -1) {
         const semantic = urlParams.get('s');
-        semantic_query = "SELECT id FROM woh_tags WHERE detailed_tag = \"" + semantic + "\"";
+        semantic_query = "SELECT id FROM story_tags WHERE detailed_tag = \"" + semantic + "\"";
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {

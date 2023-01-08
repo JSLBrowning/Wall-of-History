@@ -30,9 +30,9 @@ function populateReferenceChildren($parent_id, $v, $lang)
 {
     include("db_connect.php");
 
-    $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.release_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM woh_web) AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle ORDER BY reference_metadata.release_date ASC";
+    $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id NOT IN (SELECT DISTINCT child_id FROM story_reference_web) AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle ORDER BY reference_metadata.publication_date ASC";
     if ($parent_id != "0") {
-        $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.release_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle, reference_metadata.chronology FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM woh_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle, chronology ORDER BY reference_metadata.chronology ASC";
+        $sql_children = "SELECT DISTINCT(CONCAT(reference_metadata.entry_id, '.', reference_metadata.entry_version)) AS combo, reference_metadata.publication_date AS pub_date, reference_content.snippet AS snippet, reference_content.word_count AS words, IFNULL(reference_content.version_title, 'Standard Edition') AS vtitle, reference_metadata.chronology FROM reference_metadata JOIN reference_content ON reference_metadata.entry_id=reference_content.entry_id WHERE reference_metadata.entry_id IN (SELECT child_id FROM story_reference_web WHERE parent_id='$parent_id') AND reference_content.content_language='$lang' GROUP BY combo, pub_date, snippet, words, vtitle, chronology ORDER BY reference_metadata.chronology ASC";
         // AND parent_version=$v) AND reference_content.content_version=$v
         // May now produce multiple cards for each version of a thing. Need to fix that.
     }
@@ -200,7 +200,7 @@ function populateReferenceSubjectPage($subject, $lang)
 
         echo $doc->saveXML();
 
-        $sql_parent = "SELECT entry_id, title FROM reference_titles WHERE entry_id IN (SELECT parent_id FROM woh_web WHERE child_id='$id')";
+        $sql_parent = "SELECT entry_id, title FROM reference_titles WHERE entry_id IN (SELECT parent_id FROM story_reference_web WHERE child_id='$id')";
         $result_parent = $mysqli->query($sql_parent);
         $parent_title = "";
         if ($result_parent->num_rows > 0) {
@@ -235,7 +235,7 @@ function populateReferencePage($parent, $v, $lang)
 
 
     // Get and list parent(s) of current content.
-    $sql_parents = "SELECT DISTINCT parent_id, parent_version FROM woh_web WHERE child_id='$parent'";
+    $sql_parents = "SELECT DISTINCT parent_id, parent_version FROM story_reference_web WHERE child_id='$parent'";
     $result_parents = $mysqli->query($sql_parents);
     if ($result_parents->num_rows > 0) {
         while ($row_parents = $result_parents->fetch_assoc()) {

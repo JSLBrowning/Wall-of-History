@@ -60,7 +60,7 @@ function getOGPImages($id, $v, $lang) {
             }
         }
     }
-    return "/img/ogp.png";
+    return "/img/ogp2.png";
 }
 
 
@@ -82,7 +82,7 @@ function populateHead($id, $lang, $v)
 {
     include("db_connect.php");
 
-    $result = $mysqli->query("SELECT title, snippet, theme_color FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id = \"$id\" AND woh_content.content_version = \"$v\" AND woh_content.content_language = \"$lang\"");
+    $result = $mysqli->query("SELECT title, snippet, theme_color FROM story_metadata JOIN story_content ON story_metadata.id = story_content.id WHERE story_metadata.id = \"$id\" AND story_content.content_version = \"$v\" AND story_content.content_language = \"$lang\"");
     $num_rows = mysqli_num_rows($result);
     $image = getOGPImages($id, $v, $lang);
 
@@ -113,10 +113,10 @@ function populateHead($id, $lang, $v)
         $title = strip_tags($row["title"]);
 
         // Get full title, if chapter.
-        $chapter_query = "SELECT COUNT(tag) AS tags FROM woh_tags WHERE id = '$id' AND tag = 'chapter'";
+        $chapter_query = "SELECT COUNT(tag) AS tags FROM story_tags WHERE id = '$id' AND tag = 'chapter'";
         $chapter_count = getData("tags", $chapter_query);
         if ($chapter_count[0] > 0) {
-            $parent_query = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $id . "' LIMIT 1";
+            $parent_query = "SELECT title FROM story_content JOIN story_reference_web ON story_reference_web.parent_id = story_content.id WHERE story_reference_web.child_id = '" . $id . "' LIMIT 1";
             $parent = strip_tags(getData("title", $parent_query)[0]);
             $title = $title . " | " . $parent;
         }
@@ -138,7 +138,7 @@ function populateCSS($id)
 {
     // Type
     include("db_connect.php");
-    $sql = "SELECT tag FROM woh_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
+    $sql = "SELECT tag FROM story_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
         if (file_exists("..//css/type/" . $row["tag"] . ".css")) {
@@ -153,7 +153,7 @@ function populateCSS($id)
     If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
     */
     // Grandparent
-    $sql = "SELECT parent_id FROM woh_web WHERE child_id IN (SELECT parent_id FROM woh_web WHERE child_id='$id' AND parent_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection'));";
+    $sql = "SELECT parent_id FROM story_reference_web WHERE child_id IN (SELECT parent_id FROM story_reference_web WHERE child_id='$id' AND parent_id NOT IN (SELECT id FROM story_tags WHERE tag='collection'));";
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows > 1) {
@@ -185,7 +185,7 @@ function populateCSS($id)
     // Parent
     // Add above disambiguation code to this.
     // Also, update read.js line ~151.
-    $sql = "SELECT parent_id FROM woh_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection');";
+    $sql = "SELECT parent_id FROM story_reference_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT id FROM story_tags WHERE tag='collection');";
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows > 1) {
@@ -237,13 +237,13 @@ function populateCSS($id)
 function loadHeader($id)
 {
     include("db_connect.php");
-    $sql_header = "SELECT html FROM woh_content JOIN woh_headers ON woh_content.header = woh_headers.header_id WHERE woh_content.id = '$id' LIMIT 1";
+    $sql_header = "SELECT html FROM story_content JOIN story_headers ON story_content.header = story_headers.header_id WHERE story_content.id = '$id' LIMIT 1";
     // Make this recurse up to get parents if none.
     $result_header = $mysqli->query($sql_header);
     $num_rows = mysqli_num_rows($result_header);
 
     if ($num_rows == 0) {
-        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.webp\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
+        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
     } else {
         while ($row_header = $result_header->fetch_assoc()) {
             echo $row_header["html"];
@@ -263,7 +263,7 @@ function loadContentParents($id, $v, $title)
 {
     include("db_connect.php");
 
-    $parents_query = "SELECT * FROM woh_web WHERE child_id=\"$id\" AND child_version=$v";
+    $parents_query = "SELECT * FROM story_reference_web WHERE child_id=\"$id\" AND child_version=$v";
     $parents = $mysqli->query($parents_query);
     $num_parents = mysqli_num_rows($parents);
 
@@ -277,7 +277,7 @@ function loadContentParents($id, $v, $title)
 
         if ($num_parents === 1) {
             while ($row = $parents->fetch_assoc()) {
-                $parent_title_query = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $parent_title_query = "SELECT title FROM story_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 $parent_title = $mysqli->query($parent_title_query);
                 while ($new_row = $parent_title->fetch_assoc()) {
                     echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $new_row["title"] . "</a></h3>";
@@ -286,7 +286,7 @@ function loadContentParents($id, $v, $title)
         } else if ($num_parents > 1) {
             echo "<div class='multiparents'><button onclick='carouselBack(this)'><span class='leftarrow'></span></button>";
             while ($row = $parents->fetch_assoc()) {
-                $sql_title = "SELECT title FROM woh_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $sql_title = "SELECT title FROM story_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 // ORDER BY chronology, title ASC
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
@@ -349,7 +349,7 @@ function loadContentContributors($id)
 {
     include("db_connect.php");
 
-    $contributors_query = "SELECT detailed_tag AS tag FROM woh_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
+    $contributors_query = "SELECT detailed_tag AS tag FROM story_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
     $contributors = $mysqli->query($contributors_query);
     $num_rows = mysqli_num_rows($contributors);
     if ($num_rows == 1) {
@@ -377,7 +377,7 @@ function loadContent($id, $v, $lang)
     include("db_connect.php");
 
     // Determine if this content is divided into pages, and respond accordingly.
-    $pages_query = "SELECT COUNT(tag) AS tag_count FROM woh_tags WHERE id='$id' AND tag='pages'";
+    $pages_query = "SELECT COUNT(tag) AS tag_count FROM story_tags WHERE id='$id' AND tag='pages'";
     if (getData("tag_count", $pages_query)[0] > 0) {
         echo "<section class='story pages'><section class='titleBox'>\n";
     } else {
@@ -385,7 +385,7 @@ function loadContent($id, $v, $lang)
     }
 
     // Get title (to be displayed later.)
-    $title_query = "SELECT title FROM woh_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\" LIMIT 1";
+    $title_query = "SELECT title FROM story_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\" LIMIT 1";
     $title = getData("title", $title_query);
 
     loadContentParents($id, $v, $title);
@@ -396,7 +396,7 @@ function loadContent($id, $v, $lang)
     }
 
     // Get and display subtitle, if any.
-    $subtitle_query = "SELECT subtitle FROM woh_content WHERE id = \"" . $id . "\" AND content_version = \"" . $v . "\" AND content_language = \"" . $lang . "\"";
+    $subtitle_query = "SELECT subtitle FROM story_content WHERE id = \"" . $id . "\" AND content_version = \"" . $v . "\" AND content_language = \"" . $lang . "\"";
     $subtitle = getData("subtitle", $subtitle_query);
     if (!($id === "0") && ($subtitle[0] != "")) {
         echo "<h2>" . $subtitle[0] . "</h2>";
@@ -406,7 +406,7 @@ function loadContent($id, $v, $lang)
     echo "</section>";
 
     // Get and display content.
-    $sql = "SELECT main FROM woh_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
+    $sql = "SELECT main FROM story_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
 
     // Display snippet in place of main if main empty (for parent works)?
 
@@ -424,7 +424,7 @@ function getDetails($id, $primeversion, $lang)
 {
     echo "<div class='versions'>";
 
-    $versionquery = "SELECT * FROM woh_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
+    $versionquery = "SELECT * FROM story_content WHERE id = '$id' AND content_language = '$lang' ORDER BY content_version ASC LIMIT 3";
     $versions = getData("version_title", $versionquery);
     if (count($versions) <= 2) {
         echo "<p>" . implode(", ", $versions) . "</p>\n";
@@ -432,13 +432,13 @@ function getDetails($id, $primeversion, $lang)
         echo "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
     }
     
-    $releasequery = "SELECT release_date FROM woh_metadata WHERE id = '$id'";
-    $release = getData("release_date", $releasequery);
+    $releasequery = "SELECT publication_date FROM story_metadata WHERE id = '$id'";
+    $release = getData("publication_date", $releasequery);
     if ($release[0] != "") {
-        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("release_date", $releasequery))) . "</p>\n";
+        echo "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
     }
 
-    $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM woh_content WHERE id = '$id' and content_version = '$primeversion'";
+    $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM story_content WHERE id = '$id' and content_version = '$primeversion'";
     $words = getData("word_count", $wordquery);
     if ($words[0] != "") {
         echo "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
@@ -446,7 +446,7 @@ function getDetails($id, $primeversion, $lang)
 
     echo "</div>";
 
-    $tagsquery = "SELECT detailed_tag FROM woh_tags WHERE id = '$id' AND (tag_type='author' OR tag_type='type')";
+    $tagsquery = "SELECT detailed_tag FROM story_tags WHERE id = '$id' AND (tag_type='author' OR tag_type='type')";
     $tags = getData("detailed_tag", $tagsquery);
     if (!empty($tags)) {
         echo "<div class='tags'>";
@@ -463,13 +463,13 @@ function addChildrenNew($id, $lang, $v, $collection_bool)
     include("db_connect.php");
 
     if ($id === "0") {
-        $sql = "SELECT woh_metadata.id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id WHERE woh_metadata.id NOT IN (SELECT child_id FROM woh_web) ORDER BY chronology, title ASC";
+        $sql = "SELECT story_metadata.id AS cid, title, snippet, chronology, content_version FROM story_metadata JOIN story_content ON story_metadata.id = story_content.id WHERE story_metadata.id NOT IN (SELECT child_id FROM story_reference_web) ORDER BY chronology, title ASC";
     } else {
         if ($collection_bool == false) {
-            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, small_image, large_image, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id AND woh_content.content_version=woh_web.child_version WHERE woh_web.parent_id = \"$id\" AND woh_content.content_language=\"$lang\" AND woh_web.child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, chronology FROM story_reference_web JOIN (story_metadata JOIN story_content ON story_metadata.id = story_content.id) ON story_reference_web.child_id = story_metadata.id AND story_content.content_version=story_reference_web.child_version WHERE story_reference_web.parent_id = \"$id\" AND story_content.content_language=\"$lang\" AND story_reference_web.child_id NOT IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
             // Need to make this so it gets the child version right.
         } else {
-            $sql = "SELECT child_id AS cid, title, snippet, small_image, large_image, chronology, content_version FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = \"$id\" AND woh_content.content_version=$v AND woh_content.content_language=\"$lang\" AND woh_web.child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
+            $sql = "SELECT child_id AS cid, title, snippet, chronology, content_version FROM story_reference_web JOIN (story_metadata JOIN story_content ON story_metadata.id = story_content.id) ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = \"$id\" AND story_content.content_version=$v AND story_content.content_language=\"$lang\" AND story_reference_web.child_id IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
         }
     }
     // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
@@ -515,10 +515,10 @@ function addChildren($id, $lang, $v)
 {
     include("db_connect.php");
 
-    $sql_child_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v'";
+    $sql_child_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v'";
     $child_count = getData("id_count", $sql_child_count);
     if ($child_count[0] > 0) {
-        $sql_grandchild_count = "SELECT COUNT(child_id) AS grandchild_count FROM woh_web WHERE parent_id IN (SELECT child_id FROM woh_web WHERE parent_id='$id' AND parent_version='$v')";
+        $sql_grandchild_count = "SELECT COUNT(child_id) AS grandchild_count FROM story_reference_web WHERE parent_id IN (SELECT child_id FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v')";
         $grandchild_count = getData("grandchild_count", $sql_grandchild_count);
         if ($grandchild_count[0] == 0) {
             echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
@@ -526,11 +526,11 @@ function addChildren($id, $lang, $v)
     }
 
     if ($id == "0") {
-        $sql_collection_count = "SELECT COUNT(id) as id_count FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) AND id IN (SELECT id FROM woh_tags WHERE tag='collection')";
-        $sql_content_count = "SELECT COUNT(id) as id_count FROM woh_metadata WHERE id NOT IN (SELECT child_id FROM woh_web) AND id NOT IN (SELECT id FROM woh_tags WHERE tag='collection')";
+        $sql_collection_count = "SELECT COUNT(id) as id_count FROM story_metadata WHERE id NOT IN (SELECT child_id FROM story_reference_web) AND id IN (SELECT id FROM story_tags WHERE tag='collection')";
+        $sql_content_count = "SELECT COUNT(id) as id_count FROM story_metadata WHERE id NOT IN (SELECT child_id FROM story_reference_web) AND id NOT IN (SELECT id FROM story_tags WHERE tag='collection')";
     } else {
-        $sql_collection_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v' AND child_id IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection')";
-        $sql_content_count = "SELECT COUNT(child_id) AS id_count FROM woh_web WHERE parent_id='$id' AND parent_version='$v' AND child_id NOT IN (SELECT DISTINCT id FROM woh_tags WHERE tag='collection')";
+        $sql_collection_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v' AND child_id IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection')";
+        $sql_content_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v' AND child_id NOT IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection')";
     }
 
     $collection_count = getData("id_count", $sql_collection_count);
@@ -600,7 +600,7 @@ function getLeaves($id)
     include("db_connect.php");
 
     if ($id == "0") {
-        $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
+        $all_leaves_query = "SELECT DISTINCT story_reference_web.child_id FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id=story_metadata.id WHERE story_reference_web.child_id NOT IN (SELECT DISTINCT parent_id FROM story_reference_web) ORDER BY story_metadata.chronology ASC";
         $result_all_leaves = $mysqli->query($all_leaves_query);
 
         $all_leaves = array();
@@ -614,7 +614,7 @@ function getLeaves($id)
     } else {
         // Get full list of all leaf nodes in the tree.
         // Note that the chronology value is necessary to ensure that the ultimate output is ordered "depth blind" — i.e., leaves at a depth of one will not float to the top, ahead of leaves at a depth of two with a lower chronology.
-        $all_leaves_query = "SELECT DISTINCT woh_web.child_id FROM woh_web JOIN woh_metadata ON woh_web.child_id=woh_metadata.id WHERE woh_web.child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) ORDER BY woh_metadata.chronology ASC";
+        $all_leaves_query = "SELECT DISTINCT story_reference_web.child_id FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id=story_metadata.id WHERE story_reference_web.child_id NOT IN (SELECT DISTINCT parent_id FROM story_reference_web) ORDER BY story_metadata.chronology ASC";
         $result_all_leaves = $mysqli->query($all_leaves_query);
 
         $all_leaves = array();
@@ -639,7 +639,7 @@ function getChildren($nodes, $leaves, $all_leaves)
     include("db_connect.php");
 
     $imploded_nodes = implode(",", $nodes);
-    $sql_children = "SELECT child_id, child_version FROM woh_web WHERE parent_id IN ($imploded_nodes) AND child_id NOT IN (SELECT id FROM woh_tags WHERE tag='collection')";
+    $sql_children = "SELECT child_id, child_version FROM story_reference_web WHERE parent_id IN ($imploded_nodes) AND child_id NOT IN (SELECT id FROM story_tags WHERE tag='collection')";
     $result_children = $mysqli->query($sql_children);
 
     $nodes = array();

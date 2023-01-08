@@ -15,8 +15,8 @@ chooseColors();
     <meta property="og:site_name" content="Wall of History">
     <meta property="og:title" content="About | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
-    <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
-    <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta property="og:image" content="https://wallofhistory.com/img/ogp2.png" />
+    <meta property="og:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <meta name="theme-color" content="#938170">
     <!-- VIDEO TEST -->
     <meta property="og:video" content="http://wallofhistory.com/img/Wall%20of%20History%20Ad.mp4" />
@@ -30,8 +30,8 @@ chooseColors();
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
     <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
-    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
-    <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp2.png" />
+    <meta name="twitter:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
@@ -42,7 +42,7 @@ chooseColors();
 
 <body>
     <header>
-        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.webp" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
     </header>
     <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
         <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">

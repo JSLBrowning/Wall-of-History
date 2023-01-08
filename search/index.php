@@ -15,8 +15,8 @@ chooseColors();
     <meta property="og:site_name" content="Wall of History">
     <meta property="og:title" content="Search | Wall of History" />
     <meta property="og:description" content="The complete BIONICLE legend, now on the web!" />
-    <meta property="og:image" content="https://wallofhistory.com/img/ogp.png" />
-    <meta property="og:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta property="og:image" content="https://wallofhistory.com/img/ogp2.png" />
+    <meta property="og:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <meta name="theme-color" content="#938170">
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -24,8 +24,8 @@ chooseColors();
     <meta name="twitter:site" content="@Wall_of_History" />
     <meta name="twitter:creator" content="@JSLBrowning" />
     <meta name="twitter:description" content="The complete BIONICLE legend, now on the web!" />
-    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp%20(Twitter).png" />
-    <meta name="twitter:image:alt" content="Wall of History: The Ultimate BIONICLE Experience" />
+    <meta name="twitter:image" content="https://wallofhistory.com/img/ogp2.png" />
+    <meta name="twitter:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <!-- END OF OGP DATA -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/read.css">
@@ -66,7 +66,7 @@ chooseColors();
 
 <body>
     <header>
-        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.webp" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
+        <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE" height="80" width="405" style="cursor: pointer;" onclick="window.location.href='/'">
         <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
             <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">
         </a>
@@ -99,7 +99,7 @@ chooseColors();
                             echo "<p> Reference page for " . $row['name'] . ".</p>";
                         }
                     }
-                    $sql = "SELECT id, content_version, title, snippet, main FROM woh_content WHERE (`title` LIKE '%" . $query . "%') OR (`main` LIKE '%" . $query . "%')";
+                    $sql = "SELECT id, content_version, title, snippet, main FROM story_content WHERE (`title` LIKE '%" . $query . "%') OR (`main` LIKE '%" . $query . "%')";
                     // Perfom selection.
                     $result = $mysqli->query($sql);
                     // $sql = "SELECT name AS fulltitle, content FROM wall_of_history_reference WHERE (`name` LIKE '%".$query."%') OR (`content` LIKE '%".$query."%')";
@@ -107,14 +107,14 @@ chooseColors();
                     // $result = $mysqli->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '" . $row["id"] . "' AND tag = 'chapter')";
+                            $sql_chapter = "SELECT tag FROM story_tags WHERE (id = '" . $row["id"] . "' AND tag = 'chapter')";
                             $result_chapter = $mysqli->query($sql_chapter);
                             $num_chap = mysqli_num_rows($result_chapter);
                             if ($num_chap == 0) {
                                 echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "&q=" . $query . "';\">" . $row['title'] . "</h3>";
                                 echo "<p>" . $row['snippet'] . "</p>";
                             } else {
-                                $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["id"] . "' AND woh_web.child_version = " . $row["content_version"];
+                                $sql_title = "SELECT title FROM story_content JOIN story_reference_web ON story_reference_web.parent_id = story_content.id WHERE story_reference_web.child_id = '" . $row["id"] . "' AND story_reference_web.child_version = " . $row["content_version"];
                                 $result_title = $mysqli->query($sql_title);
                                 while ($row_title = $result_title->fetch_assoc()) {
                                     echo "<h3 onclick = \"window.location.href='/read/?id=" . $row["id"] . "&q=" . $query . "';\">" . $row_title["title"] . ": " . $row['title'] . "</h3>";

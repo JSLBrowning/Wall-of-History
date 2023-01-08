@@ -114,7 +114,7 @@ function stackHistory() {
 
 
 function updateSpoilerLevel(id) {
-    const query = "SELECT spoiler_level FROM woh_metadata WHERE id = '" + id + "' LIMIT 1";
+    const query = "SELECT spoiler_level FROM story_metadata WHERE id = '" + id + "' LIMIT 1";
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {

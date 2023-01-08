@@ -17,7 +17,7 @@ def count_words(database_name):
     for i in content_list:
         linearray = i.split(": ")
         identifiers = linearray[0].split(".")
-        new_file.write("UPDATE woh_content SET word_count=" + linearray[1] + " WHERE id='" + identifiers[0] + "' AND content_version=" + identifiers[1] + " AND content_language='" + identifiers[2] + "';\n")
+        new_file.write("UPDATE story_content SET word_count=" + linearray[1] + " WHERE id='" + identifiers[0] + "' AND content_version=" + identifiers[1] + " AND content_language='" + identifiers[2] + "';\n")
     new_file.close()
 
 

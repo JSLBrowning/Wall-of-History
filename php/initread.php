@@ -2,7 +2,7 @@
 include("db_connect.php");
 
 // Create selection statement.
-$sql = "SELECT id, chronology, recommended FROM woh_metadata WHERE (recommended IS NOT NULL AND chronology IS NOT NULL AND id NOT IN (SELECT parent_id FROM woh_web)) ORDER BY chronology ASC";
+$sql = "SELECT id, chronology, recommended FROM story_metadata WHERE (recommended IS NOT NULL AND chronology IS NOT NULL AND id NOT IN (SELECT parent_id FROM story_reference_web)) ORDER BY chronology ASC";
 
 // Perfom selection.
 $result = $mysqli->query($sql);
@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
 }
 
 /* One day...
-0. Relocate recommended column to woh_content.
+0. Relocate recommended column to story_content.
 1. Get recommended version # of each ID, if any.
 2. Get other stuff.
 3. Et cetera...

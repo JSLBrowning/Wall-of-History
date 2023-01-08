@@ -6,7 +6,7 @@ $id = $_REQUEST["id"];
 $v = $_REQUEST["v"];
 
 // Create selection statement.
-$sql = "SELECT DISTINCT child_id, default_version, chronology FROM woh_metadata JOIN woh_web ON woh_metadata.id=woh_web.child_id WHERE (woh_metadata.recommended IS NOT NULL AND woh_metadata.chronology IS NOT NULL AND woh_web.parent_id='$id' AND woh_web.parent_version='$v') ORDER BY woh_metadata.chronology ASC";
+$sql = "SELECT DISTINCT child_id, default_version, chronology FROM story_metadata JOIN story_reference_web ON story_metadata.id=story_reference_web.child_id WHERE (story_metadata.recommended IS NOT NULL AND story_metadata.chronology IS NOT NULL AND story_reference_web.parent_id='$id' AND story_reference_web.parent_version='$v') ORDER BY story_metadata.chronology ASC";
 
 // Perfom selection.
 $result = $mysqli->query($sql);

@@ -6,7 +6,7 @@
     echo "<h1>Settings</h1>";
 
     // First, find all the unique tags with which we select items, and make the selector.
-    $sql_tags = "SELECT DISTINCT(tag) AS tag, tag_type, detailed_tag FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') ORDER BY tag_type DESC, detailed_tag ASC";
+    $sql_tags = "SELECT DISTINCT(tag) AS tag, tag_type, detailed_tag FROM story_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') ORDER BY tag_type DESC, detailed_tag ASC";
     $result_tags = $mysqli->query($sql_tags);
 
     echo "<form action='#'><fieldset><label for='check'>Check all…</label><select name='check' id='check' onchange = 'checkAll(this);' onfocus='this.selectedIndex = 0;'>";
@@ -36,7 +36,7 @@
 
     echo "<button id='resetButton' onclick='resetReader()'>Reset to Default</button>";
 
-    $sql = "SELECT DISTINCT child_id AS cid, title, chronology FROM woh_web JOIN (woh_metadata JOIN woh_content ON woh_metadata.id = woh_content.id) ON woh_web.child_id = woh_metadata.id WHERE woh_content.content_version=1 AND child_id NOT IN (SELECT DISTINCT parent_id FROM woh_web) AND woh_content.content_language=\"en\" ORDER BY IFNULL(chronology, (SELECT chronology FROM woh_web JOIN woh_metadata ON woh_web.child_id = woh_metadata.id WHERE woh_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
+    $sql = "SELECT DISTINCT child_id AS cid, title, chronology FROM story_reference_web JOIN (story_metadata JOIN story_content ON story_metadata.id = story_content.id) ON story_reference_web.child_id = story_metadata.id WHERE story_content.content_version=1 AND child_id NOT IN (SELECT DISTINCT parent_id FROM story_reference_web) AND story_content.content_language=\"en\" ORDER BY IFNULL(chronology, (SELECT chronology FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = cid ORDER BY chronology LIMIT 1)) ASC, title ASC";
     $result = $mysqli->query($sql);
 
     echo "<ol id='sortable' class='ui-sortable' style='list-stype-type: none;'>\n";
@@ -45,7 +45,7 @@
         echo "          <li class='ui-sortable-handle'>\n";
         $cid = $row["cid"];
 
-        $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM woh_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') AND id = '$cid' LIMIT 1";
+        $sql_nexttags = "SELECT GROUP_CONCAT(tag SEPARATOR ', ') AS tags FROM story_tags WHERE (tag_type = 'type' OR tag_type = 'language' OR tag_type = 'author') AND id = '$cid' LIMIT 1";
         $result_nexttags = $mysqli->query($sql_nexttags);
         $itemtags = "";
         while ($row_nexttags = $result_nexttags->fetch_assoc()) {
@@ -53,7 +53,7 @@
         }
 
         // If an item has a vague title, such as “Chapter 1,” the name of the parent item needs to be appended to the front end.
-        $sql_chapter = "SELECT tag FROM woh_tags WHERE (id = '$cid' AND tag = 'chapter')";
+        $sql_chapter = "SELECT tag FROM story_tags WHERE (id = '$cid' AND tag = 'chapter')";
 
         $result_chapter = $mysqli->query($sql_chapter);
         $num_chap = mysqli_num_rows($result_chapter);
@@ -61,7 +61,7 @@
             echo "<input data-tags='" . $itemtags . "' type='checkbox' name='" . $row["cid"] . ".1' id='" . $row["cid"] . ".1' value='" . $row["cid"] . ".1'>\n";
             echo "<label for='" . $row["cid"] . ".1'>⇵ " . $row["title"] . " <a href='/read/?id=" . $row["cid"] . "&v=1'><span class='linkarrow'></span></a></label>\n";
         } else {
-            $sql_title = "SELECT title FROM woh_content JOIN woh_web ON woh_web.parent_id = woh_content.id WHERE woh_web.child_id = '" . $row["cid"] . "' LIMIT 1";
+            $sql_title = "SELECT title FROM story_content JOIN story_reference_web ON story_reference_web.parent_id = story_content.id WHERE story_reference_web.child_id = '" . $row["cid"] . "' LIMIT 1";
 
             $result_title = $mysqli->query($sql_title);
             while ($row_title = $result_title->fetch_assoc()) {

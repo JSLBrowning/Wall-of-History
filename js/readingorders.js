@@ -33,7 +33,7 @@ async function generateSelectionModal() {
 }
 
 function getTitle(id) {
-    const query = "SELECT title FROM woh_content WHERE id='" + id + "' LIMIT 1";
+    const query = "SELECT title FROM story_content WHERE id='" + id + "' LIMIT 1";
 
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();

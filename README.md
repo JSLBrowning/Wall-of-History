@@ -1,4 +1,4 @@
-![Wall of History: The Ultimate BIONICLE Experience](/img/ogp.png)
+![Wall of History: The Complete BIONICLE Legend](/img/ogp2.png)
 
 [Wall of History](https://wallofhistory.com/) is a web archive of the entire BIONICLE legend — compiled into an accessible, easy-to-read format. For those of you who might not be aware, BIONICLE was a LEGO theme that ran from 2001 to 2010, with a lengthy original story. The BIONICLE story was told through animations, comics, guidebooks, movies, novels, podcasts, short stories, story serials, and even the flavor text on some trading cards. Because this story was told through so many different mediums, it’s pretty difficult (even for hardcore fans) to figure out what is and isn’t worth reading or watching, as well as what order to read and watch everything in — Wall of History was created to solve this problem.
 
