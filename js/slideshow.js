@@ -3,6 +3,13 @@
  ******************************/
 
 
+function getPosition() {
+    let slideShowPosition = document.getElementsByClassName("slidelocation")[0];
+    let position = slideShowPosition.textContent.split(" / ");
+    return position;
+}
+
+
 function setPosition(trigger) {
     console.log('1');
     let slideShow = trigger.parentElement.parentElement;
@@ -13,14 +20,22 @@ function setPosition(trigger) {
 
 
 function backNav(button) {
-    direction = -1;
-    slideshowNav(button, direction);
+    // If zoom element has at least one image child, do nothing.
+    if (document.getElementsByClassName("zoom").length > 0) {
+        console.log("Zoom open. Cannot flip page.");
+    } else if (getPosition()[0] != 1) {
+        slideshowNav(button, -1);
+    }
 }
 
 
 function forwardNav(button) {
-    direction = 1;
-    slideshowNav(button, direction);
+    let positions = getPosition();
+    if (document.getElementsByClassName("zoom").length > 0) {
+        console.log("Zoom open. Cannot flip page.");
+    } else if (positions[0] != positions[1]) {
+        slideshowNav(button, 1);
+    }
 }
 
 
@@ -64,7 +79,6 @@ function slideshowNav(button, direction) {
 }
 
 
-/*
 window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
         return;
@@ -72,27 +86,14 @@ window.addEventListener("keydown", function (event) {
 
     switch (event.code) {
         case "ArrowLeft":
-            console.log("left");
-            if (slideIndex != 1) {
-                plusDivs(-1);
-
-                if (document.getElementsByClassName("zoom") != null) {
-                    document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex - 1].src;
-                }
-            }
+            let backButton = document.getElementsByClassName("mediaplayerbutton")[0];
+            backNav(backButton);
             break;
         case "ArrowRight":
-            console.log("right");
-            if (slideIndex != x.length) {
-                plusDivs(+1);
-
-                if (document.getElementsByClassName("zoom") != null) {
-                    document.getElementsByClassName("zoom")[0].getElementsByTagName("img")[0].src = document.getElementsByClassName("slideshow")[slideIndex + 1].src;
-                }
-            }
+            let forwardButton = document.getElementsByClassName("mediaplayerbutton")[1];
+            forwardNav(forwardButton);
             break;
     }
 
     event.preventDefault();
 }, true);
-*/

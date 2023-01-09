@@ -220,7 +220,7 @@ async function setReadingOrder(newReadingOrder) {
 async function checkReadingOrder() {
     if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
         loadJSON(async function (response) {
-            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingorder);
+            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingOrder);
             setReadingOrder(recommendedReadingOrder).then(() => {
                 let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
                 for (let i = 0; i < homepageReadButtons.length; i++) {

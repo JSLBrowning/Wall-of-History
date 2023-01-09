@@ -50,37 +50,37 @@
 
 
 :root.smallest {
-    --pfontsize: 0.75em;
+    --pfontsize: 0.75rem;
 }
 
 
 :root.smaller {
-    --pfontsize: 0.875em;
+    --pfontsize: 0.875rem;
 }
 
 
 :root.small {
-    --pfontsize: 1em;
+    --pfontsize: 1rem;
 }
 
 
 :root {
-    --pfontsize: 1.125em;
+    --pfontsize: 1.125rem;
 }
 
 
 :root.big {
-    --pfontsize: 1.25em;
+    --pfontsize: 1.25rem;
 }
 
 
 :root.bigger {
-    --pfontsize: 1.375em;
+    --pfontsize: 1.375rem;
 }
 
 
 :root.biggest {
-    --pfontsize: 1.5em;
+    --pfontsize: 1.5rem;
 }
 
 
