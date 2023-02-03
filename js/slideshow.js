@@ -95,5 +95,8 @@ window.addEventListener("keydown", function (event) {
             break;
     }
 
-    event.preventDefault();
+    // If left or right arrow keys are pressed, prevent default behaviour.
+    if (event.code == "ArrowLeft" || event.code == "ArrowRight") {
+        event.preventDefault();
+    }
 }, true);
