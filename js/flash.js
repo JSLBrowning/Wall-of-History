@@ -26,7 +26,11 @@ function updateProgressBar(newProgress) {
 
 
 
-function incrementProgress() {
+function incrementProgress(flag = 0) {
+    // Console log flag.
+    console.log(flag);
+    console.log("Flag functionality coming soon.");
+
     // If, somehow, currentProgress is not defined, set it to 1.
     if (sessionStorage.getItem("currentProgress") == null) {
         sessionStorage.setItem("currentProgress", 1);
