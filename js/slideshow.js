@@ -86,10 +86,16 @@ window.addEventListener("keydown", function (event) {
 
     switch (event.code) {
         case "ArrowLeft":
+            // Videos.
+            rewind()
+            // Comics.
             let backButton = document.getElementsByClassName("mediaplayerbutton")[0];
             backNav(backButton);
             break;
         case "ArrowRight":
+            // Videos.
+            fastForward();
+            // Comics.
             let forwardButton = document.getElementsByClassName("mediaplayerbutton")[1];
             forwardNav(forwardButton);
             break;
@@ -100,3 +106,18 @@ window.addEventListener("keydown", function (event) {
         event.preventDefault();
     }
 }, true);
+
+
+// Function to rewind all video elements by 10 seconds.
+function rewind() {
+    $("video").each(function () {
+        $(this).get(0).currentTime -= 5;
+    });
+}
+
+// Function to fast forward all video elements by 10 seconds.
+function fastForward() {
+    $("video").each(function () {
+        $(this).get(0).currentTime += 5;
+    });
+}

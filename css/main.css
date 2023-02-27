@@ -604,8 +604,8 @@ aside form input {
     padding-left: .5em;
     color: var(--front2);
     text-transform: uppercase;
-    letter-spacing: .1875em;
-    font-weight: bolder;
+    letter-spacing: .125rem;
+    font-weight: bold;
 }
 
 aside form button {

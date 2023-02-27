@@ -80,9 +80,13 @@ chooseColors();
                 Story pages with name in content.
                 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist
                 -->
-                <h1>Search Results for <?php
-                echo $_GET['q'];
-                ?></h1>
+                <?php
+                if (count($_GET) == 1) {
+                    echo "<h1>Search Results for " . $_GET['q'] . "</h1>";
+                } else {
+                    echo "<h1>Search</h1>";
+                }
+                ?>
                 <hr>
                 <?php
                 if (count($_GET) == 1) {
