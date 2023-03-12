@@ -1,8 +1,53 @@
 {
-    "readingOrder":"chronology",
-    "wordCount":true,
-    "releaseDate":true,
-    "rootName":"Table of Contents",
-    "referenceEnabled":false,
-    "settingsEnabled":false
+    "mainWork":"bionicleMainRoute",
+    "additionalTiles":[
+        {
+            "tile":"[s:mnog]",
+            "description":"",
+            "image":"",
+            "badge":"/img/featured.webp"
+        },
+        {
+            "tile":"[tag:comic]",
+            "description":"All the classic BIONICLE comics, compiled in one place.",
+            "image":"",
+            "badge":""
+        },
+        {
+            "tile":"[tag:novel]",
+            "description":"*Chronicles*. *Adventures*. *Legends*. All 29 BIONICLE novels.",
+            "image":"",
+            "badge":""
+        },
+        {
+            "tile":"[s:bioniclethetrilogy]",
+            "description":"All three full-length BIONICLE movies produced by Creative Capers.",
+            "image":"",
+            "badge":"/img/new.webp"
+        },
+        {
+            "tile":"[tag:commercial]",
+            "description":"And even when your hope is gone…",
+            "image":"INIKA_RENDER_HERE",
+            "badge":"/img/new.webp"
+        },
+        {
+            "tile":"[reference]",
+            "description":"Explore the world of BIONICLE.",
+            "image":"WALL_OF_PROPHECY_HERE",
+            "badge":""
+        },
+        {
+            "tile":"[soundtracks]",
+            "description":"Listen to the music that brought BIONICLE to life.",
+            "image":"MoL_SOUNDTRACK_HERE",
+            "badge":"/img/new.webp"
+        }
+    ],
+    "contentPath":"/img/story/",
+    "wordCountEnabled":true,
+    "releaseDateEnabled":true,
+    "completedEnabled":false,
+    "referenceEnabled":true,
+    "referenceAlltoAll":true
 }

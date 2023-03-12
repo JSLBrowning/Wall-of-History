@@ -15,7 +15,7 @@ chooseColors();
     <?php
     if (count($_GET)) {
         if (isset($_GET["s"])) {
-            $sql = "SELECT tag FROM story_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
+            $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
             $result = $mysqli->query($sql);
             while ($row = $result->fetch_assoc()) {
                 $arr = explode(".", $row["tag"]);
@@ -29,7 +29,7 @@ chooseColors();
 
                 if (is_numeric($id)) {
                     if ((int)$id < 99999) {
-                        $sql = "SELECT id FROM story_metadata WHERE chronology=" . $id . " LIMIT 1";
+                        $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
                         // If no content, get most recent one closest that does?
                         $result = $mysqli->query($sql);
                         while ($row = $result->fetch_assoc()) {
@@ -45,7 +45,7 @@ chooseColors();
             if (isset($_GET["lang"])) {
                 $lang = $_GET["lang"];
             } else {
-                $lang = "eng";
+                $lang = "en";
             }
 
             if (isset($_GET["v"])) {
@@ -56,7 +56,7 @@ chooseColors();
         }
     } else {
         $id = "0";
-        $lang = "eng";
+        $lang = "en";
         $v = "1";
     }
     populateHead($id, $lang, $v);
