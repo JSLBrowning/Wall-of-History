@@ -60,7 +60,7 @@
 
 %%% The "real" document content comes below...
 
-\title{Alexandria User Manual}
+\title{Shin User Manual}
 \author{JSLBrowning}
 %\date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
@@ -68,13 +68,13 @@
 \begin{document}
 \maketitle
 
-\section{What is Alexandria?}
+\section{What is Shin?}
 
-Named after the largest repository of information in the ancient world, Alexandria is meant to be an all-in-one online storytelling platform — a web-based library, the ultimate playlist, and an easily-accessible encyclopedia, all rolled together into an elegant, user-friendly package. The project was first developed as \textbf{Wall of History}, an online compendium of the LEGO BIONICLE story.
+Shin is designed to be an all-in-one online storytelling platform — a web-based library, the ultimate playlist, and an easily-accessible encyclopedia, all rolled together into an elegant, user-friendly package. The project was first developed as \textbf{Wall of History}, an online compendium of the LEGO BIONICLE story.
 
 \subsection{Licensing}
 
-Alexandria is currently published under the Apache License. The software is completely free to use, and you are free to make any changes you would like to the code (at your own risk, of course). You are \textit{encouraged}, though not strictly required, to publish those changes yourself under the same license.
+Shin is currently published under the Apache License. The software is completely free to use, and you are free to make any changes you would like to the code (at your own risk, of course). You are \textit{encouraged}, though not strictly required, to publish those changes yourself under the same license.
 
 \section{Getting Started}
 
@@ -82,9 +82,9 @@ The first thing you’ll want to do, of course, is acquire web hosting. I would 
 
 Once you’ve acquired hosting, access your \textbf{cPanel}. This is the control panel from which almost all aspects of your website are controlled.
 
-To install Alexandria as your website’s front end, you’ll need to download and install a program called FileZilla (click the quick download link labelled “FileZilla Client”). Once this is installed, click on \textbf{FTP Accounts} in your cPanel, and find the main account (it should have a path of something like \texttt{/home/[username]}). Click the button next to it that says “Configure FTP Client,” and download the FTP configuration file for FileZilla. Open FileZilla, click \textbf{File}, then \textbf{Import}. Importing the config file will automatically configure FileZilla for uploading files to your server.
+To install Shin as your website’s front end, you’ll need to download and install a program called FileZilla (click the quick download link labelled “FileZilla Client”). Once this is installed, click on \textbf{FTP Accounts} in your cPanel, and find the main account (it should have a path of something like \texttt{/home/[username]}). Click the button next to it that says “Configure FTP Client,” and download the FTP configuration file for FileZilla. Open FileZilla, click \textbf{File}, then \textbf{Import}. Importing the config file will automatically configure FileZilla for uploading files to your server.
 
-Once you’ve got FileZilla set up, locate the folder on your server named \texttt{public\_html}. This is where the files that make up your website are stored. Upload the Alexandria files to this directory. Once you do this, the contents of \texttt{index.php} in the root directory should be visible when you visit your site with a web browser, and (for example), if you have an \texttt{index.html} file in a subdirectory named \texttt{about}, its contents should be visible when you visit \texttt{yoururl.com/about}. Index files are what are displayed to users when they visit web pages.
+Once you’ve got FileZilla set up, locate the folder on your server named \texttt{public\_html}. This is where the files that make up your website are stored. Upload the Shin files to this directory. Once you do this, the contents of \texttt{index.php} in the root directory should be visible when you visit your site with a web browser, and (for example), if you have an \texttt{index.html} file in a subdirectory named \texttt{about}, its contents should be visible when you visit \texttt{yoururl.com/about}. Index files are what are displayed to users when they visit web pages.
 
 \section{Setting Up Your Database}
 
@@ -93,9 +93,9 @@ The contents of your site will be stored in a MySQL database. This guide should 
 Once your data is imported, you need to set up a MySQL database user for the users of your site. Go back to your cPanel and click on “MySQL Databases,” then add a new user. Next, scroll down to “Add User to Database,” then add the user you just made to
 your database — when prompted to define their permissions, allow them to only perform \texttt{SELECT} operations. Once this is done, alter \texttt{db\_connect.php} to contain the credentials for the database user you just added, and upload it to your site using FileZilla (overwriting the previous version of the file). Then you can visit your site and make sure everything’sworking!
 
-\section{The Alexandria Database}
+\section{The Shin Database}
 
-A very basic understanding of SQL will likely be necessary to actually build the database for your Alexandria library. The database uses a simple tree structure, with a small number of root nodes, numerous child nodes, and leaf nodes with no children of their own. “Routes” connecting leaves in various sequences are defined by you, the site administrator, and are how users navigate your site.
+A very basic understanding of SQL will likely be necessary to actually build the database for your Shin library. The database uses a simple tree structure, with a small number of root nodes, numerous child nodes, and leaf nodes with no children of their own. “Routes” connecting leaves in various sequences are defined by you, the site administrator, and are how users navigate your site.
 
 Each node in the tree has a unique, six-character \texttt{ID}, which is the most straightforward way of accessing pages on the site — for example…
 \begin{center}
@@ -125,17 +125,17 @@ For customizing your installation, we highly recommend using \href{https://code.
 
 \section{Structure and Styling}
 
-The \texttt{main.css} file for Alexandria may be daunting, but the structure of the site is actually quite simple — far simpler than what you’d get using WordPress or a similar WYSIWYG platform. You can inspect the \texttt{test/index.html} page that should have come with your installation to familiarize yourself with how content on the site is formatted.
+The \texttt{main.css} file for Shin may be daunting, but the structure of the site is actually quite simple — far simpler than what you’d get using WordPress or a similar WYSIWYG platform. You can inspect the \texttt{test/index.html} page that should have come with your installation to familiarize yourself with how content on the site is formatted.
 
 \subsection{AutoCSS}
 
-One of Alexandria’s useful features is \textbf{AutoCSS} — when a user visits a story page, the serverside code will automatically search the \texttt{css/id} directory for any CSS files with that ID as the filename, then traverse up the database tree two levels, also finding any files for the parent or grandparent. These are applied in the order \textbf{grandparent}, \textbf{parent}, \textbf{self}, meaning the leaf has final say on any conflicting styles.
+One of Shin’s useful features is \textbf{AutoCSS} — when a user visits a story page, the serverside code will automatically search the \texttt{css/id} directory for any CSS files with that ID as the filename, then traverse up the database tree two levels, also finding any files for the parent or grandparent. These are applied in the order \textbf{grandparent}, \textbf{parent}, \textbf{self}, meaning the leaf has final say on any conflicting styles.
 
 \section{Useful Features}
 
 \subsection{Routes}
 
-Alexandria has support for multiple, simultaneous “routes” through the leaf nodes of a database. On Wall of History, there is one \textit{main} route, and then individual novels or serials can be activated as additional routes. All these routs have unique saveplace variables, and when the “Read” button is pressed, the user will be prompted for which they want to resume. Options for \textit{multiple} main routes are also possible (though we’re putting some finishing touches on the code for this at the moment). Internally, routes are stored as \texttt{localStorage} variables on the end user’s machine, and take the format \texttt{[id]:[boolean],[id]:[boolean],…} (though you should never have to interact with them in this raw format).
+Shin has support for multiple, simultaneous “routes” through the leaf nodes of a database. On Wall of History, there is one \textit{main} route, and then individual novels or serials can be activated as additional routes. All these routs have unique saveplace variables, and when the “Read” button is pressed, the user will be prompted for which they want to resume. Options for \textit{multiple} main routes are also possible (though we’re putting some finishing touches on the code for this at the moment). Internally, routes are stored as \texttt{localStorage} variables on the end user’s machine, and take the format \texttt{[id]:[boolean],[id]:[boolean],…} (though you should never have to interact with them in this raw format).
 You may have noticed the \texttt{content\_version} variable in the database — this works f
 
 \subsection{Inline Content Swappers}

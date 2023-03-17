@@ -1,9 +1,9 @@
 <?php
 
 
-/***************
- * LABEL TABLE *
- ***************/
+/****************
+ * LABEL TABLES *
+ ****************/
 
 // This table is used to translate the language codes used in the database into human-readable language names.
 $languages = [
@@ -17,66 +17,6 @@ $languages = [
     "ja" => "日本語",
     "ko" => "한국어",
     "zh" => "中文"
-];
-
-
-// This table is used to translate the tags used in the database into human-readable tag names.
-// First-level tags, if present, are "hidden" from the user, and are used to group the second-level tags.
-$tags = [
-    // tag, singular, plural
-    // Advertisement Media Types
-    ["advertisement",
-        ["commercial", "Commercial", "Commercials"],
-        ["teaser", "Teaser", "Teasers"],
-        ["trailer", "Trailer", "Trailers"],
-    ],
-    // Main Media Types
-    ["main",
-        ["art", "Art", "Art", [
-            "concept", "Concept Art", "Concept Art",
-            "fan__art", "Fan Art", "Fan Art",
-            "wallpaper", "Wallpaper", "Wallpapers"
-        ]],
-        // "Book" should be main, but "art book" should be supplemental.
-        // "Art book" should be a child of "book" and "supplemental."
-        // But "book" should be a child of main...
-        // Okay, on main contents page, we get a tab for main children, tab for ad children, and tab for supplemental children.
-        // On any other page, we do it straight — children of [type:whatever].
-        ["artbook", "Art Book", "Art Books"],
-        ["card", "Card", "Cards", [
-            "art__card", "Art Card", "Art Cards",
-            "trading__card", "Trading Card", "Trading Cards"
-        ]],
-        // Art card should be a subset of art.
-        ["comic", "Comic", "Comics"],
-        ["flash", "Flash", "Flash"],
-        ["game", "Game", "Games"],
-        ["gba", "GBA Game", "GBA Games"],
-        ["magazine", "Magazine", "Magazines"],
-        ["misc", "Miscellaneous", "Miscellaneous"],
-        ["music", "Music", "Music"],
-        ["news", "News Post", "News Posts"],
-        ["podcast", "Podcast", "Podcasts"],
-        ["radio", "Radio Show", "Radio Shows"],
-        ["text", "Text", "Texts", [
-            ["blog", "Blog", "Blogs"],
-            ["novel", "Novel", "Novels"],
-            ["serial", "Serial", "Serials"],
-            ["short__story", "Short Story", "Short Stories"],
-        ]],
-        ["video", "Video", "Videos", [
-            ["animation", "Animation", "Animations"],
-            ["movie", "Movie", "Movies"],
-            ["series", "Series", "Series"],
-            ["short__film", "Short Film", "Short Films"],
-        ]],
-        ["web", "Web Story", "Web Stories"]
-    ],
-    // Supplemental Media Types
-    ["supplemental",
-        ["booklet", "Booklet", "Booklets"],
-        ["manual", "Manual", "Manuals"],
-    ]
 ];
 
 
@@ -96,6 +36,9 @@ $tags = [
  *    b. <hr>
  *    c. Populate the rest of the block with the main content.
  *       i. If the main content column is empty, attempt to load content from the relevant directory.
+ * 7. Populate <aside> with soft children — posters, trailers, behind the scenes, and any other supplemental/downloadable content.
+ *    a. These links should encapsulate any downloads for those children.
+ * 8. Create a miscellaneous files button for any other downloads in the relevant directory.
  */
 
 
@@ -136,15 +79,7 @@ function getData($column, $query)
 function getContent($id, $v, $lang) {
     include("db_connect.php");
 
-
-}
-
-
-function getConnectedContent($id, $v, $lang) {
-    include("db_connect.php");
-
-    // Get id, version, language, title, and snippet of connected content.
-    $query = "SELECT "
+    echo "WIP…";
 }
 
 

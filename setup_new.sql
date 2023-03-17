@@ -32,34 +32,10 @@ CREATE TABLE IF NOT EXISTS tag_web (
 
 
 INSERT INTO media_tags VALUES (
-    "developmental",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-INSERT INTO media_tags VALUES (
-    "advertisement",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-INSERT INTO media_tags VALUES (
-    "main",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-INSERT INTO media_tags VALUES (
-    "supplemental",
-    NULL,
-    NULL,
-    NULL
+    ("developmental", NULL, NULL, NULL),
+    ("advertisement", NULL, NULL, NULL),
+    ("main", NULL, NULL, NULL),
+    ("supplemental", NULL, NULL, NULL)
 );
 
 
@@ -68,48 +44,17 @@ INSERT INTO media_tags VALUES (
  */
 
 
-/* Books, news stories, etc. */
 INSERT INTO media_tags VALUES (
-    "text",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-/* Images, comics, etc. */
-INSERT INTO media_tags VALUES (
-    "visual",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-/* Podcasts, radio broadcasts, etc. */
-INSERT INTO media_tags VALUES (
-    "audio",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-/* Movies, TV shows, etc. */
-INSERT INTO media_tags VALUES (
-    "audiovisual",
-    NULL,
-    NULL,
-    NULL
-);
-
-
-/* Games, Flash, etc. */
-INSERT INTO media_tags VALUES (
-    "interactive",
-    NULL,
-    NULL,
-    NULL
+    ("text", NULL, NULL, NULL),
+    /* Books, news stories, etc. */
+    ("visual", NULL, NULL, NULL),
+    /* Images, comics, etc. */
+    ("audio", NULL, NULL, NULL),
+    /* Podcasts, radio broadcasts, etc. */
+    ("audiovisual", NULL, NULL, NULL),
+    /* Movies, TV shows, etc. */
+    ("interactive", NULL, NULL, NULL)
+    /* Games, Flash, etc. */
 );
 
 
@@ -119,72 +64,24 @@ INSERT INTO media_tags VALUES (
 
 
 INSERT INTO media_tags VALUES (
-    "concept__art",
-    "Concept Art",
-    "Concept Art",
-    NULL
+    ("concept__art", "Concept Art", "Concept Art", NULL),
+    ("manuscript", "Manuscript", "Manuscripts", NULL),
+    ("script", "Script", "Scripts", NULL),
+    ("source__code", "Source Code", "Source Code", NULL),
+    ("storyboard", "Storyboard", "Storyboards", NULL),
+    ("style__guide", "Style Guide", "Style Guides", NULL),
+    ("test__footage", "Test Footage", "Test Footage", NULL)
 );
 
 
 INSERT INTO tag_web VALUES (
-    "developmental",
-    "concept__art"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "script",
-    "Script",
-    "Scripts",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "developmental",
-    "script"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "source__code",
-    "Source Code",
-    "Source Code",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "developmental",
-    "source__code"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "storyboard",
-    "Storyboard",
-    "Storyboards",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "developmental",
-    "storyboard"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "test__footage",
-    "Test Footage",
-    "Test Footage",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "developmental",
-    "test__footage"
+    ("developmental", "concept__art"),
+    ("developmental", "manuscript"),
+    ("developmental", "script"),
+    ("developmental", "source__code"),
+    ("developmental", "storyboard"),
+    ("developmental", "style__guide"),
+    ("developmental", "test__footage")
 );
 
 
@@ -194,114 +91,32 @@ INSERT INTO tag_web VALUES (
 
 
 INSERT INTO media_tags VALUES (
-    "billboard",
-    "Billboard",
-    "Billboards",
-    NULL
+    ("billboard", "Billboard", "Billboards", NULL),
+    ("commercial", "Commercial", "Commercials", NULL),
+    ("demo", "Demo", "Demos", NULL),
+    ("poster", "Poster", "Posters", NULL),
+    ("print__ad", "Print Ad", "Print Ads", NULL),
+    ("promo__disk", "Promo Disk", "Promo Disks", NULL)
+    ("radio__ad", "Radio Ad", "Radio Ads", NULL),
+    ("teaser", "Teaser", "Teasers", NULL),
+    ("trailer", "Trailer", "Trailers", NULL),
+    ("tv__spot", "TV Spot", "TV Spots", NULL),
+    ("web__ad", "Web Ad", "Web Ads", NULL)
 );
 
 
 INSERT INTO tag_web VALUES (
-    "advertisement",
-    "billboard"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "commercial",
-    "Commercial",
-    "Commercials",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "commercial"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "poster",
-    "Poster",
-    "Posters",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "poster"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "print__ad",
-    "Print Ad",
-    "Print Ads",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "print__ad"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "radio__ad",
-    "Radio Ad",
-    "Radio Ads",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "radio__ad"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "teaser",
-    "Teaser",
-    "Teasers",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "teaser"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "trailer",
-    "Trailer",
-    "Trailers",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "trailer"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "tv__spot",
-    "TV Spot",
-    "TV Spots",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "advertisement",
-    "tv__spot"
+    ("advertisement", "billboard"),
+    ("advertisement", "commercial"),
+    ("advertisement", "demo"),
+    ("advertisement", "poster"),
+    ("advertisement", "print__ad"),
+    ("advertisement", "promo__disk"),
+    ("advertisement", "radio__ad"),
+    ("advertisement", "teaser"),
+    ("advertisement", "trailer"),
+    ("advertisement", "tv__spot"),
+    ("advertisement", "web__ad")
 );
 
 
@@ -311,338 +126,67 @@ INSERT INTO tag_web VALUES (
 
 
 INSERT INTO media_tags VALUES (
-    "animation",
-    "Animation",
-    "Animations",
-    NULL
+    ("animation", "Animation", "Animations", NULL),
+    ("art", "Art", "Art", NULL),
+    ("audiobook", "Audiobook", "Audiobooks", NULL),
+    ("blog", "Blog", "Blogs", NULL),
+    ("book", "Book", "Books", NULL),
+    ("card", "Card", "Cards", NULL),
+    ("comic", "Comic", "Comics", NULL),
+    ("flash", "Flash", "Flash", NULL),
+    ("game", "Game", "Games", NULL),
+    ("graphic__novel", "Graphic Novel", "Graphic Novels", NULL),
+    ("growing__reader", "Growing Reader", "Growing Readers", NULL)
+    ("magazine", "Magazine", "Magazines", NULL),
+    ("movie", "Movie", "Movies", NULL),
+    ("news", "News", "News", NULL),
+    ("novel", "Novel", "Novels", NULL),
+    ("novella", "Novella", "Novellas", NULL),
+    ("podcast", "Podcast", "Podcasts", NULL),
+    ("poem", "Poem", "Poems", NULL),
+    ("radio__show", "Radio Show", "Radio Shows", NULL),
+    ("serial", "Serial", "Serials", NULL),
+    ("series", "Series", "Series", NULL),
+    ("short__film", "Short Film", "Short Films", NULL),
+    ("short__story", "Short Story", "Short Stories", NULL),
+    ("trading__card", "Trading Card", "Trading Cards", NULL),
+    ("video", "Video", "Videos", NULL),
+    ("visual__novel", "Visual Novel", "Visual Novels", NULL),
+    /* Visual novel leaves will try to load in a background image, audio file, and text, similar to fatestaynight.vnovel.org. */
+    /* Should multiple IDs be loaded onto a single page, they can be scrolled between. */
+    ("website", "Website", "Websites", NULL),
+    ("web__story", "Web Story", "Web Stories", NULL)
 );
 
 
 INSERT INTO tag_web VALUES (
-    "main",
-    "animation"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "art",
-    "Art",
-    "Art",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "art"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "audio__book",
-    "Audio Book",
-    "Audio Books",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "audio__book"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "blog",
-    "Blog",
-    "Blogs",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "blog"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "book",
-    "Book",
-    "Books",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "book"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "card",
-    "Card",
-    "Cards",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "card"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "comic",
-    "Comic",
-    "Comics",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "comic"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "game",
-    "Game",
-    "Games",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "game"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "graphic__novel",
-    "Graphic Novel",
-    "Graphic Novels",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "graphic__novel"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "magazine",
-    "Magazine",
-    "Magazines",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "magazine"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "movie",
-    "Movie",
-    "Movies",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "movie"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "news",
-    "News",
-    "News",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "news"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "novel",
-    "Novel",
-    "Novels",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "novel"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "novella",
-    "Novella",
-    "Novellas",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "novella"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "podcast",
-    "Podcast",
-    "Podcasts",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "podcast"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "radio__show",
-    "Radio Show",
-    "Radio Shows",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "radio__show"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "serial",
-    "Serial",
-    "Serials",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "serial"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "series",
-    "Series",
-    "Series",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "series"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "short__film",
-    "Short Film",
-    "Short Films",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "short__film"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "short__story",
-    "Short Story",
-    "Short Stories",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "short__story"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "trading__card",
-    "Trading Card",
-    "Trading Cards",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "trading__card"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "video",
-    "Video",
-    "Videos",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "video"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "website",
-    "Website",
-    "Websites",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "website"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "web__story",
-    "Web Story",
-    "Web Stories",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "main",
-    "web__story"
+    ("main", "animation"),
+    ("main", "art"),
+    ("main", "audiobook"),
+    ("main", "blog"),
+    ("main", "book"),
+    ("main", "card"),
+    ("main", "comic"),
+    ("main", "flash"),
+    ("main", "game"),
+    ("main", "graphic__novel"),
+    ("main", "growing__reader"),
+    ("main", "magazine"),
+    ("main", "movie"),
+    ("main", "news"),
+    ("main", "novel"),
+    ("main", "novella"),
+    ("main", "podcast"),
+    ("main", "poem"),
+    ("main", "radio__show"),
+    ("main", "serial"),
+    ("main", "series"),
+    ("main", "short__film"),
+    ("main", "short__story"),
+    ("main", "trading__card"),
+    ("main", "video"),
+    ("main", "website"),
+    ("main", "web__story")
 );
 
 
@@ -652,93 +196,170 @@ INSERT INTO tag_web VALUES (
 
 
 INSERT INTO media_tags VALUES (
-    "art__book",
-    "Art Book",
-    "Art Books",
-    NULL
+    ("art__book", "Art Book", "Art Books", NULL),
+    ("behind__the__scenes", "Behind the Scenes", "Behind the Scenes", NULL),
+    ("cd", "CD", "CDs", NULL),
+    ("booklet", "Booklet", "Booklets", NULL),
+    ("deleted__scene", "Deleted Scene", "Deleted Scenes", NULL),
+    ("interview", "Interview", "Interviews", NULL),
+    ("manual", "Manual", "Manuals", NULL),
 );
 
 
 INSERT INTO tag_web VALUES (
-    "supplemental",
-    "art__book"
+    ("supplemental", "art__book"),
+    ("supplemental", "behind__the__scenes"),
+    ("supplemental", "cd"),
+    ("supplemental", "booklet"),
+    ("supplemental", "deleted__scene"),
+    ("supplemental", "interview"),
+    ("supplemental", "manual")
 );
 
 
-INSERT INTO media_tags VALUES (
-    "behind__the__scenes",
-    "Behind the Scenes",
-    "Behind the Scenes",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "supplemental",
-    "behind__the__scenes"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "booklet",
-    "Booklet",
-    "Booklets",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "supplemental",
-    "booklet"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "deleted__scene",
-    "Deleted Scene",
-    "Deleted Scenes",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "supplemental",
-    "deleted__scene"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "interview",
-    "Interview",
-    "Interviews",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "supplemental",
-    "interview"
-);
-
-
-INSERT INTO media_tags VALUES (
-    "manual",
-    "Manual",
-    "Manuals",
-    NULL
-);
-
-
-INSERT INTO tag_web VALUES (
-    "supplemental",
-    "manual"
-);
-
-
-/* Where to put CDs? Supplemental? Main?
- * Should preview DVDs go under advertisements?
- * What about style guides?
+/*
+ * SUPERTYPE CONNECTIONS
  */
+
+
+/* TEXT TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("text", "blog"),
+    ("text", "news"),
+    ("text", "novel"),
+    ("text", "novella"),
+    ("text", "poem"),
+    ("text", "serial"),
+    ("text", "short__story"),
+    ("text", "web__story")
+);
+
+
+/* VISUAL TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("visual", "concept__art"),
+    ("visual", "storyboard"),
+    ("visual", "billboard"),
+    ("visual", "poster"),
+    ("visual", "print__ad"),
+    ("visual", "art"),
+    ("visual", "art__card"),
+    ("visual", "card"),
+    ("visual", "comic"),
+    ("visual", "graphic__novel"),
+    ("visual", "growing__reader"),
+    ("visual", "magazine"),
+    ("visual", "trading__card"),
+    ("visual", "website"),
+    ("visual", "art__book"),
+    ("visual", "manual")
+);
+
+
+/* AUDIO TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("audio", "radio__ad"),
+    ("audio", "audiobook"),
+    ("audio", "podcast"),
+    ("audio", "radio__show")
+);
+
+
+/* AUDIOVISUAL TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("audiovisual", "test__footage"),
+    ("audiovisual", "commercial"),
+    ("audiovisual", "teaser"),
+    ("audiovisual", "trailer"),
+    ("audiovisual", "tv__spot"),
+    ("audiovisual", "animation"),
+    ("audiovisual", "movie"),
+    ("audiovisual", "series"),
+    ("audiovisual", "short__film"),
+    ("audiovisual", "video"),
+    ("audiovisual", "behind__the__scenes"),
+    ("audiovisual", "deleted__scene"),
+    ("audiovisual", "interview")
+);
+
+
+/* INTERACTIVE TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("interactive", "demo"),
+    ("interactive", "promo__disk"),
+    ("interactive", "flash"),
+    ("interactive", "game"),
+    ("interactive", "website"),
+    ("interactive", "cd")
+);
+
+
+/*
+ * MEDIA TYPE CONNECTIONS
+ */
+
+
+/* ART TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("art", "concept__art"),
+    ("art", "storyboard"),
+    ("art", "art__card"),
+    ("art", "art__book"),
+);
+
+
+/* BOOK TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("book", "graphic__novel"),
+    ("book", "growing__reader"),
+    ("book", "novel"),
+    ("book", "novella"),
+    ("book", "art__book"),
+    ("book", "booklet")
+);
+
+
+/* CARD TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("card", "art__card"),
+    ("card", "trading__card")
+);
+
+
+/* VIDEO TYPES */
+
+
+INSERT INTO tag_web VALUES (
+    ("video", "commercial"),
+    ("video", "teaser"),
+    ("video", "trailer"),
+    ("video", "tv__spot"),
+    ("video", "animation"),
+    ("video", "movie"),
+    ("video", "series"),
+    ("video", "short__film")
+);
+
+
+/*************************
+ * END MEDIA TYPES SETUP *
+ *************************/
 
 
 /*****************
@@ -876,7 +497,7 @@ CREATE TABLE IF NOT EXISTS shin_routes(
     /* The name of the route. */
     route_description text,
     /* The description of the route. */
-    route_main text NOT NULL,
+    route_main JSON NOT NULL,
     /* The route itself, in the format [id/s]:0,[id/s].2,[id/s]…
      * A .X specifies a particular verison (1 is default).
      * A :0 specifies that the entry in question is not recommended, and will be skipped.
