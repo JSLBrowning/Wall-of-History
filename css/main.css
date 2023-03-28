@@ -1280,14 +1280,16 @@ section.structure nav {
 
 .contentsButton ::-webkit-scrollbar,
 .contentButtonText ::-webkit-scrollbar,
-.contentButtonText p ::-webkit-scrollbar {
+.contentButtonText p ::-webkit-scrollbar
+.versions ::-webkit-scrollbar {
     display: none;
 }
 
 
 .contentsButton,
 .contentButtonText,
-.contentButtonText p {
+.contentButtonText p,
+.versions {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }

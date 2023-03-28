@@ -2,7 +2,7 @@
 
 ## mainWork
 
-Determines if a main story or route is promoted at the top of the homepage. Can be left blank, in which case all stories will be treated as equal. The value used for this parameter should be the ID of a work or a route. To summarize all four possibilities:
+Determines if a main story or route is promoted at the top of the homepage. Can be left blank, in which case all stories will be treated as equal. The value used for this parameter should be the ID (or semantic tag) of a work or a route. To summarize all four possibilities:
 
 - If blank and only one story on site: that story is main by default.
 - If not blank and only one story: same.
