@@ -1,0 +1,12 @@
+section.story img {
+    margin: 0rem;
+    padding: 0rem;
+    transition: none;
+}
+
+
+section.story img:hover,
+section.story img:active {
+    transform: none;
+    box-shadow: none;
+}
