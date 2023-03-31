@@ -378,10 +378,10 @@ CREATE TABLE IF NOT EXISTS shin_metadata(
     /* This is the language of the content in question, optionally followed by a country code. ISO 639-1 is preferred, since this is what's typically used for HTML <lang> attributes. If NULL, the information in this entry is assumed to apply to all languages. */
 
     /* RELEASE STUFF */
-    release_date date,
+    release_date datetime,
     /* Self-explanatory. */
     completion_status int,
-    /* 0 = not started, 1 = in progress, 2 = completed, 3 = cancelled. Leave NULL for ambiguous. */
+    /* 0 = not started, 1 = in progress, 2 = completed, 3 = cancelled. Leave NULL for ambiguous or single release (like books). */
 
     /* CHRONOLOGY STUFF */
     chronology int,
@@ -396,8 +396,6 @@ CREATE TABLE IF NOT EXISTS shin_metadata(
     /* This defines which header will be displayed on the page for this content — for example, the regular BIONICLE logo is used for most Wall of History pages, but the 2002 version is used for pages of Beware the Bohrok. */
 
     /* KEY STUFF */
-    PRIMARY KEY (id, content_version, content_language),
-    /* Primary key for identifying all versions of the content. */
     FOREIGN KEY (content_header) REFERENCES shin_headers(header_id)
     /* Foreign key for identifying the header. */
 );

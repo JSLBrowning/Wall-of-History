@@ -1,6 +1,16 @@
 <?php
 
 
+// Include Parsedown.
+require("/parsedown-1.7.4/Parsedown.php");
+
+
+// Get config.json variables.
+// Access variables using $GLOBALS['config']['variable']. For example, $GLOBALS['config']['mainWork'].
+$path = $_SERVER['DOCUMENT_ROOT'] . "/config/config.json";
+$GLOBALS['config'] = json_decode(file_get_contents($path), true);
+
+
 /****************
  * LABEL TABLES *
  ****************/
@@ -27,18 +37,28 @@ $languages = [
  * 3. If so, populate the <head> with OGP data.
  * 4. Populate the <head> with any relevant CSS links.
  * 5. Populate the <body> with the header.
- * 6. Populate the <body> with a block containing the main content (use the blockify() function, maybe).
+ * 6. Populate the <body> with an article containing the main content (use a createArticle() function, maybe) according to the tags.
  *    a. Populate the titlebox with the...
- *       i. Parent(s) (if applicable).
- *       ii. Title.
- *       iii. Subtitle.
- *       iv. Creators.
- *    b. <hr>
+ *       i. <img>
+ *       ii. .title__box__text
+ *          1. Parent(s) (if applicable).
+ *          2. Title.
+ *          3. Subtitle.
+ *          4. Creators.
+ *       iii. .title__box__buttons
+ *       iv. .title__box__tags
+ *    b. Populate .extra__content.
+ *       i. .version__select
+ *       ii. .language__select
+ *       iii. any .detail <div>s
+ *       iv. .extra__areas for downloads, development material, promotional material, and supplemental material.
+ *          1. Use relevant Font Awesome icons for PDF, DOCX, e-book, et cetera, then use default for others.
  *    c. Populate the rest of the block with the main content.
- *       i. If the main content column is empty, attempt to load content from the relevant directory.
- * 7. Populate <aside> with soft children — posters, trailers, behind the scenes, and any other supplemental/downloadable content.
- *    a. These links should encapsulate any downloads for those children.
- * 8. Create a miscellaneous files button for any other downloads in the relevant directory.
+ *       i. If the main content column is empty, attempt to load content from the relevant directory, as specified in config.json.
+ *       ii. if (main == null) {$main = loadExternalContent(pathTemplate, UUID, version, language)}
+ * X. Run mods.
+ *    a. Run any PHP files inside the /mods/ folder.
+ *    b. Insert <script> tags for any JS files found in the /mods/ folder before the end of the <body> tag.
  */
 
 
@@ -454,11 +474,12 @@ function loadContent($id, $v, $lang)
     loadContentContributors($id);
     echo "</section>";
 
-    // Get and display content.
+    // Get main content.
     $sql = "SELECT main FROM story_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
 
     // Display snippet in place of main if main empty (for parent works)?
 
+    // Display main content
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
         echo $row["main"];
