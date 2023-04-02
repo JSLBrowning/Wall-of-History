@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS shin_content(
 CREATE TABLE IF NOT EXISTS shin_headers(
     header_id int PRIMARY KEY,
     /* Self-explanatory. */
-    header_main text
+    header_main text NOT NULL
     /* This is the actual content of the header, ideally in HTML (but Markdown is also allowed). */
 );
 
@@ -443,9 +443,9 @@ CREATE TABLE IF NOT EXISTS shin_headers(
 CREATE TABLE IF NOT EXISTS shin_tags(
     content_id BINARY(16),
     /* Self-explanatory — these are the same tags used for metadata and content. */
-    content_version int,
+    content_version int DEFAULT NULL,
     /* Self-explanatory, and optional here. If NULL, the tag is assumed to apply to all versions. */
-    content_language varchar(16),
+    content_language varchar(16) DEFAULT NULL,
     /* Self-explanatory, and optional here. If NULL, the tag is assumed to apply to all languages. */
     tag_type text,
     /* Examples: type, organizational, semantic, etc. */
@@ -536,12 +536,12 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
     chronology int,
     /* If pages of some reference material were in a particular order, this value can be used to order them on rendered pages. */
     spoiler_level int,
-    /* Story items have spoiler levels as well, which allows you to prevent readers from reading about something they haven’t seen happen yet. */
+    /* Story items have spoiler levels as well, which allows you to prevent readers from reading about something they haven’t seen happen yet. Null value implies no meaningful spoilers. */
 
     /* THEMING STUFF */
-    content_theme_color varchar(6) DEFAULT "938170",
+    entry_theme_color varchar(6) DEFAULT "938170",
     /* Defines the theme_color <meta> tag. */
-    content_header int NOT NULL DEFAULT 1,
+    entry_header int NOT NULL DEFAULT 1,
     /* This defines which header will be displayed on the page for this content — for example, the regular BIONICLE logo is used for most Wall of History pages, but the 2002 version is used for pages of Beware the Bohrok. */
 
     PRIMARY KEY (entry_id, entry_version, entry_language)
@@ -561,11 +561,11 @@ CREATE TABLE IF NOT EXISTS reference_content (
     /* …and this is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     
     /* DESCRIPTIVE/CONTENT STUFF */
-    snippet text,
+    entry_snippet text,
     /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
-    main longtext,
+    entry_main longtext,
     /* Identical functionality to woh_content main column. */
-    word_count int
+    entry_word int
     /* Self-explanatory. */
 
     PRIMARY KEY (entry_id, entry_version, entry_language)

@@ -151,6 +151,16 @@ function populateHead($id, $lang, $v)
 {
     include("db_connect.php");
 
+
+    $semantic_query = "SELECT tag, detailed_tag FROM shin_tags WHERE tag_type='semantic'";
+    $semantic = $mysqli->query($semantic_query);
+    while ($row = $semantic->fetch_assoc()) {
+        $ids = explode(".", $row["tag"]);
+        $detailed_tag = $row["detailed_tag"];
+        echo "<p>INSERT INTO shin_tags VALUES ('" . $ids[0] . "', '" . $ids[1] . "', '" . $ids[2] . "', 'semantic', '" . $detailed_tag . "')</p>";
+    }
+
+
     $result = $mysqli->query("SELECT title, snippet, theme_color FROM story_metadata JOIN story_content ON story_metadata.id = story_content.id WHERE story_metadata.id = \"$id\" AND story_content.content_version = \"$v\" AND story_content.content_language = \"$lang\"");
     $num_rows = mysqli_num_rows($result);
     $image = getOGPImages($id, $v, $lang);
@@ -444,6 +454,7 @@ function loadContentContributors($id)
 function loadContent($id, $v, $lang)
 {
     include("db_connect.php");
+
 
     // Determine if this content is divided into pages, and respond accordingly.
     $pages_query = "SELECT COUNT(tag) AS tag_count FROM story_tags WHERE id='$id' AND tag='pages'";
