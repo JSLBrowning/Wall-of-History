@@ -1,6 +1,6 @@
 # Filename:    generate_ids.py
 # Description: Simple program to generate a large number of unused IDs.
-# Package:     Alexandria 1.0
+# Package:     Shin 1.2
 # Author:      JSLBrowning
 # License:     Apache License, Version 2.0
 

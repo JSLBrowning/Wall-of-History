@@ -1,34 +1,47 @@
-// Replace with function that gets ID from semantic in case of semantic tags in use.
-if (sessionStorage.getItem("activeReadingOrder") != null) {
-    const url = window.location.href;
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    if(url.indexOf('?id=') != -1) {
-        const id = urlParams.get('id');
-        if (localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).includes(id)) {
-            console.log("ID is in active reading order.");
-        } else {
-            console.log("ID is not in active reading order. Clearing…");
-            sessionStorage.removeItem("activeReadingOrder");
-        }
-    } else if (url.indexOf('?s=') != -1) {
-        const semantic = urlParams.get('s');
-        semantic_query = "SELECT id FROM story_tags WHERE detailed_tag = \"" + semantic + "\"";
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                if (localStorage.getItem("readingOrder:" + sessionStorage.getItem("activeReadingOrder")).includes(this.responseText)) {
-                    console.log("ID is in active reading order.");
-                } else {
-                    console.log("ID is not in active reading order. Clearing…");
-                    sessionStorage.removeItem("activeReadingOrder");
-                }
-            }
-        };
-        xmlhttp.open("GET", "../php/query.php?q=" + semantic_query + "&c=id", true);
-        xmlhttp.send();
-    }
-}
+// What do we do on first load?
+// 1. Check user's browser for color scheme preference. If present, save to cookie. Otherwise, set to dark.
+// 2. Check user's browser for language preference. If present, save to cookie. Otherwise, set to... "en"?
+
+
+// How do we determine a route?
+// 1. Buttons for routes will have an activateRoute function. Carries a route ID.
+// 2. On click, a saveplace for the route in question will be checked. If it exists, jump to that page.
+// 3. Else, jump to first page in route.
+
+
+// What do we do on reader load?
+// 1. Check if an active route is set. If not, and all children have chronology values, assume parent route.
+// 2. If so, check if the current page is in the active route. If not...
+//    a. If the PARENT of the current page is, assume A->B->C is now A->B1_1->B1_2->C, based on chronology of children.
+//    b. If not, clear active route.
+// 3. If the current page IS in the active route, activate buttons accordingly.
+// 4. If you CAME from a parent work in the table of contents, assume parent route.
+
+
+// Where can you come from?
+// 1. External link. Fully off-site. Assume parent route if self and siblings have chronology, no route otherwise.
+// 2. Table of contents. Parent work. Assume parent route if self and siblings have chronology, no route otherwise.
+// 3. "Start Reading" button. Assume specified route if passed in button activation, parent route if self and siblings have chronology but no route was passed, no route otherwise.
+
+
+// Function could be called... "goRead()"? Required param: ID. Optional params: route ID, version, language. If no route ID, check for chronology. If no chronology, no route. If no version, use... 1. If no language, check if available in user language, else, whatever is at the top of the list. English if available.
+
+
+/************************ FUNCTION GRAVEYARD ************************
+ * An unnamed function to check if the current ID is in the active reading order, clearing it otherwise. Called on every load.
+ * hideShow(button) - A function to hide or show the main menu on mobile. No longer using <aside> tag.
+ * checkReadingMode() - A function to set the reading mode based on the config file. Reading modes are no longer used.
+ * getRecommendedReadingOrder() - A function to get the default reading order. There is no longer a default reading order.
+ * setReadingOrder() - A function to save the above to localStorage. No longer needed.
+ * checkReadingOrder() - A function to check if the above is set. No longer needed.
+ * activateReadingOrder() - A function to activate the default reading order if no other is found. No longer needed.
+ * activateNavigation() - A function to activate reader buttons if all needed data was present. That data is no longer needed.
+ * resetReader() - A function to reset products of above to default. No longer needed.
+ * readAsStandalone() - A function to generate a new reading order based on the current page. No longer needed.
+ * readAsStandaloneSetup() - Helper function for above. No longer needed.
+ * check() - Attempted to set the right reading order from a reader page if none had been set.
+ * zoomExtras() - Generated new layer for extras. Deprecated as extras will now be modal articles.
+ ********************************************************************/
 
 
 /***********************
@@ -68,60 +81,9 @@ function loadJSON(callback) {
 }
 
 
-function hideShow(button) {
-    if (button.parentNode.tagName == "ASIDE") {
-        let nextSibling = button.nextElementSibling;
-        let currentStyles = window.getComputedStyle(nextSibling);
-        if (currentStyles.display === "none" || currentStyles.display === "") {
-            while (nextSibling) {
-                $(nextSibling).slideDown();
-                nextSibling = nextSibling.nextElementSibling;
-            }
-            let oldText = button.innerHTML;
-            button.innerHTML = oldText.replace("<span class=\"rightarrow\"></span>", "<span class=\"downarrow\"></span>");
-        } else {
-            while (nextSibling) {
-                $(nextSibling).slideUp();
-                nextSibling = nextSibling.nextElementSibling;
-            }
-            let oldText = button.innerHTML;
-            button.innerHTML = oldText.replace("<span class=\"downarrow\"></span>", "<span class=\"rightarrow\"></span>");
-        }
-    } else {
-        let buttons = document.getElementById("modal-data").getElementsByClassName("hideShow");
-        let texts = document.getElementById("modal-data").getElementsByClassName("showable");
-        let buttonIndex = Array.prototype.indexOf.call(buttons, button);
-        let currentStyles = window.getComputedStyle(texts[buttonIndex]);
-        if (currentStyles.display === "none" || currentStyles.display === "") {
-            $(texts[buttonIndex]).slideDown();
-            let oldText = button.innerHTML;
-            button.innerHTML = oldText.replace("<span class=\"rightarrow\"></span>", "<span class=\"downarrow\"></span>");
-        } else {
-            $(texts[buttonIndex]).slideUp();
-            let oldText = button.innerHTML;
-            button.innerHTML = oldText.replace("<span class=\"downarrow\"></span>", "<span class=\"rightarrow\"></span>");
-        }
-    }
-}
-
-
 /**
  * INITIALIZATION FUNCTIONS
  */
-
-
-// This function checks if a reading mode is set (and if not, sets it).
-async function checkReadingMode() {
-    if (localStorage.getItem("readingMode") === null) {
-        loadJSON(async function (response) {
-            let readingMode = JSON.parse(response).readingOrder;
-            // If readingMode is defined...
-            if (readingMode != null) {
-                localStorage.setItem("readingMode", readingMode);
-            }
-        });
-    }
-}
 
 
 // This function loads a list of languages available on the site from the server.
@@ -144,7 +106,7 @@ async function getLanguageList() {
 async function checkLanguage() {
     if ((localStorage.getItem("languagePreference") === null) || (localStorage.getItem("languageList") === null)) {
         // Step 1: Get all languages and put them in a list.
-        languageList = await getLanguageList();
+        let languageList = await getLanguageList();
         localStorage.setItem("languageList", languageList);
 
         // Step 2: Get preferred language.
@@ -191,62 +153,6 @@ async function checkColorScheme() {
 }
 
 
-// Helper for checkReadingOrder().
-function getRecommendedReadingOrder(type) {
-    if (type == "chronology") {
-        return new Promise(resolve => {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    resolve(this.responseText);
-                }
-            };
-            xmlhttp.open("GET", "../php/initread.php", true);
-            xmlhttp.send();
-        });
-    } else {
-        return "null";
-    }
-}
-
-
-// Helper for checkReadingOrder().
-async function setReadingOrder(newReadingOrder) {
-    localStorage.setItem("readingOrder:0", newReadingOrder);
-}
-
-
-// This function checks if the default reading order is set (and if not, sets it).
-async function checkReadingOrder() {
-    if (localStorage.getItem("readingOrder:0") === null || localStorage.getItem("version") === null) {
-        loadJSON(async function (response) {
-            let recommendedReadingOrder = await getRecommendedReadingOrder(JSON.parse(response).readingOrder);
-            setReadingOrder(recommendedReadingOrder).then(() => {
-                let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
-                for (let i = 0; i < homepageReadButtons.length; i++) {
-                    homepageReadButtons[i].disabled = false;
-                }
-                console.log("Reading order ready.");
-            });
-        });
-    } else {
-        activateNavigation();
-    }
-}
-
-
-// If the user only has one reading order in their storage, this function sets it to active no matter what.
-async function activateReadingOrder() {
-    if (sessionStorage.getItem("activeReadingOrder") === null) {
-        const keyArray = Object.keys(localStorage);
-        let readingOrders = keyArray.filter(name => name.includes('readingOrder'));
-        if (readingOrders.length == 1) {
-            sessionStorage.setItem("activeReadingOrder", readingOrders[0].split(":")[1]);
-        }
-    }
-}
-
-
 // This function sets the default spoiler level.
 async function checkSpoilerLevel() {
     if (localStorage.getItem("spoilerLevel") === null) {
@@ -284,25 +190,15 @@ async function checkFontSize() {
 
 // This function sets the site version.
 async function checkVersion() {
-    if (localStorage.getItem("version") != "1.1") {
-        localStorage.setItem("version", "1.1");
+    if (localStorage.getItem("version") != "1.2") {
+        localStorage.setItem("version", "1.2");
     }
-}
-
-
-// If the user has all the data in their storage to run the reader page, this function activates the navigation button.
-async function activateNavigation() {
-    let homepageReadButtons = document.getElementsByClassName("homepageReadButton");
-    for (let i = 0; i < homepageReadButtons.length; i++) {
-        homepageReadButtons[i].disabled = false;
-    }
-    console.log("Reader ready.");
 }
 
 
 // Initialization function which runs all the functions above.
 async function initialize() {
-    if (localStorage.getItem("version") != "1.1") {
+    if (localStorage.getItem("version") != "1.2") {
         localStorage.clear();
     }
 
@@ -311,11 +207,8 @@ async function initialize() {
         localStorage.clear();
     }
 
-    await checkReadingMode();
     await checkLanguage();
     await checkColorScheme();
-    await checkReadingOrder();
-    await activateReadingOrder();
     await checkSpoilerLevel();
     await checkReferenceTerms();
     await checkFontSize();
@@ -324,15 +217,6 @@ async function initialize() {
 
 
 initialize();
-
-
-// Resets the user's local storage data to default values.
-async function resetReader() {
-    localStorage.clear();
-    initialize().then(() => {
-        alert("Reader reset.");
-    });
-}
 
 
 /**
@@ -382,9 +266,9 @@ function getOptimalLanguage(combo) {
  *********************************/
 
 
-/************************************************
- * CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS *
- ************************************************/
+/************************
+ * NAVIGATION FUNCTIONS *
+ ************************/
 
 
 /* This function finds the index of the current page in the active reading order. */
@@ -574,42 +458,6 @@ async function goForwardChrono() {
     }
 }
 
-
-/* Helper function for readAsStandalone (interfaces with necessary backend code). */
-function readAsStandaloneSetup(id) {
-    return new Promise(resolve => {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                resolve(this.responseText);
-            }
-        };
-        xmlhttp.open("GET", "../php/initreadstandalone.php?id=" + id + "&v=1", true);
-        xmlhttp.send();
-    });
-}
-
-
-/* Calls readAsStandaloneSetup(), sets necessary localStorage variables, and jumps the user to the first page of the selected story. */
-async function readAsStandalone() {
-    let currentID = document.getElementById("downloadMarker").innerHTML;
-    let newOrder = await readAsStandaloneSetup(currentID);
-    localStorage.setItem("readingOrder:" + currentID, newOrder);
-    sessionStorage.setItem("activeReadingOrder", currentID);
-    jumpTo();
-}
-
-
-/****************************************************
- * END CHRONOLOGY-BASED READER NAVIGATION FUNCTIONS *
- ****************************************************/
-
-
-/*************************************************
- * SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
- *************************************************/
-
-
 /* This function gets an array of the siblings of the current page. */
 function getArrayTree() {
     return new Promise(resolve => {
@@ -647,97 +495,6 @@ async function showSavePlaceButtons() {
 }
 
 
-/* This function shows the relevant navigation buttons for a given page. */
-async function showButtonsTree() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get("id");
-    let siblings = await getArrayTree(id);
-    siblings = siblings.split(",");
-
-    if (id == siblings[0]) {
-        showSavePlaceButtons();
-        let forwardButton = document.getElementById("forwardbutton");
-        forwardButton.style.display = "block";
-        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-    } else if (id == siblings[siblings.length - 1]) {
-        showSavePlaceButtons();
-        let backButton = document.getElementById("backbutton");
-        backButton.style.display = "block";
-        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-    } else if (siblings.includes(id)) {
-        showSavePlaceButtons();
-        let backButton = document.getElementById("backbutton");
-        let forwardButton = document.getElementById("forwardbutton");
-        backButton.style.display = "block";
-        forwardButton.style.display = "block";
-        $(document.getElementsByClassName("nav")[0]).slideDown("slow");
-    }
-}
-
-
-/* This function saves the user’s place.
-TO-DO: Make this parent-specific, and add a selector if the load button is used on the homepage. */
-function savePlaceTree() {
-    localStorage.setItem("MythsandLegacySavePlace", window.location);
-    alert("Your place was saved successfully.");
-}
-
-
-/* This function attempts to jump the user back to their most recent spot.
-TO-DO: Make this parent-specific, and add a selector is the load button is used on the homepage.
-Also, add an option for users to “finish” things and clear them from the reading orders. */
-function jumpToTree() {
-    if (localStorage.getItem("MythsandLegacySavePlace") === null) {
-        window.location.pathname = "/read";
-    } else {
-        window.location.href = localStorage.getItem("MythsandLegacySavePlace");
-    }
-}
-
-
-/* This function attempts to jump the user back to their current saved place.
-TO-DO: Make this parent-specific, and add a selector is the load button is used on the homepage. */
-function loadPlaceTree() {
-    if (localStorage.getItem("MythsandLegacySavePlace") === null) {
-        jumpToTree();
-    } else {
-        window.location.href = localStorage.getItem("MythsandLegacySavePlace");
-    }
-}
-
-
-/* This function navigates the user to the previous selected page in the current array. */
-async function goBackTree() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get("id");
-    let siblings = await getArrayTree(id);
-    siblings = siblings.split(",");
-    let position = siblings.indexOf(id);
-    window.location.href = "/read/?id=" + siblings[position - 1];
-}
-
-
-/* This function navigates the user to the next selected page in the current array. */
-async function goForwardTree() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get("id");
-    let siblings = await getArrayTree(id);
-    siblings = siblings.split(",");
-    let position = siblings.indexOf(id);
-    window.location.href = "/read/?id=" + siblings[position + 1];
-}
-
-
-/*****************************************************
- * END SIMPLE TREE-BASED READER NAVIGATION FUNCTIONS *
- *****************************************************/
-
-
-/********************
- * MASTER FUNCTIONS *
- ********************/
-
-
 /* This function takes an ID, version (optional, but highly encouraged), and language (optional), and jumps straight to that page. */
 async function goTo(combo) {
     target = combo.split(".");
@@ -759,30 +516,6 @@ async function goTo(combo) {
     } else {
         alert("ERROR: Redirection failed. Please report to admin@wallofhistory.com.");
         window.location.href = "/";
-    }
-}
-
-function jumpTo() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        jumpToChrono();
-    } else {
-        jumpToTree();
-    }
-}
-
-function savePlace() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        savePlaceChrono();
-    } else {
-        savePlaceTree();
-    }
-}
-
-function loadPlace() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        loadPlaceChrono();
-    } else {
-        loadPlaceTree();
     }
 }
 
@@ -826,18 +559,10 @@ function goForward() {
     }
 }
 
-function showButtons() {
-    if (localStorage.getItem("readingMode") == "chronology") {
-        showButtonsChrono();
-    } else {
-        showButtonsTree();
-    }
-}
 
-
-/************************
- * END MASTER FUNCTIONS *
- ************************/
+/****************************
+ * END NAVIGATION FUNCTIONS *
+ ****************************/
 
 
 /********************

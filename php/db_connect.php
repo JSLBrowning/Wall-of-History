@@ -3,7 +3,7 @@
 /**
  * Filename:    db_connect.php
  * Description: Container for database credentials.
- * Package:     Alexandria 1.0
+ * Package:     Shin 1.2
  * Author:      JSLBrowning
  * License:     Apache License, Version 2.0
  */

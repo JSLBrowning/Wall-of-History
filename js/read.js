@@ -44,13 +44,6 @@ function swap(swappableID) {
 }
 
 
-function check() {
-    if (sessionStorage.getItem("activeReadingOrder") === null && Object.keys(localStorage).filter(name => name.includes('readingOrder')).length == 1) {
-        sessionStorage.setItem("activeReadingOrder", "0");
-    }
-}
-
-
 let checkInterval = window.setInterval(check(), 500);
 
 
@@ -72,7 +65,7 @@ function getCookie(cname) {
 
 
 function stackHistory() {
-    // Make sure cookie exists, maybe??
+    // Make sure cookie exists, maybe?
     // Get current ID.
     // Update so it won't log nulls.
     const queryString = window.location.search;
@@ -128,40 +121,5 @@ function updateSpoilerLevel(id) {
         }
     };
     xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=" + "spoiler_level", true);
-    xmlhttp.send();
-}
-
-
-function zoomExtras(type) {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const ID = urlParams.get("id");
-    const version = (urlParams.has("v")) ? urlParams.get("v") : "1";
-    const language = (urlParams.has("lang")) ? urlParams.get("lang") : "en";
-
-    const query = "SELECT extra_main FROM story_reference_extras WHERE id='" + ID + "' AND content_version=" + version + " AND content_language='" + language + "' AND extra_type='" + type + "' LIMIT 1";
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let extra = this.responseText;
-            let div = document.createElement("div");
-            div.innerHTML = extra.trim();
-
-            let zoom = document.createElement("div");
-            zoom.classList.add("zoom");
-            document.body.appendChild(zoom);
-
-            zoom.appendChild(div.firstChild)
-
-            let exit = document.createElement("span");
-            exit.classList.add("exitSpan");
-            exit.setAttribute("onclick", "closeImage();");
-            exit.innerHTML = "";
-            zoom.appendChild(exit);
-            $(".zoom").fadeTo("fast", 1);
-        }
-    };
-    xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=extra_main", true);
     xmlhttp.send();
 }

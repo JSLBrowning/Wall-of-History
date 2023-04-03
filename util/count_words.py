@@ -1,6 +1,6 @@
 # Filename:    count_words.py
 # Description: Simple program to count the number of words on each line of a file and output to a list of SQL statements.
-# Package:     Alexandria 1.0
+# Package:     Shin 1.2
 # Author:      JSLBrowning
 # License:     Apache License, Version 2.0
 

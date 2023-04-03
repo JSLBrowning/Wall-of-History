@@ -495,8 +495,9 @@ CREATE TABLE IF NOT EXISTS shin_routes(
     /* The name of the route. */
     route_description text,
     /* The description of the route. */
-    route_main JSON NOT NULL,
+    route_main longtext,
     /* The route itself, in the format [id/s]:0,[id/s].2,[id/s]…
+     * This SHOULD be JSON, but I guess it's not supported by USBWebserver.
      * A .X specifies a particular verison (1 is default).
      * A :0 specifies that the entry in question is not recommended, and will be skipped.
      */
@@ -557,7 +558,7 @@ CREATE TABLE IF NOT EXISTS reference_content (
     version_title text,
     /* …and this string identifies the version (for example, "Updated"). */
     /* If no version titles, default to name of parents? */
-    entry_language varchar(2) DEFAULT "en",
+    entry_language varchar(16) DEFAULT "en",
     /* …and this is the language of the content in question, in the form of a two-character ISO 639-1 code. */
     
     /* DESCRIPTIVE/CONTENT STUFF */
@@ -565,7 +566,7 @@ CREATE TABLE IF NOT EXISTS reference_content (
     /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. Try to keep it brief — Google limits these to 320 characters. */
     entry_main longtext,
     /* Identical functionality to woh_content main column. */
-    entry_word int
+    entry_words int
     /* Self-explanatory. */
 
     PRIMARY KEY (entry_id, entry_version, entry_language)
@@ -667,7 +668,7 @@ CREATE TABLE IF NOT EXISTS soundtracks (
     /* Self-explanatory. */
     youtube_id varchar(34),
     /* Can be a single video (11 characters) or a playlist (34 characters). */
-    release_date date,
+    release_date date
     /* Self-explanatory. */
 );
 
@@ -675,7 +676,7 @@ CREATE TABLE IF NOT EXISTS soundtracks (
 CREATE TABLE IF NOT EXISTS music_videos (
     soundtrack_id BINARY(16) NOT NULL,
     /* UUID of the soundtrack. */
-    youtube_id varchar(11) NOT NULL,
+    youtube_id varchar(11) NOT NULL
     /* Self-explanatory. */
 );
 
@@ -763,7 +764,7 @@ CREATE TABLE IF NOT EXISTS id_update (
     /* Old ID version. */
     new_id_uuid BINARY(16) NOT NULL,
     /* New ID. */
-    new_id_version int NOT NULL,
+    new_id_version int NOT NULL
     /* New ID version. */
 );
 
@@ -780,20 +781,17 @@ CREATE TABLE IF NOT EXISTS id_update (
 
 /* The web table connects everything to everything else — books to chapters, movies to trailers, and soundtracks to songs. */
 CREATE TABLE IF NOT EXISTS shin_web(
-    grandparent_id BINARY(16),
-    /* Grandparent ID. USeful for disambiguating CSS paths if a parent has two parents of its own. Ultimately optional, however. */
-    grandparent_version int,
-    /* Grandparent version. Optional. */
     parent_id BINARY(16) NOT NULL,
     /* BIONICLE Chronicles #1: Tale of the Toa which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
     parent_version int,
     /* Version specificity here is necessary for things like graphic novels compiling comics that were originally published as separate works (especially if multiple graphic novels might contain the same comics). */
     child_id BINARY(16) NOT NULL,
     /* …you'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
-    child_version int
+    child_version int,
     /* If version numbers are not specified, then all versions of the parent are implied to be connected to all versions of the child — for example, all Mask of Light trailers are advertisements for all versions of the movie. */
     hierarchal boolean
     /* Determines if the given connection is a true parent/child relationship (think chapter of a book) or a looser connection (think commercial for a game or behind the scenes video for a movie). */
+    /* If a given node has two parents, and one of those parents is also the child of another, that should be considered a "disambiguation" connection (for cases like *Chronicles*). */
 );
 
 
@@ -806,7 +804,7 @@ CREATE TABLE IF NOT EXISTS shin_purchase_links(
     /* Language of the content in question. */
     purchase_link_descriptor tinytext NOT NULL,
     /* Descriptor for the purchase link — "Amazon," "Barnes & Noble," "iTunes," et cetera. Keep it brief. */
-    purchase_link text NOT NULL,
+    purchase_link text NOT NULL
     /* Self-explanatory. */
 );
 

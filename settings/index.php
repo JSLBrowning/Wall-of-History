@@ -27,7 +27,7 @@ chooseColors();
     <meta name="twitter:image" content="https://wallofhistory.com/img/ogp2.png" />
     <meta name="twitter:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <!-- END OF OGP DATA -->
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/main_old.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/settings.css">
     <title>Settings | Wall of History</title>

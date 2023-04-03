@@ -1,6 +1,6 @@
 # Filename:    blank.py
-# Description: Simple program to generate a specified number of blank lines formatted for Alexandria.
-# Package:     Alexandria 1.0
+# Description: Simple program to generate a specified number of blank lines formatted for Shin.
+# Package:     Shin 1.2
 # Author:      JSLBrowning
 # License:     Apache License, Version 2.0
 

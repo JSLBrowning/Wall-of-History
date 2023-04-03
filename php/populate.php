@@ -56,6 +56,10 @@ $languages = [
  *    c. Populate the rest of the block with the main content.
  *       i. If the main content column is empty, attempt to load content from the relevant directory, as specified in config.json.
  *       ii. if (main == null) {$main = loadExternalContent(pathTemplate, UUID, version, language)}
+ * 7. Populate the <body> with a <div.deck> containing children. Can be sorted by…
+ *    a. Release date. One list.
+ *    b. Type. If *all* children share a certain type, remove it from groupings. Then do this recursively. If all videos are movies, remove the video type. Basically, be specific.
+ *    c. Chronology. Only if all children have a chronology value.
  * X. Run mods.
  *    a. Run any PHP files inside the /mods/ folder.
  *    b. Insert <script> tags for any JS files found in the /mods/ folder before the end of the <body> tag.

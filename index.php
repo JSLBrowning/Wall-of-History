@@ -27,8 +27,7 @@ chooseColors();
     <meta name="twitter:image" content="https://wallofhistory.com/img/ogp2.png" />
     <meta name="twitter:image:alt" content="Wall of History: The Complete BIONICLE Legend" />
     <!-- END OF OGP DATA -->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!-- Put anything in read.css that's needed here into main.css. -->
+    <link rel="stylesheet" type="text/css" href="css/main_old.css">
     <link rel="stylesheet" type="text/css" href="css/modal.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Wall of History</title>
@@ -49,10 +48,10 @@ chooseColors();
     <main>
         <article>
             <video poster="img/video2.webp" controls<?php
-            if (!isset($_COOKIE['languagePreference'])) {
-                echo " autoplay";
-            }
-            ?>>
+                                                    if (!isset($_COOKIE['languagePreference'])) {
+                                                        echo " autoplay";
+                                                    }
+                                                    ?>>
                 <source src="/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -97,8 +96,8 @@ chooseColors();
                     <button class="small" onclick="window.location.href='/settings/';">Settings</button>
                     <hr>
                     <button class="small" onclick="window.location.href='/about/';">About</button>
-                    <button class="small" onclick="window.location.href='https://blog.wallofhistory.com';">Blog</button>
-                    <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/news/tags/wall-of-history';">News</button>
+                    <button class="small" onclick="window.location.href='https\://blog.wallofhistory.com';">Blog</button>
+                    <button class="small" onclick="window.location.href='https\://www.maskofdestiny.com/news/tags/wall-of-history';">News</button>
                     <button class="small" onclick="window.location.href='/contact/';">Contact</button>
                     <hr>
                     <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
