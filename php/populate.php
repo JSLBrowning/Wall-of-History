@@ -66,6 +66,28 @@ $languages = [
  */
 
 
+/******************
+ * TEST FUNCTIONS *
+ ******************/
+
+function parseJSON($id) {
+    include("db_connect.php");
+
+    $query = "SELECT route_main FROM shin_routes";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $json = json_decode($row["route_main"], true);
+            for ($i = 0; $i < count($json); $i++) {
+                if ($json[$i][1]["content_id"] == $id) {
+                    echo $json[$i][1]["content_version"] . "<br>";
+                }
+            }
+        }
+    }
+}
+
+
 /***********************
  * UNIVERSAL FUNCTIONS *
  ***********************/

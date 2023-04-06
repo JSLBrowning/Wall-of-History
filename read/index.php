@@ -5,7 +5,6 @@ include("../php/populate.php");
 include("../php/populateaside.php");
 chooseColors();
 ?>
-
 <head>
     <script src="/js/palette.js"></script>
     <meta charset='UTF-8'>
@@ -59,22 +58,22 @@ chooseColors();
         $lang = "en";
         $v = "1";
     }
-    populateHead($id, $lang, $v);
+    //populateHead($id, $lang, $v);
     ?>
     <link rel='stylesheet' type='text/css' href='/css/main.css'>
     <link rel='stylesheet' type='text/css' href='/css/modal.css'>
     <link rel='stylesheet' type='text/css' href='/css/cards.css'>
     <?php
     // Pass in stack cookie.
-    populateCSS($id, $lang, $v);
+    //populateCSS($id, $lang, $v);
     ?>
 </head>
 
 <body>
     <header>
         <?php
-        loadHeader($id, $lang, $v);
-        echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
+        //loadHeader($id, $lang, $v);
+        //echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
         <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
             <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">
@@ -83,8 +82,9 @@ chooseColors();
     <main>
         <article>
             <?php
-            loadContent($id, $v, $lang);
-            addChildren($id, $lang, $v);
+            //loadContent($id, $v, $lang);
+            //addChildren($id, $lang, $v);
+            parseJSON($id);
             ?>
             </section>
             <div class="savefile" style="display:none;">
@@ -98,7 +98,7 @@ chooseColors();
             </div>
         </article>
 
-        <aside>
+        <!--<aside>
             <button class="hideShow" onclick="hideShow(this)"><strong><span class="rightarrow"></span> </strong>Main Menu</button>
             <div class="asideMain">
                 <form action="/search/">
@@ -107,7 +107,7 @@ chooseColors();
                 </form>
                 <hr>
                 <?php
-                populateAside($id, $lang, $v);
+                //populateAside($id, $lang, $v);
                 ?>
                 <button class="small" onclick="window.location.href='/read/';">Contents</button>
                 <button class="small" onclick="window.location.href='/reference/';">Reference</button>
@@ -123,7 +123,7 @@ chooseColors();
                 <button class="small" onclick="swapPalettes()">Swap Palette</button>
                 <button class="small" onclick="matoranMode()">Matoran Mode</button>
             </div>
-        </aside>
+        </aside>-->
     </main>
     <!-- Modal -->
     <div id="myModal" class="modal">

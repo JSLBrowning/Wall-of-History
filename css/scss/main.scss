@@ -176,6 +176,41 @@ header {
             width: 30vw;
         }
     }
+
+    a.chip-wrapper {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+    
+        display: block;
+        width: 64px;
+        height: 64px;
+    
+        z-index: 19;
+
+        .chip-img {
+            height: unset;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+        }
+        
+        
+        .chip-img:hover,
+        .chip-img:active,
+        .chip-img:focus {
+            transform: none;
+        }
+    }
+    
+    
+    a.chip-wrapper:hover,
+    a.chip-wrapper:active,
+    a.chip-wrapper:focus {
+        text-decoration: none;
+        filter: brightness(.5);
+        cursor: pointer;
+    }
 }
 
 header input,
@@ -639,7 +674,7 @@ i {
     justify-content: flex-start;
     max-width: 1280px;
     margin: auto;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 article .article__content .deck {
@@ -687,10 +722,17 @@ article .article__content .deck .card {
         margin-top: 1rem;
         margin-bottom: 1rem;
 
+        h3 {
+            letter-spacing: 0.0625rem;
+        }
+
         h4,
         h5,
         p {
             margin: 0rem;
+        }
+
+        .card__details {
             margin-left: 1rem;
         }
 
@@ -706,6 +748,38 @@ article .article__content .deck .card {
                 margin: 0rem;
                 margin-bottom: 0rem;
                 margin-top: auto;
+            }
+        }
+
+        .versions {
+            p {
+                text-transform: uppercase;
+                font-size: 0.625rem;
+                color: darkgray;
+                line-height: 0.625rem;
+            }
+        }
+
+        .tags {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: stretch;
+            flex-wrap: wrap;
+
+            p {
+                margin: 0.0625em 0.125em;
+                padding: 0.0625em 0.125em;
+                width: auto;
+                border-radius: 0.25em;
+                background-color: gray;
+                font-size: 0.625rem;
+                line-height: 0.625rem;
+                color: #000;
+
+                &:first-of-type {
+                    margin-left: 0;
+                }
             }
         }
     }
@@ -732,7 +806,6 @@ article .article__content .deck .card {
 
     /* LARGE CARD STYLES */
     &.large__card {
-        margin: auto;
         width: calc(33.33% - 0.67rem);
         min-height: 10rem;
         height: unset;
@@ -774,12 +847,12 @@ article .article__content .deck .card {
                 transition: 2s ease-in-out all;
 
                 h3 {
-                    margin: 0.125rem .5rem !important;
+                    margin: 0.125rem 0.5rem !important;
                     font-size: 1.25rem;
                 }
 
                 p {
-                    margin: 0.125rem .5rem !important;
+                    margin: 0.125rem 0.5rem !important;
                     font-size: 0.875rem;
                 }
             }
@@ -797,7 +870,7 @@ article .article__content .deck .card {
 
         .card__text {
             justify-content: flex-start;
-            margin: 0.5rem 0rem;
+            margin: auto 0rem;
             overflow: scroll;
         }
 
