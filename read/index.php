@@ -60,9 +60,10 @@ chooseColors();
     }
     //populateHead($id, $lang, $v);
     ?>
-    <link rel='stylesheet' type='text/css' href='/css/main.css'>
-    <link rel='stylesheet' type='text/css' href='/css/modal.css'>
-    <link rel='stylesheet' type='text/css' href='/css/cards.css'>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/fontawesome-free-6.3.0-web/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <?php
     // Pass in stack cookie.
     //populateCSS($id, $lang, $v);
@@ -75,9 +76,12 @@ chooseColors();
         //loadHeader($id, $lang, $v);
         //echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
-        <a class="chip-wrapper" href="https://www.maskofdestiny.com/">
-            <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">
-        </a>
+        <!-- <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a> -->
+        <div>
+            <i class="fa-solid fa-bars fa-lg"></i>
+            <img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png">
+        </div>
+        <input type="text" placeholder="Search…">
     </header>
     <main>
         <article>
