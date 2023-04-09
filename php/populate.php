@@ -34,6 +34,10 @@ $languages = [
  * HOW TO BUILD A READER PAGE:
  * 1. Ensure an ID, version, and language were passed to the page.
  * 2. If not, redirect to the table of contents.
+ *    a. On table of contents, find tops of trees by default, and populate with large cards.
+ *    b. Include a dropdown menu for other options, including media type, release date, and chronology.
+ *    c. If media type, split into the four categories, with main at the top, followed by developmental, promotional, and supplemental.
+ *    d. If release date... find all elements with a non-null release date. If all children of a parent have the same, only display the parent.
  * 3. If so, populate the <head> with OGP data.
  * 4. Populate the <head> with any relevant CSS links.
  * 5. Populate the <body> with the header.
@@ -59,6 +63,9 @@ $languages = [
  * 7. Populate the <body> with a <div.deck> containing children. Can be sorted by…
  *    a. Release date. One list.
  *    b. Type. If *all* children share a certain type, remove it from groupings. Then do this recursively. If all videos are movies, remove the video type. Basically, be specific.
+ *       i. If all children are of the same type, don't bother with the type header.
+ *       ii. Types should also be collapsible.
+ *       iii. "Story" and "ref" should be types?
  *    c. Chronology. Only if all children have a chronology value.
  * X. Run mods.
  *    a. Run any PHP files inside the /mods/ folder.
@@ -70,20 +77,45 @@ $languages = [
  * TEST FUNCTIONS *
  ******************/
 
-function parseJSON($id) {
+function getRoute($route_id) {
     include("db_connect.php");
 
     $query = "SELECT route_main FROM shin_routes";
     $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $json = json_decode($row["route_main"], true);
-            for ($i = 0; $i < count($json); $i++) {
-                if ($json[$i][1]["content_id"] == $id) {
-                    echo $json[$i][1]["content_version"] . "<br>";
-                }
-            }
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $route = json_decode($row["route_main"], true);
+        return $route;
+    } else {
+        return null;
+    }
+}
+
+
+function findNeighbors($route, $id) {
+    for ($i = 0; $i < count($route); $i++) {
+        if ($route[$i][1]["content_id"] == $id) {
+            echo $route[$i][0]["content_id"] . "<br>" . $route[$i][2]["content_id"];
         }
+    }
+}
+
+
+function getMainContent($id, $version=1, $language="eng") {
+    include("db_connect.php");
+
+    $query = "SELECT content_main FROM shin_content WHERE content_id = '$id' AND content_version =$version AND content_language = '$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $content = $row["content_main"];
+        echo $content;
+    } else {
+        return null;
     }
 }
 

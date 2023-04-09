@@ -44,7 +44,7 @@ chooseColors();
             if (isset($_GET["lang"])) {
                 $lang = $_GET["lang"];
             } else {
-                $lang = "en";
+                $lang = "eng";
             }
 
             if (isset($_GET["v"])) {
@@ -55,7 +55,7 @@ chooseColors();
         }
     } else {
         $id = "0";
-        $lang = "en";
+        $lang = "eng";
         $v = "1";
     }
     //populateHead($id, $lang, $v);
@@ -88,7 +88,11 @@ chooseColors();
             <?php
             //loadContent($id, $v, $lang);
             //addChildren($id, $lang, $v);
-            parseJSON($id);
+            // 7e4503d9-d648-11ed-beaa-00ff2a5c27e8
+            // 8665db38-d648-11ed-beaa-00ff2a5c27e8
+            $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+            findNeighbors($route, $id);
+            getMainContent($id, $v, $lang);
             ?>
             </section>
             <div class="savefile" style="display:none;">
