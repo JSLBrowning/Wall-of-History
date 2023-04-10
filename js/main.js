@@ -67,17 +67,58 @@ function getCookie(cname) {
 }
 
 
-// This function loads the configuration data from config.json.
-function loadJSON(callback) {
+// Function to take a JSON object and find all elements where the passed ID is in the current field.
+function findInJSON(json, id) {
+    console.log("WIP.");
+}
+
+
+// This function loads the data (by default the global config params) from a JSON file.
+function loadJSONFromPath(path = "/config/config.json", callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', '/config/config.json', true);
+    xobj.open('GET', path, true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);
         }
     };
     xobj.send(null);
+}
+
+
+/***************************
+ * NEW FUNCTION PLAYGROUND *
+ ***************************/
+
+
+function getSQLData(sqlQuery, sqlColumn) {
+    return new Promise(resolve => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(this.responseText);
+            }
+        };
+        xmlhttp.open("GET", "../php/query.php?q=" + sqlQuery + "&c=" + sqlColumn, true);
+        xmlhttp.send();
+    });
+}
+
+
+async function goRead(routeID = null, routePath = null) {
+    // Check if there is a savePlace:routeID in localStorage. If so, go to that page.
+    if (localStorage.getItem("savePlace:" + routeID) !== null) {
+        window.location.href = localStorage.getItem("savePlace:" + routeID);
+    }
+
+    // If not, check if routePath is set. If so, parse that JSON file.
+    if (routePath == null) {
+        let sqlQuery = "SELECT route_main FROM shin_routes WHERE route_id = \"" + routeID + "\"";
+        let sqlColumn = "route_main";
+        let route = JSON.parse(await getSQLData(sqlQuery, sqlColumn));
+        console.log(route);
+    }
 }
 
 

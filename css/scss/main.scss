@@ -1,17 +1,71 @@
-/*
-sass --no-source-map --watch css/scss/:css/ --style compressed
+/***************************************************************************
+ * COMPILE: sass --no-source-map --watch css/scss/:css/ --style compressed *
+ ***************************************************************************/
 
-:root {
-  --danger-theme: {
-    color: white;
-    background-color: orange;
-  }
+/**********
+ * COLORS *
+ **********/
+
+// Dark (default) theme.
+$back1: #080808;
+// RGB08, drop shadow
+$back2: #161616;
+// RGB22, main background, button:active
+$back3: #202020;
+// RGB32, button:hover, border, etc.
+$back4: #303030;
+// RGB48
+$front1: #ffffff;
+// RGB255, text
+$front2: #cfcfcf;
+// RGB207, a:hover
+$front3: #9f9f9f;
+// RGB159, a:active
+
+.light-mode {
+    $back1: #b1b1b2;
+    // drop shadow
+    $back2: #e5e6eb;
+    // main background, button:active
+    $back3: #f9f9fa;
+    // button:hover, border, etc.
+    $back4: #ffffff;
+    // RGB255
+    $front1: #080808;
+    // text
+    $front2: #161616;
+    // a:hover
+    $front3: #202020;
+    // a:active
 }
 
-.danger {
-  @apply --danger-theme;
+/*********
+ * FONTS *
+ *********/
+
+$gill-sans: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+
+$trademarker: "TradeMarker", "Gill Sans Std", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+
+@mixin headings {
+    font-family: $trademarker;
+    color: #fff;
+    margin: 0.125rem 0.75rem;
+    letter-spacing: 0.25rem;
+
+    text: {
+        decoration: none;
+        shadow: rgba(0, 0, 0, 0.5) 2px 2px 4px;
+    }
 }
-*/
+
+.trademarker {
+    font-family: $trademarker;
+}
+
+/****************
+ * BASIC STYLES *
+ ****************/
 
 * {
     box-sizing: border-box;
@@ -31,54 +85,24 @@ body {
     background-attachment: fixed;
 }
 
-/* VARIABLES */
-
-$back1: #080808;
-/* RGB08, drop shadow */
-$back2: #161616;
-/* RGB22, main background, button:active */
-$back3: #202020;
-/* RGB32, button:hover, border, etc. */
-$back4: #303030;
-/* RGB48 */
-$front1: #ffffff;
-/* RGB255, text */
-$front2: #cfcfcf;
-/* RGB207, a:hover */
-$front3: #9f9f9f;
-/* RGB159, a:active */
-$fontweight: normal;
-
-$outershadow: 2px 2px 4px rgba(0, 0, 0, 0.5625);
-
-$gill-sans: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-$trademarker: "TradeMarker", "Gill Sans Std", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-
-@mixin headings {
-    font-family: "TradeMarker";
-    color: #fff;
-    margin: 0.125rem 0.75rem;
-    letter-spacing: 0.25rem;
-
-    text: {
-        decoration: none;
-        shadow: rgba(0, 0, 0, 0.5) 2px 2px 4px;
-    }
-}
-
-button {
-    cursor: pointer;
-}
-
-.trademarker {
-    font-family: "TradeMarker";
-}
-
 p,
 a,
 button {
     font-family: "Gill Sans Std";
     line-height: 1.5rem;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+a:hover {
+    color: #cfcfcf;
+}
+
+a:active {
+    color: #9f9f9f;
 }
 
 h1,
@@ -87,6 +111,10 @@ h3,
 h4,
 h2 a {
     @include headings;
+}
+
+h2 a {
+    margin: 0rem;
 }
 
 h2 a:hover {
@@ -122,6 +150,12 @@ p {
     line-height: 1.5rem;
 }
 
+hr {
+    margin: 0.5em 0em 0.5em 0em;
+    border: 0px;
+    border-top: 1px solid $back3;
+}
+
 header {
     grid-area: header;
     display: flex;
@@ -138,6 +172,12 @@ header {
         display: flex;
         align-items: center;
         gap: 1rem;
+
+        p {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
     }
 
     img,
@@ -218,7 +258,7 @@ header input,
 select {
     border-radius: 0.375rem;
     border: none;
-    background-color: rgba(8, 8, 8, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 0.25rem 1rem;
     color: #fff;
     height: 75%;
@@ -244,7 +284,11 @@ article {
     max-width: 1280px;
     margin: 2rem auto;
     border-radius: 1rem;
-    background-color: #161616;
+    background-color: rgba(22, 22, 22, 0.5);
+    backdrop-filter: blur(1rem);
+    //background-image: url("/img/story/contents/GNO2P6.webp");
+    background-size: cover;
+    background-position: center;
 
     position: relative;
 
@@ -254,18 +298,79 @@ article {
     &.fullscreen__article {
         border: none;
         border-top: 1px solid $back3;
-        min-width: 100vw;
-        min-height: calc(100vh + 2px);
-        max-width: 100vw;
-        max-height: calc(100vh + 2px);
         border-radius: 0;
         box-shadow: none;
         margin: 0;
+        min-width: 100vw;
+        min-height: 100vh;
+
+        .article__content {
+            display: flex;
+            flex-direction: column;
+
+            .title__box {
+                grid-template-rows: unset;
+
+                .title__box__text {
+                    height: unset;
+                }
+
+                .buttons {
+                    button {
+                        min-height: 2.5rem;
+                    }
+                }
+            }
+
+            .extra__content {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-between;
+
+                > * {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    gap: 1rem;
+                }
+
+                form {
+                    width: 100%;
+
+                    select {
+                        max-width: calc(50vw - 2rem);
+                    }
+                }
+
+                span.detail {
+                    width: 50%;
+                }
+
+                .extra__areas {
+                    width: calc(33.33vw - 1rem);
+                }
+            }
+
+            .main__content {
+                width: 100vw;
+                height: 100vh;
+                background-color: rgb(0, 0, 0);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                video {
+                    max-width: 100%;
+                    max-height: 100%;
+                    width: 100%;
+                }
+            }
+        }
     }
 
     /*******************
      * ARTICLE LAYER 0 *
-     *******************/
+    
 
     .article__background {
         width: 100%;
@@ -293,9 +398,8 @@ article {
             background: rgb(22, 22, 22);
             background: linear-gradient(
                 0deg,
-                rgba(22, 22, 22, 1) 0%,
-                rgba(22, 22, 22, 1) 75%,
-                rgba(22, 22, 22, 0.75) 100%
+                rgba(22, 22, 22, 1) 90%,
+                rgba(22, 22, 22, 0.875) 100%
             );
             border: 1px solid #202020;
             border-top: none;
@@ -303,6 +407,7 @@ article {
             border-radius: 0 0 1rem 1rem;
         }
     }
+     *******************/
 
     .video__article {
         display: flex;
@@ -327,9 +432,8 @@ article {
         display: grid;
         grid-template-areas:
             "title title"
-            "extras tabs"
-            "extras content";
-        grid-template-columns: 1fr 3fr;
+            "main extra";
+        grid-template-columns: 3fr 1fr;
 
         .title__box {
             grid-area: title;
@@ -339,7 +443,8 @@ article {
                 "img title"
                 "img button"
                 "img details";
-            grid-template-columns: 1fr 8fr;
+            grid-template-columns: 0fr 8fr;
+            justify-content: stretch;
             gap: 1rem;
             margin: 0.5rem;
 
@@ -456,13 +561,12 @@ article {
         }
 
         .extra__content {
-            grid-area: extras;
+            grid-area: extra;
         }
 
-        .summary,
-        .full__text {
-            grid-area: content;
-            border-left: 1px solid #202020;
+        .main__content {
+            grid-area: main;
+            border-right: 1px solid #202020;
         }
     }
 }
@@ -761,7 +865,7 @@ i {
                 display: flex;
                 flex-flow: row nowrap;
                 justify-content: flex-start;
-                gap: .5rem;
+                gap: 0.5rem;
                 margin-left: 1rem;
 
                 * {
@@ -833,8 +937,13 @@ i {
             gap: 0.5rem;
             border: none;
 
-            img {
-                max-height: 100%;
+            > img {
+                margin: auto 0.25rem;
+                object-fit: contain;
+                min-height: 0px;
+                max-height: calc(100% - 0.5rem);
+                min-width: 5rem;
+                max-width: 5rem;
             }
 
             h3,
@@ -878,6 +987,14 @@ i {
             position: relative;
             border-radius: 0.5rem;
             border: none;
+
+            > img {
+                margin: auto 0.25rem;
+                min-width: 12rem;
+                max-width: 12rem;
+                object-fit: contain;
+                max-height: calc(100% - .5rem);
+            }
 
             &.movie {
                 display: block;
@@ -967,15 +1084,16 @@ article .article__content .deck .card {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-end;
-    margin: 1rem;
+    margin: 0.375rem;
     gap: 1rem;
     min-height: 3rem;
 
     .tab {
-        min-width: 50%;
+        width: 80%;
+        max-width: unset;
         border-radius: 0.5rem 0.5rem 0rem 0rem;
         background: #2a2a2a;
-        background: linear-gradient(180deg, #2a2a2a 0%, #2a2a2a 80%, rgba(255, 255, 255, 0) 100%);
+        //background: linear-gradient(180deg, #2a2a2a 0%, #2a2a2a 80%, rgba(255, 255, 255, 0) 100%);
         border: none;
         min-height: unset;
         height: 2.5rem;
@@ -988,7 +1106,7 @@ article .article__content .deck .card {
 
     .active__tab {
         background: dimgray;
-        background: linear-gradient(180deg, dimgray 0%, dimgray 80%, rgba(255, 255, 255, 0) 100%);
+        //background: linear-gradient(180deg, dimgray 0%, dimgray 80%, rgba(255, 255, 255, 0) 100%);
         height: 3rem;
         border-top: 1px solid gray;
         color: #fff;
@@ -999,7 +1117,7 @@ article .article__content .deck .card {
     .tab:not(.active__tab):hover {
         cursor: pointer;
         background: dimgray;
-        background: linear-gradient(180deg, dimgray 0%, dimgray 80%, rgba(255, 255, 255, 0) 100%);
+        //background: linear-gradient(180deg, dimgray 0%, dimgray 80%, rgba(255, 255, 255, 0) 100%);
         border-top: 1px solid gray;
     }
 }
@@ -1096,4 +1214,103 @@ aside {
     .card__text {
         z-index: 1;
     }
+}
+
+/***********************
+ * MEDIA PLAYER STYLES *
+ ***********************/
+
+div.mediaplayercontents span img,
+div.mediaplayercontents span div {
+    display: block;
+}
+
+div.mediaplayercontents img,
+div.mediaplayercontents video,
+div.mediaplayercontents span {
+    display: none;
+}
+
+div.mediaplayercontents > *:first-child {
+    display: block;
+}
+
+div.mediaplayercontents {
+    max-height: calc(100vh - 2.5rem);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    border-radius: 0.5em;
+}
+
+div.mediaplayercontents:only-child {
+    max-height: 100vh;
+}
+
+div.mediaplayercontents img,
+div.mediaplayercontents video {
+    max-height: calc(100vh - 2.5rem);
+    max-width: 100vw;
+    border-radius: 0.5em;
+    object-fit: contain;
+}
+
+div.mediaplayercontents span {
+    position: relative;
+}
+
+div.mediaplayercontents video {
+    min-height: 100%;
+    background-color: rgba(8, 8, 8, 0.75);
+}
+
+div.mediaplayer div.mediaplayercontrols {
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+div.mediaplayercontrols > * {
+    max-height: 2.5rem;
+}
+
+div.mediaplayercontrols button,
+div.mediaplayercontrols div {
+    width: 4rem;
+    max-width: 4rem;
+    height: 100%;
+    margin: 0em 0.375em;
+    background: $back2;
+    border: none;
+    box-shadow: none;
+    line-height: 0rem;
+}
+
+div.mediaplayercontrols p {
+    width: 100%;
+    max-height: 100%;
+    text-align: center;
+    margin: auto 0em;
+    user-select: none;
+}
+
+.imginfobox {
+    position: absolute !important;
+    z-index: 15;
+    bottom: 10%;
+    right: 10%;
+    background-color: rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(255, 255, 255, 0.375);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.imginfobox:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.imginfobox:active {
+    background-color: rgba(255, 255, 255, 0.375);
 }

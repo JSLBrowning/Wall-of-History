@@ -34,10 +34,11 @@ $languages = [
  * HOW TO BUILD A READER PAGE:
  * 1. Ensure an ID, version, and language were passed to the page.
  * 2. If not, redirect to the table of contents.
- *    a. On table of contents, find tops of trees by default, and populate with large cards.
- *    b. Include a dropdown menu for other options, including media type, release date, and chronology.
+ *    a. On table of contents, find tops of trees with chronology values (the chapters, basically).
+ *    b. Include a dropdown menu for other options, including media type and release date.
  *    c. If media type, split into the four categories, with main at the top, followed by developmental, promotional, and supplemental.
- *    d. If release date... find all elements with a non-null release date. If all children of a parent have the same, only display the parent.
+ *       i. Then have one block for each type, with the title of the block being the type.
+ *    d. If release date, find all elements with a release date. If all children of a parent have the same, only display the parent.
  * 3. If so, populate the <head> with OGP data.
  * 4. Populate the <head> with any relevant CSS links.
  * 5. Populate the <body> with the header.
@@ -60,6 +61,7 @@ $languages = [
  *    c. Populate the rest of the block with the main content.
  *       i. If the main content column is empty, attempt to load content from the relevant directory, as specified in config.json.
  *       ii. if (main == null) {$main = loadExternalContent(pathTemplate, UUID, version, language)}
+ *       iii. If type is "comic", and folder contains images, create a slideshow, etc.
  * 7. Populate the <body> with a <div.deck> containing children. Can be sorted by…
  *    a. Release date. One list.
  *    b. Type. If *all* children share a certain type, remove it from groupings. Then do this recursively. If all videos are movies, remove the video type. Basically, be specific.

@@ -705,7 +705,7 @@ CREATE TABLE IF NOT EXISTS creator_roles (
     creator_id BINARY(16) NOT NULL,
     /* UUID of the creator. */
     content_id BINARY(16) NOT NULL,
-    /* UUID of the content. */
+    /* UUID of the content. Can also be a commentary entry. */
     creator_role text NOT NULL
     /* Self-explanatory — "writer," "illustrator," et cetera. These should be simple — if someone wrote something AND recorded themselves reading it, for example, there should be two entries — one for "writer" and one for "narrator." These will be concatenated properly at render — for example, "Written and Narrated by Greg Farshtey." */
 );

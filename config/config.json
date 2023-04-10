@@ -44,7 +44,7 @@
             "badge":"/img/new.webp"
         }
     ],
-    "contentPath":"/img/story/",
+    "contentPath":"/img/story/[tagtype:type]/[id/s]",
     "wordCountEnabled":true,
     "releaseDateEnabled":true,
     "completedEnabled":false,
