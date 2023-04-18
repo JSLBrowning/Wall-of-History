@@ -6,7 +6,7 @@
     a. <-VA-> 144.
     b. Line height 64pt (originally 72, revise?).
 6. Stroke of 4, rasterize.
-7. Drop shadow of 4, rasterize. 135 degrees.
-8. Center in empty space to right of cover.
+7. Center in empty space to right of cover.
+8. Drop shadow of 4, rasterize. 135 degrees.
 9. Merge both top layers, center as one piece.
 IF ABOVE IS TOO TIGHT, space-evenly cover and text before adding shadow.

@@ -6,7 +6,7 @@
 
 
 def generate_object(id, version):
-    return "{\"content_id\": \"" + id + "\", \"content_version\": " + str(version) + "\"}"
+    return "{\"content_id\": \"" + id + "\", \"content_version\": " + str(version) + "}"
 
 
 def route_to_json(path):
@@ -20,14 +20,14 @@ def route_to_json(path):
     new_file.write("[\n")
     for i in range(len(content_list)):
         if i == 0:
-            new_file.write("    [null, " + generate_object(content_list[0],
-                           1) + ", " + generate_object(content_list[1], 1) + "],\n")
+            new_file.write("    {\"previous\":null, \"current\":" + generate_object(content_list[0],
+                           1) + ", \"next\":" + generate_object(content_list[1], 1) + "},\n")
         elif i == len(content_list) - 1:
-            new_file.write("    [" + generate_object(content_list[i-1], 1) +
-                           ", " + generate_object(content_list[i], 1) + ", null]\n")
+            new_file.write("    {\"previous\":" + generate_object(content_list[i-1], 1) +
+                           ", \"current\":" + generate_object(content_list[i], 1) + ", \"next\":null}\n")
         else:
-            new_file.write("    [" + generate_object(content_list[i-1], 1) + ", " + generate_object(
-                content_list[i], 1) + ", " + generate_object(content_list[i+1], 1) + "],\n")
+            new_file.write("    {\"previous\":" + generate_object(content_list[i-1], 1) + ", \"current\":" + generate_object(
+                content_list[i], 1) + ", \"next\":" + generate_object(content_list[i+1], 1) + "},\n")
     new_file.write("]")
     new_file.close()
 

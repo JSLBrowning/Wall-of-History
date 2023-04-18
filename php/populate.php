@@ -79,10 +79,12 @@ $languages = [
  * TEST FUNCTIONS *
  ******************/
 
+// getRoute($route_id): Take a route ID and return the decoded JSON array.
+// Active route will be passed in through cookies.
 function getRoute($route_id) {
     include("db_connect.php");
 
-    $query = "SELECT route_main FROM shin_routes";
+    $query = "SELECT route_main FROM shin_routes WHERE route_id = '$route_id'";
     $result = $mysqli->query($query);
     if (mysqli_num_rows($result) == 0) {
         return null;
@@ -96,10 +98,39 @@ function getRoute($route_id) {
 }
 
 
+// findNeighbors($route, $id): Take a decoded JSON array, find any object where the passed id is in an object under a "current" key, and return all "previous" and "next" keys.
 function findNeighbors($route, $id) {
-    for ($i = 0; $i < count($route); $i++) {
-        if ($route[$i][1]["content_id"] == $id) {
-            echo $route[$i][0]["content_id"] . "<br>" . $route[$i][2]["content_id"];
+    foreach ($route as $value) {
+        // Check if the array has a "current" key.
+        if (array_key_exists("current", $value)) {
+            // Check if the "current" key has the passed ID.
+            if ($value["current"]["content_id"] == $id) {
+                // If so, return the "previous" and "next" keys.
+                return [$value["previous"], $value["next"]];
+            }
+        } else {
+            // If not, check if the array has any children.
+            if (is_array($value)) {
+                // If so, run the function again.
+                findNeighbors($value, $id);
+            }
+        }
+    }
+}
+
+
+function findFirstPage($route) {
+    foreach ($route as $value) {
+        // Check if the array has a "current" key.
+        if (array_key_exists("current", $value)) {
+            // If so, return the "current" key.
+            return $value["current"];
+        } else {
+            // If not, check if the array has any children.
+            if (is_array($value)) {
+                // If so, run the function again.
+                findFirstPage($value);
+            }
         }
     }
 }

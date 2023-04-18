@@ -77,10 +77,8 @@ chooseColors();
         //echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
         <!-- <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a> -->
-        <div>
-            <i class="fa-solid fa-bars fa-lg"></i>
-            <img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png">
-        </div>
+        <a href="/"><img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png"></a>
+        <p><a class="small" onclick="window.location.href='/reference/';">Reference</a> | <a class="small" onclick="window.location.href='/about/';">About</a> | <a class="small" onclick="window.location.href='https\://blog.wallofhistory.com';">Blog</a> | <a class="small" onclick="window.location.href='https\://www.maskofdestiny.com/news/tags/wall-of-history';">News</a> | <a class="small" onclick="window.location.href='/contact/';">Contact</a></p>
         <input type="text" placeholder="Search…">
     </header>
     <main>
@@ -105,33 +103,6 @@ chooseColors();
                 <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none"><span class="rightarrow"></span></button>
             </div>
         </article>
-
-        <!--<aside>
-            <button class="hideShow" onclick="hideShow(this)"><strong><span class="rightarrow"></span> </strong>Main Menu</button>
-            <div class="asideMain">
-                <form action="/search/">
-                    <input type="text" required="required" placeholder="Search…" name="q">
-                    <button type="submit">🔎︎</button>
-                </form>
-                <hr>
-                <?php
-                //populateAside($id, $lang, $v);
-                ?>
-                <button class="small" onclick="window.location.href='/read/';">Contents</button>
-                <button class="small" onclick="window.location.href='/reference/';">Reference</button>
-                <button class="small" onclick="window.location.href='/settings/';">Settings</button>
-                <hr>
-                <button class="small" onclick="window.location.href='/about/';">About</button>
-                <button class="small" onclick="window.location.href='https://blog.wallofhistory.com';">Blog</button>
-                <button class="small" onclick="window.location.href='https://www.maskofdestiny.com/news/tags/wall-of-history';">News</button>
-                <button class="small" onclick="window.location.href='/contact/';">Contact</button>
-                <hr>
-                <button class="small" onclick="increaseFontSize()">Inc. Font Size</button>
-                <button class="small" onclick="decreaseFontSize()">Dec. Font Size</button>
-                <button class="small" onclick="swapPalettes()">Swap Palette</button>
-                <button class="small" onclick="matoranMode()">Matoran Mode</button>
-            </div>
-        </aside>-->
     </main>
     <!-- Modal -->
     <div id="myModal" class="modal">
