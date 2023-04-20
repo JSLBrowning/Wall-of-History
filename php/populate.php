@@ -98,28 +98,35 @@ function getRoute($route_id) {
 }
 
 
-// findNeighbors($route, $id): Take a decoded JSON array, find any object where the passed id is in an object under a "current" key, and return all "previous" and "next" keys.
-function findNeighbors($route, $id) {
+// getNeighbors($route, $id): Take a decoded JSON array, find any object where the passed id is in an object under a "current" key, and return all "previous" and "next" keys.
+function getNeighbors($route, $id, $version=null) {
     foreach ($route as $value) {
         // Check if the array has a "current" key.
         if (array_key_exists("current", $value)) {
             // Check if the "current" key has the passed ID.
             if ($value["current"]["content_id"] == $id) {
-                // If so, return the "previous" and "next" keys.
-                return [$value["previous"], $value["next"]];
+                if ($value["previous"] == null && $value["next"] != null) {
+                    return array("next" => $value["next"]);
+                } else if ($value["next"] != null && $value["previous"] != null) {
+                    return array("previous" => $value["previous"], "next" => $value["next"]);
+                } else if ($value["next"] == null && $value["previous"] != null) {
+                    return array("previous" => $value["previous"]);
+                } else {
+                    return null;
+                }
             }
         } else {
             // If not, check if the array has any children.
             if (is_array($value)) {
                 // If so, run the function again.
-                findNeighbors($value, $id);
+                getNeighbors($value, $id, $version);
             }
         }
     }
 }
 
 
-function findFirstPage($route) {
+function getFirstPage($route) {
     foreach ($route as $value) {
         // Check if the array has a "current" key.
         if (array_key_exists("current", $value)) {
@@ -129,7 +136,7 @@ function findFirstPage($route) {
             // If not, check if the array has any children.
             if (is_array($value)) {
                 // If so, run the function again.
-                findFirstPage($value);
+                getFirstPage($value);
             }
         }
     }
@@ -139,7 +146,7 @@ function findFirstPage($route) {
 function getMainContent($id, $version=1, $language="eng") {
     include("db_connect.php");
 
-    $query = "SELECT content_main FROM shin_content WHERE content_id = '$id' AND content_version =$version AND content_language = '$language'";
+    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
     $result = $mysqli->query($query);
     if (mysqli_num_rows($result) == 0) {
         return null;
@@ -840,6 +847,3 @@ function getChildren($nodes, $leaves, $all_leaves)
         return getChildren($nodes, $leaves, $all_leaves);
     }
 }
-
-
-?>

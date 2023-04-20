@@ -84,13 +84,23 @@ chooseColors();
     <main>
         <article>
             <?php
-            //loadContent($id, $v, $lang);
-            //addChildren($id, $lang, $v);
-            // 7e4503d9-d648-11ed-beaa-00ff2a5c27e8
-            // 8665db38-d648-11ed-beaa-00ff2a5c27e8
+            // loadContent($id, $v, $lang);
+            // addChildren($id, $lang, $v);
             $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
-            findNeighbors($route, $id);
-            getMainContent($id, $v, $lang);
+            
+            $firstPage = getFirstPage($route);
+            // echo "<p>";
+            // print_r($firstPage);
+            // echo "</p>";
+
+            echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
+
+            $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
+            echo "<p>";
+            print_r($neighbors);
+            echo "</p>";
+
+            echo "<button onclick=\"window.location.href='" . $neighbors["next"]["content_id"] . "'\">Forward</button>";
             ?>
             </section>
             <div class="savefile" style="display:none;">
