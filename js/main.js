@@ -106,7 +106,7 @@ function getSQLData(sqlQuery, sqlColumn) {
 }
 
 
-async function goRead(routeID = null, routePath = null) {
+async function read(routeID = null, routePath = null) {
     // Check if there is a savePlace:routeID in localStorage. If so, go to that page.
     if (localStorage.getItem("savePlace:" + routeID) !== null) {
         window.location.href = localStorage.getItem("savePlace:" + routeID);
@@ -120,6 +120,9 @@ async function goRead(routeID = null, routePath = null) {
         console.log(route);
     }
 }
+
+
+read("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
 
 
 /**
