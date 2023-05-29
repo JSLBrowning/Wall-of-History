@@ -49,5 +49,16 @@
     "releaseDateEnabled":true,
     "completedEnabled":false,
     "referenceEnabled":true,
-    "referenceAlltoAll":true
+    "referenceAlltoAll":true,
+    "socials":{
+        "discord":"https://discord.com/invite/V7KUyye",
+        "facebook":"WallofHistory",
+        "instagram":"wall_of_history",
+        "reddit":"r/WallOfHistory",
+        "twitter":"Wall_of_History",
+        "youtube":"UCNnu_YlSMehzaAZwWS6gkVg"
+    },
+    "devSocials":{
+        "twitter":"JSLBrowning"
+    }
 }

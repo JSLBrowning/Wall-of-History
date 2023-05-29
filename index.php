@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <?php
-include("./php/populate.php");
-chooseColors();
-?>
 
+?>
+<html lang="en">
+<script>
+    // If localStorage.colorPreference == light, set light class on html.
+    if (localStorage.colorPreference == "light") {
+        document.documentElement.classList.add('light');
+    } else if (localStorage.colorPreference == "dark") {
+        document.documentElement.classList.add('dark');
+    } else {
+        // Check browser for dark mode preference.
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem("colorPreference", "dark");
+            sessionStorage.setItem("TestItem", "TestValue");
+            localStorage.setItem("TestItem", "TestValue");
+        } else {
+            document.documentElement.classList.add('light');
+            localStorage.setItem('colorPreference', 'light');
+        }
+    }
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,16 +65,21 @@ chooseColors();
 
     <main>
         <article>
-            <video poster="img/video2.webp" controls<?php
-                                                    if (!isset($_COOKIE['languagePreference'])) {
-                                                        echo " autoplay";
-                                                    }
-                                                    ?>>
+            <video poster="img/video2.webp" controls>
                 <source src="/img/Wall%20of%20History%20Ad.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <script>
+                // If no localStorage is empty, set above video to autoplay.
+                if (window.localStorage.length == 0) {
+                    document.getElementsByTagName("video")[0].autoplay = true;
+                } else {
+                    document.getElementsByTagName("video")[0].autoplay = false;
+                }
+            </script>
             <?php
             include('./php/db_connect.php');
+            include("./php/populate.php");
             echo populateStatic("");
             ?>
             <hr>
@@ -122,7 +145,7 @@ chooseColors();
     <script src="js/jquery/jquery-ui-1.13.0/jquery-ui.min.js"></script>
     <!-- Core Site Drivers -->
     <script src="js/main.js"></script>
-    <script src="js/palette.js"></script>
+    <!-- <script src="js/palette.js"></script> -->
     <!-- Reader Drivers -->
     <script src="js/readingorders.js"></script>
     <!-- Modal Drivers -->

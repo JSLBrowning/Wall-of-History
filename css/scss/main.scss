@@ -45,7 +45,7 @@ $front3: #9f9f9f;
 
 $gill-sans: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 
-$trademarker: "TradeMarker", "Gill Sans Std", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+$trademarker: "TradeMarker", "Gill Sans", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 
 @mixin headings {
     font-family: $trademarker;
@@ -280,6 +280,18 @@ article {
 
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.625);
     overflow: hidden;
+
+    h1,
+    h2,
+    h3 {
+        text-align: center;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bolder;
+    }
 
     &.fullscreen__article {
         border: none;

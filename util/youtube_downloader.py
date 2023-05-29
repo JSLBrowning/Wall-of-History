@@ -15,7 +15,5 @@ def main(url_list):
         download_yt(url)
 
 
-main(["https://youtu.be/OphkTzOciaY",
-      "https://youtu.be/mGZLhyJbvLo",
-      "https://youtu.be/RfA7GRO-thQ",
-      "https://youtu.be/4Ga9tcIuH5I"])
+main(["https://youtu.be/ahG6fdTTyFk",
+      "https://youtube.com/shorts/rtNr3HBdErs"])

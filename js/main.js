@@ -20,7 +20,10 @@
 
 // Where can you come from?
 // 1. External link. Fully off-site. Assume parent route if self and siblings have chronology, no route otherwise.
+//    a. Use version 1 if no version specified.
+//    b. Get browser language for language. Default to English if not available.
 // 2. Table of contents. Parent work. Assume parent route if self and siblings have chronology, no route otherwise.
+//    a. Version and language are set by buttons.
 // 3. "Start Reading" button. Assume specified route if passed in button activation, parent route if self and siblings have chronology but no route was passed, no route otherwise.
 
 
@@ -92,7 +95,7 @@ function loadJSONFromPath(path = "/config/config.json", callback) {
  ***************************/
 
 
-function getSQLData(sqlQuery, sqlColumn) {
+function queryDatabase(sqlQuery, sqlColumn) {
     return new Promise(resolve => {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
@@ -116,13 +119,90 @@ async function read(routeID = null, routePath = null) {
     if (routePath == null) {
         let sqlQuery = "SELECT route_main FROM shin_routes WHERE route_id = \"" + routeID + "\"";
         let sqlColumn = "route_main";
-        let route = JSON.parse(await getSQLData(sqlQuery, sqlColumn));
+        let queryResult = await queryDatabase(sqlQuery, sqlColumn);
+        if (queryResult == "") {
+            console.log("No route found.");
+        }
+        let route = JSON.parse(queryResult);
         console.log(route);
+        console.log(route.length);
     }
 }
 
 
-read("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+function getFirstPage(route) {
+    for (let i = 0; i < route.length; i++) {
+        if (route[i].current !== undefined) {
+            return route[i].current;
+        } else {
+            if (route[i].children !== undefined) {
+                getFirstPage(route[i].children);
+            }
+        }
+    }
+}
+
+
+async function startRoute(routeID) {
+    // Check if the route is in the database.
+    let sqlQuery = "SELECT route_main FROM shin_routes WHERE route_id = \"" + routeID + "\" LIMIT 1";
+    let sqlColumn = "route_main";
+    let queryResult = await queryDatabase(sqlQuery, sqlColumn);
+
+    if (queryResult == "") {
+        alert("No route was found. Please report this error to admin@wallofhistory.com");
+    } else {
+        let route = JSON.parse(queryResult);
+        let firstPage = getFirstPage(route);
+        
+        let firstID = firstPage.id;
+        // If first page has version, use that, otherwise, use 1.
+        let firstVersion = firstPage.version || 1;
+        // If first page has language, use that, otherwise, use "en."
+        let firstLanguage = firstPage.language || "en";
+
+        window.location.href = "../read/?id=" + firstID + "&version=" + firstVersion + "&language=" + firstLanguage;
+    }
+}
+
+
+// startRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+
+
+function readNuva(route=null, id=null, version=null, language=null) {
+    // If all four inputs are null, check the config JSON object for the mainWork.
+    if ((route == null) && (id == null) && (version == null) && (language == null)) {
+        // If there is no mainWork, return an error.
+        if (config.mainWork == null) {
+            alert("Error: No main work specified in config file.");
+            return;
+        }
+        // If there is a mainWork, set the route to that.
+        else {
+            route = config.mainWork;
+        }
+    }
+
+    // If route is set, check if there is a savePlace for it. If so, go to that page.
+    if (route !== null) {
+        if (localStorage.getItem("savePlace:" + route) !== null) {
+            window.location.href = localStorage.getItem("savePlace:" + route);
+        }
+    }
+
+    // If ID is null, assume we're STARTING a route.
+    if (id == null) {
+        startRoute(routeID);
+    } else {
+        // Else, set sessionStorage.activeRoute to routeID, then jump to the page.
+        sessionStorage.activeRoute = routeID;
+        
+        // Get ideal language if language is null.
+        if (language == null) {
+            console.log("Working on it.");
+        }
+    }
+}
 
 
 /**
@@ -252,7 +332,7 @@ async function initialize() {
     }
 
     await checkLanguage();
-    await checkColorScheme();
+    // await checkColorScheme();
     await checkSpoilerLevel();
     await checkReferenceTerms();
     await checkFontSize();

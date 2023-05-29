@@ -1,15 +1,9 @@
-main{
-    max-width: 1080px;
+main article {
+    max-width: 50vw;
 }
-
-
-html body main article p {
-    text-align: justify;
-}
-
 
 main article img{
-    margin: 1em auto;
+    margin: 1em calc(50% - 4em);
     padding: 0em;
     box-shadow: var(--outershadow);
     height: 8em;
@@ -19,139 +13,23 @@ main article img{
 }
 
 
-.footer{
-    margin-top: 1em;
-    font-size: small;
+main article h1 {
+    font-size: 2.5rem;
+}
+
+
+main article p {
+    font-weight: lighter;
+    line-height: 1.625rem;
+}
+
+
+p.footer {
+    font-size: .75rem;
     text-align: center;
 }
 
 
-main aside a{
-    font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
-    text-align: center;
-    text-decoration: none;
+sup {
+    line-height: 0;
 }
-
-
-/* MENU (NEED TO STANDARDIZE) */
-/* BUTTONS NEVER BECOME MOBILE. */
-#mainmenu {
-    position: absolute;
-    z-index: 1;
-    top: 1em;
-    right: 1em;
-    display: flex;
-    flex-direction: column;
-}
-
-
-#navigationButton,
-#settingsButton,
-#downloadButton,
-#paletteSwapButton {
-    margin: 0.5em;
-    width: 48px;
-    height: 48px;
-    color: var(--front1);
-    border-radius: 0.375em;
-    background: var(--back2);
-    box-shadow: var(--outershadow);
-    border: 1px solid var(--border);
-    padding: none;
-    font-size: 1.5em;
-    font-weight: bolder;
-    z-index: 1;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
-}
-
-
-#navigationButton:focus,
-#settingsButton:focus,
-#downloadButton:focus,
-#paletteSwapButton:focus {
-    outline: 0;
-}
-
-
-#navigationButton:hover,
-#settingsButton:hover,
-#downloadButton:hover,
-#paletteSwapButton:hover {
-    transform: scale(1.125);
-}
-
-
-#navigationButton:active,
-#settingsButton:active,
-#downloadButton:active,
-#paletteSwapButton:active {
-    transform: scale(0.95);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0),
-                -3px -3px 6px rgba(0, 0, 0, 0),
-                var(--innershadow);
-}
-
-
-#navigationClose,
-#settingsClose {
-    color: var(--front1);
-    top: 8px;
-    right: 8px;
-}
-
-
-/*
- * MOBILE ABOUT PAGE STYLES
- */
-
-
- @media only screen and (max-width: 960px) {
-    main article{
-        width: 100%;
-    }
-
-
-    main article img{
-        height: 4em;
-        width: 4em;
-    }
-    
-
-    main aside{
-        display: none;
-    }
-}
-
-
-/* May want to change the max-width here so that the aside buttons never overlap with the main block. */
-/* Is any of this still necessary? */
-@media only screen and (max-width: 640px) {
-    article {
-        margin: 0em 0.5em;
-        padding: 0em;
-    }
-
-    aside{
-        /* REMOVE PREVIOUS SETTINGS */
-        position: relative;
-        z-index: auto;
-        top: auto;
-        right: auto;
-
-        /* NEW SETTINGS */
-        margin: auto 1em;
-        /* Left and right sides don't QUITE line up with the main block... Whatever can be done about that...? */
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    aside button{
-        flex-grow: 1;
-    }
-}
-
-
-/*
- * END MOBILE ABOUT PAGE STYLES
- */
