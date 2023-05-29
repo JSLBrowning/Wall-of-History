@@ -25,18 +25,6 @@ chooseColors();
         } else {
             if (isset($_GET["id"])) {
                 $id = $_GET["id"];
-
-                if (is_numeric($id)) {
-                    if ((int)$id < 99999) {
-                        $sql = "SELECT id FROM woh_metadata WHERE chronology=" . $id . " LIMIT 1";
-                        // If no content, get most recent one closest that does?
-                        $result = $mysqli->query($sql);
-                        while ($row = $result->fetch_assoc()) {
-                            $id = $row["id"];
-                            echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/read/?id=" . $id . "&lang=en&v=1'\" />\n";
-                        }
-                    }
-                }
             } else {
                 $id = "0";
             }
@@ -89,18 +77,20 @@ chooseColors();
             $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
             
             $firstPage = getFirstPage($route);
-            // echo "<p>";
             // print_r($firstPage);
-            // echo "</p>";
+            $fullURL = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            echo "<p>" . $fullURL . "</p>";
 
-            echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
+            // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
+            echo getMainContent($id, $v);
 
-            $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
+            // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
+            $neighbors = getNeighbors($route, $id, $v);
             echo "<p>";
             print_r($neighbors);
             echo "</p>";
 
-            echo "<button onclick=\"window.location.href='" . $neighbors["next"]["content_id"] . "'\">Forward</button>";
+            echo "<button onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\">Forward</button>";
             ?>
             </section>
             <div class="savefile" style="display:none;">

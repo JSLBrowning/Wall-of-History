@@ -806,28 +806,28 @@ i {
     justify-content: flex-start;
     max-width: 960px;
     margin: 1rem auto;
-    gap: 1rem;
+    gap: .625rem;
 }
 
 .card {
     /* BASIC CARD STYLES */
     display: flex;
     flex-direction: row;
-    height: 5rem;
+    height: 4rem;
     background-color: #161616;
     border: 1px solid #202020;
     border-radius: 0.375rem;
     overflow: hidden;
     text-decoration: none;
     transition: all 0.25s ease-in-out;
-    width: calc(50% - 0.5rem);
+    width: 100%;
 
     ::-webkit-scrollbar {
         display: none;
     }
 
     &:hover {
-        transform: scale(1.025);
+        transform: scale(1.01875);
         cursor: pointer;
     }
 
@@ -977,8 +977,8 @@ i {
             object-fit: contain;
             min-height: 0px;
             max-height: calc(100% - 0.5rem);
-            min-width: 5rem;
-            max-width: 5rem;
+            min-width: 6rem;
+            max-width: 6rem;
         }
 
         h3,
