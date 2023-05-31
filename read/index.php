@@ -72,37 +72,44 @@ chooseColors();
     <main>
         <article>
             <?php
-            // loadContent($id, $v, $lang);
-            // addChildren($id, $lang, $v);
-            $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
-            
-            $firstPage = getFirstPage($route);
-            // print_r($firstPage);
-            $fullURL = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            echo "<p>" . $fullURL . "</p>";
-
-            // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
-            echo getMainContent($id, $v);
-
-            // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
-            $neighbors = getNeighbors($route, $id, $v);
-            echo "<p>";
-            print_r($neighbors);
-            echo "</p>";
-
-            echo "<button onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\">Forward</button>";
+                $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+                
+                // $firstPage = getFirstPage($route);
+                // print_r($firstPage);
+                //$fullURL = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                //echo "<p>" . $fullURL . "</p>";
+                // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
             ?>
-            </section>
-            <div class="savefile" style="display:none;">
-                <button type="savefilebutton" onclick="savePlace()">Save</button>
-                <button type="savefilebutton" onclick="loadPlace()">Load</button>
-            </div>
-            <div class="nav" style="display:none">
-                <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none"><span class="leftarrow"></span></button>
-                <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
-                <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none"><span class="rightarrow"></span></button>
-            </div>
+            <div class="article__content">
+                <section>
+                    <?php
+                    echo getMainContent($id, $v);
+
+                    // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
+                    // echo "<p>";
+                    // print_r($neighbors);
+                    // echo "</p>";
+                    ?>
+                </section>
+                <div class="savefile" style="display:none;">
+                    <button type="savefilebutton" onclick="savePlace()">Save</button>
+                    <button type="savefilebutton" onclick="loadPlace()">Load</button>
+                </div>
+                <div class="nav" style="display:none">
+                    <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none"><span class="leftarrow"></span></button>
+                    <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
+                    <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none"><span class="rightarrow"></span></button>
+                </div>
+            <div>
         </article>
+        <nav>
+            <div class="nav__column">
+                <?php
+                $neighbors = getNeighbors($route, $id, $v);
+                echo "<a class='card medium__card' onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\"><h2>Forward -></h2></a>";
+                ?>
+            </div>
+        </nav>
     </main>
     <!-- Modal -->
     <div id="myModal" class="modal">

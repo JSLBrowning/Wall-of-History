@@ -143,11 +143,12 @@ h3 {
 p {
     color: #fff;
     font-family: "Gill Sans Std";
-    margin: 0.5rem;
+    margin: .5rem;
     font-weight: normal;
     letter-spacing: 0.0625rem;
     font-size: 1rem;
     line-height: 1.5rem;
+    width: 100%;
 }
 
 hr {
@@ -173,6 +174,7 @@ header {
         font-size: 0.75rem;
         font-weight: bold;
         line-height: 0.75rem;
+        width: unset;
 
         a {
             position: relative;
@@ -280,12 +282,6 @@ article {
 
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.625);
     overflow: hidden;
-
-    h1,
-    h2,
-    h3 {
-        text-align: center;
-    }
 
     a {
         color: #fff;
@@ -625,8 +621,10 @@ nav {
 */
 
 .anchor,
-.anchor:visited {
-    margin: 0.5em;
+.anchor:visited,
+.anchor:hover,
+.anchor:active {
+    margin: 0.5rem 0.125rem;
     color: gray;
     font-weight: bold;
     text-decoration: none;
@@ -640,17 +638,33 @@ nav {
 }
 
 .anchor {
-    transition: all 0.1s ease-in-out;
+    transition: all .25s ease-in-out;
+}
+
+.anchors:not(.x-target) .anchor {
+    opacity: 0;
+    min-width: .75rem;
+    max-width: .75rem;
+    font-size: 0rem;
 }
 
 .anchors {
     display: flex;
     flex-direction: row;
+
+    &:hover {
+        .anchor {
+            opacity: 1;
+            min-width: 24px;
+            max-width: unset;
+            font-size: 1rem;
+        }
+    }
 }
 
 .anchors:target p,
 .x-target p {
-    background-color: var($back4);
+    background-color: #303030;
     border-radius: 0.125em;
     transition: 0s;
 }
@@ -890,13 +904,14 @@ i {
         h5,
         p {
             margin: 0rem;
+            width: unset;
         }
 
         .card__details {
             margin-left: 1rem;
         }
 
-        .gravity__row {
+        .chapter__header {
             display: flex;
             flex-flow: row nowrap;
             justify-content: flex-start;
@@ -977,8 +992,8 @@ i {
             object-fit: contain;
             min-height: 0px;
             max-height: calc(100% - 0.5rem);
-            min-width: 6rem;
-            max-width: 6rem;
+            min-width: 5rem;
+            max-width: 5rem;
         }
 
         h3,
@@ -1157,9 +1172,9 @@ article .article__content .deck .card {
 }
 
 .chapter {
-    margin: 1rem;
+    margin: 1rem 0rem;
 
-    .gravity__row {
+    .chapter__header {
         display: flex;
         margin: 0.875rem;
         width: 100%;
