@@ -432,13 +432,13 @@ article {
         .title__box {
             grid-area: title;
             display: grid;
-            grid-template-rows: 15.5rem auto;
+            // grid-template-rows: 15.5rem auto;
             grid-template-areas:
                 "img title"
                 "img button"
                 "img details";
             grid-template-columns: 0fr 8fr;
-            justify-content: stretch;
+            justify-content: space-between;
             gap: 1rem;
             margin: 0.5rem;
 
@@ -459,7 +459,7 @@ article {
             }
 
             .title__box__text {
-                height: 14rem;
+                // height: 14rem;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -523,7 +523,7 @@ article {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-                align-items: flex-start;
+                align-items: flex-end;
                 gap: 0.25rem;
 
                 p,
@@ -714,6 +714,10 @@ i {
 
 .detail p {
     font-size: 0.875rem;
+}
+
+.detail p:last-of-type {
+    text-align: right;
 }
 
 @media screen and (max-width: 1280px) {

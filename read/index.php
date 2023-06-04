@@ -81,7 +81,23 @@ chooseColors();
                 // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
             ?>
             <div class="article__content">
-                <section>
+                <section class="title__box">
+                    <section class="title__box__text">
+                        <?php echo getTitleBoxText($id, $v); ?>
+                    </section>
+                </section>
+                <section class="extra__content">
+                    <span class="detail">
+                        <p>Released:</p>
+                        <p>2001</p>
+                    </span>
+                    <hr>
+                    <div class="extra__areas">
+                        <a href="a" class="anchor__button"><i class="fa-brands fa-facebook"></i></i></i> Share</a>
+                        <a href="a" class="anchor__button"><i class="fa-brands fa-twitter"></i></i> Share</a>
+                    </div>
+                </section>
+                <section class="main__content">
                     <?php
                     echo getMainContent($id, $v);
 
@@ -91,15 +107,6 @@ chooseColors();
                     // echo "</p>";
                     ?>
                 </section>
-                <div class="savefile" style="display:none;">
-                    <button type="savefilebutton" onclick="savePlace()">Save</button>
-                    <button type="savefilebutton" onclick="loadPlace()">Load</button>
-                </div>
-                <div class="nav" style="display:none">
-                    <button type="navbutton" onclick="goBack()" id="backbutton" style="display:none"><span class="leftarrow"></span></button>
-                    <button type="navbutton" onclick="generateSelectionModal()" id="disambiguationbutton" style="display:none">?</button>
-                    <button type="navbutton" onclick="goForward()" id="forwardbutton" style="display:none"><span class="rightarrow"></span></button>
-                </div>
             <div>
         </article>
         <nav>

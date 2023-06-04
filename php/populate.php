@@ -160,6 +160,25 @@ function getMainContent($id, $version=1, $language="eng") {
 }
 
 
+function getTitleBoxText($id, $version=1, $language="eng") {
+    include("db_connect.php");
+
+    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $title = $row["content_title"];
+        $subtitle = $row["content_subtitle"];
+        echo "<h1>$title</h1>";
+        echo "<h2>$subtitle</h2>";
+    } else {
+        return null;
+    }
+}
+
+
 /***********************
  * UNIVERSAL FUNCTIONS *
  ***********************/
