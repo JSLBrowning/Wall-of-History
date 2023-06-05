@@ -81,7 +81,8 @@ $languages = [
 
 // getRoute($route_id): Take a route ID and return the decoded JSON array.
 // Active route will be passed in through cookies.
-function getRoute($route_id) {
+function getRoute($route_id)
+{
     include("db_connect.php");
 
     $query = "SELECT route_main FROM shin_routes WHERE route_id = '$route_id'";
@@ -99,7 +100,8 @@ function getRoute($route_id) {
 
 
 // getNeighbors($route, $id): Take a decoded JSON array, find any object where the passed id is in an object under a "current" key, and return all "previous" and "next" keys.
-function getNeighbors($route, $id, $version=null) {
+function getNeighbors($route, $id, $version = null)
+{
     foreach ($route as $value) {
         // Check if the array has a "current" key.
         if (array_key_exists("current", $value)) {
@@ -126,7 +128,8 @@ function getNeighbors($route, $id, $version=null) {
 }
 
 
-function getFirstPage($route) {
+function getFirstPage($route)
+{
     foreach ($route as $value) {
         // Check if the array has a "current" key.
         if (array_key_exists("current", $value)) {
@@ -143,7 +146,8 @@ function getFirstPage($route) {
 }
 
 
-function getMainContent($id, $version=1, $language="eng") {
+function getMainContent($id, $version = 1, $language = "eng")
+{
     include("db_connect.php");
 
     $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
@@ -160,7 +164,8 @@ function getMainContent($id, $version=1, $language="eng") {
 }
 
 
-function getTitleBoxText($id, $version=1, $language="eng") {
+function getTitleBoxText($id, $version = 1, $language = "eng")
+{
     include("db_connect.php");
 
     $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
@@ -172,7 +177,76 @@ function getTitleBoxText($id, $version=1, $language="eng") {
         $title = $row["content_title"];
         $subtitle = $row["content_subtitle"];
         echo "<h1>$title</h1>";
-        echo "<h2>$subtitle</h2>";
+
+        if ($subtitle != null) {
+            echo "<h2>$subtitle</h2>";
+        }
+    } else {
+        return null;
+    }
+
+    $query_creators = "SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$version OR content_version IS NULL) AND (content_language='$language' OR content_language IS NULL) AND tag_type='author'";
+    $result_creators = $mysqli->query($query_creators);
+    if (mysqli_num_rows($result_creators) > 0) {
+        echo "<h2>By ";
+        while ($row_creators = $result_creators->fetch_assoc()) {
+            $creator = $row_creators["tag"];
+            echo "$creator";
+        }
+        echo "</h2>";
+    }
+}
+
+
+function getJSONConfigVariables()
+{
+    $path = "../config/config.json";
+    $file = file_get_contents($path);
+    $json = json_decode($file, true);
+    echo "<p>" . $json["mainWork"] . "</p>";
+    return $json;
+}
+
+
+function getTypeChildren($type) {
+    include("db_connect.php");
+
+    $query = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$type'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $type = $row["media_tag"];
+        $type_plural = $row["media_tag_plural"];
+        if ($type_plural != "") {
+            echo "<h1>$type_plural</h1>";
+        }
+
+        $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type'";
+        $result_children = $mysqli->query($query_children);
+        if (mysqli_num_rows($result_children) > 0) {
+            // Put results into an array.
+            $children = [];
+            while ($row_children = $result_children->fetch_assoc()) {
+                $child = $row_children["child_tag"];
+                array_push($children, $child);
+            }
+
+            // Loop through array and display results.
+            foreach ($children as $child) {
+                $query_child = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$child'";
+                $result_child = $mysqli->query($query_child);
+                if (mysqli_num_rows($result_child) == 0) {
+                    return null;
+                } else if (mysqli_num_rows($result_child) == 1) {
+                    $row_child = $result_child->fetch_assoc();
+                    $child = $row_child["media_tag"];
+                    $child_plural = $row_child["media_tag_plural"];
+                    echo "<h2>$child_plural</h2>";
+                }
+            }
+        }
     } else {
         return null;
     }
@@ -212,15 +286,8 @@ function getData($column, $query)
 }
 
 
-// This function gets all the basic content data for a given ID, version, and language.
-function getContent($id, $v, $lang) {
-    include("db_connect.php");
-
-    echo "WIP…";
-}
-
-
-function getImages($id, $v, $lang, $caption) {
+function getImages($id, $v, $lang, $caption)
+{
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
     $names = ["$id.$v.$lang", "$id.$v", "$id"];
     foreach ($names as $name) {
@@ -235,13 +302,14 @@ function getImages($id, $v, $lang, $caption) {
 }
 
 
-function getOGPImages($id, $v, $lang) {
+function getOGPImages($id, $v, $lang)
+{
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
     $names = ["$id.$v.$lang", "$id.$v", "$id"];
     foreach ($names as $name) {
         foreach ($formats as $format) {
-            $image = "/img/ogp/$name$format";
-            if (file_exists(".." . $image)) {
+            $image = "../img/ogp/$name$format";
+            if (file_exists($image)) {
                 return $image;
             }
         }
@@ -634,7 +702,7 @@ function getDetails($id, $primeversion, $lang)
         $data_count++;
         $output .= "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
     }
-    
+
     $releasequery = "SELECT publication_date FROM story_metadata WHERE id = '$id'";
     $release = getData("publication_date", $releasequery);
     if ($release[0] != "") {

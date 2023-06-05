@@ -22,12 +22,8 @@ chooseColors();
                 $v = $arr[1];
                 $lang = $arr[2];
             }
-        } else {
-            if (isset($_GET["id"])) {
-                $id = $_GET["id"];
-            } else {
-                $id = "0";
-            }
+        } else if (isset($_GET["id"])) {
+            $id = $_GET["id"];
 
             if (isset($_GET["lang"])) {
                 $lang = $_GET["lang"];
@@ -40,6 +36,8 @@ chooseColors();
             } else {
                 $v = "1";
             }
+        } else if (isset($_GET["type"])) {
+            $type = $_GET["type"];
         }
     } else {
         $id = "0";
@@ -83,7 +81,16 @@ chooseColors();
             <div class="article__content">
                 <section class="title__box">
                     <section class="title__box__text">
-                        <?php echo getTitleBoxText($id, $v); ?>
+                        <?php
+
+                        // If id variable is set.
+                        if (isset($id)) {
+                            getTitleBoxText($id, $v);
+                            getJSONConfigVariables();
+                        } else {
+                            echo "<h1>Wall of History</h1>";
+                        }
+                        ?>
                     </section>
                 </section>
                 <section class="extra__content">
@@ -99,7 +106,11 @@ chooseColors();
                 </section>
                 <section class="main__content">
                     <?php
-                    echo getMainContent($id, $v);
+                    if (isset($id)) {
+                        getMainContent($id, $v);
+                    } else if (isset($type)) {
+                        getTypeChildren($type);
+                    }
 
                     // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
                     // echo "<p>";
@@ -112,8 +123,10 @@ chooseColors();
         <nav>
             <div class="nav__column">
                 <?php
-                $neighbors = getNeighbors($route, $id, $v);
-                echo "<a class='card medium__card' onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\"><h2>Forward -></h2></a>";
+                if (isset($id)) {
+                    $neighbors = getNeighbors($route, $id, $v);
+                    echo "<a class='card medium__card' onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\"><h2>Forward -></h2></a>";
+                }
                 ?>
             </div>
         </nav>

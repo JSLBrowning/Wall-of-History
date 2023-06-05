@@ -31,12 +31,11 @@ CREATE TABLE IF NOT EXISTS tag_web (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags (media_tag, media_tag_singular, media_tag_plural, media_type_ordinal) VALUES
     ("developmental", NULL, NULL, NULL),
     ("advertisement", NULL, NULL, NULL),
     ("main", NULL, NULL, NULL),
-    ("supplemental", NULL, NULL, NULL)
-);
+    ("supplemental", NULL, NULL, NULL);
 
 
 /*
@@ -44,7 +43,7 @@ INSERT INTO media_tags VALUES (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags VALUES
     ("text", NULL, NULL, NULL),
     /* Books, news stories, etc. */
     ("visual", NULL, NULL, NULL),
@@ -54,8 +53,7 @@ INSERT INTO media_tags VALUES (
     ("audiovisual", NULL, NULL, NULL),
     /* Movies, TV shows, etc. */
     ("interactive", NULL, NULL, NULL)
-    /* Games, Flash, etc. */
-);
+    /* Games, Flash, etc. */;
 
 
 /*
@@ -63,26 +61,24 @@ INSERT INTO media_tags VALUES (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags VALUES
     ("concept__art", "Concept Art", "Concept Art", NULL),
     ("manuscript", "Manuscript", "Manuscripts", NULL),
     ("script", "Script", "Scripts", NULL),
     ("source__code", "Source Code", "Source Code", NULL),
     ("storyboard", "Storyboard", "Storyboards", NULL),
     ("style__guide", "Style Guide", "Style Guides", NULL),
-    ("test__footage", "Test Footage", "Test Footage", NULL)
-);
+    ("test__footage", "Test Footage", "Test Footage", NULL);
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("developmental", "concept__art"),
     ("developmental", "manuscript"),
     ("developmental", "script"),
     ("developmental", "source__code"),
     ("developmental", "storyboard"),
     ("developmental", "style__guide"),
-    ("developmental", "test__footage")
-);
+    ("developmental", "test__footage");
 
 
 /*
@@ -90,22 +86,21 @@ INSERT INTO tag_web VALUES (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags VALUES
     ("billboard", "Billboard", "Billboards", NULL),
     ("commercial", "Commercial", "Commercials", NULL),
     ("demo", "Demo", "Demos", NULL),
     ("poster", "Poster", "Posters", NULL),
     ("print__ad", "Print Ad", "Print Ads", NULL),
-    ("promo__disk", "Promo Disk", "Promo Disks", NULL)
+    ("promo__disk", "Promo Disk", "Promo Disks", NULL),
     ("radio__ad", "Radio Ad", "Radio Ads", NULL),
     ("teaser", "Teaser", "Teasers", NULL),
     ("trailer", "Trailer", "Trailers", NULL),
     ("tv__spot", "TV Spot", "TV Spots", NULL),
-    ("web__ad", "Web Ad", "Web Ads", NULL)
-);
+    ("web__ad", "Web Ad", "Web Ads", NULL);
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("advertisement", "billboard"),
     ("advertisement", "commercial"),
     ("advertisement", "demo"),
@@ -116,8 +111,7 @@ INSERT INTO tag_web VALUES (
     ("advertisement", "teaser"),
     ("advertisement", "trailer"),
     ("advertisement", "tv__spot"),
-    ("advertisement", "web__ad")
-);
+    ("advertisement", "web__ad");
 
 
 /*
@@ -125,7 +119,7 @@ INSERT INTO tag_web VALUES (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags VALUES
     ("animation", "Animation", "Animations", NULL),
     ("art", "Art", "Art", NULL),
     ("audiobook", "Audiobook", "Audiobooks", NULL),
@@ -136,7 +130,7 @@ INSERT INTO media_tags VALUES (
     ("flash", "Flash", "Flash", NULL),
     ("game", "Game", "Games", NULL),
     ("graphic__novel", "Graphic Novel", "Graphic Novels", NULL),
-    ("growing__reader", "Growing Reader", "Growing Readers", NULL)
+    ("growing__reader", "Growing Reader", "Growing Readers", NULL),
     ("magazine", "Magazine", "Magazines", NULL),
     ("movie", "Movie", "Movies", NULL),
     ("news", "News", "News", NULL),
@@ -155,11 +149,10 @@ INSERT INTO media_tags VALUES (
     /* Visual novel leaves will try to load in a background image, audio file, and text, similar to fatestaynight.vnovel.org. */
     /* Should multiple IDs be loaded onto a single page, they can be scrolled between. */
     ("website", "Website", "Websites", NULL),
-    ("web__story", "Web Story", "Web Stories", NULL)
-);
+    ("web__story", "Web Story", "Web Stories", NULL);
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("main", "animation"),
     ("main", "art"),
     ("main", "audiobook"),
@@ -186,8 +179,7 @@ INSERT INTO tag_web VALUES (
     ("main", "trading__card"),
     ("main", "video"),
     ("main", "website"),
-    ("main", "web__story")
-);
+    ("main", "web__story");
 
 
 /*
@@ -195,26 +187,24 @@ INSERT INTO tag_web VALUES (
  */
 
 
-INSERT INTO media_tags VALUES (
+INSERT INTO media_tags VALUES
     ("art__book", "Art Book", "Art Books", NULL),
     ("behind__the__scenes", "Behind the Scenes", "Behind the Scenes", NULL),
     ("cd", "CD", "CDs", NULL),
     ("booklet", "Booklet", "Booklets", NULL),
     ("deleted__scene", "Deleted Scene", "Deleted Scenes", NULL),
     ("interview", "Interview", "Interviews", NULL),
-    ("manual", "Manual", "Manuals", NULL),
-);
+    ("manual", "Manual", "Manuals", NULL);
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("supplemental", "art__book"),
     ("supplemental", "behind__the__scenes"),
     ("supplemental", "cd"),
     ("supplemental", "booklet"),
     ("supplemental", "deleted__scene"),
     ("supplemental", "interview"),
-    ("supplemental", "manual")
-);
+    ("supplemental", "manual");
 
 
 /*
@@ -225,7 +215,7 @@ INSERT INTO tag_web VALUES (
 /* TEXT TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("text", "blog"),
     ("text", "news"),
     ("text", "novel"),
@@ -233,14 +223,13 @@ INSERT INTO tag_web VALUES (
     ("text", "poem"),
     ("text", "serial"),
     ("text", "short__story"),
-    ("text", "web__story")
-);
+    ("text", "web__story");
 
 
 /* VISUAL TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("visual", "concept__art"),
     ("visual", "storyboard"),
     ("visual", "billboard"),
@@ -256,25 +245,23 @@ INSERT INTO tag_web VALUES (
     ("visual", "trading__card"),
     ("visual", "website"),
     ("visual", "art__book"),
-    ("visual", "manual")
-);
+    ("visual", "manual");
 
 
 /* AUDIO TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("audio", "radio__ad"),
     ("audio", "audiobook"),
     ("audio", "podcast"),
-    ("audio", "radio__show")
-);
+    ("audio", "radio__show");
 
 
 /* AUDIOVISUAL TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("audiovisual", "test__footage"),
     ("audiovisual", "commercial"),
     ("audiovisual", "teaser"),
@@ -287,21 +274,19 @@ INSERT INTO tag_web VALUES (
     ("audiovisual", "video"),
     ("audiovisual", "behind__the__scenes"),
     ("audiovisual", "deleted__scene"),
-    ("audiovisual", "interview")
-);
+    ("audiovisual", "interview");
 
 
 /* INTERACTIVE TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("interactive", "demo"),
     ("interactive", "promo__disk"),
     ("interactive", "flash"),
     ("interactive", "game"),
     ("interactive", "website"),
-    ("interactive", "cd")
-);
+    ("interactive", "cd");
 
 
 /*
@@ -312,40 +297,37 @@ INSERT INTO tag_web VALUES (
 /* ART TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("art", "concept__art"),
     ("art", "storyboard"),
     ("art", "art__card"),
-    ("art", "art__book"),
-);
+    ("art", "art__book");
 
 
 /* BOOK TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("book", "graphic__novel"),
     ("book", "growing__reader"),
     ("book", "novel"),
     ("book", "novella"),
     ("book", "art__book"),
-    ("book", "booklet")
-);
+    ("book", "booklet");
 
 
 /* CARD TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("card", "art__card"),
-    ("card", "trading__card")
-);
+    ("card", "trading__card");
 
 
 /* VIDEO TYPES */
 
 
-INSERT INTO tag_web VALUES (
+INSERT INTO tag_web VALUES
     ("video", "commercial"),
     ("video", "teaser"),
     ("video", "trailer"),
@@ -353,8 +335,7 @@ INSERT INTO tag_web VALUES (
     ("video", "animation"),
     ("video", "movie"),
     ("video", "series"),
-    ("video", "short__film")
-);
+    ("video", "short__film");
 
 
 /*************************
