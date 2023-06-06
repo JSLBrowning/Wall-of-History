@@ -75,6 +75,23 @@ $languages = [
  */
 
 
+/**
+ * SPECIAL BEHAVIORS FOR TYPE:
+ * 1. Comic: If folder contains numbered images, create a slideshow.
+ * 2. Video: If folder contains a video file, create a video player.
+ */
+
+
+/**
+ * WHAT TO DO WITH IMAGES:
+ * Asset folders can contain:
+ * 1. OGP images (/[id/s]/ogp.png or /ogp/[id/s].png).
+ * 2. Titlebox images (/[id/s]/[anything].png /assets/[id/s].png).
+ *    1. Can link to 3D assets (/[id/s]/3d.txt).
+ * 3. Slideshow images (/[id/s]/[int].png /assets/[id/s]/[int].png).
+ */
+
+
 /******************
  * TEST FUNCTIONS *
  ******************/
@@ -250,6 +267,45 @@ function getTypeChildren($type) {
     } else {
         return null;
     }
+}
+
+
+function addTableOfContents() {
+    include("db_connect.php");
+
+    $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) > 0) {
+        echo "<div class='deck'>";
+        while ($row = $result->fetch_assoc()) {
+            $id = $row["content_id"];
+            $version = $row["content_version"];
+            $language = $row["content_language"];
+            $title = $row["content_title"];
+            $snippet = $row["content_snippet"];
+            echo buildDefaultCard($id, $version, $language, $title, $snippet);
+        }
+        echo "</div>";
+    }
+}
+
+
+function buildDefaultCard($id, $v, $lang, $title, $snippet) {
+    $card = "<a class='card medium__card' href='/read/?id=$id'>";
+
+    // If file exists ../img/story/contents/$id.webp, use that as the card image.
+    if (file_exists("../img/story/contents/$id.webp")) {
+        $card .= "<div class='background__image'><img src='/img/story/contents/$id.webp'></div>";
+    }
+
+    // If file exists ../img/story/contents/$id.webp, use that as the card image.
+    if (file_exists("../img/story/contents/$id.webp")) {
+        $card .= "<img src='/img/story/contents/$id.webp' alt='$title'>";
+    }
+
+    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'><p>Word Count: 980</p></div><p>$snippet</p></div>";
+    $card .= "</a>";
+    return $card;
 }
 
 

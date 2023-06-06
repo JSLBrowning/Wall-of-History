@@ -108,6 +108,7 @@ chooseColors();
                     <?php
                     if (isset($id)) {
                         getMainContent($id, $v);
+                        addTableOfContents();
                     } else if (isset($type)) {
                         getTypeChildren($type);
                     }
