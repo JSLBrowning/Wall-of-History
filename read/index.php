@@ -107,8 +107,12 @@ chooseColors();
                 <section class="main__content">
                     <?php
                     if (isset($id)) {
-                        getMainContent($id, $v);
-                        addTableOfContents();
+                        if ($id == "0") {
+                            addTableOfContents($id);
+                        } else {
+                            getMainContent($id, $v);
+                            addTableOfContents($id);
+                        }
                     } else if (isset($type)) {
                         getTypeChildren($type);
                     }

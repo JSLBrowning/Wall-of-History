@@ -270,28 +270,43 @@ function getTypeChildren($type) {
 }
 
 
-function addTableOfContents() {
+function addTableOfContents($id, $v=null, $l=null) {
     include("db_connect.php");
 
-    $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+    // If version is not null, only children of that version should be displayed.
+    // "WHERE parent_version=$v"
+    // If version is null... there should be one button, which takes you to version 1.
+    // "WHERE shin_content.content_version=1"
+    $version_conditonal = ($v != null) ? "AND parent_version=$v" : "AND shin_content.content_version=1";
+
+    if ($id == "0") {
+        $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+    } else {
+        $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id') $version_conditonal ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+    }
+
+    
     $result = $mysqli->query($query);
     if (mysqli_num_rows($result) > 0) {
         echo "<div class='deck'>";
         while ($row = $result->fetch_assoc()) {
             $id = $row["content_id"];
             $version = $row["content_version"];
-            $language = $row["content_language"];
             $title = $row["content_title"];
             $snippet = $row["content_snippet"];
-            echo buildDefaultCard($id, $version, $language, $title, $snippet);
+            echo buildDefaultCard($id, $version, $title, $snippet);
         }
         echo "</div>";
     }
 }
 
 
-function buildDefaultCard($id, $v, $lang, $title, $snippet) {
-    $card = "<a class='card medium__card' href='/read/?id=$id'>";
+function buildDefaultCard($id, $v, $title, $snippet) {
+    if ($v == "") {
+        $card = "<a class='card medium__card' href='/read/?id=$id'>";
+    } else {
+        $card = "<a class='card medium__card' href='/read/?id=$id&v=$v'>";
+    }
 
     // If file exists ../img/story/contents/$id.webp, use that as the card image.
     if (file_exists("../img/story/contents/$id.webp")) {
