@@ -427,7 +427,7 @@ article {
         grid-template-areas:
             "title title"
             "main extra";
-        grid-template-columns: 3fr 1fr;
+        grid-template-columns: 3fr minmax(0, auto);
 
         .title__box {
             grid-area: title;
@@ -987,7 +987,7 @@ i {
     }
 
     &.medium__card {
-        width: calc(50% - 0.5rem);
+        width: calc(50% - 0.3125rem);
         height: 8rem;
         min-width: unset;
         position: relative;
@@ -1037,7 +1037,7 @@ i {
 
     /* LARGE CARD STYLES */
     &.large__card {
-        width: calc(50% - 0.5rem);
+        width: calc(50% - 0.3125rem);
         min-height: 10rem;
         height: unset;
         min-width: unset;

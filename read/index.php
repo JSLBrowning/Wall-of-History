@@ -93,7 +93,7 @@ chooseColors();
                         ?>
                     </section>
                 </section>
-                <section class="extra__content">
+                <!-- <section class="extra__content">
                     <span class="detail">
                         <p>Released:</p>
                         <p>2001</p>
@@ -103,7 +103,7 @@ chooseColors();
                         <a href="a" class="anchor__button"><i class="fa-brands fa-facebook"></i></i></i> Share</a>
                         <a href="a" class="anchor__button"><i class="fa-brands fa-twitter"></i></i> Share</a>
                     </div>
-                </section>
+                </section> -->
                 <section class="main__content">
                     <?php
                     if (isset($id)) {
