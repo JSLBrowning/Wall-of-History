@@ -489,6 +489,16 @@ CREATE TABLE IF NOT EXISTS shin_routes(
 );
 
 
+CREATE TABLE IF NOT EXISTS shin_routes_connections(
+    content_id BINARY(16),
+    /* Self-explanatory. */
+    content_version int,
+    /* Self-explanatory. Can be NULL if not relevant. */
+    route_id BINARY(16),
+    /* Self-explanatory. */
+)
+
+
 /*********************
  * END CONTENT SETUP *
  *********************/

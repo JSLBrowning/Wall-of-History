@@ -11,6 +11,10 @@ Determines if a main story or route is promoted at the top of the homepage. Can 
     - This is similar to how WoH and the UHC currently work.
     - WoH promotes a main *route*, while UHC promotes a main *story*.
 
+// Maybe if mainWork is a story... that story becomes ID zero, and is displayed on the table of contents.
+// How to handle routes? Need way to associate them with stories?
+// By virtue of "Bonkle" being the mainWork, it'll get ID zero, and thus we don't have to worry about stray elements clogging up the table of contents (because they will be lost children).
+
 ## additionalTiles
 
 An array of tiles to be displayed beneath the main tile (or in the place of it). Each element in the array is an object with the following properties:

@@ -560,7 +560,13 @@ article {
 
         .main__content {
             grid-area: main;
+            max-width: 100%;
             border-right: 1px solid #202020;
+
+            video {
+                width: 100%;
+                height: auto;
+            }
         }
     }
 }
@@ -794,6 +800,9 @@ i {
 
 .extra__areas {
     margin: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 .extra__areas a {
@@ -831,8 +840,10 @@ i {
     flex-direction: row;
     justify-content: flex-start;
     height: 4rem;
-    background-color: #161616;
-    border: 1px solid #202020;
+    background-color: rgba(28, 28, 28, .5);
+    backdrop-filter: blur(.5rem);
+    -webkit-backdrop-filter: blur(.5rem);
+    border: 1px solid rgb(32, 32, 32);
     border-radius: 0.375rem;
     overflow: hidden;
     text-decoration: none;
@@ -862,6 +873,7 @@ i {
         z-index: 1;
     }
 
+    /*
     .background__image {
         position: absolute;
         top: 0;
@@ -871,6 +883,7 @@ i {
         z-index: 0;
         backdrop-filter: blur(1rem);
         overflow: hidden;
+        opacity: .25;
 
         img {
             margin: 0rem !important;
@@ -894,13 +907,14 @@ i {
             z-index: 1;
         }
     }
+    */
 
     .card__text {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 0rem;
-        margin: 1rem 0.25rem;
+        margin: 1rem;
 
         h3 {
             letter-spacing: 0.0625rem;
@@ -913,16 +927,11 @@ i {
             width: unset;
         }
 
-        .card__details {
-            margin-left: 1rem;
-        }
-
         .chapter__header {
             display: flex;
             flex-flow: row nowrap;
             justify-content: flex-start;
             gap: 0.5rem;
-            margin-left: 1rem;
 
             * {
                 margin: 0rem;
@@ -985,21 +994,20 @@ i {
     }
 
     &.medium__card {
-        width: calc(50% - 0.3125rem);
+        width: calc(50% - .3125rem);
         height: 8rem;
         min-width: unset;
         position: relative;
-        border-radius: 0.5rem;
-        gap: 0.5rem;
-        border: none;
+        border-radius: .5rem;
+        overflow: visible;
 
         > img {
-            margin: auto 0.25rem;
+            margin: -0.25rem;
             object-fit: contain;
             min-height: 0px;
-            max-height: calc(100% - 0.5rem);
-            min-width: 5rem;
-            max-width: 5rem;
+            max-height: calc(100% - 0.25rem);
+            //min-width: 5rem;
+            //max-width: 5rem;
         }
 
         h3,
@@ -1129,8 +1137,13 @@ article .article__content .deck {
 }
 
 article .article__content .deck .card {
-    background-color: #2a2a2a;
+    background-color: rgba(32, 32, 32, .75);
     border: none;
+    &:hover,
+    &:focus,
+    &:active {
+        transform: none;
+    }
 }
 
 .tabs {

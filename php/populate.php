@@ -217,11 +217,72 @@ function getTitleBoxText($id, $version = 1, $language = "eng")
 
 function getJSONConfigVariables()
 {
-    $path = "../config/config.json";
+    // $_SERVER['DOCUMENT_ROOT'] is used to create absolute paths.
+    $path = $_SERVER['DOCUMENT_ROOT']. "/config/config.json";
     $file = file_get_contents($path);
     $json = json_decode($file, true);
-    echo "<p>" . $json["mainWork"] . "</p>";
     return $json;
+}
+
+
+function translateToPath($config, $id, $v=1, $lang="en") {
+    include("db_connect.php");
+
+    $content_path = $config["contentPath"];
+
+    /**
+     * ID/SEMANTIC TAGS
+     */
+    // First things first, get all semantic tags for the content.
+    $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version=$v AND content_language='$lang'";
+    $identifiers = [$id];
+    // Add any/all semantic tags to the array.
+    $result_tags = $mysqli->query($query_tags);
+    if (mysqli_num_rows($result_tags) > 0) {
+        while ($row_tags = $result_tags->fetch_assoc()) {
+            $tag = $row_tags["tag"];
+            array_push($identifiers, $tag);
+        }
+    }
+
+    $paths = [];
+    foreach ($identifiers as $identifier) {
+        // Convert "[id/s]" in $content_path to $identifier, then push to $paths.
+        array_push($paths, str_replace("[id/s]", $identifier, $content_path) . "/");
+    }
+
+    /**
+     * TYPE TAGS
+     */
+
+    // If "[tagtype:type]" in $content_path, get all type tags for the content.
+    if (strpos($content_path, "[tagtype:type]") !== false) {
+        // Get all type tags for the content.
+        $types = [];
+        $query_types = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='type'";
+        $result_types = $mysqli->query($query_types);
+        if (mysqli_num_rows($result_types) > 0) {
+            while ($row_types = $result_types->fetch_assoc()) {
+                array_push($types, $row_types["tag"]);
+            }
+        }
+
+        // For each path, create a new path for each type.
+        $new_paths = [];
+        foreach ($paths as $path) {
+            foreach ($types as $type) {
+                array_push($new_paths, str_replace("[tagtype:type]", $type, $path));
+            }
+        }
+
+        // Replace $paths with $new_paths.
+        $paths = $new_paths;
+    }
+
+    echo "<h1>";
+    // Echo each path, separated by a slash.
+    echo implode(" ", $paths);
+    echo "</h1>";
 }
 
 

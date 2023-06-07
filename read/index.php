@@ -93,17 +93,47 @@ chooseColors();
                         ?>
                     </section>
                 </section>
-                <!-- <section class="extra__content">
-                    <span class="detail">
-                        <p>Released:</p>
-                        <p>2001</p>
-                    </span>
-                    <hr>
-                    <div class="extra__areas">
-                        <a href="a" class="anchor__button"><i class="fa-brands fa-facebook"></i></i></i> Share</a>
-                        <a href="a" class="anchor__button"><i class="fa-brands fa-twitter"></i></i> Share</a>
-                    </div>
-                </section> -->
+                <section class="extra__content">
+                <form>
+                    <select name="version__select">
+                        <option value="0">Standard Editon</option>
+                        <option value="1">Limited Collector’s Edition</option>
+                    </select>
+                    <select name="language__select">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                    </select>
+                </form>
+                <hr>
+                <!-- https://www.google.com/books/edition/Tale_of_the_Toa/-tjuYkYbDYAC?hl=en&kptab=overview -->
+                <span class="detail">
+                    <p>Released:</p>
+                    <p>June 1st, 2001</p>
+                </span>
+                <span class="detail">
+                    <p>ISBN-13:</p>
+                    <p>978-0439501163</p>
+                </span>
+                <hr>
+                <div class="extra__areas">
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-pdf fa-lg"></i> PDF</a>
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-word fa-lg"></i> DOCX</a>
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-tablet-screen-button fa-lg"></i> EPUB</a>
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-zipper fa-lg"></i> ZIP</a>
+                </div>
+                <hr>
+                <div class="extra__areas">
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Teaser</a>
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Trailer</a>
+                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> TV Spot</a>
+                </div>
+                <hr>
+                <div class="extra__areas">
+                    <a class="anchor__button" href="https://a.co/d/7J4JL1u"><i class="fa-brands fa-amazon"></i>
+                        Amazon</a>
+                </div>
+            </section>
                 <section class="main__content">
                     <?php
                     if (isset($id)) {
