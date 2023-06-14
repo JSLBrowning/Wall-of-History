@@ -2,8 +2,6 @@
 <?php
 include("../php/db_connect.php");
 include("../php/populate.php");
-include("../php/populateaside.php");
-chooseColors();
 ?>
 <head>
     <script src="/js/palette.js"></script>

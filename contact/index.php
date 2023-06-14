@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<?php
-include("..//php/populate.php");
-chooseColors();
-?>
 
 <head>
     <meta charset="UTF-8">
@@ -38,17 +34,22 @@ chooseColors();
             <img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64">
         </a>
         <a href="/">
-            <img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png">
+            <img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png">
         </a>
-        <p><a class="small" onclick="window.location.href='/read/';">Contents</a> | <a class="small" onclick="window.location.href='/reference/';">Reference</a> | <a class="small" onclick="window.location.href='/about/';">About</a> | <a class="small" onclick="window.location.href='https\://blog.wallofhistory.com';">Blog</a> | <a class="small" onclick="window.location.href='https\://www.maskofdestiny.com/news/tags/wall-of-history';">News</a></p>
+        <p>
+            <a class="small" href="/read/">Contents</a> |
+            <a class="small" href="/reference/">Reference</a> |
+            <a class="small" href="/about/">About</a> |
+            <a class="small" href="https://blog.wallofhistory.com">Blog</a> |
+            <a class="small" href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a>
+        </p>
         <input type="text" placeholder="Search…">
     </header>
     <main>
         <article>
-        <img src="/img/social/logo.webp" alt="Wall of History logo" title="Wall of History">
+            <img src="/img/social/logo.webp" alt="Wall of History logo" title="Wall of History">
             <h1>Contact</h1>
-            <p>If you would like to contact Wall of History, please send us an <a href="mailto:admin@wallofhistory.com">email</a>, or message our official <a class="nonblock" href="https://www.facebook.com/WallofHistory/">Facebook</a>, <a class="nonblock" href="https://www.instagram.com/wall_of_history/">Instagram</a>,
-                or <a class="nonblock" href="https://twitter.com/Wall_of_History">Twitter</a> accounts.</p>
+            <p>If you would like to contact Wall of History, please send us an <a href="mailto:admin@wallofhistory.com">email</a>, or message our official <a class="nonblock" href="https://www.facebook.com/WallofHistory/">Facebook</a>, <a class="nonblock" href="https://www.instagram.com/wall_of_history/">Instagram</a>, or <a class="nonblock" href="https://twitter.com/Wall_of_History">Twitter</a> accounts.</p>
         </article>
     </main>
     <!-- jQuery -->

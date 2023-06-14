@@ -6,21 +6,8 @@
 
 
 html body main article {
-    max-width: 1280px;
-    padding-bottom: 0.5em;
-    background-color: var(--back2clear);
-    border: 1px solid var(--border);
-    border-radius: 0.5em;
-    border-left: none;
-    border-right: none;
-    backdrop-filter: blur(16px);
-    box-shadow: var(--outershadow);
-    overflow: hidden;
-}
-
-
-html body main aside {
-    min-width: 240px;
+    border: 1px solid rgb(40, 40, 40);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3125);
 }
 
 
@@ -30,18 +17,15 @@ main video {
 
 
 main p {
-    text-align: center;
     letter-spacing: .0625em;
     margin: .75em 1.5em;
     width: calc(100% - 3em);
 }
 
 
-main hr {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
+article p {
+    text-align: center;
 }
-
 
 .homepageReadButton {
     background-color: rgba(0, 0, 0, 0);
@@ -64,57 +48,4 @@ main hr {
 .homepageReadButton:disabled:active {
     transform: none;
     box-shadow: var(--outershadow);
-}
-
-
-.social a {
-    transition: all .2s ease-in-out;
-}
-
-
-.social a:hover {
-    transform: scale(1.25);
-    box-shadow: none;
-}
-
-
-.social a:active {
-    transform: scale(0.975);
-    opacity: 50%;
-    box-shadow: none;
-}
-
-
-#indeximg {
-    margin: 0px 0px -18px 0px;
-}
-
-
-.social {
-    width: 33.33%;
-    flex-direction: row;
-    margin: 1em auto;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-around;
-}
-
-
-.social a {
-    width: 2em;
-    height: 2em;
-}
-
-
-.social img {
-    width: 1.5em;
-    height: 1.5em;
-    margin: .25em;
-    filter: var(--iconfilter);
-}
-
-
-nav button {
-    font-weight: 900;
-    letter-spacing: .125em;
 }

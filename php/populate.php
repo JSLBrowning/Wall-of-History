@@ -218,16 +218,17 @@ function getTitleBoxText($id, $version = 1, $language = "eng")
 function getJSONConfigVariables()
 {
     // $_SERVER['DOCUMENT_ROOT'] is used to create absolute paths.
-    $path = $_SERVER['DOCUMENT_ROOT']. "/config/config.json";
+    $path = $_SERVER['DOCUMENT_ROOT'] . "/config/config.json";
     $file = file_get_contents($path);
     $json = json_decode($file, true);
     return $json;
 }
 
 
-function translateToPath($config, $id, $v=1, $lang="en") {
+// Function to translate a config file and a content ID into an asset path.
+function translateToPath($config, $id, $v = 1, $lang = "en")
+{
     include("db_connect.php");
-
     $content_path = $config["contentPath"];
 
     /**
@@ -279,14 +280,15 @@ function translateToPath($config, $id, $v=1, $lang="en") {
         $paths = $new_paths;
     }
 
-    echo "<h1>";
-    // Echo each path, separated by a slash.
-    echo implode(" ", $paths);
-    echo "</h1>";
+    // Echo each path inside an <h1>.
+    foreach ($paths as $path) {
+        echo "<h1>$path</h1>";
+    }
 }
 
 
-function getTypeChildren($type) {
+function getTypeChildren($type)
+{
     include("db_connect.php");
 
     $query = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$type'";
@@ -331,7 +333,8 @@ function getTypeChildren($type) {
 }
 
 
-function addTableOfContents($id, $v=null, $l=null) {
+function addTableOfContents($id, $v = null, $l = null)
+{
     include("db_connect.php");
 
     // If version is not null, only children of that version should be displayed.
@@ -346,7 +349,7 @@ function addTableOfContents($id, $v=null, $l=null) {
         $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id') $version_conditonal ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
     }
 
-    
+
     $result = $mysqli->query($query);
     if (mysqli_num_rows($result) > 0) {
         echo "<div class='deck'>";
@@ -362,16 +365,12 @@ function addTableOfContents($id, $v=null, $l=null) {
 }
 
 
-function buildDefaultCard($id, $v, $title, $snippet) {
+function buildDefaultCard($id, $v, $title, $snippet)
+{
     if ($v == "") {
         $card = "<a class='card medium__card' href='/read/?id=$id'>";
     } else {
         $card = "<a class='card medium__card' href='/read/?id=$id&v=$v'>";
-    }
-
-    // If file exists ../img/story/contents/$id.webp, use that as the card image.
-    if (file_exists("../img/story/contents/$id.webp")) {
-        $card .= "<div class='background__image'><img src='/img/story/contents/$id.webp'></div>";
     }
 
     // If file exists ../img/story/contents/$id.webp, use that as the card image.
@@ -385,21 +384,71 @@ function buildDefaultCard($id, $v, $title, $snippet) {
 }
 
 
-/***********************
- * UNIVERSAL FUNCTIONS *
- ***********************/
-
-
-// This function takes the color palette cookie and returns the appropriate CSS class, inserting it into the <html> tag, ideally before the page even finishes loading for the end user.
-function chooseColors()
+function populateStaticGenerator($base_path, $lang)
 {
-    if (isset($_COOKIE["colorPreference"])) {
-        echo "<html lang='en " . $_COOKIE["colorPreference"] . "'>";
+    $path = getcwd();
+
+    if ($base_path != "") {
+        $path .= "/" . "static/" . $base_path . "/" . $lang . ".html";
     } else {
-        echo "<html lang='en'>";
+        $path .= "/" . "static/" . $lang . ".html";
+    }
+
+    return $path;
+}
+
+
+function getUserLanguage()
+{
+    /*
+    if (isset($_COOKIE["languagePreference"])) {
+        return $_COOKIE["languagePreference"];
+    }
+    */
+    $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
+    if ($locale != null) {
+        return substr($locale, 0, 2);
+    } else {
+        return "en";
     }
 }
 
+
+function populateStatic($base_path)
+{
+    $lang = getUserLanguage();
+    $path = populateStaticGenerator($base_path, $lang);
+
+    if (file_exists($path)) {
+        echo file_get_contents($path);
+    } else {
+        $default_path = populateStaticGenerator($base_path, "en");
+        if (file_exists($default_path)) {
+            echo file_get_contents($default_path);
+        } else {
+            echo "<p>Missing file at " . $path . " or " . $default_path . ". Please report to admin@wallofhistory.com</p>";
+        }
+    }
+}
+
+
+
+/**
+ * FUNCTION GRAVEYARD
+ * chooseColors() - Used cookie data to set color scheme. Replaced by JS function.
+ * loadContent() - Determined if content is divided into pages, got title, displayed title, subtitle, contributors, and main content. (Display snippet in place of main if main empty (for parent works)?)
+ * addChildren() (old):
+ * If id is zero, get table of contents.
+ * Else, if "collection boolean" is false, get all NON-COLLECTION children.
+ * Else, get all collection children.
+ * Create a button for all returned child pages.
+ * Put non-collection and collection children in separate "structure" divs, with an <hr> between them.
+ */
+
+
+/***********************
+ * UNIVERSAL FUNCTIONS *
+ ***********************/
 
 // This function returns an array of results when a query returns just one row.
 // Can be used for simplifying functions that require several simple queries.
@@ -418,13 +467,13 @@ function getData($column, $query)
 }
 
 
-function getImages($id, $v, $lang, $caption)
+function getImages($path, $schemas, $id=null, $v=null, $lang=null, $caption=null)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
     $names = ["$id.$v.$lang", "$id.$v", "$id"];
-    foreach ($names as $name) {
+    foreach ($schemas as $scheme) {
         foreach ($formats as $format) {
-            $image = "/img/story/contents/$name$format";
+            $image = $path . "$scheme$format";
             if (file_exists(".." . $image)) {
                 return "<img src='" . $image . "' alt='" . $caption . "'>";
             }
@@ -767,56 +816,6 @@ function loadContentContributors($id)
 }
 
 
-// This function loads the content for the .story section of a page.
-function loadContent($id, $v, $lang)
-{
-    include("db_connect.php");
-
-
-    // Determine if this content is divided into pages, and respond accordingly.
-    $pages_query = "SELECT COUNT(tag) AS tag_count FROM story_tags WHERE id='$id' AND tag='pages'";
-    if (getData("tag_count", $pages_query)[0] > 0) {
-        echo "<section class='story pages'><section class='titleBox'>\n";
-    } else {
-        echo "<section class='story'><section class='titleBox'>\n";
-    }
-
-    // Get title (to be displayed later.)
-    $title_query = "SELECT title FROM story_content WHERE id = \"" . $id . "\" AND content_language = \"" . $lang . "\" AND content_version = \"" . $v . "\" LIMIT 1";
-    $title = getData("title", $title_query);
-
-    loadContentParents($id, $v, $title);
-
-    // Display title.
-    if (!($id === "0") && ($title[0] !== "")) {
-        echo "<h1>" . $title[0] . "</h1>";
-    }
-
-    // Get and display subtitle, if any.
-    $subtitle_query = "SELECT subtitle FROM story_content WHERE id = \"" . $id . "\" AND content_version = \"" . $v . "\" AND content_language = \"" . $lang . "\"";
-    $subtitle = getData("subtitle", $subtitle_query);
-    if (!($id === "0") && ($subtitle[0] != "")) {
-        echo "<h2>" . $subtitle[0] . "</h2>";
-    }
-
-    loadContentContributors($id);
-    echo "</section>";
-
-    // Get main content.
-    $sql = "SELECT main FROM story_content WHERE id=\"$id\" AND content_version=\"$v\" AND content_language=\"$lang\"";
-
-    // Display snippet in place of main if main empty (for parent works)?
-
-    // Display main content
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo $row["main"];
-    }
-
-    echo "</section>";
-}
-
-
 
 function getDetails($id, $primeversion, $lang)
 {
@@ -868,201 +867,3 @@ function getDetails($id, $primeversion, $lang)
 }
 
 
-function addChildrenNew($id, $lang, $v, $collection_bool)
-{
-    include("db_connect.php");
-
-    if ($id === "0") {
-        $sql = "SELECT story_metadata.id AS cid, title, snippet, chronology, content_version FROM story_metadata JOIN story_content ON story_metadata.id = story_content.id WHERE story_metadata.id NOT IN (SELECT child_id FROM story_reference_web) ORDER BY chronology, title ASC";
-    } else {
-        if ($collection_bool == false) {
-            $sql = "SELECT child_id AS cid, child_version AS content_version, title, snippet, chronology FROM story_reference_web JOIN (story_metadata JOIN story_content ON story_metadata.id = story_content.id) ON story_reference_web.child_id = story_metadata.id AND story_content.content_version=story_reference_web.child_version WHERE story_reference_web.parent_id = \"$id\" AND story_content.content_language=\"$lang\" AND story_reference_web.child_id NOT IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-            // Need to make this so it gets the child version right.
-        } else {
-            $sql = "SELECT child_id AS cid, title, snippet, chronology, content_version FROM story_reference_web JOIN (story_metadata JOIN story_content ON story_metadata.id = story_content.id) ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = \"$id\" AND story_content.content_version=$v AND story_content.content_language=\"$lang\" AND story_reference_web.child_id IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection') ORDER BY IFNULL(chronology, (SELECT chronology FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id = story_metadata.id WHERE story_reference_web.parent_id = cid ORDER BY chronology LIMIT 1)), title ASC";
-        }
-    }
-    // The above is... messy. But it works. The IFNULL needs to be replaced with proper recursion and a MIN.
-
-    $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-
-    // If the content doesn't have any children (chapter, etc.), this function will return nothing, and no children will be displayed to the user.
-    if ($num_rows != 0) {
-        echo "<section class='structure'>";
-
-        // WHAT THE FUCK HAPPENED HERE?!
-        $uniquea = [];
-        // This loop echoes the individual children.
-        while ($row = $result->fetch_assoc()) {
-            $uniqueid = $row["cid"];
-            $uniquev = $row["content_version"];
-
-            if (in_array($uniqueid, $uniquea)) {
-                continue;
-            } else {
-                echo "<div class='padding'><button id='card$uniqueid' class='contentsButton' onclick='goTo(\"" . $uniqueid . "." . $uniquev . "\")'>";
-                $image = getImages($uniqueid, $uniquev, $lang, $row["title"]);
-                if ($image != "") {
-                    echo $image;
-                }
-                $snippet = (string) $row["snippet"];
-                echo "<div class='contentButtonText'><p>" . $row["title"] . "</p><p>" . $snippet . "</p>";
-                getDetails($uniqueid, $uniquev, $lang);
-                echo "</div></button></div>";
-            }
-            array_push($uniquea, $uniqueid);
-        }
-        echo "</section>";
-    }
-}
-
-
-// This function finds any and all children that a given piece of content has, then echoes them in a list format.
-function addChildren($id, $lang, $v)
-{
-    include("db_connect.php");
-
-    $sql_child_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v'";
-    $child_count = getData("id_count", $sql_child_count);
-    if ($child_count[0] > 0) {
-        $sql_grandchild_count = "SELECT COUNT(child_id) AS grandchild_count FROM story_reference_web WHERE parent_id IN (SELECT child_id FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v')";
-        $grandchild_count = getData("grandchild_count", $sql_grandchild_count);
-        if ($grandchild_count[0] == 0) {
-            echo "<nav><button class='standaloneButton' onclick='readAsStandalone()'>Read as Standalone</button></nav>";
-        }
-    }
-
-    if ($id == "0") {
-        $sql_collection_count = "SELECT COUNT(id) as id_count FROM story_metadata WHERE id NOT IN (SELECT child_id FROM story_reference_web) AND id IN (SELECT id FROM story_tags WHERE tag='collection')";
-        $sql_content_count = "SELECT COUNT(id) as id_count FROM story_metadata WHERE id NOT IN (SELECT child_id FROM story_reference_web) AND id NOT IN (SELECT id FROM story_tags WHERE tag='collection')";
-    } else {
-        $sql_collection_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v' AND child_id IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection')";
-        $sql_content_count = "SELECT COUNT(child_id) AS id_count FROM story_reference_web WHERE parent_id='$id' AND parent_version='$v' AND child_id NOT IN (SELECT DISTINCT id FROM story_tags WHERE tag='collection')";
-    }
-
-    $collection_count = getData("id_count", $sql_collection_count);
-    $content_count = getData("id_count", $sql_content_count);
-
-    if ($collection_count[0] > 0 && $content_count[0] > 0) {
-        addChildrenNew($id, $lang, $v, false);
-        echo "<h2>Collections</h2>";
-        addChildrenNew($id, $lang, $v, true);
-    } else if ($collection_count[0] > 0 && $content_count[0] == 0) {
-        addChildrenNew($id, $lang, $v, true);
-    } else if ($collection_count[0] == 0 && $content_count[0] > 0) {
-        addChildrenNew($id, $lang, $v, false);
-    }
-}
-
-
-function getUserLanguage()
-{
-    if (isset($_COOKIE["languagePreference"])) {
-        return $_COOKIE["languagePreference"];
-    } else {
-        $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-        if ($locale != null) {
-            return substr($locale, 0, 2);
-        } else {
-            return "en";
-        }
-    }
-}
-
-
-function populateStaticGenerator($base_path, $lang)
-{
-    $path = getcwd();
-
-    if ($base_path != "") {
-        $path .= "/" . "static/" . $base_path . "/" . $lang . ".html";
-    } else {
-        $path .= "/" . "static/" . $lang . ".html";
-    }
-
-    return $path;
-}
-
-
-function populateStatic($base_path)
-{
-    $lang = getUserLanguage();
-    $path = populateStaticGenerator($base_path, $lang);
-
-    if (file_exists($path)) {
-        echo file_get_contents($path);
-    } else {
-        $default_path = populateStaticGenerator($base_path, "en");
-        if (file_exists($default_path)) {
-            echo file_get_contents($default_path);
-        } else {
-            echo "<p>Missing file at " . $path . " or " . $default_path . ". Please report to admin@wallofhistory.com</p>";
-        }
-    }
-}
-
-
-function getLeaves($id)
-{
-    include("db_connect.php");
-
-    if ($id == "0") {
-        $all_leaves_query = "SELECT DISTINCT story_reference_web.child_id FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id=story_metadata.id WHERE story_reference_web.child_id NOT IN (SELECT DISTINCT parent_id FROM story_reference_web) ORDER BY story_metadata.chronology ASC";
-        $result_all_leaves = $mysqli->query($all_leaves_query);
-
-        $all_leaves = array();
-        if (!is_bool($result_all_leaves)) {
-            while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-                array_push($all_leaves, $row_all_leaves["child_id"]);
-            }
-        }
-
-        return "'" . implode('\', \'', $all_leaves) . "'";
-    } else {
-        // Get full list of all leaf nodes in the tree.
-        // Note that the chronology value is necessary to ensure that the ultimate output is ordered "depth blind" — i.e., leaves at a depth of one will not float to the top, ahead of leaves at a depth of two with a lower chronology.
-        $all_leaves_query = "SELECT DISTINCT story_reference_web.child_id FROM story_reference_web JOIN story_metadata ON story_reference_web.child_id=story_metadata.id WHERE story_reference_web.child_id NOT IN (SELECT DISTINCT parent_id FROM story_reference_web) ORDER BY story_metadata.chronology ASC";
-        $result_all_leaves = $mysqli->query($all_leaves_query);
-
-        $all_leaves = array();
-        if (!is_bool($result_all_leaves)) {
-            while ($row_all_leaves = $result_all_leaves->fetch_assoc()) {
-                array_push($all_leaves, $row_all_leaves["child_id"]);
-            }
-        }
-
-        $nodes = array("\"" . $id . "\"");
-        $leaves = array();
-        $descendant_leaves = getChildren($nodes, $leaves, $all_leaves);
-        // array_intersect() is necessary for aforementioned sorting by chronology.
-        return "'" . implode('\', \'', array_intersect($all_leaves, $descendant_leaves)) . "'";
-    }
-}
-
-
-// Recursive function to get all children of a given node, separating out the leaves.
-function getChildren($nodes, $leaves, $all_leaves)
-{
-    include("db_connect.php");
-
-    $imploded_nodes = implode(",", $nodes);
-    $sql_children = "SELECT child_id, child_version FROM story_reference_web WHERE parent_id IN ($imploded_nodes) AND child_id NOT IN (SELECT id FROM story_tags WHERE tag='collection')";
-    $result_children = $mysqli->query($sql_children);
-
-    $nodes = array();
-    while ($row_children = $result_children->fetch_assoc()) {
-        $child_id = $row_children["child_id"];
-        if (in_array($child_id, $all_leaves) && !in_array($child_id, $leaves)) {
-            array_push($leaves, $child_id);
-        } else if (!in_array($child_id, $all_leaves)) {
-            array_push($nodes, "\"" . $child_id . "\"");
-        }
-    }
-
-    if (count($nodes) == 0) {
-        return $leaves;
-    } else {
-        return getChildren($nodes, $leaves, $all_leaves);
-    }
-}

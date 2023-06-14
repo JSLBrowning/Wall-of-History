@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 include("..//php/populate.php");
-chooseColors();
 ?>
 
 <head>
