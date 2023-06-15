@@ -92,6 +92,158 @@ $languages = [
  */
 
 
+/******************************
+ * DATA TRANSLATION FUNCTIONS *
+ ******************************/
+
+
+// Fine, I'll do it myself.
+function str_contains($haystack, $needle)
+{
+    return strpos($haystack, $needle) !== false;
+}
+
+
+// Function to fetch and decode the config.json file.
+function getJSONConfigVariables()
+{
+    // $_SERVER['DOCUMENT_ROOT'] is used to create absolute paths.
+    $path = $_SERVER['DOCUMENT_ROOT'] . "/config/config.json";
+    $file = file_get_contents($path);
+    $json = json_decode($file, true);
+    return $json;
+}
+
+
+// Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
+function translateSemantic($semantic_tag)
+{
+    include('./php/db_connect.php');
+
+    $semantic_query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semantic_tag' LIMIT 1";
+    $semantic_result = $mysqli->query($semantic_query);
+    $semantic_row = $semantic_result->fetch_assoc();
+    $content_id = $semantic_row["content_id"];
+    $content_version = $semantic_row["content_version"];
+    $content_language = $semantic_row["content_language"];
+
+    // Put ID, version, and langauge into a dictionary, with the values being null if they're not present.
+    $semantic_data = array(
+        "id" => $content_id,
+        "v" => $content_version,
+        "lang" => $content_language,
+        "s" => $semantic_tag
+    );
+
+    return $semantic_data;
+}
+
+
+function translateToSemantic($id, $v, $lang)
+{
+    include('./php/db_connect.php');
+
+    $semantic_query = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' LIMIT 1";
+    $semantic_result = $mysqli->query($semantic_query);
+    $semantic_row = $semantic_result->fetch_assoc();
+    $semantic_tag = $semantic_row["tag"];
+
+    return $semantic_tag;
+}
+
+
+// Function to translate a CONFIG ARRAY and a CONTENT ID into an array of possible asset paths.
+function translateToPath($config, $id, $v = 1, $lang = "en")
+{
+    include("db_connect.php");
+    $content_path = $config["contentPath"];
+
+    // First things first, get all semantic tags for the content.
+    $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version=$v AND content_language='$lang'";
+    $identifiers = [$id];
+    // Add any/all semantic tags to the array.
+    $result_tags = $mysqli->query($query_tags);
+    if (mysqli_num_rows($result_tags) > 0) {
+        while ($row_tags = $result_tags->fetch_assoc()) {
+            $tag = $row_tags["tag"];
+            array_push($identifiers, $tag);
+        }
+    }
+
+    $paths = [];
+    foreach ($identifiers as $identifier) {
+        // Convert "[id/s]" in $content_path to $identifier, then push to $paths.
+        array_push($paths, str_replace("[id/s]", $identifier, $content_path) . "/");
+    }
+
+    /**
+     * TYPE TAGS
+     */
+
+    // If "[tagtype:type]" in $content_path, get all type tags for the content.
+    if (strpos($content_path, "[tagtype:type]") !== false) {
+        // Get all type tags for the content.
+        $types = [];
+        $query_types = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='type'";
+        $result_types = $mysqli->query($query_types);
+        if (mysqli_num_rows($result_types) > 0) {
+            while ($row_types = $result_types->fetch_assoc()) {
+                array_push($types, $row_types["tag"]);
+            }
+        }
+
+        // For each path, create a new path for each type.
+        $new_paths = [];
+        foreach ($paths as $path) {
+            foreach ($types as $type) {
+                array_push($new_paths, str_replace("[tagtype:type]", $type, $path));
+            }
+        }
+
+        // Replace $paths with $new_paths.
+        $paths = $new_paths;
+    }
+
+    // Echo each path inside an <h1>.
+    foreach ($paths as $path) {
+        echo "<h1>$path</h1>";
+    }
+}
+
+
+/******************************
+ * CONTENT FETCHING FUNCTIONS *
+ ******************************/
+
+
+// Function to get title, subtitle, and snippet from a content ID. Returns an array of arrays.
+function getContentData($id, $v = null, $lang = null)
+{
+    include('db_connect.php');
+
+    // If passed lang is "en," update to "eng."
+    if ($lang == "en") {
+        $lang = "eng";
+    }
+
+    // If $v is not null...
+    $version_conditonal = ($v != null) ? "AND content_version=$v" : "";
+    $language_conditional = ($lang != null) ? "AND content_language='$lang'" : "";
+
+    // If version is null, get all versions, and list them on the card (which links to version 1 by default).
+    // If language is null, try user language, then default to English.
+    $content_query = "SELECT version_title, content_title, content_subtitle, content_snippet, content_words FROM shin_content WHERE content_id='$id' $version_conditonal $language_conditional";
+    $content_result = $mysqli->query($content_query);
+    // Put all rows into an array.
+    $content_rows = array();
+    while ($row = $content_result->fetch_assoc()) {
+        $content_rows[] = $row;
+    }
+
+    return $content_rows;
+}
+
+
 /******************
  * TEST FUNCTIONS *
  ******************/
@@ -215,75 +367,13 @@ function getTitleBoxText($id, $version = 1, $language = "eng")
 }
 
 
-function getJSONConfigVariables()
+function pluralizeTypeTag($type)
 {
-    // $_SERVER['DOCUMENT_ROOT'] is used to create absolute paths.
-    $path = $_SERVER['DOCUMENT_ROOT'] . "/config/config.json";
-    $file = file_get_contents($path);
-    $json = json_decode($file, true);
-    return $json;
-}
-
-
-// Function to translate a config file and a content ID into an asset path.
-function translateToPath($config, $id, $v = 1, $lang = "en")
-{
-    include("db_connect.php");
-    $content_path = $config["contentPath"];
-
-    /**
-     * ID/SEMANTIC TAGS
-     */
-    // First things first, get all semantic tags for the content.
-    $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version=$v AND content_language='$lang'";
-    $identifiers = [$id];
-    // Add any/all semantic tags to the array.
-    $result_tags = $mysqli->query($query_tags);
-    if (mysqli_num_rows($result_tags) > 0) {
-        while ($row_tags = $result_tags->fetch_assoc()) {
-            $tag = $row_tags["tag"];
-            array_push($identifiers, $tag);
-        }
-    }
-
-    $paths = [];
-    foreach ($identifiers as $identifier) {
-        // Convert "[id/s]" in $content_path to $identifier, then push to $paths.
-        array_push($paths, str_replace("[id/s]", $identifier, $content_path) . "/");
-    }
-
-    /**
-     * TYPE TAGS
-     */
-
-    // If "[tagtype:type]" in $content_path, get all type tags for the content.
-    if (strpos($content_path, "[tagtype:type]") !== false) {
-        // Get all type tags for the content.
-        $types = [];
-        $query_types = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='type'";
-        $result_types = $mysqli->query($query_types);
-        if (mysqli_num_rows($result_types) > 0) {
-            while ($row_types = $result_types->fetch_assoc()) {
-                array_push($types, $row_types["tag"]);
-            }
-        }
-
-        // For each path, create a new path for each type.
-        $new_paths = [];
-        foreach ($paths as $path) {
-            foreach ($types as $type) {
-                array_push($new_paths, str_replace("[tagtype:type]", $type, $path));
-            }
-        }
-
-        // Replace $paths with $new_paths.
-        $paths = $new_paths;
-    }
-
-    // Echo each path inside an <h1>.
-    foreach ($paths as $path) {
-        echo "<h1>$path</h1>";
-    }
+    include('db_connect.php');
+    $type_query = "SELECT media_tag_plural FROM media_tags WHERE media_tag='$type'";
+    $type_result = $mysqli->query($type_query);
+    $type_row = $type_result->fetch_assoc();
+    return $type_row["media_tag_plural"];
 }
 
 
@@ -467,7 +557,7 @@ function getData($column, $query)
 }
 
 
-function getImages($path, $schemas, $id=null, $v=null, $lang=null, $caption=null)
+function getImages($path, $schemas, $id = null, $v = null, $lang = null, $caption = null)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
     $names = ["$id.$v.$lang", "$id.$v", "$id"];
@@ -865,5 +955,3 @@ function getDetails($id, $primeversion, $lang)
         echo "</div>";
     }
 }
-
-

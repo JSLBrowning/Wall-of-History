@@ -3,6 +3,7 @@
 include("../php/db_connect.php");
 include("../php/populate.php");
 ?>
+
 <head>
     <script src="/js/palette.js"></script>
     <meta charset='UTF-8'>
@@ -23,24 +24,25 @@ include("../php/populate.php");
         } else if (isset($_GET["id"])) {
             $id = $_GET["id"];
 
-            if (isset($_GET["lang"])) {
-                $lang = $_GET["lang"];
-            } else {
-                $lang = "eng";
-            }
-
             if (isset($_GET["v"])) {
                 $v = $_GET["v"];
             } else {
                 $v = "1";
             }
-        } else if (isset($_GET["type"])) {
-            $type = $_GET["type"];
+
+            if (isset($_GET["lang"])) {
+                $lang = $_GET["lang"];
+            } else {
+                $lang = "eng";
+            }
+        } else if (isset($_GET["t"])) {
+            $type = $_GET["t"];
+            echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
         }
     } else {
         $id = "0";
-        $lang = "eng";
         $v = "1";
+        $lang = "eng";
     }
     //populateHead($id, $lang, $v);
     ?>
@@ -62,19 +64,30 @@ include("../php/populate.php");
         ?>
         <!-- <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a> -->
         <a href="/"><img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png"></a>
-        <p><a class="small" onclick="window.location.href='/reference/';">Reference</a> | <a class="small" onclick="window.location.href='/about/';">About</a> | <a class="small" onclick="window.location.href='https\://blog.wallofhistory.com';">Blog</a> | <a class="small" onclick="window.location.href='https\://www.maskofdestiny.com/news/tags/wall-of-history';">News</a> | <a class="small" onclick="window.location.href='/contact/';">Contact</a></p>
+        <p>
+            <?php
+            if (isset($id)) {
+                echo "<a href='/read/'>Contents</a> | ";
+            }
+            ?>
+            <a href="/reference/">Reference</a> |
+            <a href="/about/">About</a> |
+            <a href="https://blog.wallofhistory.com">Blog</a> |
+            <a href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a> |
+            <a href="/contact/">Contact</a>
+        </p>
         <input type="text" placeholder="Search…">
     </header>
     <main>
         <article>
             <?php
-                $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
-                
-                // $firstPage = getFirstPage($route);
-                // print_r($firstPage);
-                //$fullURL = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                //echo "<p>" . $fullURL . "</p>";
-                // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
+            $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+
+            // $firstPage = getFirstPage($route);
+            // print_r($firstPage);
+            //$fullURL = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            //echo "<p>" . $fullURL . "</p>";
+            // echo getMainContent($firstPage["content_id"], $firstPage["content_version"]);
             ?>
             <div class="article__content">
                 <section class="title__box">
@@ -92,46 +105,46 @@ include("../php/populate.php");
                     </section>
                 </section>
                 <section class="extra__content">
-                <form>
-                    <select name="version__select">
-                        <option value="0">Standard Editon</option>
-                        <option value="1">Limited Collector’s Edition</option>
-                    </select>
-                    <select name="language__select">
-                        <option value="en">English</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                    </select>
-                </form>
-                <hr>
-                <!-- https://www.google.com/books/edition/Tale_of_the_Toa/-tjuYkYbDYAC?hl=en&kptab=overview -->
-                <span class="detail">
-                    <p>Released:</p>
-                    <p>June 1st, 2001</p>
-                </span>
-                <span class="detail">
-                    <p>ISBN-13:</p>
-                    <p>978-0439501163</p>
-                </span>
-                <hr>
-                <div class="extra__areas">
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-pdf fa-lg"></i> PDF</a>
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-word fa-lg"></i> DOCX</a>
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-tablet-screen-button fa-lg"></i> EPUB</a>
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-file-zipper fa-lg"></i> ZIP</a>
-                </div>
-                <hr>
-                <div class="extra__areas">
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Teaser</a>
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Trailer</a>
-                    <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> TV Spot</a>
-                </div>
-                <hr>
-                <div class="extra__areas">
-                    <a class="anchor__button" href="https://a.co/d/7J4JL1u"><i class="fa-brands fa-amazon"></i>
-                        Amazon</a>
-                </div>
-            </section>
+                    <form>
+                        <select name="version__select">
+                            <option value="0">Standard Editon</option>
+                            <option value="1">Limited Collector’s Edition</option>
+                        </select>
+                        <select name="language__select">
+                            <option value="en">English</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                    </form>
+                    <hr>
+                    <!-- https://www.google.com/books/edition/Tale_of_the_Toa/-tjuYkYbDYAC?hl=en&kptab=overview -->
+                    <span class="detail">
+                        <p>Released:</p>
+                        <p>June 1st, 2001</p>
+                    </span>
+                    <span class="detail">
+                        <p>ISBN-13:</p>
+                        <p>978-0439501163</p>
+                    </span>
+                    <hr>
+                    <div class="extra__areas">
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-pdf fa-lg"></i> PDF</a>
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-word fa-lg"></i> DOCX</a>
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-tablet-screen-button fa-lg"></i> EPUB</a>
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-zipper fa-lg"></i> ZIP</a>
+                    </div>
+                    <hr>
+                    <div class="extra__areas">
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Teaser</a>
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Trailer</a>
+                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> TV Spot</a>
+                    </div>
+                    <hr>
+                    <div class="extra__areas">
+                        <a class="anchor__button" href="https://a.co/d/7J4JL1u"><i class="fa-brands fa-amazon"></i>
+                            Amazon</a>
+                    </div>
+                </section>
                 <section class="main__content">
                     <?php
                     if (isset($id)) {
@@ -143,6 +156,40 @@ include("../php/populate.php");
                         }
                     } else if (isset($type)) {
                         getTypeChildren($type);
+
+                        function getEntriesOfType($type)
+                        {
+                            include($_SERVER['DOCUMENT_ROOT'] . "/php/db_connect.php");
+
+                            // Get all ID.v.lang combos of the type in question.
+                            $query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='type' AND tag='$type'";
+                            $result = $mysqli->query($query);
+                            $entries = array();
+                            while ($row = $result->fetch_assoc()) {
+                                $entries[] = $row;
+                            }
+                            return $entries;
+                        }
+
+                        $entriesOfType = getEntriesOfType($type);
+                        echo "<div class='deck'>";
+                        foreach ($entriesOfType as $entry) {
+                            $id = $entry["content_id"];
+                            $v = $entry["content_version"];
+                            $l = $entry["content_language"];
+                            $content_data = getContentData($id, $v, $l);
+
+                            if (count($content_data) > 0) {
+                                // Get image based on content_data.
+                                echo "<a class='card medium__card' href='/read/?id=$id'>";
+                                echo "<div class='card__text'>";
+                                echo "<h3>" . $content_data[0]["content_title"] . "</h3>";
+                                echo "<p>" . $content_data[0]["content_snippet"] . "</p>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
+                        }
+                        echo "</div>";
                     }
 
                     // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
@@ -151,7 +198,7 @@ include("../php/populate.php");
                     // echo "</p>";
                     ?>
                 </section>
-            <div>
+                <div>
         </article>
         <nav>
             <div class="nav__column">

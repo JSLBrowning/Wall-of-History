@@ -65,7 +65,8 @@
             <a class="small" href="/about/">About</a> |
             <a class="small" href="https://blog.wallofhistory.com">Blog</a> |
             <a class="small" href="https://www.maskofdestiny.com/news/tags/wall-of-history">News</a> |
-            <a class="small" href="/contact/">Contact</a></p>
+            <a class="small" href="/contact/">Contact</a>
+        </p>
         <input type="text" placeholder="Search…">
     </header>
     <main>
@@ -78,21 +79,28 @@
         -->
 
         <?php
+        // Include database connection and populate functions.
         include('./php/db_connect.php');
         include('./php/populate.php');
+
+        // Get relevant variables from config.json.
         $config = getJSONConfigVariables();
         $mainWork = $config["mainWork"];
         $additionalTiles = $config["additionalTiles"];
         $socials = $config["socials"];
 
+        // Check if mainWork is a route or a story.
         $main_work_query = "SELECT route_id FROM shin_routes WHERE route_id = '$mainWork' OR route_name = '$mainWork'";
-        // If above returns a result, the main work is that route. If it returns nothing, the main work must be a story.
         $main_work_result = $mysqli->query($main_work_query);
+
+        // If above returns a result, the main work is that route. If it returns nothing, the main work must be a story.
         if (mysqli_num_rows($main_work_result) == 1) {
             // echo "<h1>Main work is a route.</h1>";
+        } else if (mysqli_num_rows($main_work_result) == 0) {
+            // echo "<h1>Main work is a story.</h1>";
+        } else {
+            // echo "<h1>Something went wrong.</h1>";
         }
-        
-        // translateToPath($config, "GNO2P6");
         ?>
 
 
@@ -121,63 +129,9 @@
 
         <div class="deck">
             <?php
-            function str_contains($haystack, $needle) {
-                return strpos($haystack, $needle) !== false;
-            }
-
-
-            // Function to translate a semantic tag to a content ID, version, and language.
-            function translateSemantic($semantic_tag) {
-                include('./php/db_connect.php');
-
-                $semantic_query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semantic_tag' LIMIT 1";
-                $semantic_result = $mysqli->query($semantic_query);
-                $semantic_row = $semantic_result->fetch_assoc();
-                $content_id = $semantic_row["content_id"];
-                $content_version = $semantic_row["content_version"];
-                $content_language = $semantic_row["content_language"];
-
-                // Put ID, version, and langauge into a dictionary, with the values being null if they're not present.
-                $semantic_data = array(
-                    "id" => $content_id,
-                    "v" => $content_version,
-                    "lang" => $content_language,
-                    "s" => $semantic_tag
-                );
-
-                return $semantic_data;
-            }
-
-
-            // Function to get title, subtitle, and snippet from a content ID. Returns an array of arrays.
-            function getContentData($id, $v=null, $lang=null) {
-                include('./php/db_connect.php');
-
-                // If passed lang is "en," update to "eng."
-                if ($lang == "en") {
-                    $lang = "eng";
-                }
-
-                // If $v is not null...
-                $version_conditonal = ($v != null) ? "AND content_version=$v" : "";
-                $language_conditional = ($lang != null) ? "AND content_language='$lang'" : "";
-
-                // If version is null, get all versions, and list them on the card (which links to version 1 by default).
-                // If language is null, try user language, then default to English.
-                $content_query = "SELECT version_title, content_title, content_subtitle, content_snippet, content_words FROM shin_content WHERE content_id='$id' $version_conditonal $language_conditional";
-                $content_result = $mysqli->query($content_query);
-                // Put all rows into an array.
-                $content_rows = array();
-                while ($row = $content_result->fetch_assoc()) {
-                    $content_rows[] = $row;
-                }
-
-                return $content_rows;
-            }
-
-
             // Function to build a medium card. Takes an array as an argument.
-            function buildMediumCard($tileContents) {
+            function buildMediumCard($tileContents)
+            {
                 // Okay, what do we NEED? Need an href, a title, a snippet, and ideally...
                 // word count, publish date, version, et cetera (details).
 
@@ -191,15 +145,15 @@
 
                     // Get identification data.
                     $semantic_data = translateSemantic($semantic_tag);
-                    
+
                     // Get content data.
                     $content_data = getContentData($semantic_data["id"], $semantic_data["v"], $semantic_data["lang"]);
 
                     // If len(content_data) > 1, build card using version 1, but list all version_titles in a comma-delimited div.versions.
                     if (count($content_data) == 1) {
-                        echo "<a class='card medium__card' href='/read/?s='$semantic_tag'>";
+                        echo "<a class='card medium__card' href='/read/?s=$semantic_tag'>";
                         echo "<div class='card__text'>";
-                        echo "<h3>". $content_data[0]["content_title"] . "</h3>";
+                        echo "<h3>" . $content_data[0]["content_title"] . "</h3>";
                         echo "<div class='versions'>";
                         echo "<p>" . $content_data[0]["version_title"] . "</p>";
                         echo "</div>";
@@ -208,7 +162,49 @@
                         echo "</a>";
                     }
                 }
+
+                if (str_contains($tile, "[type:")) {
+                    // Strip off first six characters ("[type:"), then strip off last character ("]".
+                    $type_tag = substr($tile, 6, -1);
+
+                    $content_data = getContentData(getTypeRepresentative($type_tag));
+                    $plural_tag = pluralizeTypeTag($type_tag);
+
+                    $Parsedown = new Parsedown();
+
+                    // If len(content_data) > 1, build card using version 1, but list all version_titles in a comma-delimited div.versions.
+                    if (count($content_data) > 0) {
+                        // Get image based on content_data.
+                        echo "<a class='card medium__card' href='/read/?t=$type_tag'>";
+                        echo "<div class='card__text'>";
+                        echo "<h3>" . $plural_tag . "</h3>";
+                        echo "<p>" . $Parsedown->text($tileContents["description"]) . "</p>";
+                        echo "</div>";
+                        echo "</a>";
+                    }
+                }
             }
+
+
+            function getTypeRepresentative($type)
+            {
+                include('./php/db_connect.php');
+
+                // How to account for null?
+                $query = "SELECT shin_tags.content_id, shin_tags.content_version, shin_tags.content_language, shin_metadata.release_date, shin_metadata.chronology FROM shin_tags JOIN shin_metadata ON shin_tags.content_id=shin_metadata.content_id WHERE tag_type='type' AND tag='$type' AND release_date IS NOT NULL ORDER BY release_date, chronology ASC LIMIT 1;";
+                // Add relative chronology values to *Chronicles* novels.
+                $result = $mysqli->query($query);
+
+                if (mysqli_num_rows($result) == 1) {
+                    $row = $result->fetch_assoc();
+                    return $row["content_id"];
+                } else {
+                    return null;
+                }
+            }
+
+
+            
 
 
             foreach ($additionalTiles as $additionalTile) {
@@ -224,33 +220,32 @@
             }
             ?>
         </div>
-        <div class="social">
-            <?php
-            function buildSocials($socials)
-            {
-                // Switch based off key — discord, facebook, etc.
-                // If key is discord, build a discord link.
-                // If key is facebook, build a facebook link.
-                foreach ($socials as $key => $value) {
-                    if ($key == "discord") {
-                        echo "<a href=\"$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/Discord-Logo-White.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    } else if ($key == "facebook") {
-                        echo "<a href=\"https://www.facebook.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/f_logo_RGB-White_1024.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    } else if ($key == "instagram") {
-                        echo "<a href=\"https://www.instagram.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/white-instagram-logo-transparent-background.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    } else if ($key == "reddit") {
-                        echo "<a href=\"https://www.reddit.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/reddit_share_silhouette_128.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    } else if ($key == "twitter") {
-                        echo "<a href=\"https://twitter.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/Twitter_Social_Icon_Circle_White.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    } else if ($key == "youtube") {
-                        echo "<a href=\"https://www.youtube.com/@$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/yt_logo_mono_dark.png\" width=\"1.5rem\" height=\"1.5rem\">";
-                    }
+        <?php
+        function buildSocials($socials)
+        {
+            echo "<div class='social'>";
+
+            foreach ($socials as $key => $value) {
+                if ($key == "discord") {
+                    echo "<a href=\"$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/Discord-Logo-White.png\" width=\"1.5rem\" height=\"1.5rem\">";
+                } else if ($key == "facebook") {
+                    echo "<a href=\"https://www.facebook.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/f_logo_RGB-White_1024.png\" width=\"1.5rem\" height=\"1.5rem\">";
+                } else if ($key == "instagram") {
+                    echo "<a href=\"https://www.instagram.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/white-instagram-logo-transparent-background.png\" width=\"1.5rem\" height=\"1.5rem\">";
+                } else if ($key == "reddit") {
+                    echo "<a href=\"https://www.reddit.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/reddit_share_silhouette_128.png\" width=\"1.5rem\" height=\"1.5rem\">";
+                } else if ($key == "twitter") {
+                    echo "<a href=\"https://twitter.com/$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/Twitter_Social_Icon_Circle_White.png\" width=\"1.5rem\" height=\"1.5rem\">";
+                } else if ($key == "youtube") {
+                    echo "<a href=\"https://www.youtube.com/@$value\" width=\"1.5rem\" height=\"1.5rem\"><img src=\"../img/index/yt_logo_mono_dark.png\" width=\"1.5rem\" height=\"1.5rem\">";
                 }
             }
 
-            buildSocials($socials);
-            ?>
-        </div>
+            echo "</div>";
+        }
+
+        buildSocials($socials);
+        ?>
     </main>
     <!-- modal -->
     <div id="myModal" class="modal">
