@@ -423,6 +423,21 @@ function getTypeChildren($type)
 }
 
 
+// A function to get all the entries of a given type, but only the topmost entries (so if you have a type of "book", it will only return the books themselves, not the chapters within those books, even if the chapters also have the "book" tag).
+function getEntriesOfType($type) {
+    // 1. Get ALL entries of a given type.
+    // 2. Find out which ones entries in the previous query are also the children of other entries in that same query.
+    // 3. Remove those entries from the query.
+    $query_type = "SELECT content_id FROM shin_metadata WHERE content_id NOT IN (SELECT child_id, child_version FROM shin_web WHERE parent_id AND child_id IN (SELECT content_id, content_version, content_language FROM shin_tags WHERE tag='$type'))";
+    // 4. Then get child tags. If there are any, determine which of the above entries are also of the more specific type. Display them grouped together.
+    // 5. Display remainder underneath as "Misc. [plural_tag]."
+
+
+    // Get all child tags, do above for each of those, then do "get from parent tag where NOT IN whatever we just got."
+    // For (content_id, content_version) NOT IN: https://stackoverflow.com/a/61385628
+}
+
+
 function addTableOfContents($id, $v = null, $l = null)
 {
     include("db_connect.php");
