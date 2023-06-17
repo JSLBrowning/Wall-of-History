@@ -326,6 +326,16 @@ function getMainContent($id, $version = 1, $language = "eng")
     } else if (mysqli_num_rows($result) == 1) {
         $row = $result->fetch_assoc();
         $content = $row["content_main"];
+
+        /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
+        $content = preg_replace_callback(
+            '/<!([a-zA-Z0-9_]+)!>/',
+            function ($matches) {
+                return getMainContent($matches[1]);
+            },
+            $content
+        ); */
+
         echo $content;
     } else {
         return null;
@@ -393,7 +403,7 @@ function getTypeChildren($type)
             echo "<h1>$type_plural</h1>";
         }
 
-        $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type'";
+        $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type' AND child_tag IN (SELECT DISTINCT tag FROM shin_tags) ORDER BY (SELECT COUNT(*) FROM shin_tags WHERE tag=child_tag) DESC";
         $result_children = $mysqli->query($query_children);
         if (mysqli_num_rows($result_children) > 0) {
             // Put results into an array.
@@ -424,7 +434,7 @@ function getTypeChildren($type)
 
 
 // A function to get all the entries of a given type, but only the topmost entries (so if you have a type of "book", it will only return the books themselves, not the chapters within those books, even if the chapters also have the "book" tag).
-function getEntriesOfType($type) {
+function getEntriesOfTypeNew($type) {
     // 1. Get ALL entries of a given type.
     // 2. Find out which ones entries in the previous query are also the children of other entries in that same query.
     // 3. Remove those entries from the query.
@@ -446,12 +456,13 @@ function addTableOfContents($id, $v = null, $l = null)
     // "WHERE parent_version=$v"
     // If version is null... there should be one button, which takes you to version 1.
     // "WHERE shin_content.content_version=1"
-    $version_conditonal = ($v != null) ? "AND parent_version=$v" : "AND shin_content.content_version=1";
+    $version_conditonal = ($v != null) ? "AND parent_version=$v)" : ") AND shin_content.content_version=1";
+    $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='eng'";
 
     if ($id == "0") {
         $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
     } else {
-        $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id') $version_conditonal ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
     }
 
 
@@ -921,7 +932,7 @@ function loadContentContributors($id)
 }
 
 
-
+// Function to get all version titles, release date(s), word count, and... contributor tags.
 function getDetails($id, $primeversion, $lang)
 {
     $data_count = 0;

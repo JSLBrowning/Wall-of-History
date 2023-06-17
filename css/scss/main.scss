@@ -817,6 +817,7 @@ nav {
     img {
         margin: 0.25rem;
         border-radius: 0.375rem;
+        display: block;
     }
 
     img,
@@ -957,12 +958,12 @@ nav {
         overflow: visible;
 
         > img {
-            margin: -0.25rem;
+            // margin: -0.25rem;
             object-fit: contain;
             min-height: 0px;
             max-height: calc(100% - 0.25rem);
-            //min-width: 5rem;
-            //max-width: 5rem;
+            min-width: 5rem;
+            max-width: 5rem;
         }
 
         h3,

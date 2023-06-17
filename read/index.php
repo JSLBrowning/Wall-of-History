@@ -37,7 +37,11 @@ include("../php/populate.php");
             }
         } else if (isset($_GET["t"])) {
             $type = $_GET["t"];
-            echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
+            if ($type == "main") {
+                echo "<title>Contents by Type | Wall of History</title>";
+            } else {
+                echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
+            }
         }
     } else {
         $id = "0";
@@ -152,7 +156,7 @@ include("../php/populate.php");
                             addTableOfContents($id);
                         } else {
                             getMainContent($id, $v);
-                            addTableOfContents($id);
+                            addTableOfContents($id, $v);
                         }
                     } else if (isset($type)) {
                         getTypeChildren($type);
@@ -163,6 +167,7 @@ include("../php/populate.php");
 
                             // Get all ID.v.lang combos of the type in question.
                             $query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='type' AND tag='$type'";
+                            $query = "SELECT content_id, content_version, content_language FROM shin_metadata WHERE content_id NOT IN (SELECT child_id FROM shin_web WHERE parent_id IN (SELECT content_id FROM shin_tags WHERE tag='$type')) AND content_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag='$type') ORDER BY chronology ASC";
                             $result = $mysqli->query($query);
                             $entries = array();
                             while ($row = $result->fetch_assoc()) {
