@@ -318,11 +318,9 @@ article {
         height: 100%;
         z-index: 0;
         position: absolute;
-        background-image: url("/img/story/contents/GNO2P6.webp");
-        background-size: 100%;
-        background-position: center -250%;
-
+        
         .window {
+            /* CLEAN THIS UP. */
             width: 100%;
             height: 22rem;
             position: absolute;
@@ -332,6 +330,23 @@ article {
             border-radius: 1rem 1rem 0 0;
             border: 1px solid #202020;
             border-bottom: none;
+
+            background-image: url("/img/story/contents/GNO2P6.webp");
+            background-size: 100%;
+            background-position: center -50%;
+
+            &::after {
+                content: "";
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                background: rgba(22, 22, 22, 0.75);
+                backdrop-filter: blur(16px);
+                border-radius: 1rem 1rem 0 0;
+                border: 1px solid #202020;
+                border-bottom: none;
+            }
         }
 
         .wall {
@@ -339,12 +354,12 @@ article {
             width: 100%;
             position: absolute;
             top: 22rem;
-            background: rgb(22, 22, 22);
-            background: linear-gradient(
+            background: rgba(22, 22, 22, 0);
+            /* background: linear-gradient(
                 0deg,
                 rgba(22, 22, 22, 1) 90%,
                 rgba(22, 22, 22, 0.9375) 100%
-            );
+            ); */
             border: 1px solid #202020;
             border-top: none;
             backdrop-filter: blur(24px);
