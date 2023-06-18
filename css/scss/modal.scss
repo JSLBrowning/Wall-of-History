@@ -1,0 +1,257 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: rgba(0, 0, 0, 0);
+    visibility: hidden;
+    transition: all 0.375s ease-in-out;
+
+    &.modal-visible {
+        z-index: 8;
+        background-color: rgba(0, 0, 0, 0.5);
+        visibility: visible;
+    }
+
+    .modal-content-center {
+        position: fixed;
+        top: 100%;
+        left: 37.5%;
+        width: 25%;
+        right: 37.5%;
+
+        left: calc(50% - 320px);
+        width: 640px;
+        right: calc(50% - 320px);
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: -90%;
+        height: 90%;
+        z-index: 0;
+        background-color: var(--back2);
+        border: 1px solid var(--border);
+        border-radius: 1em;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+        transition: all 0.375s ease-in-out;
+        overflow: visible;
+        /* This is still causing problems, most noticeable on mobile.
+        Make a JavaScript promise thing so *ALL* the content is loaded before the transition even starts. */
+        /* Horizontal scroll bar is still showing up on occasion. */
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        &.modal-content-center-visible {
+            z-index: 9;
+            top: 5%;
+            height: 90%;
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
+            overflow-y: auto;
+        }
+    }
+}
+
+.exitSpan {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    max-width: 1em;
+    max-height: 1em;
+    font-size: 2em;
+    line-height: 1em;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--front1);
+    transition: all 0.2s ease-in-out;
+    opacity: 0.75;
+
+    &:hover {
+        color: var(--front2);
+        transform: scale(1.03125);
+    }
+
+    &:active {
+        color: var(--front3);
+        transform: scale(0.9875);
+    }
+}
+
+.modal-content {
+    display: flex;
+    flex-flow: column nowrap;
+    padding-top: 1em;
+    overflow: visible;
+
+    .modal-text {
+        /* margin-top: 1.5em; */
+        overflow: scroll;
+        max-height: calc(65% - 1em);
+
+        section {
+            position: relative;
+        }
+    }
+
+    .slidecontrols {
+        height: 34px;
+    }
+
+    ul,
+    li {
+        font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+        font-size: 0.9375em;
+        color: var(--front1);
+        list-style: inside circle;
+    }
+
+    ul {
+        margin: 0.5em 1em;
+    }
+
+    li {
+        margin: 0.25em 1em;
+    }
+
+    .source {
+        text-align: center;
+        font-size: 0.875em;
+    }
+
+    a,
+    a:visited {
+        display: inline-block;
+        transition: all 0.15s ease-in-out;
+        color: var(--front2);
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1875em;
+        transition: 0.25s;
+        padding: 0.5em;
+
+        &:hover {
+            color: var(--front1);
+            font-size: 1.03125em;
+            cursor: pointer;
+            line-height: 1.5em;
+        }
+
+        &:active {
+            color: var(--front3);
+            font-size: 0.96875em;
+            cursor: pointer;
+            line-height: 1.5em;
+        }
+    }
+
+    img {
+        width: 100%;
+        max-width: 640px;
+    }
+
+    h1,
+    h2 {
+        text-align: center;
+        padding: 8px 8px;
+        line-height: 1.25em;
+        font-family: "TradeMarker", Helvetica Now, Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        color: var(--front1);
+    }
+
+    h1 {
+        padding-bottom: 0px;
+    }
+
+    p,
+    ul,
+    li {
+        margin: 0.5em 1em;
+        position: relative;
+        overflow: hidden;
+        color: var(--front2);
+        font-family: "Gill Sans Std", Helvetica Now, Helvetica, Arial, sans-serif;
+        font-style: normal;
+        line-height: 1.5em;
+        font-size: 1em;
+        letter-spacing: 0.125rem;
+        color: var(--front1);
+    }
+}
+
+#modal-data {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    overflow: visible;
+
+    img.slideshow {
+        position: relative;
+        width: auto;
+        margin-top: -1em;
+        overflow: visible;
+        z-index: 25;
+    }
+
+    button.disambigButton {
+        height: 4em;
+    }
+
+    img.slideshow {
+        position: relative;
+        width: auto;
+        margin-top: -1em;
+        overflow: visible;
+        z-index: 25;
+        border-radius: 0.25em;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.03125);
+            cursor: pointer;
+            box-shadow: var(--outershadow);
+        }
+
+        &:active {
+            transform: scale(0.96875);
+            filter: brightness(87.5%);
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+        }
+    }
+
+    .hideShow {
+        border: none;
+        box-shadow: none;
+        width: 90%;
+        margin: 1em 5% auto 5%;
+
+        &:hover {
+            background-color: var(--back3);
+        }
+
+        &:active {
+            background-color: var(--back2);
+            transform: scale(0.984375);
+        }
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .modal-content-center {
+        left: 5%;
+        width: 90%;
+        right: 5%;
+
+        .close {
+            right: unset;
+            left: 0px;
+        }
+    }
+}

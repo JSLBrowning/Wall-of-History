@@ -786,7 +786,7 @@ CREATE TABLE IF NOT EXISTS shin_web(
     /* If version numbers are not specified, then all versions of the parent are implied to be connected to all versions of the child — for example, all Mask of Light trailers are advertisements for all versions of the movie. */
     hierarchal boolean
     /* Determines if the given connection is a true parent/child relationship (think chapter of a book) or a looser connection (think commercial for a game or behind the scenes video for a movie). */
-    /* If a given node has two parents, and one of those parents is also the child of another, that should be considered a "disambiguation" connection (for cases like *Chronicles*). */
+    /* If a given node has two parents, and one of those parents is also the child of another, that should be considered a "disambiguation" connection (for cases like *Chronicles*). Disambiguation connections SHOULD NOT BE DISPLAYED ON TABLES OF CONTENTS AT ALL. */
 );
 
 

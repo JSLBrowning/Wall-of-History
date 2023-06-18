@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <?php
 include("..//php/populate.php");
-chooseColors();
-
-
 include("..//php/populatereference.php");
 
 if (count($_GET)) {

@@ -156,6 +156,10 @@ p {
     font-size: 1rem;
     line-height: 1.5rem;
     width: 100%;
+
+    sup {
+        line-height: 0;
+    }
 }
 
 hr {
@@ -309,22 +313,21 @@ article {
         font-weight: bolder;
     }
 
-    /*******************
-     * ARTICLE LAYER 0 *
-    
-
     .article__background {
         width: 100%;
         height: 100%;
         z-index: 0;
         position: absolute;
+        background-image: url("/img/story/contents/GNO2P6.webp");
+        background-size: 100%;
+        background-position: center -250%;
 
         .window {
             width: 100%;
-            height: 16rem;
+            height: 22rem;
             position: absolute;
             top: 0;
-            background: rgba(22, 22, 22, 0.5);
+            background: rgba(22, 22, 22, 0.625);
             backdrop-filter: blur(16px);
             border-radius: 1rem 1rem 0 0;
             border: 1px solid #202020;
@@ -332,15 +335,15 @@ article {
         }
 
         .wall {
-            min-height: calc(100% - 16rem);
+            min-height: calc(100% - 22rem);
             width: 100%;
             position: absolute;
-            top: 16rem;
+            top: 22rem;
             background: rgb(22, 22, 22);
             background: linear-gradient(
                 0deg,
                 rgba(22, 22, 22, 1) 90%,
-                rgba(22, 22, 22, 0.875) 100%
+                rgba(22, 22, 22, 0.9375) 100%
             );
             border: 1px solid #202020;
             border-top: none;
@@ -348,7 +351,6 @@ article {
             border-radius: 0 0 1rem 1rem;
         }
     }
-     *******************/
 
     .video__article {
         display: flex;
@@ -539,6 +541,12 @@ article {
             video {
                 width: 100%;
                 height: auto;
+            }
+
+            div.progressBarContainer {
+                progress {
+                    width: 100%;
+                }
             }
         }
     }

@@ -25,7 +25,6 @@ function updateProgressBar(newProgress) {
 }
 
 
-
 function incrementProgress(flag = 0) {
     // Console log flag.
     console.log(flag);

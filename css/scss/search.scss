@@ -1,0 +1,53 @@
+article {
+    min-width: 50vw;
+
+    h3 {
+        margin: 1rem;
+        margin-bottom: .125rem;
+
+        &:hover {
+            color: var(--front2);
+        }
+    }
+
+    p {
+        margin: 1rem;
+        margin-top: .125rem;
+    }
+    
+    form {
+        display: flex;
+        flex-flow: row nowrap;
+        height: 1.5em;
+        max-height: 1.5em;
+        margin: .375em;
+    
+        input {
+            width: 75%;
+            max-width: 75%;
+            height: 22px;
+            background-color: var(--back3);
+            border: 1px solid var(--border);
+            border-radius: .25em;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            padding-left: .5em;
+            color: var(--front2);
+            text-transform: uppercase;
+            letter-spacing: .1875em;
+            font-weight: bolder;
+        }
+    
+        button {
+            width: 25%;
+            max-width: 25%;
+            height: 24px;
+            border: 1px solid var(--border);
+            border-left: 0;
+            border-radius: .25em;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin: auto;
+        }
+    }
+}

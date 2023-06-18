@@ -1,0 +1,86 @@
+section.story {
+    overflow: hidden;
+
+    section.titleBox {
+        display: flex;
+        flex-flow: row nowrap;
+
+        .titleBoxText {
+            margin: auto 0em;
+        }
+    }
+
+    p.pronunciation,
+    p.domain {
+        text-align: center;
+        font-weight: bolder;
+    }
+
+    img:hover {
+        box-shadow: none;
+    }
+
+    section.titleBox div.mediaplayer {
+        margin: -0.5em;
+
+        div.mediaplayercontents {
+            height: 240px;
+            width: 320px;
+
+            img,
+            video {
+                height: 100%;
+                max-width: 320px;
+                max-height: 320px;
+                padding: 0em;
+            }
+
+            img {
+                margin: 0em;
+            }
+        }
+    }
+
+    div.mediaplayer {
+        margin: 0.5em;
+        max-width: 320px;
+        max-height: 320px;
+        float: right;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .anchors {
+        p,
+        ul {
+            margin: 0.5em;
+        }
+
+        ul {
+            margin-left: 1em;
+        }
+    }
+
+    p {
+        a {
+            &:hover,
+            &:active,
+            span:hover,
+            span:active {
+                color: var(--front1);
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    section.story section.titleBox div.mediaplayer {
+        display: none;
+    }
+
+    section.story div.mediaplayer {
+        float: none;
+        margin: 0.5em auto;
+    }
+}

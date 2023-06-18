@@ -44,6 +44,7 @@
  * readAsStandaloneSetup() - Helper function for above. No longer needed.
  * check() - Attempted to set the right reading order from a reader page if none had been set.
  * zoomExtras() - Generated new layer for extras. Deprecated as extras will now be modal articles.
+ * stackHistory() - Stored a stack of recently-visited IDs for theme disambiguation. No longer needed.
  ********************************************************************/
 
 

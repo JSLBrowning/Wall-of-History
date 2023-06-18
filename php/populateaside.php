@@ -82,7 +82,7 @@ function getDetailsAside($id, $lang, $v) {
     if (isset($words[0])) {
         echo "<p>Word Count: " . number_format($words[0]) . "</p>\n";
         $successes++;
-    } else {
+    }/* else {
         $children = getLeaves($id);
         // Check Stack Overflow to see if anyone's answered that question.
         $words_query_sum = "SELECT SUM(word_count) AS word_count FROM story_content WHERE id IN ($children) AND content_version=1 AND content_language='$lang'";
@@ -91,7 +91,7 @@ function getDetailsAside($id, $lang, $v) {
             echo "<p>Word Count: " . number_format($words_sum[0]) . "</p>\n";
             $successes++;
         }
-    }
+    } */
 
     if ($successes != 0) {
         echo "<hr>\n";

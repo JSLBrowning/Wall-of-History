@@ -13,14 +13,13 @@ include("../php/populate.php");
     <?php
     if (count($_GET)) {
         if (isset($_GET["s"])) {
-            $sql = "SELECT tag FROM woh_tags WHERE detailed_tag=\"" . $_GET["s"] . "\"";
-            $result = $mysqli->query($sql);
-            while ($row = $result->fetch_assoc()) {
-                $arr = explode(".", $row["tag"]);
-                $id = $arr[0];
-                $v = $arr[1];
-                $lang = $arr[2];
+            $identifiers = translateSemantic($_GET["s"]);
+            $id = $identifiers["id"];
+            $v = $identifiers["v"];
+            if ($v == "") {
+                $v = "1";
             }
+            $lang = $identifiers["lang"];
         } else if (isset($_GET["id"])) {
             $id = $_GET["id"];
 
@@ -97,7 +96,6 @@ include("../php/populate.php");
                 <section class="title__box">
                     <section class="title__box__text">
                         <?php
-
                         // If id variable is set.
                         if (isset($id)) {
                             getTitleBoxText($id, $v);

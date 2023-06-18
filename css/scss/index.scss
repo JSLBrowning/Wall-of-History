@@ -1,0 +1,49 @@
+@media screen and (min-width: 720px) {
+    html body main article {
+        width: calc(95% - 240px);
+    }
+}
+
+
+html body main {
+    article {
+        border: 1px solid rgb(40, 40, 40);
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3125);
+
+        p {
+            text-align: center;
+        }
+    }
+
+    video {
+        padding: 0em;
+    }
+    
+    
+    p {
+        letter-spacing: .0625em;
+        margin: .75em 1.5em;
+        width: calc(100% - 3em);
+    }
+}
+
+
+.homepageReadButton {
+    background-color: rgba(0, 0, 0, 0);
+
+    &:disabled,
+    &[disabled] {
+        opacity: 50%;
+        transition: none;
+        cursor: default;
+
+        &:hover {
+            transform: none;
+        }
+        
+        &:active {
+            transform: none;
+            box-shadow: var(--outershadow);
+        }
+    }
+}

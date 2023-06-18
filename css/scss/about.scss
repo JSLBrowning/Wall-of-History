@@ -1,0 +1,27 @@
+main article {
+    max-width: 50vw;
+
+    img{
+        margin: 1em calc(50% - 4em);
+        padding: 0em;
+        box-shadow: var(--outershadow);
+        height: 8em;
+        width: 8em;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    p {
+        font-weight: lighter;
+        line-height: 1.625rem;
+
+        &.footer {
+            font-size: .75rem;
+            text-align: center;
+        }
+    }
+}

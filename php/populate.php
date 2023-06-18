@@ -118,7 +118,7 @@ function getJSONConfigVariables()
 // Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
 function translateSemantic($semantic_tag)
 {
-    include('./php/db_connect.php');
+    include('db_connect.php');
 
     $semantic_query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semantic_tag' LIMIT 1";
     $semantic_result = $mysqli->query($semantic_query);
@@ -554,11 +554,13 @@ function populateStatic($base_path)
  * chooseColors() - Used cookie data to set color scheme. Replaced by JS function.
  * loadContent() - Determined if content is divided into pages, got title, displayed title, subtitle, contributors, and main content. (Display snippet in place of main if main empty (for parent works)?)
  * addChildren() (old):
- * If id is zero, get table of contents.
- * Else, if "collection boolean" is false, get all NON-COLLECTION children.
- * Else, get all collection children.
- * Create a button for all returned child pages.
- * Put non-collection and collection children in separate "structure" divs, with an <hr> between them.
+ *    If id is zero, get table of contents.
+ *    Else, if "collection boolean" is false, get all NON-COLLECTION children.
+ *    Else, get all collection children.
+ *    Create a button for all returned child pages.
+ *    Put non-collection and collection children in separate "structure" divs, with an <hr> between them.
+ * initRead/initReadStandalone() - Generate and return routes based on chronology values.
+ * stackHistory() - Stored previously visited IDs in a stack inside the cookie. Used to disambiguate themes before non-hierarchal webs.
  */
 
 
