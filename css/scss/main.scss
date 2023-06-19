@@ -689,15 +689,16 @@ nav {
 .anchors {
     display: flex;
     flex-direction: row;
+    transition: all 0.25s ease-in-out;
 
-    &:hover {
+    /* &:hover { */
         .anchor {
             opacity: 1;
             min-width: 24px;
             max-width: unset;
             font-size: 1rem;
         }
-    }
+    /* } */
 
     &:not(.x-target) .anchor {
         opacity: 0;
@@ -771,7 +772,9 @@ nav {
     justify-content: space-between;
 
     p {
-        font-size: 0.875rem;
+        font-size: .875rem;
+        line-height: .875rem;
+        margin: .25rem .5rem;
 
         &:first-of-type {
             color: gray;
@@ -838,7 +841,7 @@ nav {
     }
 
     img {
-        margin: 0.25rem;
+        margin: auto .25rem;
         border-radius: 0.375rem;
         display: block;
     }

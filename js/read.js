@@ -44,9 +44,6 @@ function swap(swappableID) {
 }
 
 
-let checkInterval = window.setInterval(check(), 500);
-
-
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

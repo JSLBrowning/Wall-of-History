@@ -54,8 +54,9 @@ include("../php/populate.php");
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <?php
-    // Pass in stack cookie.
-    //populateCSS($id, $lang, $v);
+    if (isset($id)) {
+        populateCSS($id, $lang, $v);
+    }
     ?>
 </head>
 
@@ -65,7 +66,7 @@ include("../php/populate.php");
         //loadHeader($id, $lang, $v);
         //echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
         ?>
-        <!-- <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a> -->
+        <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a>
         <a href="/"><img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png"></a>
         <p>
             <?php

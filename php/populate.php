@@ -699,99 +699,33 @@ function populateHead($id, $lang, $v)
 // This function populates the head of the page with content-specific CSS links.
 function populateCSS($id)
 {
-    // Type
     include("db_connect.php");
-    $sql = "SELECT tag FROM story_tags WHERE id = \"" . $id . "\" AND tag_type = 'type'";
-    $result = $mysqli->query($sql);
+
+    // Type
+    $query = "SELECT tag FROM shin_tags WHERE content_id=\"$id\" AND tag_type = 'type'";
+    $result = $mysqli->query($query);
     while ($row = $result->fetch_assoc()) {
         if (file_exists("..//css/type/" . $row["tag"] . ".css")) {
             echo "<link rel='stylesheet' type='text/css' href='/css/type/" . $row["tag"] . ".css'>\n";
         }
     }
 
-    /*
-    When two parent or grandparent CSS IDs dispute, loop through the history stack to find the most recent match.
-    If that doesn't work, try the tree of the chronology-- ID for a match.
-    Use version numbers to get correct grandparent where applicable (“The Legend of Mata Nui,” for example).
-    If THAT doesn't work, default to newer, I GUESS (so the site will GENERALLY keep up where there's a conflict).
-    */
-    // Grandparent
-    $sql = "SELECT parent_id FROM story_reference_web WHERE child_id IN (SELECT parent_id FROM story_reference_web WHERE child_id='$id' AND parent_id NOT IN (SELECT id FROM story_tags WHERE tag='collection'));";
+    // Grandparent (hierarchal=0)/Parent (hierarchal=1)
+    $sql = "SELECT parent_id FROM shin_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT content_id FROM shin_tags WHERE tag='collection') ORDER BY hierarchal ASC;";
     $result = $mysqli->query($sql);
     $num_rows = mysqli_num_rows($result);
-    if ($num_rows > 1) {
-        $options = array();
+    if ($num_rows >= 1) {
         while ($row = $result->fetch_assoc()) {
-            array_push($options, $row["parent_id"]);
-        }
-
-        if (isset($_COOKIE["historyStack"])) {
-            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
-            foreach ($history as $value) {
-                if (in_array($value, $options)) {
-                    if (file_exists("..//css/id/" . $value . ".css")) {
-                        echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $value . ".css'>\n";
-                        break;
-                    }
-                    break;
-                }
-            }
-        }
-    } else if ($num_rows == 1) {
-        while ($row = $result->fetch_assoc()) {
-            if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
-                echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
-            }
-        }
-    }
-
-    // Parent
-    // Add above disambiguation code to this.
-    // Also, update read.js line ~151.
-    $sql = "SELECT parent_id FROM story_reference_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT id FROM story_tags WHERE tag='collection');";
-    $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-    if ($num_rows > 1) {
-        $options = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($options, $row["parent_id"]);
-        }
-
-        if (isset($_COOKIE["historyStack"])) {
-            $history = array_reverse(explode(",", $_COOKIE["historyStack"]));
-
-            foreach ($history as $value) {
-                if (in_array($value, $options)) {
-                    if (file_exists("..//css/id/" . $value . ".css")) {
-                        echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $value . ".css'>\n";
-                        break;
-                    }
-                    break;
-                }
-            }
-        }
-    } else if ($num_rows == 1) {
-        while ($row = $result->fetch_assoc()) {
-            if (file_exists("..//css/id/" . $row["parent_id"] . ".css")) {
-                echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $row["parent_id"] . ".css'>\n";
-            }
-
-            // Temporary/hardcoded solution to the multi-grandparent disambiguation problem.
-            if (file_exists("..//css/id/override/" . $row["parent_id"] . ".css")) {
-                echo "<link rel='stylesheet' type='text/css' href='/css/id/override/" . $row["parent_id"] . ".css'>\n";
+            $parent_id = $row["parent_id"];
+            if (file_exists("../css/type/$parent_id.css")) {
+                echo "<link rel='stylesheet' type='text/css' href='/css/type/$parent_id.css'>\n";
             }
         }
     }
 
     // Self
-    if (file_exists("../css/id/" . $id . ".css")) {
-        echo "<link rel='stylesheet' type='text/css' href='/css/id/" . $id . ".css'>\n";
-    }
-
-    // Overrides
-    // Temporary/hardcoded solution to the multi-grandparent disambiguation problem.
-    if (file_exists("../css/id/override/" . $id . ".css")) {
-        echo "<link rel='stylesheet' type='text/css' href='/css/id/override/" . $id . ".css'>\n";
+    if (file_exists("../css/id/$id.css")) {
+        echo "<link rel='stylesheet' type='text/css' href='/css/id/$id.css'>\n";
     }
 }
 
