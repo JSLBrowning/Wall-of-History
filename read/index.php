@@ -150,6 +150,14 @@ include("../php/populate.php");
                 </section>
                 <section class="main__content">
                     <?php
+                    /*
+                        include("../php/populate.php");
+                        $route = getRoute("d9669c6a-d648-11ed-beaa-00ff2a5c27e8");
+                        $first_page = findFirstPage($route);
+                        // Echo the array.
+                        print_r($first_page);
+                    */
+
                     if (isset($id)) {
                         if ($id == "0") {
                             addTableOfContents($id);

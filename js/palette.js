@@ -1,3 +1,4 @@
+// Function to add relevant classes to the HTML element to change the color scheme and font size of the page.
 function correct() {
     if (localStorage.getItem("fontSize") != null) {
         if (localStorage.getItem("colorScheme") === "light") {
@@ -69,8 +70,12 @@ function correct() {
     }
 }
 
-correct();
 
+// Do the above on document load.
+document.addEventListener("DOMContentLoaded", correct);
+
+
+// Function to swap between palette options.
 function swapPalettes() {
     if (localStorage.getItem("colorScheme") === "light") {
         localStorage.setItem("colorScheme", "dark");
@@ -88,6 +93,7 @@ function swapPalettes() {
 }
 
 
+// Function to swap between Gill Sans and Matoran fonts.
 function matoranMode() {
     if (localStorage.getItem("matoranMode") === "matoran") {
         localStorage.removeItem("matoranMode");
@@ -105,6 +111,7 @@ function matoranMode() {
 }
 
 
+// Function to swap between font sizes.
 function increaseFontSize() {
     let currentFontSize = localStorage.getItem("fontSize");
 
@@ -144,6 +151,8 @@ function increaseFontSize() {
     }
 }
 
+
+// Function to swap between font sizes.
 function decreaseFontSize() {
     let currentFontSize = localStorage.getItem("fontSize");
 
@@ -182,13 +191,3 @@ function decreaseFontSize() {
             break;
     }
 }
-
-/**
-body, header, main bg: #161616
-main border: #202020
-
-box-shadow: #080808, #202020
-
-font: #fff
-a hover: #cccccc
-a active: #99999a */

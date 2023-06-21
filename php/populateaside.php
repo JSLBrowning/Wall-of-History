@@ -99,36 +99,81 @@ function getDetailsAside($id, $lang, $v) {
 }
 
 
-function getDetailsAsideReference($id, $v, $lang) {
-    include("db_connect.php");
+// Function to wrap a detail string in a <span.detail> tag.
+function detailWrapper($detail, $label=null) {
+    if (!is_null($label)) {
+        return "<span class='detail'><p>" . $label . ":</p><p>" . $detail . "</p></span>\n";
+    } else {
+        return "<span class='detail'><p>" . $detail . "</p></span>\n";
+    }
+}
 
-    $successes = 0;
 
-    $snippet_query = "SELECT snippet FROM reference_content WHERE entry_id='$id' AND content_version='$v' AND content_language='$lang'";
-    $snippet = getDataAside("snippet", $snippet_query);
+// Function to get details for content and display them.
+function getDetails($id, $v, $lang) {
+    // Get snippet.
+    $snippet_query = "SELECT content_snippet FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
+    $snippet = getDataAside("content_snippet", $snippet_query);
     if (!empty($snippet)) {
-        echo "<p class='snippet'>" . $snippet[0] . "</p>\n";
-        $successes++;
+        echo detailWrapper($snippet[0]);
     }
 
-    $release_query = "SELECT publication_date FROM reference_metadata WHERE entry_id='$id'";
-    $release = getDataAside("publication_date", $release_query);
+    // Get release date.
+    $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
+    $release = getDataAside("release_date", $release_query);
     if (!empty($release)) {
-        echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
-        $successes++;
+        $release_date = date('F jS, Y', strtotime($release[0]));
+        echo detailWrapper($release_date, "Release Date");
     }
 
-    $words_query = "SELECT word_count FROM reference_content WHERE entry_id='$id' AND content_version='$v' AND content_language='$lang'";
-    $words = getDataAside("word_count", $words_query);
-    if (isset($words[0])) {
-        echo "<p>Word Count: " . number_format($words[0]) . "</p>\n";
-        $successes++;
+    // Get word count.
+    $words_query = "SELECT content_words FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
+    $words = getDataAside("content_words", $words_query);
+    if (!empty($words)) {
+        echo detailWrapper(number_format($words[0]), "Word Count");
     }
+    // NEED TO GET WORD COUNT OF CHILDREN.
 
-    // Generalize getLeaves() so it can be used here.
+    // Get completion status.
+    $completion_query = "SELECT completion_status FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang' WHERE completion_status IS NOT NULL";
+    $completion = getDataAside("completion_status", $completion_query);
+    // If not NULL...
+    if (!empty($completion)) {
+        switch ($completion[0]) {
+            case 0:
+                echo detailWrapper("Not Started");
+                break;
+            case 1:
+                echo detailWrapper("In Progress");
+                break;
+            case 2:
+                echo detailWrapper("Complete");
+                break;
+            default:
+                echo detailWrapper("Cancelled");
+                break;
+        }
+    }
+}
 
-    if ($successes != 0) {
-        echo "<hr>\n";
+
+function getDownloads($id, $v=null, $lang=null) {
+    include("populate.php");
+    $config = getJSONConfigVariables();
+    $paths = translateToPath($id, $v, $lang);
+
+    // Find any files with the .pdf, .docx, .epub, or .zip extension.
+    $files = glob($paths["content"] . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
+
+    // Create an <a> for each file.
+    foreach ($files as $file) {
+        // Get the file extension.
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+        // Get the file name.
+        $name = basename($file, "." . $ext);
+
+        // Create the <a> tag.
+        echo "<a href='" . $name . "." . $ext . "' download>" . strtoupper($ext) . "</a>\n";
     }
 }
 

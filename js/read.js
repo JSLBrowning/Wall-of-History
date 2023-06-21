@@ -1,22 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-    stackHistory();
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const currentID = urlParams.get('id');
-    updateSpoilerLevel(currentID);
-
-    // Ensure equivalent stories dropdown menu is selected.
-    try {
-        document.getElementById("equivalentSelect").selectedIndex = "0";
-    } catch (e) {
-        console.log("No equivalent stories.");
-    }
-
-    showButtons();
-});
-
-
 function swap(swappableID) {
     let swappableDiv = document.getElementById(swappableID);
     let swappables = swappableDiv.children;
@@ -78,3 +59,20 @@ function updateSpoilerLevel(id) {
     xmlhttp.open("GET", "../php/query.php?q=" + query + "&c=" + "spoiler_level", true);
     xmlhttp.send();
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const currentID = urlParams.get('id');
+    updateSpoilerLevel(currentID);
+
+    // Ensure equivalent stories dropdown menu is selected.
+    try {
+        document.getElementById("equivalentSelect").selectedIndex = "0";
+    } catch (e) {
+        console.log("No equivalent stories.");
+    }
+
+    showButtons();
+});

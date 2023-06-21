@@ -3,6 +3,7 @@
  */
 
 
+// Function to get all reference terms, search the page for them, and turn them into links.
 function populateModalLinks() {
     // 1. Sort all reference terms by length, longer to shorter (done).
     const unsortedReferenceItems = localStorage.getItem("referenceTerms").split(",");
@@ -17,8 +18,11 @@ function populateModalLinks() {
 }
 
 
+// Do the above on document load.
 if (window.location.href.indexOf("read") > -1) {
-    populateModalLinks();
+    $(document).ready(function () {
+        populateModalLinks();
+    });
 } else {
     console.log("Not populating reference modal links.");
 }
