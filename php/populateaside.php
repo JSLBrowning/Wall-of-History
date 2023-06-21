@@ -375,7 +375,7 @@ function populateAside($id, $lang, $v) {
     } else if (strpos($_SERVER["REQUEST_URI"], "reference") !== false) {
         // 1. Echo details (snippet [.snippet], release date [if any], word count [if any]).
         // 1.i. If any of above are NOT NULL, echo <hr>.
-        getDetailsAsideReference($id, $v, $lang);
+        // getDetailsAsideReference($id, $v, $lang);
         // 2. Echo version selectors.
         // 2.i. If any of above are NOT NULL, echo <hr>.
         getSettingsReference($id, $v, $lang);
