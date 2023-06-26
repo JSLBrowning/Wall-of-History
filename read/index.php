@@ -13,7 +13,7 @@ include("../php/populate.php");
     <?php
     if (count($_GET)) {
         if (isset($_GET["s"])) {
-            $identifiers = translateSemantic($_GET["s"]);
+            $identifiers = translateFromSemantic($_GET["s"]);
             $id = $identifiers["id"];
             $v = $identifiers["v"];
             if ($v == "") {
@@ -26,13 +26,18 @@ include("../php/populate.php");
             if (isset($_GET["v"])) {
                 $v = $_GET["v"];
             } else {
-                $v = "1";
+                $versions = checkForMultipleVersions($id);
+                // If length of $versions is 1...
+                if (count($versions) == 1) {
+                    $v = $versions[0];
+                } else {
+                    // Create disambiguation page.
+                    echo "<title>Disambiguation | Wall of History</title>";
+                }
             }
 
             if (isset($_GET["lang"])) {
                 $lang = $_GET["lang"];
-            } else {
-                $lang = "eng";
             }
         } else if (isset($_GET["t"])) {
             $type = $_GET["t"];
@@ -55,19 +60,21 @@ include("../php/populate.php");
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <?php
     if (isset($id)) {
-        populateCSS($id, $lang, $v);
+        if (isset($v)) {
+            populateCSS($id, $lang, $v);
+        } else {
+            populateCSS($id, "eng", "1");
+        }
     }
     ?>
 </head>
 
 <body>
     <header>
-        <?php
-        //loadHeader($id, $lang, $v);
-        //echo "<p id='downloadMarker' style='display:none'>" . $id . "</p>";
-        ?>
         <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a>
-        <a href="/"><img src="../img/headers/Faber-Files-Bionicle-logo-Transparent.png"></a>
+        <a href="/"><?php
+        loadHeader($id);
+        ?></a>
         <p>
             <?php
             if (isset($id)) {
@@ -100,7 +107,7 @@ include("../php/populate.php");
                         // If id variable is set.
                         if (isset($id)) {
                             getTitleBoxText($id, $v);
-                            getJSONConfigVariables();
+                            $config = getJSONConfigVariables();
                         } else {
                             echo "<h1>Wall of History</h1>";
                         }

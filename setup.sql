@@ -391,10 +391,6 @@ CREATE TABLE IF NOT EXISTS shin_content(
     /* This integer identifies the version of the content… */
     version_title text,
     /* …and this text labels that version (for example, "Standard Edition"). Can be NULL if only one version exists. */
-    content_shell int,
-    /* This integer identifies the “shell” of the content, for cases where there were multiple releases of what is ultimately the same thing (such as different DVD cases for the same movie). It is, in effect, another layer of the version parameter. */
-    shell_title text,
-    /* This text labels the shell of the content. Can be NULL if only one shell exists. */
     content_language varchar(16) DEFAULT "en",
     /* Language (and optional country code) of the content. */
 
@@ -412,7 +408,7 @@ CREATE TABLE IF NOT EXISTS shin_content(
     content_words int,
     /* Self-explanatory. */
 
-    PRIMARY KEY (content_id, content_version, content_shell, content_language),
+    PRIMARY KEY (content_id, content_version, content_language),
     /* Primary key for identifying the content. */
 );
 

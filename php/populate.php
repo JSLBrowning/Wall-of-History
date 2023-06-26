@@ -98,13 +98,14 @@ $languages = [
 
 
 // Fine, I'll do it myself.
+// DELETE THIS when we transition to PHP 8.
 function str_contains($haystack, $needle)
 {
     return strpos($haystack, $needle) !== false;
 }
 
 
-// Function to fetch and decode the config.json file.
+// Function to fetch and decode the CONFIG.JSON file.
 function getJSONConfigVariables()
 {
     // $_SERVER['DOCUMENT_ROOT'] is used to create absolute paths.
@@ -116,43 +117,65 @@ function getJSONConfigVariables()
 
 
 // Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
-function translateSemantic($semantic_tag)
+function translateFromSemantic($semanticTag)
 {
     include('db_connect.php');
 
-    $semantic_query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semantic_tag' LIMIT 1";
-    $semantic_result = $mysqli->query($semantic_query);
-    $semantic_row = $semantic_result->fetch_assoc();
-    $content_id = $semantic_row["content_id"];
-    $content_version = $semantic_row["content_version"];
-    $content_language = $semantic_row["content_language"];
+    $semanticQuery = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semanticTag' LIMIT 1";
+    $semanticResult = $mysqli->query($semanticQuery);
+    $semanticRow = $semanticResult->fetch_assoc();
+    $contentID = $semanticRow["content_id"];
+    $contentVersion = $semanticRow["content_version"];
+    $contentLanguage = $semanticRow["content_language"];
 
     // Put ID, version, and langauge into a dictionary, with the values being null if they're not present.
-    $semantic_data = array(
-        "id" => $content_id,
-        "v" => $content_version,
-        "lang" => $content_language,
-        "s" => $semantic_tag
+    $semanticData = array(
+        "id" => $contentID,
+        "v" => $contentVersion,
+        "lang" => $contentLanguage,
+        "s" => $semanticTag
     );
 
-    return $semantic_data;
+    return $semanticData;
 }
 
 
+// Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
 function translateToSemantic($id, $v, $lang)
 {
     include('./php/db_connect.php');
 
-    $semantic_query = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' LIMIT 1";
-    $semantic_result = $mysqli->query($semantic_query);
-    $semantic_row = $semantic_result->fetch_assoc();
-    $semantic_tag = $semantic_row["tag"];
+    $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' LIMIT 1";
+    $semanticResult = $mysqli->query($semanticQuery);
+    if (mysqli_num_rows($semanticResult) > 0) {
+        while ($row = $semanticResult->fetch_assoc()) {
+            return $row["tag"];
+        }
+    } else {
+        return 1;
+    }
+}
 
-    return $semantic_tag;
+
+// Function to translate IDENTIFIERS into an HREF.
+function getHREF($s=null, $id=null, $v=null, $lang=null) {
+    if (!is_null($s)) {
+        return '/read/?s=$s';
+    } elseif (!is_null($id) && !is_null($v) && !is_null($lang)) {
+        $semanticTag = translateToSemantic($id, $v, $lang);
+        if ($semanticTag != 1) {
+            return "/read/?s=$semanticTag";
+        } else {
+            return "/read/?id=$id&v=$v&lang=$lang";
+        }
+    } else {
+        return "<a href='/read/'>";
+    }
 }
 
 
 // Function to translate a CONFIG ARRAY and a CONTENT ID into an array of possible asset paths.
+// Returns an array of multiple strings, each of which begins and ends with a /.
 function translateToPath($config, $id, $v = 1, $lang = "en")
 {
     include("db_connect.php");
@@ -204,10 +227,22 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
         $paths = $new_paths;
     }
 
-    // Echo each path inside an <h1>.
-    foreach ($paths as $path) {
-        echo "<h1>$path</h1>";
+    return $paths;
+}
+
+
+function checkForMultipleVersions($id) {
+    include("db_connect.php");
+    $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
+    $result = $mysqli->query($query);
+    // Return result as an array.
+    $versions = [];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($versions, $row["content_version"]);
+        }
     }
+    return $versions;
 }
 
 
@@ -505,9 +540,9 @@ function populateStaticGenerator($base_path, $lang)
     $path = getcwd();
 
     if ($base_path != "") {
-        $path .= "/" . "static/" . $base_path . "/" . $lang . ".html";
+        $path .= "/static/$base_path/$lang.html";
     } else {
-        $path .= "/" . "static/" . $lang . ".html";
+        $path .= "/static/$lang.html";
     }
 
     return $path;
@@ -516,11 +551,6 @@ function populateStaticGenerator($base_path, $lang)
 
 function getUserLanguage()
 {
-    /*
-    if (isset($_COOKIE["languagePreference"])) {
-        return $_COOKIE["languagePreference"];
-    }
-    */
     $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
     if ($locale != null) {
         return substr($locale, 0, 2);
@@ -585,10 +615,13 @@ function getData($column, $query)
 }
 
 
-function getImages($path, $schemas, $id = null, $v = null, $lang = null, $caption = null)
+function getImages($path, $schemas=null, $id = null, $v = null, $lang = null, $caption = null)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
-    $names = ["$id.$v.$lang", "$id.$v", "$id"];
+    $defaultSchemas = ["$id.$v.$lang", "$id.$v", "$id"];
+    if ($schemas == null) {
+        $schemas = $defaultSchemas;
+    }
     foreach ($schemas as $scheme) {
         foreach ($formats as $format) {
             $image = $path . "$scheme$format";
@@ -731,19 +764,23 @@ function populateCSS($id)
 
 
 // This function loads a unique header for a page, if it has one.
-function loadHeader($id)
+function loadHeader($id, $v=null, $lang=null)
 {
     include("db_connect.php");
-    $sql_header = "SELECT html FROM story_content JOIN story_headers ON story_content.header = story_headers.header_id WHERE story_content.id = '$id' LIMIT 1";
+
+    // If $v is not null...
+    $versionConditonal = ($v != null) ? "AND content_version=$v" : "";
+    $languageConditional = ($lang != null) ? "AND content_language='$lang'" : "";
+    $queryHeader = "SELECT header_main FROM shin_metadata JOIN shin_headers ON shin_metadata.content_header = shin_headers.header_id WHERE shin_metadata.content_id='$id' $versionConditonal $languageConditional LIMIT 1";
     // Make this recurse up to get parents if none.
-    $result_header = $mysqli->query($sql_header);
-    $num_rows = mysqli_num_rows($result_header);
+    $resultHeader = $mysqli->query($queryHeader);
+    $num_rows = mysqli_num_rows($resultHeader);
 
     if ($num_rows == 0) {
-        echo "<img src=\"/img/headers/Faber-Files-Bionicle-logo-Transparent.png\" alt=\"BIONICLE\" height=\"80\" style=\"cursor: pointer;\" onclick=\"window.location.href='/'\">\n";
+        echo "<img src='/img/headers/Faber-Files-Bionicle-logo-Transparent.png' alt='BIONICLE'>\n";
     } else {
-        while ($row_header = $result_header->fetch_assoc()) {
-            echo $row_header["html"];
+        while ($rowHeader = $resultHeader->fetch_assoc()) {
+            echo $rowHeader["header_main"];
         }
     }
 }

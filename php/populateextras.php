@@ -1,5 +1,11 @@
 <?php
+/**
+ * Filename: populateExtras.php
+ * Author: James Browning (JSLBrowning)
+ * Function: This file contains functions used to populate content pages with userspace metadata, such as descriptions, release dates, and alternate versions.
+ */
 date_default_timezone_set('America/New_York');
+
 
 // Generic query function.
 function getDataAside($column, $query)
@@ -20,10 +26,10 @@ function getDataAside($column, $query)
 function getAdaptedFrom($id) {
     $successes = 0;
 
-    $originals_query = "SELECT original_id FROM story_adaptations WHERE adaptation_id = '$id'";
+    $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
     $originals = getDataAside("original_id", $originals_query);
     if (!empty($originals)) {
-        $title_query = "SELECT title FROM story_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
+        $title_query = "SELECT title FROM shin_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
         $title = getDataAside("title", $title_query);
 
         echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
@@ -37,10 +43,10 @@ function getAdaptedFrom($id) {
 function getAdaptedInto($id) {
     $successes = 0;
 
-    $adaptations_query = "SELECT adaptation_id FROM story_adaptations WHERE original_id = '$id'";
+    $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
     $adaptations = getDataAside("adaptation_id", $adaptations_query);
     if (!empty($adaptations)) {
-        $title_query = "SELECT title FROM story_content WHERE id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
+        $title_query = "SELECT title FROM shin_content WHERE id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
         $title = getDataAside("title", $title_query);
 
         echo "<p>Adapted into <a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a>.</p>\n";
@@ -51,52 +57,7 @@ function getAdaptedInto($id) {
 }
 
 
-function getDetailsAside($id, $lang, $v) {
-    include("db_connect.php");
 
-    $successes = 0;
-
-    // if != subtitle
-    $snippet_query = "SELECT snippet FROM story_content WHERE id='$id' AND content_version='$v' AND content_language='$lang'";
-    $snippet = getDataAside("snippet", $snippet_query);
-    if (!empty($snippet)) {
-        echo "<p class='snippet'>" . $snippet[0] . "</p>\n";
-        $successes++;
-    }
-
-    $successes = $successes + getAdaptedFrom($id);
-
-    $release_query = "SELECT publication_date FROM story_metadata WHERE id='$id'";
-    $release = getDataAside("publication_date", $release_query);
-    if (!empty($release)) {
-        if ($release[0] != "") {
-            echo "<p>Released on " . date('F jS, Y', strtotime($release[0])) . ".</p>\n";
-            $successes++;
-        }
-    }
-
-    $successes = $successes + getAdaptedInto($id);
-
-    $words_query = "SELECT word_count FROM story_content WHERE id='$id' AND content_version='$v' AND content_language='$lang'";
-    $words = getDataAside("word_count", $words_query);
-    if (isset($words[0])) {
-        echo "<p>Word Count: " . number_format($words[0]) . "</p>\n";
-        $successes++;
-    }/* else {
-        $children = getLeaves($id);
-        // Check Stack Overflow to see if anyone's answered that question.
-        $words_query_sum = "SELECT SUM(word_count) AS word_count FROM story_content WHERE id IN ($children) AND content_version=1 AND content_language='$lang'";
-        $words_sum = getDataAside("word_count", $words_query_sum);
-        if (!is_null($words_sum[0])) {
-            echo "<p>Word Count: " . number_format($words_sum[0]) . "</p>\n";
-            $successes++;
-        }
-    } */
-
-    if ($successes != 0) {
-        echo "<hr>\n";
-    }
-}
 
 
 // Function to wrap a detail string in a <span.detail> tag.
@@ -111,12 +72,19 @@ function detailWrapper($detail, $label=null) {
 
 // Function to get details for content and display them.
 function getDetails($id, $v, $lang) {
-    // Get snippet.
-    $snippet_query = "SELECT content_snippet FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
+    // Initialize variable to count number of details.
+    $details = 0;
+
+    // Get snippet, unless same as subtitle.
+    $snippet_query = "SELECT content_snippet FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang' AND content_snippet NOT IN (SELECT content_subtitle FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang')";
     $snippet = getDataAside("content_snippet", $snippet_query);
     if (!empty($snippet)) {
         echo detailWrapper($snippet[0]);
+        $details++;
     }
+
+    // Get adapted from.
+    $details = $details + getAdaptedFrom($id);
 
     // Get release date.
     $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
@@ -124,13 +92,18 @@ function getDetails($id, $v, $lang) {
     if (!empty($release)) {
         $release_date = date('F jS, Y', strtotime($release[0]));
         echo detailWrapper($release_date, "Release Date");
+        $details++;
     }
+
+    // Get adapted into.
+    $details = $details + getAdaptedInto($id);
 
     // Get word count.
     $words_query = "SELECT content_words FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
     $words = getDataAside("content_words", $words_query);
     if (!empty($words)) {
         echo detailWrapper(number_format($words[0]), "Word Count");
+        $details++;
     }
     // NEED TO GET WORD COUNT OF CHILDREN.
 
@@ -139,6 +112,7 @@ function getDetails($id, $v, $lang) {
     $completion = getDataAside("completion_status", $completion_query);
     // If not NULL...
     if (!empty($completion)) {
+        $details++;
         switch ($completion[0]) {
             case 0:
                 echo detailWrapper("Not Started");
@@ -184,7 +158,7 @@ function getSettings($id, $lang, $v) {
     $successes = 0;
 
     // VERSIONS
-    $sql = "SELECT DISTINCT content_version FROM story_content WHERE id=\"$id\" ORDER BY content_version";
+    $sql = "SELECT DISTINCT content_version FROM shin_content WHERE id=\"$id\" ORDER BY content_version";
     // Perfom selection.
     $result = $mysqli->query($sql);
 
@@ -196,8 +170,8 @@ function getSettings($id, $lang, $v) {
             // https://stackoverflow.com/questions/7562095/redirect-on-select-option-in-select-box
             $newv = $row["content_version"];
 
-            $sqlnext = "SELECT version_title FROM story_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"en\" LIMIT 1";
-            // IFNULL(SELECT content_language FROM story_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
+            $sqlnext = "SELECT version_title FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"en\" LIMIT 1";
+            // IFNULL(SELECT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
 
             $resultnext = $mysqli->query($sqlnext);
             while ($rownext = $resultnext->fetch_assoc()) {
@@ -215,7 +189,7 @@ function getSettings($id, $lang, $v) {
 
     // LANGUAGES
     // Create selection statement and perfom selection.
-    $sql = "SELECT DISTINCT content_language FROM story_content WHERE id=\"$id\" AND content_version=\"$v\" ORDER BY content_language";
+    $sql = "SELECT DISTINCT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$v\" ORDER BY content_language";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 1) {
@@ -235,7 +209,7 @@ function getSettings($id, $lang, $v) {
     }
 
     // EQUIVALENTS
-    $sql_eq = "SELECT right_id AS alt_id, right_version AS alt_v FROM story_equivalents WHERE left_id=\"$id\" AND left_version=\"$v\" UNION ALL SELECT left_id AS alt_id, left_version AS alt_v FROM story_equivalents WHERE right_id=\"$id\" AND right_version=\"$v\"";
+    $sql_eq = "SELECT right_id AS alt_id, right_version AS alt_v FROM shin_equivalents WHERE left_id=\"$id\" AND left_version=\"$v\" UNION ALL SELECT left_id AS alt_id, left_version AS alt_v FROM shin_equivalents WHERE right_id=\"$id\" AND right_version=\"$v\"";
     $result_eq = $mysqli->query($sql_eq);
 
     if ($result_eq->num_rows > 0) {
@@ -248,8 +222,8 @@ function getSettings($id, $lang, $v) {
             $newv = $row["alt_v"];
             $newid = $row["alt_id"];
 
-            $sqlnext = "SELECT title FROM story_content WHERE id=\"$newid\" AND content_version=\"$newv\" LIMIT 1";
-            // IFNULL(SELECT content_language FROM story_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
+            $sqlnext = "SELECT title FROM shin_content WHERE id=\"$newid\" AND content_version=\"$newv\" LIMIT 1";
+            // IFNULL(SELECT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
 
             $resultnext = $mysqli->query($sqlnext);
             while ($rownext = $resultnext->fetch_assoc()) {
@@ -286,7 +260,7 @@ function getSettingsReference($id, $v, $lang) {
             $newv = $row["content_version"];
 
             $sqlnext = "SELECT version_title FROM referemce_content WHERE entry_id=\"$id\" AND content_version=\"$newv\" AND content_language=\"en\" LIMIT 1";
-            // IFNULL(SELECT content_language FROM story_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
+            // IFNULL(SELECT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
 
             $resultnext = $mysqli->query($sqlnext);
             while ($rownext = $resultnext->fetch_assoc()) {
@@ -328,22 +302,14 @@ function getSettingsReference($id, $v, $lang) {
 function getExtras($id, $v, $lang) {
     include("db_connect.php");
 
-    $extra_query = "SELECT extra_type FROM story_reference_extras WHERE id='$id' AND content_version=$v AND content_language='$lang'";
-    $extras = getDataAside("extra_type", $extra_query);
-
-    if (!empty($extras)) {
-        foreach ($extras as $extra) {
-            echo "<button class='small' onclick='zoomExtras(\"$extra\");'>$extra</button>";
-        }
-        echo "<hr>\n";
-    }
+    // Now need to get non-main content. BTS, advertisements, then supplemental.
 }
 
 
 function getDownload($id, $lang) {
     include("db_connect.php");
 
-    $download_query = "SELECT title FROM story_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
+    $download_query = "SELECT title FROM shin_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
     $download_title = getDataAside("title", $download_query);
 
     if (isset($download_title[0])) {
@@ -362,7 +328,7 @@ function populateAside($id, $lang, $v) {
         // 1. Echo main menu.
         // 2. Echo details (snippet [.snippet], release date [if any], word count [if any]).
         // 2.i. If any of above are NOT NULL, echo <hr>.
-        getDetailsAside($id, $lang, $v);
+        // getDetailsAside($id, $lang, $v);
         // 3. Echo version selectors.
         // 3.i. If any of above are NOT NULL, echo <hr>.
         getSettings($id, $lang, $v);

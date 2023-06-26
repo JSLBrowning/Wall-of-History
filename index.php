@@ -144,7 +144,7 @@
                     $semantic_tag = substr($tile, 3, -1);
 
                     // Get identification data.
-                    $semantic_data = translateSemantic($semantic_tag);
+                    $semantic_data = translateFromSemantic($semantic_tag);
 
                     // Get content data.
                     $content_data = getContentData($semantic_data["id"], $semantic_data["v"], $semantic_data["lang"]);
