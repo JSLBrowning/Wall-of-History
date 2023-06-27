@@ -61,7 +61,11 @@ include("../php/populate.php");
     <?php
     if (isset($id)) {
         if (isset($v)) {
-            populateCSS($id, $lang, $v);
+            if (isset($lang)) {
+                populateCSS($id, $lang, $v);
+            } else {
+                populateCSS($id, "eng", $v);
+            }
         } else {
             populateCSS($id, "eng", "1");
         }

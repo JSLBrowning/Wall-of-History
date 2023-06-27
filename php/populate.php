@@ -516,12 +516,16 @@ function addTableOfContents($id, $v = null, $l = null)
 }
 
 
-function buildDefaultCard($id, $v, $title, $snippet)
+function buildDefaultCard($id, $v, $title, $snippet, $small = false)
 {
     if ($v == "") {
         $card = "<a class='card medium__card' href='/read/?id=$id'>";
     } else {
         $card = "<a class='card medium__card' href='/read/?id=$id&v=$v'>";
+    }
+
+    if ($small) {
+        str_replace("medium__card", "small__card", $card);
     }
 
     // If file exists ../img/story/contents/$id.webp, use that as the card image.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Filename: populateExtras.php
  * Author: James Browning (JSLBrowning)
@@ -23,7 +24,8 @@ function getDataAside($column, $query)
 }
 
 
-function getAdaptedFrom($id) {
+function getAdaptedFrom($id)
+{
     $successes = 0;
 
     $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
@@ -40,7 +42,8 @@ function getAdaptedFrom($id) {
 }
 
 
-function getAdaptedInto($id) {
+function getAdaptedInto($id)
+{
     $successes = 0;
 
     $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
@@ -57,11 +60,9 @@ function getAdaptedInto($id) {
 }
 
 
-
-
-
 // Function to wrap a detail string in a <span.detail> tag.
-function detailWrapper($detail, $label=null) {
+function detailWrapper($detail, $label = null)
+{
     if (!is_null($label)) {
         return "<span class='detail'><p>" . $label . ":</p><p>" . $detail . "</p></span>\n";
     } else {
@@ -71,7 +72,8 @@ function detailWrapper($detail, $label=null) {
 
 
 // Function to get details for content and display them.
-function getDetails($id, $v, $lang) {
+function getDetails($id, $v, $lang)
+{
     // Initialize variable to count number of details.
     $details = 0;
 
@@ -131,7 +133,8 @@ function getDetails($id, $v, $lang) {
 }
 
 
-function getDownloads($id, $v=null, $lang=null) {
+function getDownloads($id, $v = null, $lang = null)
+{
     include("populate.php");
     $config = getJSONConfigVariables();
     $paths = translateToPath($id, $v, $lang);
@@ -152,7 +155,8 @@ function getDownloads($id, $v=null, $lang=null) {
 }
 
 
-function getSettings($id, $lang, $v) {
+function getSettings($id, $lang, $v)
+{
     include("db_connect.php");
 
     $successes = 0;
@@ -241,7 +245,8 @@ function getSettings($id, $lang, $v) {
 }
 
 
-function getSettingsReference($id, $v, $lang) {
+function getSettingsReference($id, $v, $lang)
+{
     include("db_connect.php");
 
     $successes = 0;
@@ -299,14 +304,16 @@ function getSettingsReference($id, $v, $lang) {
 }
 
 
-function getExtras($id, $v, $lang) {
+function getExtras($id, $v, $lang)
+{
     include("db_connect.php");
 
     // Now need to get non-main content. BTS, advertisements, then supplemental.
 }
 
 
-function getDownload($id, $lang) {
+function getDownload($id, $lang)
+{
     include("db_connect.php");
 
     $download_query = "SELECT title FROM shin_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
@@ -321,7 +328,8 @@ function getDownload($id, $lang) {
 }
 
 
-function populateAside($id, $lang, $v) {
+function populateAside($id, $lang, $v)
+{
     include("db_connect.php");
 
     if (strpos($_SERVER["REQUEST_URI"], "read") !== false) {
