@@ -137,7 +137,7 @@ function getDownloads($id, $v = null, $lang = null)
 {
     include("populate.php");
     $config = getJSONConfigVariables();
-    $paths = translateToPath($id, $v, $lang);
+    $paths = translateToPath($config, $id, $v, $lang);
 
     // Find any files with the .pdf, .docx, .epub, or .zip extension.
     $files = glob($paths["content"] . "*.{pdf,docx,epub,zip}", GLOB_BRACE);

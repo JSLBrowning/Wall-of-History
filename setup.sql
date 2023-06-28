@@ -439,7 +439,8 @@ CREATE TABLE IF NOT EXISTS shin_tags(
      * Rating: MPAA:PG-13, ESRB:E10+, Teen, etc.
      * Warnings: gore, sexual__violence, etc. 
      * These tags can be translated from these forms to more user-friendly forms (as well as plural forms) using the tag mappings in populate.php. These mappings can be expanded manually, or appended to without modification by adding a tags.php files to /mods/.
-     * In general, these should not have spaces, so they can be used as class names for tag elements when necessary (such as highlighting certain warnings red). */
+     * In general, these should not have spaces, so they can be used as class names for tag elements when necessary (such as highlighting certain warnings red).
+     * Semantic tags must be unique! */
 );
 
 

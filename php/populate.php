@@ -116,6 +116,18 @@ function getJSONConfigVariables()
 }
 
 
+// This function overwrites overlapping elements in an array.
+// Useful for the hardcoded cards in config.json.
+function overwriteArrayElements($array, $overwrite)
+{
+    foreach ($overwrite as $key => $value)
+    {
+        $array[$key] = $value;
+    }
+    return $array;
+}
+
+
 // Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
 function translateFromSemantic($semanticTag)
 {
@@ -157,17 +169,51 @@ function translateToSemantic($id, $v, $lang)
 }
 
 
+// Function to check if there are multiple versions of a given work, and return an array of those versions.
+function checkForMultipleVersions($id) {
+    include("db_connect.php");
+    $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
+    $result = $mysqli->query($query);
+    // Return result as an array.
+    $versions = [];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($versions, $row["content_version"]);
+        }
+    }
+    return $versions;
+}
+
+
+// Function to return the smallest non-zero number in an array. This is used to determine which version should be treated as the "default" for generating multi-version cards. Version 0 is reserved for drafts, and should not be considered.
+function determineDefaultVersion($arrayOfNumbers) {
+    $default = INF;
+    foreach ($arrayOfNumbers as $number) {
+        if ($number > 0 && $number < $default) {
+            $default = $number;
+        }
+    }
+    return $default;
+}
+
+
 // Function to translate IDENTIFIERS into an HREF.
 function getHREF($s=null, $id=null, $v=null, $lang=null) {
     if (!is_null($s)) {
         return '/read/?s=$s';
-    } elseif (!is_null($id) && !is_null($v) && !is_null($lang)) {
+    } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
         $semanticTag = translateToSemantic($id, $v, $lang);
         if ($semanticTag != 1) {
             return "/read/?s=$semanticTag";
         } else {
             return "/read/?id=$id&v=$v&lang=$lang";
         }
+    } else if (!is_null($id) && !is_null($v)) {
+        return "/read/?id=$id&v=$v";
+    } else if (!is_null($id) && !is_null($lang)) {
+        return "/read/?id=$id&lang=$lang";
+    } else if (!is_null($id)) {
+        return "/read/?id=$id";
     } else {
         return "<a href='/read/'>";
     }
@@ -180,6 +226,10 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
 {
     include("db_connect.php");
     $content_path = $config["contentPath"];
+
+    /**
+     * IDENTIFIERS
+     */
 
     // First things first, get all semantic tags for the content.
     $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version=$v AND content_language='$lang'";
@@ -231,20 +281,6 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
 }
 
 
-function checkForMultipleVersions($id) {
-    include("db_connect.php");
-    $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
-    $result = $mysqli->query($query);
-    // Return result as an array.
-    $versions = [];
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($versions, $row["content_version"]);
-        }
-    }
-    return $versions;
-}
-
 
 /******************************
  * CONTENT FETCHING FUNCTIONS *
@@ -279,9 +315,71 @@ function getContentData($id, $v = null, $lang = null)
 }
 
 
-/******************
- * TEST FUNCTIONS *
- ******************/
+function getMainContent($id, $version = 1, $language = "eng")
+{
+    include("db_connect.php");
+
+    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $content = $row["content_main"];
+
+        /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
+        $content = preg_replace_callback(
+            '/<!([a-zA-Z0-9_]+)!>/',
+            function ($matches) {
+                return getMainContent($matches[1]);
+            },
+            $content
+        ); */
+
+        echo $content;
+    } else {
+        return null;
+    }
+}
+
+
+function getTitleBoxText($id, $version = 1, $language = "eng")
+{
+    include("db_connect.php");
+
+    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $title = $row["content_title"];
+        $subtitle = $row["content_subtitle"];
+        echo "<h1>$title</h1>";
+
+        if ($subtitle != null) {
+            echo "<h2>$subtitle</h2>";
+        }
+    } else {
+        return null;
+    }
+
+    $query_creators = "SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$version OR content_version IS NULL) AND (content_language='$language' OR content_language IS NULL) AND tag_type='author'";
+    $result_creators = $mysqli->query($query_creators);
+    if (mysqli_num_rows($result_creators) > 0) {
+        echo "<h2>By ";
+        while ($row_creators = $result_creators->fetch_assoc()) {
+            $creator = $row_creators["tag"];
+            echo "$creator";
+        }
+        echo "</h2>";
+    }
+}
+
+
+/*******************
+ * ROUTE FUNCTIONS *
+ *******************/
 
 // getRoute($route_id): Take a route ID and return the decoded JSON array.
 // Active route will be passed in through cookies.
@@ -350,66 +448,9 @@ function getFirstPage($route)
 }
 
 
-function getMainContent($id, $version = 1, $language = "eng")
-{
-    include("db_connect.php");
-
-    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) == 0) {
-        return null;
-    } else if (mysqli_num_rows($result) == 1) {
-        $row = $result->fetch_assoc();
-        $content = $row["content_main"];
-
-        /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
-        $content = preg_replace_callback(
-            '/<!([a-zA-Z0-9_]+)!>/',
-            function ($matches) {
-                return getMainContent($matches[1]);
-            },
-            $content
-        ); */
-
-        echo $content;
-    } else {
-        return null;
-    }
-}
-
-
-function getTitleBoxText($id, $version = 1, $language = "eng")
-{
-    include("db_connect.php");
-
-    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) == 0) {
-        return null;
-    } else if (mysqli_num_rows($result) == 1) {
-        $row = $result->fetch_assoc();
-        $title = $row["content_title"];
-        $subtitle = $row["content_subtitle"];
-        echo "<h1>$title</h1>";
-
-        if ($subtitle != null) {
-            echo "<h2>$subtitle</h2>";
-        }
-    } else {
-        return null;
-    }
-
-    $query_creators = "SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$version OR content_version IS NULL) AND (content_language='$language' OR content_language IS NULL) AND tag_type='author'";
-    $result_creators = $mysqli->query($query_creators);
-    if (mysqli_num_rows($result_creators) > 0) {
-        echo "<h2>By ";
-        while ($row_creators = $result_creators->fetch_assoc()) {
-            $creator = $row_creators["tag"];
-            echo "$creator";
-        }
-        echo "</h2>";
-    }
-}
+/************************
+ * MEDIA TYPE FUNCTIONS *
+ ************************/
 
 
 function pluralizeTypeTag($type)
@@ -483,6 +524,11 @@ function getEntriesOfTypeNew($type) {
 }
 
 
+/******************
+ * DECK FUNCTIONS *
+ ******************/
+
+
 function addTableOfContents($id, $v = null, $l = null)
 {
     include("db_connect.php");
@@ -539,6 +585,11 @@ function buildDefaultCard($id, $v, $title, $snippet, $small = false)
 }
 
 
+/*******************************
+ * LANGUAGE FUNCTIONS I GUESS? *
+ *******************************/
+
+
 function populateStaticGenerator($base_path, $lang)
 {
     $path = getcwd();
@@ -582,25 +633,10 @@ function populateStatic($base_path)
 }
 
 
-
-/**
- * FUNCTION GRAVEYARD
- * chooseColors() - Used cookie data to set color scheme. Replaced by JS function.
- * loadContent() - Determined if content is divided into pages, got title, displayed title, subtitle, contributors, and main content. (Display snippet in place of main if main empty (for parent works)?)
- * addChildren() (old):
- *    If id is zero, get table of contents.
- *    Else, if "collection boolean" is false, get all NON-COLLECTION children.
- *    Else, get all collection children.
- *    Create a button for all returned child pages.
- *    Put non-collection and collection children in separate "structure" divs, with an <hr> between them.
- * initRead/initReadStandalone() - Generate and return routes based on chronology values.
- * stackHistory() - Stored previously visited IDs in a stack inside the cookie. Used to disambiguate themes before non-hierarchal webs.
- */
-
-
 /***********************
  * UNIVERSAL FUNCTIONS *
  ***********************/
+
 
 // This function returns an array of results when a query returns just one row.
 // Can be used for simplifying functions that require several simple queries.
@@ -619,6 +655,7 @@ function getData($column, $query)
 }
 
 
+// This function attempts to find an image.
 function getImages($path, $schemas=null, $id = null, $v = null, $lang = null, $caption = null)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
@@ -638,6 +675,8 @@ function getImages($path, $schemas=null, $id = null, $v = null, $lang = null, $c
 }
 
 
+// This function finds the most specific OGP image available for a work.
+// Perhaps there should be a "recurse up" flag? Like, *Into the Darkness* doesn't have its own OGP image, but the one for Mahri Nui is still better than the default...
 function getOGPImages($id, $v, $lang)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
@@ -661,74 +700,55 @@ function getOGPImages($id, $v, $lang)
 
 /********************************
  * CONTENT POPULATION FUNCTIONS *
- * These functions populate the
- * reader page, from top (head)
- * to bottom (main).
+ * These functions populate the *
+ * reader page, from top (head) *
+ * to bottom (main).            *
  ********************************/
 
 
+function generateHead($title, $description, $ogpImage, $themeColor, $notFound = false) {
+    echo "<meta content='$title | Wall of History' property='og:title'/>";
+    echo "<meta content='$description' property='og:description'/>";
+    echo "<meta content='http://www.wallofhistory.com$ogpImage' property='og:image'/>";
+    echo "<meta name='theme-color' content='#$themeColor'>";
+    echo "<title>$title | Wall of History</title>";
+
+    if ($notFound) {
+        echo "<meta http-equiv='Refresh' content=\"0; url='https://wallofhistory.com/404.html'\"/>";
+    }
+}
+
+
 // This function populates the <head> of the page with content-specific OGP data.
-function populateHead($id, $lang, $v)
+function populateHead($id, $v=null, $lang=null)
 {
     include("db_connect.php");
 
-
-    $semantic_query = "SELECT tag, detailed_tag FROM shin_tags WHERE tag_type='semantic'";
-    $semantic = $mysqli->query($semantic_query);
-    while ($row = $semantic->fetch_assoc()) {
-        $ids = explode(".", $row["tag"]);
-        $detailed_tag = $row["detailed_tag"];
-        echo "<p>INSERT INTO shin_tags VALUES ('" . $ids[0] . "', '" . $ids[1] . "', '" . $ids[2] . "', 'semantic', '" . $detailed_tag . "')</p>";
-    }
-
-
-    $result = $mysqli->query("SELECT title, snippet, theme_color FROM story_metadata JOIN story_content ON story_metadata.id = story_content.id WHERE story_metadata.id = \"$id\" AND story_content.content_version = \"$v\" AND story_content.content_language = \"$lang\"");
-    $num_rows = mysqli_num_rows($result);
+    $result = $mysqli->query("SELECT content_title, content_snippet, content_theme_color FROM shin_metadata JOIN shin_content ON shin_metadata.content_id = shin_content.content_id WHERE shin_metadata.content_id='$id' AND shin_content.content_version=$v AND shin_content.content_language='$lang'");
+    $numRows = mysqli_num_rows($result);
     $image = getOGPImages($id, $v, $lang);
 
     // If query returns no result, determine whether or not user is on the table of contents, and respond accordingly.
-    if ((!($id == 0)) && ($num_rows == 0)) {
-        echo "<meta property='og:site_name' content='Wall of History'>
-            <meta content='404 | Wall of History' property='og:title'/>
-            <meta content='Six heroes. One destiny.' property='og:description'/>
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
-            <meta content='summary_large_image' name='twitter:card'/>
-            <meta content='@Wall_of_History' name='twitter:site'/>
-            <meta name='theme-color' content='#938170'>
-            <title>404 | Wall of History</title>\n";
-        echo "<meta http-equiv=\"Refresh\" content=\"0; url='https://wallofhistory.com/404.html'\"/>\n";
-    } else if ($id == 0 && $num_rows == 0) {
-        echo "<meta property='og:site_name' content='Wall of History'>
-            <meta content='Table of Contents | Wall of History' property='og:title'/>
-            <meta content='Six heroes. One destiny.' property='og:description'/>
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
-            <meta content='summary_large_image' name='twitter:card'/>
-            <meta content='@Wall_of_History' name='twitter:site'/>
-            <meta name='theme-color' content='#938170'>
-            <title>Table of Contents | Wall of History</title>\n";
+    if ((!($id == 0)) && ($numRows == 0)) {
+        generateHead("404", "Page not found.", "/img/ogp2.png", "938170", true);
+    } else if ($id == 0 && $numRows == 0) {
+        generateHead("Table of Contents", "Six heroes. One destiny.", "/img/ogp2.png", "938170");
     }
 
     // If query does return a result, respond accordingly.
     while ($row = $result->fetch_assoc()) {
-        $title = strip_tags($row["title"]);
+        $title = strip_tags($row["content_title"]);
 
         // Get full title, if chapter.
-        $chapter_query = "SELECT COUNT(tag) AS tags FROM story_tags WHERE id = '$id' AND tag = 'chapter'";
-        $chapter_count = getData("tags", $chapter_query);
-        if ($chapter_count[0] > 0) {
-            $parent_query = "SELECT title FROM story_content JOIN story_reference_web ON story_reference_web.parent_id = story_content.id WHERE story_reference_web.child_id = '" . $id . "' LIMIT 1";
-            $parent = strip_tags(getData("title", $parent_query)[0]);
+        $chapterQuery = "SELECT COUNT(tag) AS tags FROM shin_tags WHERE content_id = '$id' AND tag = 'chapter'";
+        $chapterCount = getData("tags", $chapterQuery);
+        if ($chapterCount[0] > 0) {
+            $parentQuery = "SELECT content_title FROM shin_content JOIN shin_web ON shin_web.parent_id = shin_content.content_id WHERE shin_web.child_id = '" . $id . "' LIMIT 1";
+            $parent = strip_tags(getData("content_title", $parentQuery)[0]);
             $title = $title . " | " . $parent;
         }
 
-        echo "<meta property='og:site_name' content='Wall of History'>
-            <meta content='" . $title . " | Wall of History' property='og:title'/>
-            <meta content='" . strip_tags($row["snippet"]) . "' property='og:description'/>
-            <meta content='http://www.wallofhistory.com" . $image . "' property='og:image'/>
-            <meta content='summary_large_image' name='twitter:card'/>
-            <meta content='@Wall_of_History' name='twitter:site'/>
-            <meta name='theme-color' content='#" . $row['theme_color'] . "'>
-            <title>" . $title . " | Wall of History</title>\n";
+        generateHead($title, strip_tags($row["content_snippet"]), $image, $row['content_theme_color']);
     }
 }
 
@@ -748,10 +768,11 @@ function populateCSS($id)
     }
 
     // Grandparent (hierarchal=0)/Parent (hierarchal=1)
+    // Needs version support.
     $sql = "SELECT parent_id FROM shin_web WHERE child_id ='$id' AND parent_id NOT IN (SELECT content_id FROM shin_tags WHERE tag='collection') ORDER BY hierarchal ASC;";
     $result = $mysqli->query($sql);
-    $num_rows = mysqli_num_rows($result);
-    if ($num_rows >= 1) {
+    $numRows = mysqli_num_rows($result);
+    if ($numRows >= 1) {
         while ($row = $result->fetch_assoc()) {
             $parent_id = $row["parent_id"];
             if (file_exists("../css/type/$parent_id.css")) {
@@ -776,11 +797,12 @@ function loadHeader($id, $v=null, $lang=null)
     $versionConditonal = ($v != null) ? "AND content_version=$v" : "";
     $languageConditional = ($lang != null) ? "AND content_language='$lang'" : "";
     $queryHeader = "SELECT header_main FROM shin_metadata JOIN shin_headers ON shin_metadata.content_header = shin_headers.header_id WHERE shin_metadata.content_id='$id' $versionConditonal $languageConditional LIMIT 1";
+
     // Make this recurse up to get parents if none.
     $resultHeader = $mysqli->query($queryHeader);
-    $num_rows = mysqli_num_rows($resultHeader);
+    $numRows = mysqli_num_rows($resultHeader);
 
-    if ($num_rows == 0) {
+    if ($numRows == 0) {
         echo "<img src='/img/headers/Faber-Files-Bionicle-logo-Transparent.png' alt='BIONICLE'>\n";
     } else {
         while ($rowHeader = $resultHeader->fetch_assoc()) {
@@ -790,10 +812,10 @@ function loadHeader($id, $v=null, $lang=null)
 }
 
 
-/**
- * MAIN CONTENT FUNCTIONS
- * (Divided due to size.)
- */
+/**************************
+ * MAIN CONTENT FUNCTIONS *
+ * (Divided due to size.) *
+ **************************/
 
 
 // This function gets the parent(s), if any, of the current page, and displays them.
@@ -854,9 +876,9 @@ function sanitizeContributors($contributors_array)
     $unique_contributor_types = array_unique($contributor_types);
     foreach ($unique_contributor_types as $type) {
         // If count > 1, get all [1] with that type.
-        //     Append "and " to last.
-        //     Implode with comma.
-        //     Add to sanitized array
+        //     1. Append "and " to last.
+        //     2. Implode with comma.
+        //     3. Add to sanitized array.
         $count = 0;
         $latest = array();
         $contributors = array();

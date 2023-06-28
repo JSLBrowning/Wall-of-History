@@ -2,6 +2,43 @@
 <?php
 include("../php/db_connect.php");
 include("../php/populate.php");
+if (count($_GET)) {
+    if (isset($_GET["s"])) {
+        $identifiers = translateFromSemantic($_GET["s"]);
+        $id = $identifiers["id"];
+        $v = $identifiers["v"];
+        if ($v == "") {
+            $v = "1";
+        }
+        $lang = $identifiers["lang"];
+    } else if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+
+        if (isset($_GET["v"])) {
+            $v = $_GET["v"];
+        } else {
+            $versions = checkForMultipleVersions($id);
+            // If length of $versions is 1...
+            if (count($versions) == 1) {
+                $v = $versions[0];
+            } else {
+                // Create disambiguation page. Eventually.
+                // echo "<title>Disambiguation | Wall of History</title>";
+                $v = "1";
+            }
+        }
+
+        if (isset($_GET["lang"])) {
+            $lang = $_GET["lang"];
+        }
+    } else if (isset($_GET["t"])) {
+        $type = $_GET["t"];
+    }
+} else {
+    $id = "0";
+    $v = "1";
+    $lang = "eng";
+}
 ?>
 
 <head>
@@ -10,65 +47,21 @@ include("../php/populate.php");
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <?php
-    if (count($_GET)) {
-        if (isset($_GET["s"])) {
-            $identifiers = translateFromSemantic($_GET["s"]);
-            $id = $identifiers["id"];
-            $v = $identifiers["v"];
-            if ($v == "") {
-                $v = "1";
-            }
-            $lang = $identifiers["lang"];
-        } else if (isset($_GET["id"])) {
-            $id = $_GET["id"];
-
-            if (isset($_GET["v"])) {
-                $v = $_GET["v"];
-            } else {
-                $versions = checkForMultipleVersions($id);
-                // If length of $versions is 1...
-                if (count($versions) == 1) {
-                    $v = $versions[0];
-                } else {
-                    // Create disambiguation page.
-                    echo "<title>Disambiguation | Wall of History</title>";
-                }
-            }
-
-            if (isset($_GET["lang"])) {
-                $lang = $_GET["lang"];
-            }
-        } else if (isset($_GET["t"])) {
-            $type = $_GET["t"];
-            if ($type == "main") {
-                echo "<title>Contents by Type | Wall of History</title>";
-            } else {
-                echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
-            }
-        }
-    } else {
-        $id = "0";
-        $v = "1";
-        $lang = "eng";
-    }
-    //populateHead($id, $lang, $v);
-    ?>
+    <meta property='og:site_name' content='Wall of History'>
+    <meta content='summary_large_image' name='twitter:card'/>
+    <meta content='@Wall_of_History' name='twitter:site'/>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/fonts/fontawesome-free-6.3.0-web/css/all.css">
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <?php
-    if (isset($id)) {
-        if (isset($v)) {
-            if (isset($lang)) {
-                populateCSS($id, $lang, $v);
-            } else {
-                populateCSS($id, "eng", $v);
-            }
-        } else {
-            populateCSS($id, "eng", "1");
-        }
+    populateHead($id, $v, $lang);
+    if (isset($type) && $type == "main") {
+        echo "<title>Contents by Type | Wall of History</title>";
+    } else if (isset($type)) {
+        echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
+    } else if (isset($id)) {
+        populateCSS($id);
     }
     ?>
 </head>
@@ -76,9 +69,13 @@ include("../php/populate.php");
 <body>
     <header>
         <a class="chip-wrapper" href="https://www.maskofdestiny.com/"><img class="chip-img" alt="Mask of Destiny" title="Mask of Destiny" src="/img/chips/mod.webp" width="64" height="64"></a>
-        <a href="/"><?php
-        loadHeader($id);
-        ?></a>
+        <a href="/">
+            <?php
+            if (isset($id)) {
+                loadHeader($id);
+            }
+            ?>
+        </a>
         <p>
             <?php
             if (isset($id)) {
@@ -119,45 +116,7 @@ include("../php/populate.php");
                     </section>
                 </section>
                 <section class="extra__content">
-                    <form>
-                        <select name="version__select">
-                            <option value="0">Standard Editon</option>
-                            <option value="1">Limited Collector’s Edition</option>
-                        </select>
-                        <select name="language__select">
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                        </select>
-                    </form>
-                    <hr>
-                    <!-- https://www.google.com/books/edition/Tale_of_the_Toa/-tjuYkYbDYAC?hl=en&kptab=overview -->
-                    <span class="detail">
-                        <p>Released:</p>
-                        <p>June 1st, 2001</p>
-                    </span>
-                    <span class="detail">
-                        <p>ISBN-13:</p>
-                        <p>978-0439501163</p>
-                    </span>
-                    <hr>
-                    <div class="extra__areas">
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-pdf fa-lg"></i> PDF</a>
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-word fa-lg"></i> DOCX</a>
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-tablet-screen-button fa-lg"></i> EPUB</a>
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-file-zipper fa-lg"></i> ZIP</a>
-                    </div>
-                    <hr>
-                    <div class="extra__areas">
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Teaser</a>
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> Trailer</a>
-                        <a href="a" class="anchor__button"><i class="fa-solid fa-film"></i></i></i> TV Spot</a>
-                    </div>
-                    <hr>
-                    <div class="extra__areas">
-                        <a class="anchor__button" href="https://a.co/d/7J4JL1u"><i class="fa-brands fa-amazon"></i>
-                            Amazon</a>
-                    </div>
+
                 </section>
                 <section class="main__content">
                     <?php
@@ -167,6 +126,7 @@ include("../php/populate.php");
                         $first_page = findFirstPage($route);
                         // Echo the array.
                         print_r($first_page);
+                        $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
                     */
 
                     if (isset($id)) {
@@ -214,23 +174,12 @@ include("../php/populate.php");
                         }
                         echo "</div>";
                     }
-
-                    // $neighbors = getNeighbors($route, $firstPage["content_id"], $firstPage["content_version"]);
-                    // echo "<p>";
-                    // print_r($neighbors);
-                    // echo "</p>";
                     ?>
                 </section>
                 <div>
         </article>
         <nav>
             <div class="nav__column">
-                <?php
-                if (isset($id)) {
-                    $neighbors = getNeighbors($route, $id, $v);
-                    echo "<a class='card medium__card' onclick=\"window.location.search='id=" . $neighbors["next"]["content_id"] . "'\"><h2>Forward -></h2></a>";
-                }
-                ?>
             </div>
         </nav>
     </main>
