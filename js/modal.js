@@ -37,7 +37,7 @@ function emptyModal() {
     setTimeout(() => {
         console.log("Emptying modal.");
         document.getElementById("modal-data").innerHTML = "";
-      }, 375);
+    }, 375);
 }
 
 
@@ -48,21 +48,13 @@ function toggleModal(id) {
     let modalVisibility = modalStyle.getPropertyValue("visibility");
     if (modalVisibility == "hidden") {
         targetModal.classList.add("modal-visible");
-        if (targetModalContent.classList.contains("modal-content-left")) {
-            targetModalContent.classList.add("modal-content-left-visible");
-        } else if (targetModalContent.classList.contains("modal-content-right")) {
-            targetModalContent.classList.add("modal-content-right-visible");
-        } else if (targetModalContent.classList.contains("modal-content-center")) {
+        if (targetModalContent.classList.contains("modal-content-center")) {
             targetModalContent.classList.add("modal-content-center-visible");
         }
     } else {
         targetModal.classList.remove("modal-visible");
         emptyModal();
-        if (targetModalContent.classList.contains("modal-content-left-visible")) {
-            targetModalContent.classList.remove("modal-content-left-visible");
-        } else if (targetModalContent.classList.contains("modal-content-right-visible")) {
-            targetModalContent.classList.remove("modal-content-right-visible");
-        } else if (targetModalContent.classList.contains("modal-content-center-visible")) {
+        if (targetModalContent.classList.contains("modal-content-center-visible")) {
             targetModalContent.classList.remove("modal-content-center-visible");
         }
     }
@@ -73,14 +65,7 @@ function generalToggle() {
     let modals = document.getElementsByClassName("modal");
     for (let i = 0; i < modals.length; i++) {
         modals[i].classList.remove("modal-visible");
-        modals[i].children[0].classList.remove("modal-content-left-visible");
-        if (modals[i].children[0].classList.contains("modal-content-left-visible")) {
-            modals[i].children[0].classList.remove("modal-content-left-visible");
-            emptyModal();
-        } else if (modals[i].children[0].classList.contains("modal-content-right-visible")) {
-            modals[i].children[0].classList.remove("modal-content-right-visible");
-            emptyModal();
-        } else if (modals[i].children[0].classList.contains("modal-content-center-visible")) {
+        if (modals[i].children[0].classList.contains("modal-content-center-visible")) {
             modals[i].children[0].classList.remove("modal-content-center-visible");
             emptyModal();
         }
@@ -121,7 +106,7 @@ function getModalContent(identifier) {
             addZoomEventListeners();
         }
     };
-    xmlhttp.open("GET", "../php/getmodaldata.php?q=" + subject + "&sl=" + localStorage.getItem("spoilerLevel"), true);
+    xmlhttp.open("GET", "../php/getters/getModalData.php?q=" + subject + "&sl=" + localStorage.getItem("spoilerLevel"), true);
     xmlhttp.send();
 
     if (modalVisibility == "hidden") {

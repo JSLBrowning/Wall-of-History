@@ -50,10 +50,16 @@ function slideshowNav(button, direction) {
     let slides = slideshow.getElementsByClassName("mediaplayercontents")[0];
     for (let i = 0; i < slides.children.length; i++) {
         styles = getComputedStyle(slides.children[i]);
-        if (styles.display == "block") {
+        if (styles.display == "block" || styles.display == "flex") {
             slides.children[i].style.display = "none";
             let newCurrent = slides.children[i + direction];
-            newCurrent.style.display = "block";
+            // If next slide is a div, set display to flex, otherwise, block.
+            if (newCurrent.tagName == "DIV") {
+                // Why does this disable the nav??
+                newCurrent.style.display = "flex";
+            } else {
+                newCurrent.style.display = "block";
+            }
 
             let locationText = slideshow.getElementsByClassName("slidelocation")[0];
             let location = i + direction + 1;
@@ -87,7 +93,7 @@ window.addEventListener("keydown", function (event) {
     switch (event.code) {
         case "ArrowLeft":
             // Videos.
-            rewind()
+            rewind();
             // Comics.
             let backButton = document.getElementsByClassName("mediaplayerbutton")[0];
             backNav(backButton);

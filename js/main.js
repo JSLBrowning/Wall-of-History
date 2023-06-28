@@ -221,7 +221,7 @@ async function getLanguageList() {
                 resolve(this.responseText);
             }
         };
-        xmlhttp.open("GET", "../php/getlanguagelist.php", true);
+        xmlhttp.open("GET", "../php/getters/getLanguageList.php", true);
         xmlhttp.send();
     });
 }
@@ -380,7 +380,7 @@ function getOptimalLanguage(combo) {
                 resolve(intersection[0]);
             }
         };
-        xmlhttp.open("GET", "../php/getavailablelanguages.php?id=" + id + "&v=" + v, true);
+        xmlhttp.open("GET", "../php/getters/getAvailableLanguages.php?id=" + id + "&v=" + v, true);
         xmlhttp.send();
     });
 }
@@ -583,6 +583,7 @@ async function goForwardChrono() {
     }
 }
 
+
 /* This function gets an array of the siblings of the current page. */
 function getArrayTree() {
     return new Promise(resolve => {
@@ -592,7 +593,7 @@ function getArrayTree() {
                 resolve(this.responseText);
             }
         };
-        xmlhttp.open("GET", "/php/getarray.php?q=" + id, true);
+        xmlhttp.open("GET", "/php/getters/getSiblings.php?q=" + id, true);
         xmlhttp.send();
     });
 }
@@ -779,7 +780,7 @@ function addZoomEventListeners() {
                     }
                 }
             };
-            xmlhttp.open("GET", "/php/check3d.php?id=" + id, true);
+            xmlhttp.open("GET", "/php/getters/get3D.php?id=" + id, true);
             xmlhttp.send();
 
             let exit = document.createElement("span");

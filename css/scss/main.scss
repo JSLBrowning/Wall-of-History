@@ -625,7 +625,7 @@ article {
             .main__content {
                 width: 100vw;
                 height: 100vh;
-                background-color: rgb(0, 0, 0);
+                background-color: rgb(0, 0, 0, 0);
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -1216,9 +1216,12 @@ nav {
  ***********************/
 
 div.mediaplayer {
+    max-height: 100vh;
+    max-width: 100vw;
+
     div.mediaplayercontents {
         display: flex;
-        flex-flow: column nowrap;
+        flex-flow: row nowrap;
         justify-content: center;
         border-radius: 0.5em;
 
@@ -1226,14 +1229,11 @@ div.mediaplayer {
             display: block;
         }
 
-        &:only-child {
-            max-height: 100vh;
-        }
-
         img,
         video,
         span {
             display: none;
+            max-height: calc(100vh - 5rem);
         }
 
         span {
@@ -1243,23 +1243,7 @@ div.mediaplayer {
             div {
                 display: block;
             }
-        }
 
-        img,
-        video {
-            max-width: 100%;
-            max-height: unset;
-            height: auto;
-            border-radius: 0.5em;
-            object-fit: contain;
-        }
-
-        video {
-            min-height: 100%;
-            background-color: rgba(8, 8, 8, 0.75);
-        }
-
-        img {
             // Replace with map/area?
             div.imginfobox {
                 position: absolute !important;
@@ -1280,37 +1264,56 @@ div.mediaplayer {
                 }
             }
         }
+
+        div.spread {
+            max-width: 100vw;
+            height: calc(100vh - 5rem);
+            display: flex;
+            flex-flow: row nowrap;
+            display: none;
+
+            span,
+            img {
+                margin: auto;
+                display: block;
+                max-width: 50vw;
+                height: auto;
+            }
+        }
+
+        video {
+            background-color: rgba(8, 8, 8, 0.75);
+        }
     }
 
     div.mediaplayercontrols {
-        height: 2.5rem;
+        height: 5rem;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: center;
+        gap: 1rem;
 
         > * {
-            max-height: 2.5rem;
+            margin: .5rem;
+            height: 4rem;
+            width: 8rem;
         }
 
         button,
         div {
-            width: 4rem;
-            max-width: 4rem;
-            height: 100%;
-            margin: 0em 0.375em;
-            background: $back2;
-            border: none;
+            background-color: #202020;
+            border-radius: .5rem;
             box-shadow: none;
-            line-height: 0rem;
-        }
+            font-size: 2rem;
+            line-height: 2rem;
 
-        p {
-            width: 100%;
-            max-height: 100%;
-            text-align: center;
-            margin: auto 0em;
-            user-select: none;
+            p {
+                text-align: center;
+                margin: 1rem auto;
+                line-height: 2rem;
+                user-select: none;
+            }
         }
     }
 }
