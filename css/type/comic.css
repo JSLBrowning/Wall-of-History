@@ -1,23 +1,9 @@
-main {
-    width: 90%;
-    max-width: 960px;
-}
-
 section.titleBox img {
     display: none;
 }
 
 
-section.story {
-    border-left: 0px;
-    border-right: 0px;
-}
-
-
-div.titleBoxText {
-    padding: 0em;
-}
-
+/*
 section.story div.mediaplayer div.mediaplayercontents img {
     width: 100%;
     border-radius: 0em;
@@ -40,9 +26,4 @@ section.story div.mediaplayer div.mediaplayercontents img:active {
     filter: brightness(1.0625);
     box-shadow: none;
 }
-
-@media only screen and (max-width: 640px) {
-    main {
-        width: 100%;
-    }
-}
+*/

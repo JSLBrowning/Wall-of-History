@@ -31,7 +31,7 @@ function getAdaptedFrom($id)
     $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
     $originals = getDataAside("original_id", $originals_query);
     if (!empty($originals)) {
-        $title_query = "SELECT title FROM shin_content WHERE id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
+        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
         $title = getDataAside("title", $title_query);
 
         echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
@@ -49,10 +49,10 @@ function getAdaptedInto($id)
     $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
     $adaptations = getDataAside("adaptation_id", $adaptations_query);
     if (!empty($adaptations)) {
-        $title_query = "SELECT title FROM shin_content WHERE id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
-        $title = getDataAside("title", $title_query);
+        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getDataAside("content_title", $title_query);
 
-        echo "<p>Adapted into <a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a>.</p>\n";
+        echo "<span class='detail'><p>Adapted into:</p><p><a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a></p></span>\n";
         $successes++;
     }
 
@@ -70,9 +70,9 @@ function detailWrapper($detail, $label = null)
     }
 }
 
-/*
+
 // Function to get details for content and display them.
-function getDetails($id, $v, $lang)
+function populateDetails($id, $v, $lang)
 {
     // Initialize variable to count number of details.
     $details = 0;
@@ -110,7 +110,7 @@ function getDetails($id, $v, $lang)
     // NEED TO GET WORD COUNT OF CHILDREN.
 
     // Get completion status.
-    $completion_query = "SELECT completion_status FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang' WHERE completion_status IS NOT NULL";
+    $completion_query = "SELECT completion_status FROM shin_metadata WHERE content_id='$id' AND content_version=$v AND content_language='$lang'";
     $completion = getDataAside("completion_status", $completion_query);
     // If not NULL...
     if (!empty($completion)) {
@@ -131,27 +131,40 @@ function getDetails($id, $v, $lang)
         }
     }
 }
-*/
+
 
 
 function getDownloads($id, $v = null, $lang = null)
 {
-    include("populate.php");
     $config = getJSONConfigVariables();
     $paths = translateToPath($config, $id, $v, $lang);
+    $icons = [
+        "zip" => "<i class='fa-solid fa-file-zipper fa-lg'></i>",
+        "pdf" => "<i class='fa-solid fa-file-pdf fa-lg'></i>",
+        "docx" => "<i class='fa-solid fa-file-word fa-lg'></i>",
+        "epub" => "<i class='fa-solid fa-tablet-screen-button fa-lg'></i>"
+    ];
 
+    $allFiles = [];
     // Find any files with the .pdf, .docx, .epub, or .zip extension.
-    $files = glob($paths["content"] . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
+    foreach($paths as $path) {
+        $foundFiles = glob($_SERVER['DOCUMENT_ROOT']. $path . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
+        if (!empty($foundFiles)) {
+            // Combine the arrays.
+            $allFiles = array_merge($allFiles, $foundFiles);
+        }
+    }
 
     // Create an <a> for each file.
-    foreach ($files as $file) {
+    foreach ($allFiles as $file) {
         // Get the file extension.
         $ext = pathinfo($file, PATHINFO_EXTENSION);
+        $icon = $icons[$ext];
         // Get the file name.
-        $name = basename($file, "." . $ext);
+        // $name = basename($file, "." . $ext);
 
         // Create the <a> tag.
-        echo "<a href='" . $name . "." . $ext . "' download>" . strtoupper($ext) . "</a>\n";
+        echo "<a class='anchor__button' href='$file' download>$icon " . strtoupper($ext) . "</a>\n";
     }
 }
 

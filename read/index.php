@@ -118,7 +118,13 @@ if (count($_GET)) {
                 <section class="extra__content">
                     <?php
                         include("../php/populateextras.php");
-                        getSettings($id, $lang, $v);
+                        if (isset($id) && isset($lang) && isset($v)) {
+                            getSettings($id, $lang, $v);
+                            populateDetails($id, $v, $lang);
+                            echo "<div class='extra__areas'>";
+                            getDownloads($id, $v, $lang);
+                            echo "</div>";
+                        }
                     ?>
                 </section>
                 <section class="main__content">

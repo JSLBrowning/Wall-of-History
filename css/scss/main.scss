@@ -778,10 +778,15 @@ nav {
 
         &:first-of-type {
             color: gray;
+            max-width: 33.33%;
         }
 
         &:last-of-type {
             text-align: right;
+        }
+
+        a {
+            line-height: unset;
         }
     }
 }
