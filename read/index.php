@@ -116,7 +116,10 @@ if (count($_GET)) {
                     </section>
                 </section>
                 <section class="extra__content">
-
+                    <?php
+                        include("../php/populateextras.php");
+                        getSettings($id, $lang, $v);
+                    ?>
                 </section>
                 <section class="main__content">
                     <?php

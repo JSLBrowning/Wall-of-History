@@ -70,7 +70,7 @@ function detailWrapper($detail, $label = null)
     }
 }
 
-
+/*
 // Function to get details for content and display them.
 function getDetails($id, $v, $lang)
 {
@@ -131,6 +131,7 @@ function getDetails($id, $v, $lang)
         }
     }
 }
+*/
 
 
 function getDownloads($id, $v = null, $lang = null)
@@ -162,19 +163,19 @@ function getSettings($id, $lang, $v)
     $successes = 0;
 
     // VERSIONS
-    $sql = "SELECT DISTINCT content_version FROM shin_content WHERE id=\"$id\" ORDER BY content_version";
+    $sql = "SELECT DISTINCT content_version FROM shin_content WHERE content_id='$id' ORDER BY content_version";
     // Perfom selection.
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 1) {
-        echo "<fieldset>";
+        echo "<form>";
         echo "<select onchange=\"goTo(this.options[this.selectedIndex].value)\">";
         while ($row = $result->fetch_assoc()) {
             // Get title for current version number, either in current language (if available) or English (if not).
             // https://stackoverflow.com/questions/7562095/redirect-on-select-option-in-select-box
             $newv = $row["content_version"];
 
-            $sqlnext = "SELECT version_title FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"en\" LIMIT 1";
+            $sqlnext = "SELECT version_title FROM shin_content WHERE content_id=\"$id\" AND content_version=\"$newv\" AND content_language='eng' LIMIT 1";
             // IFNULL(SELECT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
 
             $resultnext = $mysqli->query($sqlnext);
@@ -187,17 +188,19 @@ function getSettings($id, $lang, $v)
             }
         }
         echo "</select>";
-        echo "</fieldset>";
         $successes++;
     }
 
     // LANGUAGES
     // Create selection statement and perfom selection.
-    $sql = "SELECT DISTINCT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$v\" ORDER BY content_language";
+    $sql = "SELECT DISTINCT content_language FROM shin_content WHERE content_id=\"$id\" AND content_version=\"$v\" ORDER BY content_language";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 1) {
-        echo "<fieldset>";
+        if ($successes == 0) {
+            echo "<form>";
+        }
+
         echo "<select onchange=\"goTo(this.options[this.selectedIndex].value)\">";
         while ($row = $result->fetch_assoc()) {
             $newlang = strtoupper($row["content_language"]);
@@ -208,7 +211,6 @@ function getSettings($id, $lang, $v)
             }
         }
         echo "</select>";
-        echo "</fieldset>";
         $successes++;
     }
 
@@ -217,7 +219,10 @@ function getSettings($id, $lang, $v)
     $result_eq = $mysqli->query($sql_eq);
 
     if ($result_eq->num_rows > 0) {
-        echo "<fieldset>";
+        if ($successes == 0) {
+            echo "<form>";
+        }
+
         echo "<select id=\"equivalentSelect\" onchange=\"goTo(this.options[this.selectedIndex].value)\">";
         echo "<option selected=\"true\" disabled=\"disabled\">Equivalent stories…</option>";
         while ($row = $result_eq->fetch_assoc()) {
@@ -235,12 +240,11 @@ function getSettings($id, $lang, $v)
             }
         }
         echo "</select>";
-        echo "</fieldset>";
         $successes++;
     }
 
     if ($successes != 0) {
-        echo "<hr>\n";
+        echo "</form>";
     }
 }
 
