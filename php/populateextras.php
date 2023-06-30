@@ -133,9 +133,11 @@ function populateDetails($id, $v, $lang)
 }
 
 
-
 function getDownloads($id, $v = null, $lang = null)
 {
+    // If v or lang are null, list all options, then identify them through text.
+    // Otherwise, just identify file type.
+
     $config = getJSONConfigVariables();
     $paths = translateToPath($config, $id, $v, $lang);
     $icons = [
@@ -147,8 +149,8 @@ function getDownloads($id, $v = null, $lang = null)
 
     $allFiles = [];
     // Find any files with the .pdf, .docx, .epub, or .zip extension.
-    foreach($paths as $path) {
-        $foundFiles = glob($_SERVER['DOCUMENT_ROOT']. $path . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
+    foreach ($paths as $path) {
+        $foundFiles = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
         if (!empty($foundFiles)) {
             // Combine the arrays.
             $allFiles = array_merge($allFiles, $foundFiles);

@@ -120,8 +120,7 @@ function getJSONConfigVariables()
 // Useful for the hardcoded cards in config.json.
 function overwriteArrayElements($array, $overwrite)
 {
-    foreach ($overwrite as $key => $value)
-    {
+    foreach ($overwrite as $key => $value) {
         $array[$key] = $value;
     }
     return $array;
@@ -170,7 +169,8 @@ function translateToSemantic($id, $v, $lang)
 
 
 // Function to check if there are multiple versions of a given work, and return an array of those versions.
-function checkForMultipleVersions($id) {
+function checkForMultipleVersions($id)
+{
     include("db_connect.php");
     $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
     $result = $mysqli->query($query);
@@ -186,7 +186,8 @@ function checkForMultipleVersions($id) {
 
 
 // Function to return the smallest non-zero number in an array. This is used to determine which version should be treated as the "default" for generating multi-version cards. Version 0 is reserved for drafts, and should not be considered.
-function determineDefaultVersion($arrayOfNumbers) {
+function determineDefaultVersion($arrayOfNumbers)
+{
     $default = INF;
     foreach ($arrayOfNumbers as $number) {
         if ($number > 0 && $number < $default) {
@@ -198,7 +199,8 @@ function determineDefaultVersion($arrayOfNumbers) {
 
 
 // Function to translate IDENTIFIERS into an HREF.
-function getHREF($s=null, $id=null, $v=null, $lang=null) {
+function getHREF($s = null, $id = null, $v = null, $lang = null)
+{
     if (!is_null($s)) {
         return '/read/?s=$s';
     } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
@@ -467,50 +469,36 @@ function getTypeChildren($type)
 {
     include("db_connect.php");
 
-    $query = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$type'";
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) == 0) {
-        return null;
-    } else if (mysqli_num_rows($result) == 1) {
-        $row = $result->fetch_assoc();
-        $type = $row["media_tag"];
-        $type_plural = $row["media_tag_plural"];
-        if ($type_plural != "") {
-            echo "<h1>$type_plural</h1>";
+    $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type' AND child_tag IN (SELECT DISTINCT tag FROM shin_tags) ORDER BY (SELECT COUNT(*) FROM shin_tags WHERE tag=child_tag) DESC";
+    $result_children = $mysqli->query($query_children);
+    if (mysqli_num_rows($result_children) > 0) {
+        // Put results into an array.
+        $children = [];
+        while ($row_children = $result_children->fetch_assoc()) {
+            $child = $row_children["child_tag"];
+            array_push($children, $child);
         }
 
-        $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type' AND child_tag IN (SELECT DISTINCT tag FROM shin_tags) ORDER BY (SELECT COUNT(*) FROM shin_tags WHERE tag=child_tag) DESC";
-        $result_children = $mysqli->query($query_children);
-        if (mysqli_num_rows($result_children) > 0) {
-            // Put results into an array.
-            $children = [];
-            while ($row_children = $result_children->fetch_assoc()) {
-                $child = $row_children["child_tag"];
-                array_push($children, $child);
-            }
-
-            // Loop through array and display results.
-            foreach ($children as $child) {
-                $query_child = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$child'";
-                $result_child = $mysqli->query($query_child);
-                if (mysqli_num_rows($result_child) == 0) {
-                    return null;
-                } else if (mysqli_num_rows($result_child) == 1) {
-                    $row_child = $result_child->fetch_assoc();
-                    $child = $row_child["media_tag"];
-                    $child_plural = $row_child["media_tag_plural"];
-                    echo "<h2>$child_plural</h2>";
-                }
+        // Loop through array and display results.
+        foreach ($children as $child) {
+            $query_child = "SELECT media_tag, media_tag_plural FROM media_tags WHERE media_tag='$child'";
+            $result_child = $mysqli->query($query_child);
+            if (mysqli_num_rows($result_child) == 0) {
+                return null;
+            } else if (mysqli_num_rows($result_child) == 1) {
+                $row_child = $result_child->fetch_assoc();
+                $child = $row_child["media_tag"];
+                $child_plural = $row_child["media_tag_plural"];
+                echo "<h2>$child_plural</h2>";
             }
         }
-    } else {
-        return null;
     }
 }
 
 
 // A function to get all the entries of a given type, but only the topmost entries (so if you have a type of "book", it will only return the books themselves, not the chapters within those books, even if the chapters also have the "book" tag).
-function getEntriesOfTypeNew($type) {
+function getEntriesOfTypeNew($type)
+{
     // 1. Get ALL entries of a given type.
     // 2. Find out which ones entries in the previous query are also the children of other entries in that same query.
     // 3. Remove those entries from the query.
@@ -542,22 +530,39 @@ function addTableOfContents($id, $v = null, $l = null)
 
     if ($id == "0") {
         $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
-    } else {
-        $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
-    }
 
-
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) > 0) {
-        echo "<div class='deck'>";
-        while ($row = $result->fetch_assoc()) {
-            $id = $row["content_id"];
-            $version = $row["content_version"];
-            $title = $row["content_title"];
-            $snippet = $row["content_snippet"];
-            echo buildDefaultCard($id, $version, $title, $snippet);
+        $result = $mysqli->query($query);
+        if (mysqli_num_rows($result) > 0) {
+            echo "<div class='deck'>";
+            while ($row = $result->fetch_assoc()) {
+                $id = $row["content_id"];
+                $version = $row["content_version"];
+                $title = $row["content_title"];
+                $snippet = $row["content_snippet"];
+                echo buildDefaultCard($id, $version, $title, $snippet);
+            }
+            echo "</div>";
         }
-        echo "</div>";
+    } else {
+        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        // $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
+
+        $result = $mysqli->query($revisedDistinctQuery);
+        if (mysqli_num_rows($result) > 0) {
+            echo "<div class='deck'>";
+            while ($row = $result->fetch_assoc()) {
+                $childID = $row["child_id"];
+                $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+
+                //$id = $row["content_id"];
+                //$version = $row["content_version"];
+                //$title = $row["content_title"];
+                //$snippet = $row["content_snippet"];
+                echo buildDefaultCard($id, $version, $title, $snippet);
+            }
+            echo "</div>";
+        }
     }
 }
 
@@ -656,7 +661,7 @@ function getData($column, $query)
 
 
 // This function attempts to find an image.
-function getImages($path, $schemas=null, $id = null, $v = null, $lang = null, $caption = null)
+function getImages($path, $schemas = null, $id = null, $v = null, $lang = null, $caption = null)
 {
     $formats = [".webp", ".jpg", ".jpeg", ".png"];
     $defaultSchemas = ["$id.$v.$lang", "$id.$v", "$id"];
@@ -706,7 +711,8 @@ function getOGPImages($id, $v, $lang)
  ********************************/
 
 
-function generateHead($title, $description, $ogpImage, $themeColor, $notFound = false) {
+function generateHead($title, $description, $ogpImage, $themeColor, $notFound = false)
+{
     echo "<meta content='$title | Wall of History' property='og:title'/>";
     echo "<meta content='$description' property='og:description'/>";
     echo "<meta content='http://www.wallofhistory.com$ogpImage' property='og:image'/>";
@@ -720,7 +726,7 @@ function generateHead($title, $description, $ogpImage, $themeColor, $notFound = 
 
 
 // This function populates the <head> of the page with content-specific OGP data.
-function populateHead($id, $v=null, $lang=null)
+function populateHead($id, $v = null, $lang = null)
 {
     include("db_connect.php");
 
@@ -789,7 +795,7 @@ function populateCSS($id)
 
 
 // This function loads a unique header for a page, if it has one.
-function loadHeader($id, $v=null, $lang=null)
+function loadHeader($id, $v = null, $lang = null)
 {
     include("db_connect.php");
 

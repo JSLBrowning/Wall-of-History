@@ -55,13 +55,13 @@ if (count($_GET)) {
     <link rel="stylesheet" type="text/css" href="/css/modal.css">
     <link rel="stylesheet" type="text/css" href="/css/cards.css">
     <?php
-    populateHead($id, $v, $lang);
     if (isset($type) && $type == "main") {
         echo "<title>Contents by Type | Wall of History</title>";
     } else if (isset($type)) {
         echo "<title>" . pluralizeTypeTag($type) . " | Wall of History</title>";
     } else if (isset($id)) {
         populateCSS($id);
+        populateHead($id, $v, $lang);
     }
     ?>
 </head>
@@ -110,7 +110,7 @@ if (count($_GET)) {
                             getTitleBoxText($id, $v);
                             $config = getJSONConfigVariables();
                         } else {
-                            echo "<h1>Wall of History</h1>";
+                            echo "<h1 style='text-align:center;'>" . pluralizeTypeTag($type) . "</h1>";
                         }
                         ?>
                     </section>
