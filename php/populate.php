@@ -526,7 +526,7 @@ function addTableOfContents($id, $v = null, $l = null)
     // If version is null... there should be one button, which takes you to version 1.
     // "WHERE shin_content.content_version=1"
     $version_conditonal = ($v != null) ? "AND parent_version=$v)" : ") AND shin_content.content_version=1";
-    $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='eng'";
+    $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='en'";
 
     if ($id == "0") {
         $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
@@ -544,7 +544,7 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "</div>";
         }
     } else {
-        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' ORDER BY shin_metadata.chronology/*, shin_content.content_title*/ ASC";
         // $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
         // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
 
@@ -553,13 +553,28 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
                 $childID = $row["child_id"];
-                $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+                $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.version_title, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_content.content_version, shin_metadata.chronology, shin_content.content_title ASC";
 
-                //$id = $row["content_id"];
-                //$version = $row["content_version"];
-                //$title = $row["content_title"];
-                //$snippet = $row["content_snippet"];
-                echo buildDefaultCard($id, $version, $title, $snippet);
+                $childResult = $mysqli->query($query);
+                if (mysqli_num_rows($childResult) > 0) {
+                    $uniqueVersions = [];
+                    while ($childRow = $childResult->fetch_assoc()) {
+                        array_push($uniqueVersions, [
+                            "content_id" => $childRow["content_id"],
+                            "content_version" => $childRow["content_version"],
+                            "version_title" => $childRow["version_title"],
+                            "content_language" => $childRow["content_language"],
+                            "content_title" => $childRow["content_title"],
+                            "content_snippet" => $childRow["content_snippet"]
+                        ]);
+                    }
+                }
+                // Put version titles into an array.
+                $versionTitles = [];
+                foreach ($uniqueVersions as $version) {
+                    array_push($versionTitles, $version["version_title"]);
+                }
+                echo buildDefaultCard($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_title"], $uniqueVersions[0]["content_snippet"], true, $versionTitles);
             }
             echo "</div>";
         }
@@ -567,7 +582,7 @@ function addTableOfContents($id, $v = null, $l = null)
 }
 
 
-function buildDefaultCard($id, $v, $title, $snippet, $small = false)
+function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions = null)
 {
     if ($v == "") {
         $card = "<a class='card medium__card' href='/read/?id=$id'>";
@@ -584,7 +599,14 @@ function buildDefaultCard($id, $v, $title, $snippet, $small = false)
         $card .= "<img src='/img/story/contents/$id.webp' alt='$title'>";
     }
 
-    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'><p>Word Count: 980</p></div><p>$snippet</p></div>";
+    $uniqueVersions = "";
+    // If more than one version, add a version tag.
+    if ($versions != null) {
+            // Implode $versions with ", "
+            $uniqueVersions = "<p>" . implode(", ", $versions); + "</p>";
+    }
+
+    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'>$uniqueVersions<p>Word Count: 980</p></div><p>$snippet</p></div>";
     $card .= "</a>";
     return $card;
 }
@@ -730,7 +752,7 @@ function populateHead($id, $v = null, $lang = null)
 {
     include("db_connect.php");
 
-    $result = $mysqli->query("SELECT content_title, content_snippet, content_theme_color FROM shin_metadata JOIN shin_content ON shin_metadata.content_id = shin_content.content_id WHERE shin_metadata.content_id='$id' AND shin_content.content_version=$v AND shin_content.content_language='$lang'");
+    $result = $mysqli->query("SELECT content_title, content_snippet, content_theme_color FROM shin_metadata JOIN shin_content ON shin_metadata.content_id = shin_content.content_id WHERE shin_metadata.content_id='$id' AND shin_content.content_version=$v AND shin_content.content_language='$lang' ORDER BY shin_metadata.chronology, shin_content.content_title ASC");
     $numRows = mysqli_num_rows($result);
     $image = getOGPImages($id, $v, $lang);
 
