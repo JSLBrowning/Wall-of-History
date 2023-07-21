@@ -351,7 +351,7 @@ INSERT INTO tag_web VALUES
 /* The metadata table stores metadata for website content. In GENERAL, this should be stuff that is agnostic to version and language. */
 CREATE TABLE IF NOT EXISTS shin_metadata(
     /* IDENTIFICATION STUFF */
-    content_id BINARY(16),
+    content_id VARCHAR(36),
     /* This UUID uniquely identifies each piece of content. */
     content_version int,
     /* This integer identifies the version of the content. If NULL, the information in this entry is assumed to apply to all versions. */
@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS shin_metadata(
 /* The content table stores the "meat" of the website content. */
 CREATE TABLE IF NOT EXISTS shin_content(
     /* IDENTIFICATION STUFF */
-    content_id BINARY(16),
+    content_id VARCHAR(36),
     /* UUID */
     content_version int DEFAULT 1,
     /* This integer identifies the version of the content… */
@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS shin_headers(
 
 
 CREATE TABLE IF NOT EXISTS shin_tags(
-    content_id BINARY(16),
+    content_id VARCHAR(36),
     /* Self-explanatory — these are the same tags used for metadata and content. */
     content_version int DEFAULT NULL,
     /* Self-explanatory, and optional here. If NULL, the tag is assumed to apply to all versions. */
@@ -445,11 +445,11 @@ CREATE TABLE IF NOT EXISTS shin_tags(
 
 
 CREATE TABLE IF NOT EXISTS shin_adaptations(
-    original_id BINARY(16) NOT NULL,
+    original_id VARCHAR(36) NOT NULL,
     /* The ID of the original. */
     original_version int,
     /* The specific version of the content this is an adaptation of (optional — if blank, it will count for all versions). */
-    adaptation_id BINARY(16) NOT NULL,
+    adaptation_id VARCHAR(36) NOT NULL,
     /* The ID of the adaptation. */
     adaptation_version int
     /* The specific version of the adaptation (optional — if blank, it will count for all versions). */
@@ -458,11 +458,11 @@ CREATE TABLE IF NOT EXISTS shin_adaptations(
 
 /* The equivalents table connects two entries that essentially convey the same story, when one is not a clear adaptation of the other — the Toa Kaita chapters of Tale of the Toa to the penultimate chapter of MNOG, for example. */
 CREATE TABLE IF NOT EXISTS shin_equivalents(
-    left_id BINARY(16) NOT NULL,
+    left_id VARCHAR(36) NOT NULL,
     /* Self-explanatory. */
     left_version int NOT NULL,
     /* Self-explanatory. */
-    right_id BINARY(16) NOT NULL,
+    right_id VARCHAR(36) NOT NULL,
     /* Self-explanatory. */
     right_version int NOT NULL,
     /* Self-explanatory. */
@@ -471,7 +471,7 @@ CREATE TABLE IF NOT EXISTS shin_equivalents(
 
 /* Routes define paths through story content that involve multiple books, series, et cetera. They share an ID space with content entries, so either a main story or main route can be displayed on the homepage. */
 CREATE TABLE IF NOT EXISTS shin_routes(
-    route_id BINARY(16),
+    route_id VARCHAR(36),
     /* UUID */
     route_name text NOT NULL,
     /* The name of the route. */
@@ -487,11 +487,11 @@ CREATE TABLE IF NOT EXISTS shin_routes(
 
 
 CREATE TABLE IF NOT EXISTS shin_routes_connections(
-    content_id BINARY(16),
+    content_id VARCHAR(36),
     /* Self-explanatory. */
     content_version int,
     /* Self-explanatory. Can be NULL if not relevant. */
-    route_id BINARY(16),
+    route_id VARCHAR(36),
     /* Self-explanatory. */
 )
 
@@ -508,15 +508,15 @@ CREATE TABLE IF NOT EXISTS shin_routes_connections(
 
 CREATE TABLE IF NOT EXISTS reference_subjects (
     /* This table is necessary because some reference entries (such as “Muaka & Kane-Ra” on BIONICLE.com) can cover multiple subjects at once. */
-    subject_id BINARY(16),
+    subject_id VARCHAR(36),
     /* Subject IDs are used to identify entries as referring to the same character or concept, even if entries have slightly different names. */
-    entry_id BINARY(16)
+    entry_id VARCHAR(36)
 );
 
 
 CREATE TABLE IF NOT EXISTS reference_metadata (
     /* IDENTIFICATION STUFF */
-    entry_id BINARY(16),
+    entry_id VARCHAR(36),
     /* The ID can be any six character-long alphanumeric string. */
     entry_version int,
     /* Self-explanatory. BIONICLE Encyclopedia would be 1, Updated would be 2. */
@@ -543,7 +543,7 @@ CREATE TABLE IF NOT EXISTS reference_metadata (
 
 CREATE TABLE IF NOT EXISTS reference_content (
     /* IDENTIFICATION STUFF */
-    entry_id BINARY(16),
+    entry_id VARCHAR(36),
     /* Self-explanatory — it's the same ID as above. */
     entry_version int DEFAULT 1,
     /* This integer identifies the version of the content in the URL parameters… */
@@ -566,9 +566,9 @@ CREATE TABLE IF NOT EXISTS reference_content (
 
 
 CREATE TABLE IF NOT EXISTS reference_titles (
-    subject_id BINARY(16),
+    subject_id VARCHAR(36),
     /* Self-explanatory. */
-    entry_id BINARY(16) NOT NULL,
+    entry_id VARCHAR(36) NOT NULL,
     /* Self-explanatory. */
     title_version int DEFAULT 1,
     /* Self-explanatory. */
@@ -585,9 +585,9 @@ CREATE TABLE IF NOT EXISTS reference_titles (
 
 CREATE TABLE IF NOT EXISTS reference_images (
     /* IDENTIFICATION STUFF */
-    subject_id BINARY(16),
+    subject_id VARCHAR(36),
     /* Self-explanatory. */
-    entry_id BINARY(16) NOT NULL,
+    entry_id VARCHAR(36) NOT NULL,
     /* Can be entry ID or subject ID (for desirable images not used elsewhere). */
 
     /* IMAGE IDENTIFICATION STUFF */
@@ -603,7 +603,7 @@ CREATE TABLE IF NOT EXISTS reference_images (
     image_order int,
     /* If an entry contains multiple images or titles, this value can be used to order them. For example, on the dedicated reference page, the highest image will be displayed first, ensuring an entry for Tahu NUVA doesn't display an image for Tahu MATA. */
     caption text
-    /* Self-explanatory. Can be "OGP" for OGP images. OGP images will not be rendered on reference modals or pages. */
+    /* Self-explanatory. Can be "OGP" for OGP images. OGP images will not be rendered on reference modals or pages. If Kopeke finds multiple images for a single entry, it can try and match the title passed in to the caption — so putting in "Tahu Nuva" doesn't get you a picture of Tahu Mata. */
 );
 
 
@@ -620,11 +620,11 @@ CREATE TABLE IF NOT EXISTS reference_quotes (
 
 
 CREATE TABLE IF NOT EXISTS reference_appearances (
-    story_id BINARY(16) NOT NULL,
+    story_id VARCHAR(36) NOT NULL,
     /* This refers to a woh_metadata entry in which a character or object appears. */
     story_version int DEFAULT 1,
     /* Self-explanatory. */
-    subject_id BINARY(16) NOT NULL,
+    subject_id VARCHAR(36) NOT NULL,
     /* This refers to the character or object itself. */
     appearance_type boolean
     /* True if they actually appear, false if they're just mentioned. */
@@ -633,9 +633,9 @@ CREATE TABLE IF NOT EXISTS reference_appearances (
 
 /* This table determines which content entries (and their children) are connected to which reference entries (and their children). An "all-to-all" flag can be set in config. */
 CREATE TABLE IF NOT EXISTS reference_connections (
-    content_id BINARY(16) NOT NULL,
+    content_id VARCHAR(36) NOT NULL,
     /* Self-explanatory. */
-    reference_id BINARY(16) NOT NULL
+    reference_id VARCHAR(36) NOT NULL
     /* Self-explanatory. */
 );
 
@@ -652,7 +652,7 @@ CREATE TABLE IF NOT EXISTS reference_connections (
 
 /* Table for soundtracks. Local hosting of soundtracks will work similarly to table of contents images — the relevant file will go in a folder named after the ID, or the file itself will have the ID for a filename (former preferred). */
 CREATE TABLE IF NOT EXISTS soundtracks (
-    soundtrack_id BINARY(16) PRIMARY KEY,
+    soundtrack_id VARCHAR(36) PRIMARY KEY,
     /* UUID */
     soundtrack_title text NOT NULL,
     /* Self-explanatory. */
@@ -666,7 +666,7 @@ CREATE TABLE IF NOT EXISTS soundtracks (
 
 
 CREATE TABLE IF NOT EXISTS music_videos (
-    soundtrack_id BINARY(16) NOT NULL,
+    soundtrack_id VARCHAR(36) NOT NULL,
     /* UUID of the soundtrack. */
     youtube_id varchar(11) NOT NULL
     /* Self-explanatory. */
@@ -684,7 +684,7 @@ CREATE TABLE IF NOT EXISTS music_videos (
 
 
 CREATE TABLE IF NOT EXISTS creators (
-    creator_id BINARY(16) PRIMARY KEY,
+    creator_id VARCHAR(36) PRIMARY KEY,
     /* UUID */
     creator_name text NOT NULL,
     /* Self-explanatory. */
@@ -694,17 +694,21 @@ CREATE TABLE IF NOT EXISTS creators (
 
 
 CREATE TABLE IF NOT EXISTS creator_roles (
-    creator_id BINARY(16) NOT NULL,
+    creator_id VARCHAR(36) NOT NULL,
     /* UUID of the creator. */
-    content_id BINARY(16) NOT NULL,
+    content_id VARCHAR(36) NOT NULL,
     /* UUID of the content. Can also be a commentary entry. */
+    content_version INT DEFAULT NULL,
+    /* Self-explanatory. Default is NULL, as it's assumed a person generally works on all published versions of a thing (i.e., all releases of a book are written by the same author). */
+    content_language VARCHAR(16) DEFAULT NULL,
+    /* Self-explanatory. */
     creator_role text NOT NULL
     /* Self-explanatory — "writer," "illustrator," et cetera. These should be simple — if someone wrote something AND recorded themselves reading it, for example, there should be two entries — one for "writer" and one for "narrator." These will be concatenated properly at render — for example, "Written and Narrated by Greg Farshtey." */
 );
 
 
 CREATE TABLE IF NOT EXISTS creator_aliases (
-    creator_id BINARY(16) NOT NULL,
+    creator_id VARCHAR(36) NOT NULL,
     /* UUID of the creator. */
     creator_alias text NOT NULL
     /* Self-explanatory. Interpreter will translate an alias link, such as <a data-alias="GregF"></a>, into a link to the creator's main page. */
@@ -712,7 +716,7 @@ CREATE TABLE IF NOT EXISTS creator_aliases (
 
 
 CREATE TABLE IF NOT EXISTS commentary (
-    commentary_id BINARY(16) PRIMARY KEY,
+    commentary_id VARCHAR(36) PRIMARY KEY,
     /* UUID */
     commentary_main longtext NOT NULL,
     /* Self-explanatory. */
@@ -732,7 +736,7 @@ CREATE TABLE IF NOT EXISTS commentary (
 
 
 CREATE TABLE IF NOT EXISTS original_copies (
-    content_id BINARY(16) PRIMARY KEY,
+    content_id VARCHAR(36) PRIMARY KEY,
     /* UUID of the content in question. Can also be a reference database entry. */
     content_version int,
     /* Version of the content in question this is an original for. If NULL, this original copy is assumed to apply to all versions. */
@@ -750,11 +754,11 @@ CREATE TABLE IF NOT EXISTS original_copies (
 CREATE TABLE IF NOT EXISTS id_update (
     old_id_text varchar(8),
     /* Old ID, pre 1.2. */
-    old_id_uuid BINARY(16),
+    old_id_uuid VARCHAR(36),
     /* Old ID, post 1.2. */
     old_id_version int,
     /* Old ID version. */
-    new_id_uuid BINARY(16) NOT NULL,
+    new_id_uuid VARCHAR(36) NOT NULL,
     /* New ID. */
     new_id_version int NOT NULL
     /* New ID version. */
@@ -773,11 +777,11 @@ CREATE TABLE IF NOT EXISTS id_update (
 
 /* The web table connects everything to everything else — books to chapters, movies to trailers, and soundtracks to songs. */
 CREATE TABLE IF NOT EXISTS shin_web(
-    parent_id BINARY(16) NOT NULL,
+    parent_id VARCHAR(36) NOT NULL,
     /* BIONICLE Chronicles #1: Tale of the Toa which is the parent to “Tahu — Toa of Fire.” If you put Tale of the Toa's ID here… */
     parent_version int,
     /* Version specificity here is necessary for things like graphic novels compiling comics that were originally published as separate works (especially if multiple graphic novels might contain the same comics). */
-    child_id BINARY(16) NOT NULL,
+    child_id VARCHAR(36) NOT NULL,
     /* …you'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
     child_version int,
     /* If version numbers are not specified, then all versions of the parent are implied to be connected to all versions of the child — for example, all Mask of Light trailers are advertisements for all versions of the movie. */
@@ -788,7 +792,7 @@ CREATE TABLE IF NOT EXISTS shin_web(
 
 
 CREATE TABLE IF NOT EXISTS shin_purchase_links(
-    content_id BINARY(16) NOT NULL,
+    content_id VARCHAR(36) NOT NULL,
     /* UUID of the content or reference entry in question. */
     content_version int,
     /* Version of the content in question. */
@@ -804,3 +808,18 @@ CREATE TABLE IF NOT EXISTS shin_purchase_links(
 /************************
  * END CONNECTION SETUP *
  ************************/
+
+
+/****************
+ * KOPEKE SETUP *
+ ****************/
+
+
+CREATE TABLE IF NOT EXISTS kopeke_mask_collection(
+    user_id text NOT NULL,
+    /* The Discord ID of the user in question. */
+    mask_collection varchar(12) NOT NULL,
+    /* A twelve-bit string representing the user's mask collection. */
+    cooldown text DEFAULT NULL
+    /* A stringified Python time.time() denoting when the player last played. */
+);

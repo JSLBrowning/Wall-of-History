@@ -190,7 +190,7 @@ function getSettings($id, $lang, $v)
             // https://stackoverflow.com/questions/7562095/redirect-on-select-option-in-select-box
             $newv = $row["content_version"];
 
-            $sqlnext = "SELECT version_title FROM shin_content WHERE content_id=\"$id\" AND content_version=\"$newv\" AND content_language='eng' LIMIT 1";
+            $sqlnext = "SELECT version_title FROM shin_content WHERE content_id=\"$id\" AND content_version=\"$newv\" AND content_language='en' LIMIT 1";
             // IFNULL(SELECT content_language FROM shin_content WHERE id=\"$id\" AND content_version=\"$newv\" AND content_language=\"$lang\", \"en\")
 
             $resultnext = $mysqli->query($sqlnext);

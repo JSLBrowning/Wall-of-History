@@ -92,6 +92,14 @@ $languages = [
  */
 
 
+/**
+ * FUNCTIONS TO ADD:
+ * 1. checkForTag(tag, id, v (optional), lang (optional)) - check if a given entry has a given tag.
+ * 2. getAllTags(id, v(optional), lang (optional)) - get an array of all distinct tags for an entry.
+ * 3. All data fetching functions will need to be refactored into a function that gets JSON first, then database?
+ */
+
+
 /******************************
  * DATA TRANSLATION FUNCTIONS *
  ******************************/
@@ -296,7 +304,7 @@ function getContentData($id, $v = null, $lang = null)
 
     // If passed lang is "en," update to "eng."
     if ($lang == "en") {
-        $lang = "eng";
+        $lang = "en";
     }
 
     // If $v is not null...
@@ -317,7 +325,7 @@ function getContentData($id, $v = null, $lang = null)
 }
 
 
-function getMainContent($id, $version = 1, $language = "eng")
+function getMainContent($id, $version = 1, $language = "en")
 {
     include("db_connect.php");
 
@@ -345,7 +353,7 @@ function getMainContent($id, $version = 1, $language = "eng")
 }
 
 
-function getTitleBoxText($id, $version = 1, $language = "eng")
+function getTitleBoxText($id, $version = 1, $language = "en")
 {
     include("db_connect.php");
 

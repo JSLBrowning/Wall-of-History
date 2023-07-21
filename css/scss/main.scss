@@ -700,13 +700,6 @@ nav {
     }
     /* } */
 
-    &:not(.x-target) .anchor {
-        opacity: 0;
-        min-width: 0.75rem;
-        max-width: 0.75rem;
-        font-size: 0rem;
-    }
-
     .anchor,
     .anchor:visited,
     .anchor:hover,
@@ -1011,13 +1004,14 @@ nav {
         div.versions p,
         div.tags p {
             font-size: 0.6875rem;
-            line-height: 0.6875rem;
+            line-height: 0.8375rem;
         }
 
         div.versions {
             display: flex;
             flex-flow: column wrap;
-            gap: .125rem;
+            gap: 1rem;
+            row-gap: 0rem;
 
             p {
                 margin: .125rem 0rem;

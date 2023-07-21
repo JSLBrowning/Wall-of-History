@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 include("..//..//php/populate.php");
-chooseColors();
 
 
 include("..//..//php/populatereference.php");
@@ -93,7 +92,7 @@ if (count($_GET)) {
                 </form>
                 <hr>
                 <?php
-                include("..//..//php/populateaside.php");
+                include("..//..//php/populateextras.php");
                 populateAside($id, $lang, $v);
                 ?>
                 <button class="small" onclick="window.location.href='/read/';">Contents</button>

@@ -40,7 +40,7 @@ if (count($_GET)) {
 } else {
     $id = "0";
     $v = "1";
-    $lang = "eng";
+    $lang = "en";
 }
 ?>
 
@@ -156,8 +156,8 @@ if (count($_GET)) {
                             include($_SERVER['DOCUMENT_ROOT'] . "/php/db_connect.php");
 
                             // Get all ID.v.lang combos of the type in question.
-                            $query = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='type' AND tag='$type'";
-                            $query = "SELECT content_id, content_version, content_language FROM shin_metadata WHERE content_id NOT IN (SELECT child_id FROM shin_web WHERE parent_id IN (SELECT content_id FROM shin_tags WHERE tag='$type')) AND content_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag='$type') ORDER BY chronology ASC";
+                            $query = "SELECT content_id, content_version, content_language FROM shin_metadata WHERE content_id NOT IN (SELECT child_id FROM shin_web WHERE parent_id IN (SELECT content_id FROM shin_tags WHERE tag='$type')) AND content_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag='$type') ORDER BY chronology, release_date ASC";
+                            // Need to join this with TITLE from shin_content so they can be ordered right. Also need to update release dates to be accurate.
                             $result = $mysqli->query($query);
                             $entries = array();
                             while ($row = $result->fetch_assoc()) {

@@ -52,3 +52,11 @@ The path to the main content of the library, in a form like `/content/[id/s]` or
 
 - `true`: All content entries will (theoretically) be able to pull from all reference entries.
 - `false`: Content entries (and their children) will only be able to pull from reference entries connected to them by the `reference_connections` table.
+
+## socials
+
+A dictionary of social media accounts for the site, including Discord, Facebook, Instagram, Reddit (a subreddit, not an account), Twitter, and YouTube. All except Discord can be the account/subreddit name, no @, leading r/, et cetera. Discord must be a complete invite link.
+
+## devSocials
+
+Same as above, just for the person in charge. Discord can now be an account name.
