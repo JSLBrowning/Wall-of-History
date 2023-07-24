@@ -160,11 +160,21 @@ function translateFromSemantic($semanticTag)
 
 
 // Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
-function translateToSemantic($id, $v, $lang)
+function translateToSemantic($id, $v=null, $lang=null)
 {
     include('./php/db_connect.php');
 
-    $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' LIMIT 1";
+    $semanticQuery = "";
+    if ($v != null && $lang != null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
+    } else if ($v != null && $lang == null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
+    } else if ($v == null && $lang != null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
+    } else {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
+    }
+
     $semanticResult = $mysqli->query($semanticQuery);
     if (mysqli_num_rows($semanticResult) > 0) {
         while ($row = $semanticResult->fetch_assoc()) {
@@ -193,22 +203,13 @@ function checkForMultipleVersions($id)
 }
 
 
-// Function to return the smallest non-zero number in an array. This is used to determine which version should be treated as the "default" for generating multi-version cards. Version 0 is reserved for drafts, and should not be considered.
-function determineDefaultVersion($arrayOfNumbers)
-{
-    $default = INF;
-    foreach ($arrayOfNumbers as $number) {
-        if ($number > 0 && $number < $default) {
-            $default = $number;
-        }
-    }
-    return $default;
-}
-
-
 // Function to translate IDENTIFIERS into an HREF.
 function getHREF($s = null, $id = null, $v = null, $lang = null)
 {
+    if (is_array($v)) {
+        $v = implode(",", $v);
+    }
+
     if (!is_null($s)) {
         return '/read/?s=$s';
     } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
@@ -230,7 +231,7 @@ function getHREF($s = null, $id = null, $v = null, $lang = null)
 }
 
 
-// Function to translate a CONFIG ARRAY and a CONTENT ID into an array of possible asset paths.
+// Function to translate a CONFIG ARRAY and a CONTENT ID into an array of possible asset paths (such as for images).
 // Returns an array of multiple strings, each of which begins and ends with a /.
 function translateToPath($config, $id, $v = 1, $lang = "en")
 {
@@ -301,11 +302,6 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
 function getContentData($id, $v = null, $lang = null)
 {
     include('db_connect.php');
-
-    // If passed lang is "en," update to "eng."
-    if ($lang == "en") {
-        $lang = "en";
-    }
 
     // If $v is not null...
     $version_conditonal = ($v != null) ? "AND content_version=$v" : "";
@@ -531,8 +527,7 @@ function addTableOfContents($id, $v = null, $l = null)
 
     // If version is not null, only children of that version should be displayed.
     // "WHERE parent_version=$v"
-    // If version is null... there should be one button, which takes you to version 1.
-    // "WHERE shin_content.content_version=1"
+    // If version is null... child links should have no version either.
     $version_conditonal = ($v != null) ? "AND parent_version=$v)" : ") AND shin_content.content_version=1";
     $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='en'";
 
@@ -590,6 +585,21 @@ function addTableOfContents($id, $v = null, $l = null)
 }
 
 
+
+/**
+ * OKAY, SO. This function. This one right here. It's the problem.
+ * What I need is one function that can take an ID, an optional single version # or an array of #s, and an optional language.
+ * Then return a card. No questions asked, nothing else required, nada. It should also take an optional SIZE parameter.
+ * Default medium. That's what I need to do today.
+ * This function will need several helper functions.
+ * 1. A function to get content metadata — title, subtitle, snippet, word_count, etc.
+ * 2. A function to get "true" metadata — release date, completion_status, chronology, theme_color, etc.
+ * ACTUALLY. Chronology needs to be grabbed first, so this function can be called for each set of IDs in chronological order.
+ * 3. A function to get all relevant tags.
+ * 4. A function to find the optimal image for the card.
+ */
+
+
 function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions = null)
 {
     if ($v == "") {
@@ -610,8 +620,9 @@ function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions =
     $uniqueVersions = "";
     // If more than one version, add a version tag.
     if ($versions != null) {
-            // Implode $versions with ", "
-            $uniqueVersions = "<p>" . implode(", ", $versions); + "</p>";
+        // Implode $versions with ", "
+        $uniqueVersions = "<p>" . implode(", ", $versions);
+        +"</p>";
     }
 
     $card .= "<div class='card__text'><h3>$title</h3><div class='versions'>$uniqueVersions<p>Word Count: 980</p></div><p>$snippet</p></div>";
@@ -620,9 +631,184 @@ function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions =
 }
 
 
+function getTypeTags($id, $v = null) {
+    include("db_connect.php");
+
+    $query = "";
+    if ($v == null) {
+        $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='type'";
+    } else {
+        if (is_array($v)) {
+            $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND content_version IN (" . implode(",", $v) . ") AND tag_type='type'";
+        } else {
+            $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND content_version=$v AND tag_type='type'";
+        }
+    }
+
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) > 0) {
+        $tags = [];
+        while ($row = $result->fetch_assoc()) {
+            array_push($tags, $row["tag"]);
+        }
+        return $tags;
+    } else {
+        return null;
+    }
+}
+
+
+
+
+function buildDefaultCardNuva($id, $v = null, $lang = null, $size = "medium")
+{
+    if ($v == null) {
+        // If $v is null, check if there are actually multiple versions.
+        $allV = checkForMultipleVersions($id);
+        # If length of $allV is 1, $v = $allV[0]. Else, leave $v null.
+        if (count($allV) == 1) {
+            $v = $allV[0];
+        }
+    }
+
+    if ($lang == null) {
+        $potential_lang = getUserLanguage();
+        $available_lang = getAvailableLanguages($id, $v);
+        if (in_array($potential_lang, $available_lang)) {
+            $lang = $potential_lang;
+        } else {
+            if (in_array("en", $available_lang)) {
+                $lang = "en";
+            } else {
+                $lang = $available_lang[0];
+            }
+        }
+    }
+
+    // Generate basic HREF.
+    $cardHREF = getHREF(null, $id, $v, $lang);
+    // Check if there is a semantic tag for this content.
+    if (!is_array($v)) {
+        $semanticTag = translateToSemantic($id, $v, $lang);
+        if ($semanticTag != 1) {
+            $cardHREF = getHREF($semanticTag);
+        }
+    }
+
+    $card = "";
+    switch ($size) {
+        case "small":
+            $card = "<a class='card small__card' href='$cardHREF'>";
+            break;
+        case "medium":
+            $card = "<a class='card medium__card' href='$cardHREF'>";
+            break;
+        case "large":
+            $card = "<a class='card large__card' href='$cardHREF'>";
+            break;
+    }
+
+
+    // Step 0: Check for videospace.
+    if ($size == "large" && in_array("movie", getTypeTags($id, $v))) {
+        // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
+        $versionConditonal = versionConditional($v, true);
+        $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
+    }
+
+
+    /**
+     * 0. videospace (if movie && teaser/trailer/TV spot available)
+     * 1. img
+     * 2. card__text
+     *    2.a. h3:title
+     *    2.b. div.versions
+     *       2.b.i. p:versions
+     *       2.b.ii. p:release_date
+     *       2.b.iii. p:word_count
+     *    2.c. div.tags
+     *       2.c.i. p:tag
+     *    2.d. p:snippet
+     */
+
+    return $card .= "</a>";
+}
+
+
+
+function versionConditional($v, $web = null) {
+    if ($web != null) {
+        if ($v == null) {
+            return "";
+        } else {
+            if (is_array($v)) {
+                return "AND parent_version IN (" . implode(",", $v) . ")";
+            } else {
+                return "AND parent_version=$v";
+                // AND (parent_version=$v OR parent_version IS NULL), maybe? How should this behave?
+                // Let's say we have the German cut of the movie, with different eyes for Makuta. MOLMOV.2 or whatever. Are trailers for the English version of the movie also trailers for this version? In a strict sense, no.
+                // So in a STRICT sense, "OR parent_version IS NULL" is NOT correct. Only connections where the parent_version is 2 are "genuine."
+                // But in a looser sense... I mean, obviously they're still RELEVANT.
+                // Also language should be especially relevant for videospaces...
+            }
+        }
+    }
+
+    if ($v == null) {
+        return "";
+    } else {
+        if (is_array($v)) {
+            return "AND content_version IN (" . implode(",", $v) . ")";
+        } else {
+            return "AND content_version=$v";
+        }
+    }
+}
+
+
+
 /*******************************
  * LANGUAGE FUNCTIONS I GUESS? *
  *******************************/
+
+
+function getUserLanguage()
+{
+    $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
+    if ($locale != null) {
+        return substr($locale, 0, 2);
+    } else {
+        return "en";
+    }
+}
+
+
+function getAvailableLanguages($id, $v = null)
+{
+    include("db_connect.php");
+
+    // Determine which versions to check, if any.
+    $query = "";
+    if ($v == null) {
+        $query = "SELECT DISTINCT content_language FROM shin_content WHERE content_id='$id'";
+    } else {
+        if (is_array($v)) {
+            $query = "SELECT DISTINCT content_language FROM shin_content WHERE content_id='$id' AND content_version IN (" . implode(",", $v) . ")";
+        } else {
+            $query = "SELECT DISTINCT content_language FROM shin_content WHERE content_id='$id' AND content_version=$v";
+        }
+    }
+
+    // Put the returned languages into an array.
+    $result = $mysqli->query($query);
+    $languages = [];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($languages, $row["content_language"]);
+        }
+    }
+    return $languages;
+}
 
 
 function populateStaticGenerator($base_path, $lang)
@@ -636,17 +822,6 @@ function populateStaticGenerator($base_path, $lang)
     }
 
     return $path;
-}
-
-
-function getUserLanguage()
-{
-    $locale = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-    if ($locale != null) {
-        return substr($locale, 0, 2);
-    } else {
-        return "en";
-    }
 }
 
 
