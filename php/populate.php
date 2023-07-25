@@ -332,6 +332,16 @@ function getMainContent($id, $version = 1, $language = "en")
     } else if (mysqli_num_rows($result) == 1) {
         $row = $result->fetch_assoc();
         $content = $row["content_main"];
+        if ($content == null) {
+            $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
+            // Try to find any video (.mp4) file, regardless of filename.
+            foreach ($contentPaths as $path) {
+                echo '<p>' . $path . '</p>';
+                if (glob($path . "*.mp4") != null) {
+                    $content = "<video controls><source src='" . glob($path . "*.mp4")[0] . "' type='video/mp4'></video>";
+                }
+            }
+        }
 
         /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
         $content = preg_replace_callback(
