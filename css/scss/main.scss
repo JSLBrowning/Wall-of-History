@@ -763,6 +763,14 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    min-width: 280px;
+    max-width: 280px;
+
+    :only-child {
+        max-width: 100% !important;
+        text-align: justify !important;
+        line-height: 1.125rem !important;
+    }
 
     p {
         font-size: 0.875rem;

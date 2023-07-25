@@ -160,7 +160,7 @@ function translateFromSemantic($semanticTag)
 
 
 // Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
-function translateToSemantic($id, $v=null, $lang=null)
+function translateToSemantic($id, $v = null, $lang = null)
 {
     include('./php/db_connect.php');
 
@@ -321,6 +321,27 @@ function getContentData($id, $v = null, $lang = null)
 }
 
 
+function getContentAutomaticallyByType($id, $version = 1, $language = "en", $types = null)
+{
+    if ($types == null) {
+        return 1;
+    }
+
+    $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
+    if (in_array("video", $types) || in_array("teaser", $types)) {
+        foreach ($contentPaths as $path) {
+            if (glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4") != null) {
+                $filename = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4")[0];
+                // Remove 'F:/Wall of History/root' from the beginning of the path.
+                $src = str_replace($_SERVER['DOCUMENT_ROOT'], "", $filename);
+                $content = "<video controls><source src='$src' type='video/mp4'></video>";
+                return $content;
+            }
+        }
+    }
+}
+
+
 function getMainContent($id, $version = 1, $language = "en")
 {
     include("db_connect.php");
@@ -333,26 +354,19 @@ function getMainContent($id, $version = 1, $language = "en")
         $row = $result->fetch_assoc();
         $content = $row["content_main"];
         if ($content == null) {
-            $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
-            // Try to find any video (.mp4) file, regardless of filename.
-            foreach ($contentPaths as $path) {
-                echo '<p>' . $path . '</p>';
-                if (glob($path . "*.mp4") != null) {
-                    $content = "<video controls><source src='" . glob($path . "*.mp4")[0] . "' type='video/mp4'></video>";
-                }
-            }
+            echo getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
+        } else {
+            /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
+            $content = preg_replace_callback(
+                '/<!([a-zA-Z0-9_]+)!>/',
+                function ($matches) {
+                    return getMainContent($matches[1]);
+                },
+                $content
+            ); */
+
+            echo $content;
         }
-
-        /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
-        $content = preg_replace_callback(
-            '/<!([a-zA-Z0-9_]+)!>/',
-            function ($matches) {
-                return getMainContent($matches[1]);
-            },
-            $content
-        ); */
-
-        echo $content;
     } else {
         return null;
     }
@@ -635,13 +649,14 @@ function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions =
         +"</p>";
     }
 
-    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'>$uniqueVersions<p>Word Count: 980</p></div><p>$snippet</p></div>";
+    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'>$uniqueVersions<p>Word Count: 999</p></div><p>$snippet</p></div>";
     $card .= "</a>";
     return $card;
 }
 
 
-function getTypeTags($id, $v = null) {
+function getTypeTags($id, $v = null)
+{
     include("db_connect.php");
 
     $query = "";
@@ -651,7 +666,7 @@ function getTypeTags($id, $v = null) {
         if (is_array($v)) {
             $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND content_version IN (" . implode(",", $v) . ") AND tag_type='type'";
         } else {
-            $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND content_version=$v AND tag_type='type'";
+            $query = "SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$v OR content_version IS NULL) AND tag_type='type'";
         }
     }
 
@@ -746,7 +761,8 @@ function buildDefaultCardNuva($id, $v = null, $lang = null, $size = "medium")
 
 
 
-function versionConditional($v, $web = null) {
+function versionConditional($v, $web = null)
+{
     if ($web != null) {
         if ($v == null) {
             return "";

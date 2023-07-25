@@ -76,6 +76,8 @@ if (count($_GET)) {
             <?php
             if (isset($id)) {
                 loadHeader($id);
+            } else {
+                echo '<img src="/img/headers/Faber-Files-Bionicle-logo-Transparent.png" alt="BIONICLE">';
             }
             ?>
         </a>
@@ -122,11 +124,7 @@ if (count($_GET)) {
                     <?php
                         include("../php/populateextras.php");
                         if (isset($id) && isset($lang) && isset($v)) {
-                            getSettings($id, $lang, $v);
-                            populateDetails($id, $v, $lang);
-                            echo "<div class='extra__areas'>";
-                            getDownloads($id, $v, $lang);
-                            echo "</div>";
+                            populateAside($id, $lang, $v);
                         }
                     ?>
                 </section>

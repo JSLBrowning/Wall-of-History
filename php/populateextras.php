@@ -8,56 +8,9 @@
 date_default_timezone_set('America/New_York');
 
 
-// Generic query function.
-function getDataAside($column, $query)
-{
-    include("db_connect.php");
-
-    $data = [];
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($data, $row[$column]);
-        }
-    }
-    return $data;
-}
-
-
-function getAdaptedFrom($id)
-{
-    $successes = 0;
-
-    $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
-    $originals = getDataAside("original_id", $originals_query);
-    if (!empty($originals)) {
-        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
-        $title = getDataAside("title", $title_query);
-
-        echo "<p>Adapted from <a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a>.</p>\n";
-        $successes++;
-    }
-
-    return $successes;
-}
-
-
-function getAdaptedInto($id)
-{
-    $successes = 0;
-
-    $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
-    $adaptations = getDataAside("adaptation_id", $adaptations_query);
-    if (!empty($adaptations)) {
-        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
-        $title = getDataAside("content_title", $title_query);
-
-        echo "<span class='detail'><p>Adapted into:</p><p><a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a></p></span>\n";
-        $successes++;
-    }
-
-    return $successes;
-}
+/********************
+ * HELPER FUNCTIONS *
+ ********************/
 
 
 // Function to wrap a detail string in a <span.detail> tag.
@@ -71,104 +24,9 @@ function detailWrapper($detail, $label = null)
 }
 
 
-// Function to get details for content and display them.
-function populateDetails($id, $v, $lang)
-{
-    // Initialize variable to count number of details.
-    $details = 0;
-
-    // Get snippet, unless same as subtitle.
-    $snippet_query = "SELECT content_snippet FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang' AND content_snippet NOT IN (SELECT content_subtitle FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang')";
-    $snippet = getDataAside("content_snippet", $snippet_query);
-    if (!empty($snippet)) {
-        echo detailWrapper($snippet[0]);
-        $details++;
-    }
-
-    // Get adapted from.
-    $details = $details + getAdaptedFrom($id);
-
-    // Get release date.
-    $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
-    $release = getDataAside("release_date", $release_query);
-    if (!empty($release)) {
-        $release_date = date('F jS, Y', strtotime($release[0]));
-        echo detailWrapper($release_date, "Release Date");
-        $details++;
-    }
-
-    // Get adapted into.
-    $details = $details + getAdaptedInto($id);
-
-    // Get word count.
-    $words_query = "SELECT content_words FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
-    $words = getDataAside("content_words", $words_query);
-    if (!empty($words)) {
-        echo detailWrapper(number_format($words[0]), "Word Count");
-        $details++;
-    }
-    // NEED TO GET WORD COUNT OF CHILDREN.
-
-    // Get completion status.
-    $completion_query = "SELECT completion_status FROM shin_metadata WHERE content_id='$id' AND content_version=$v AND content_language='$lang'";
-    $completion = getDataAside("completion_status", $completion_query);
-    // If not NULL...
-    if (!empty($completion)) {
-        $details++;
-        switch ($completion[0]) {
-            case 0:
-                echo detailWrapper("Not Started");
-                break;
-            case 1:
-                echo detailWrapper("In Progress");
-                break;
-            case 2:
-                echo detailWrapper("Complete");
-                break;
-            default:
-                echo detailWrapper("Cancelled");
-                break;
-        }
-    }
-}
-
-
-function getDownloads($id, $v = null, $lang = null)
-{
-    // If v or lang are null, list all options, then identify them through text.
-    // Otherwise, just identify file type.
-
-    $config = getJSONConfigVariables();
-    $paths = translateToPath($config, $id, $v, $lang);
-    $icons = [
-        "zip" => "<i class='fa-solid fa-file-zipper fa-lg'></i>",
-        "pdf" => "<i class='fa-solid fa-file-pdf fa-lg'></i>",
-        "docx" => "<i class='fa-solid fa-file-word fa-lg'></i>",
-        "epub" => "<i class='fa-solid fa-tablet-screen-button fa-lg'></i>"
-    ];
-
-    $allFiles = [];
-    // Find any files with the .pdf, .docx, .epub, or .zip extension.
-    foreach ($paths as $path) {
-        $foundFiles = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
-        if (!empty($foundFiles)) {
-            // Combine the arrays.
-            $allFiles = array_merge($allFiles, $foundFiles);
-        }
-    }
-
-    // Create an <a> for each file.
-    foreach ($allFiles as $file) {
-        // Get the file extension.
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-        $icon = $icons[$ext];
-        // Get the file name.
-        // $name = basename($file, "." . $ext);
-
-        // Create the <a> tag.
-        echo "<a class='anchor__button' href='$file' download>$icon " . strtoupper($ext) . "</a>\n";
-    }
-}
+/**********************
+ * SETTINGS FUNCTIONS *
+ **********************/
 
 
 function getSettings($id, $lang, $v)
@@ -260,6 +118,7 @@ function getSettings($id, $lang, $v)
 
     if ($successes != 0) {
         echo "</form>";
+        echo "<hr>";
     }
 }
 
@@ -320,31 +179,204 @@ function getSettingsReference($id, $v, $lang)
         echo "</fieldset>";
         $successes++;
     }
+
+    if ($successes != 0) {
+        echo "</form>";
+        echo "<hr>";
+    }
 }
 
 
-function getExtras($id, $v, $lang)
-{
-    include("db_connect.php");
+/********************
+ * DETAIL FUNCTIONS *
+ ********************/
 
-    // Now need to get non-main content. BTS, advertisements, then supplemental.
+
+function getAdaptedFrom($id)
+{
+    $successes = 0;
+
+    $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
+    $originals = getData("original_id", $originals_query);
+    if (!empty($originals)) {
+        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $originals[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getData("content_title", $title_query);
+
+        echo "<span class='detail'><p>Adapted from:</p><p><a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a></p></span>\n";
+        $successes++;
+    }
+
+    return $successes;
 }
 
 
-function getDownload($id, $lang)
+function getAdaptedInto($id)
+{
+    $successes = 0;
+
+    $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
+    $adaptations = getData("adaptation_id", $adaptations_query);
+    if (!empty($adaptations)) {
+        $title_query = "SELECT content_title FROM shin_content WHERE content_id = '" . $adaptations[0] . "' AND content_version = 1 LIMIT 1";
+        $title = getData("content_title", $title_query);
+
+        echo "<span class='detail'><p>Adapted into:</p><p><a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a></p></span>\n";
+        $successes++;
+    }
+
+    return $successes;
+}
+
+
+function getWordCount($id, $version)
 {
     include("db_connect.php");
+    $words = 0;
 
-    $download_query = "SELECT title FROM shin_content WHERE id='$id' AND (content_language='$lang' OR content_language='en') LIMIT 1";
-    $download_title = getDataAside("title", $download_query);
+    // Get word count of self.
+    $query = "";
+    if ($version == null) {
+        $query = "SELECT content_words FROM shin_content WHERE content_id='$id' AND content_version=(SELECT MIN(content_version) FROM shin_content WHERE content_id='$id') LIMIT 1";
+    } else {
+        $query = "SELECT content_words FROM shin_content WHERE content_id='$id' AND content_version=$version LIMIT 1";
+    }
+    $result = $mysqli->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if (!empty($row["content_words"])) {
+                $words = $words + $row["content_words"];
+            }
+        }
+    }
 
-    if (isset($download_title[0])) {
-        if (file_exists("../doc/downloads/" . $id . ".zip")) {
-            echo "<a id='downloadLink' href='/doc/downloads/$id.zip' download='" . strip_tags($download_title[0]) . ".zip' target='_blank'><button class='small' id='downloadButton'>Download</button></a>\n";
-            echo "<hr>\n";
+    // Get word count of any children.
+    $child_query = "SELECT child_id FROM shin_web WHERE parent_id='$id' AND (parent_version=$version OR parent_version IS NULL)";
+    $children = $mysqli->query($child_query);
+    if ($children != null) {
+        while ($child = $children->fetch_assoc()) {
+            $child_id = $child["child_id"];
+            $child_words = getWordCount($child_id, null);
+            if ($child_words != null) {
+                $words = $words + $child_words;
+            }
+        }
+    }
+
+    return $words;
+}
+
+
+// Function to get details for content and display them.
+function getDetailsAside($id, $v, $lang)
+{
+    // Initialize variable to count number of details.
+    $details = 0;
+
+    // Get snippet, unless same as subtitle.
+    $snippet_query = "SELECT content_snippet FROM shin_content WHERE content_id='$id' AND (content_version='$v' OR content_version IS NULL) AND (content_language='$lang' OR content_language IS NULL) /* AND content_snippet NOT IN (SELECT content_subtitle FROM shin_content WHERE content_id='$id' AND content_version='$v' AND content_language='$lang') */";
+    $snippet = getData("content_snippet", $snippet_query);
+    if (!empty($snippet)) {
+        echo detailWrapper($snippet[0]);
+        $details++;
+    }
+
+    // Get adapted from.
+    $details = $details + getAdaptedFrom($id);
+
+    // Get release date.
+    $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
+    $release = getData("release_date", $release_query);
+    if (!empty($release)) {
+        $release_date = date('F jS, Y', strtotime($release[0]));
+        echo detailWrapper($release_date, "Release Date");
+        $details++;
+    }
+
+    // Get adapted into.
+    $details = $details + getAdaptedInto($id);
+
+    // Get word count.
+    $words = getWordCount($id, $v);
+    if ($words != null && $words != 0) {
+        echo detailWrapper(number_format($words), "Word Count");
+        $details++;
+    }
+    // NEED TO GET WORD COUNT OF CHILDREN.
+
+    // Get completion status.
+    $completion_query = "SELECT completion_status FROM shin_metadata WHERE content_id='$id' AND content_version=$v AND content_language='$lang'";
+    $completion = getData("completion_status", $completion_query);
+    // If not NULL...
+    if (!empty($completion)) {
+        $details++;
+        switch ($completion[0]) {
+            case 0:
+                echo detailWrapper("Not Started");
+                break;
+            case 1:
+                echo detailWrapper("In Progress");
+                break;
+            case 2:
+                echo detailWrapper("Complete");
+                break;
+            default:
+                echo detailWrapper("Cancelled");
+                break;
         }
     }
 }
+
+
+/**********************
+ * DOWNLOAD FUNCTIONS *
+ **********************/
+
+
+function getDownloads($id, $v = null, $lang = null)
+{
+    // If v or lang are null, list all options, then identify them through text.
+    // Otherwise, just identify file type.
+
+    $config = getJSONConfigVariables();
+    $paths = translateToPath($config, $id, $v, $lang);
+    $icons = [
+        "zip" => "<i class='fa-solid fa-file-zipper fa-lg'></i>",
+        "pdf" => "<i class='fa-solid fa-file-pdf fa-lg'></i>",
+        "docx" => "<i class='fa-solid fa-file-word fa-lg'></i>",
+        "epub" => "<i class='fa-solid fa-tablet-screen-button fa-lg'></i>"
+    ];
+
+    $allFiles = [];
+    // Find any files with the .pdf, .docx, .epub, or .zip extension.
+    foreach ($paths as $path) {
+        $foundFiles = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.{pdf,docx,epub,zip}", GLOB_BRACE);
+        if (!empty($foundFiles)) {
+            // Combine the arrays.
+            $allFiles = array_merge($allFiles, $foundFiles);
+        }
+    }
+
+    if (!empty($allFiles)) {
+        echo "<hr>";
+    }
+
+    // Create an <a> for each file.
+    foreach ($allFiles as $file) {
+        // Get the file extension.
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+        $icon = $icons[$ext];
+        // Get the file name.
+        // $name = basename($file, "." . $ext);
+
+        // Create the <a> tag.
+        echo "<a class='anchor__button' href='$file' download>$icon " . strtoupper($ext) . "</a>\n";
+    }
+}
+
+
+/**********************
+ * POPULATE FUNCTIONS *
+ **********************/
 
 
 function populateAside($id, $lang, $v)
@@ -352,19 +384,16 @@ function populateAside($id, $lang, $v)
     include("db_connect.php");
 
     if (strpos($_SERVER["REQUEST_URI"], "read") !== false) {
-        // 1. Echo main menu.
-        // 2. Echo details (snippet [.snippet], release date [if any], word count [if any]).
-        // 2.i. If any of above are NOT NULL, echo <hr>.
-        // getDetailsAside($id, $lang, $v);
-        // 3. Echo version selectors.
-        // 3.i. If any of above are NOT NULL, echo <hr>.
+        // 1. Echo version selectors.
+        // 2. If any of above are NOT NULL, echo <hr>.
         getSettings($id, $lang, $v);
-        // 4. Echo extras.
-        // 4.i. If any of above are NOT NULL, echo <hr>.
-        getExtras($id, $v, $lang);
-        // 5. If file exists with ID, echo download link and <hr>.
-        getDownload($id, $lang);
-        // 6. Echo universal settings buttons.
+        // 3. Echo details (snippet, release date, et cetera).
+        // 4. If any of above are NOT NULL, echo <hr>.
+        getDetailsAside($id, $v, $lang);
+        // 5. Echo downloads.
+        echo "<div class='extra__areas'>";
+        getDownloads($id, $v, $lang);
+        echo "</div>";
     } else if (strpos($_SERVER["REQUEST_URI"], "reference") !== false) {
         // 1. Echo details (snippet [.snippet], release date [if any], word count [if any]).
         // 1.i. If any of above are NOT NULL, echo <hr>.
