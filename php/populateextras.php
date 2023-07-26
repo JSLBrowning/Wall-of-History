@@ -194,8 +194,6 @@ function getSettingsReference($id, $v, $lang)
 
 function getAdaptedFrom($id)
 {
-    $successes = 0;
-
     $originals_query = "SELECT original_id FROM shin_adaptations WHERE adaptation_id = '$id'";
     $originals = getData("original_id", $originals_query);
     if (!empty($originals)) {
@@ -203,17 +201,29 @@ function getAdaptedFrom($id)
         $title = getData("content_title", $title_query);
 
         echo "<span class='detail'><p>Adapted from:</p><p><a onclick=\"goTo('" . $originals[0] . "')\">" . $title[0] . "</a></p></span>\n";
-        $successes++;
+        return 1;
+    } else {
+        return 0;
     }
+}
 
-    return $successes;
+
+function getReleaseDate($id, $v, $lang) {
+    // Get release date.
+    $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND (content_version='$v' OR content_version IS NULL) AND (content_language='$lang' OR content_language IS NULL)";
+    $release = getData("release_date", $release_query);
+    if (!empty($release)) {
+        $release_date = date('F jS, Y', strtotime($release[0]));
+        echo detailWrapper($release_date, "Release Date");
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 
 function getAdaptedInto($id)
 {
-    $successes = 0;
-
     $adaptations_query = "SELECT adaptation_id FROM shin_adaptations WHERE original_id = '$id'";
     $adaptations = getData("adaptation_id", $adaptations_query);
     if (!empty($adaptations)) {
@@ -221,10 +231,10 @@ function getAdaptedInto($id)
         $title = getData("content_title", $title_query);
 
         echo "<span class='detail'><p>Adapted into:</p><p><a onclick=\"goTo('" . $adaptations[0] . "')\">" . $title[0] . "</a></p></span>\n";
-        $successes++;
+        return 1;
+    } else {
+        return 0;
     }
-
-    return $successes;
 }
 
 
@@ -284,13 +294,7 @@ function getDetailsAside($id, $v, $lang)
     $details = $details + getAdaptedFrom($id);
 
     // Get release date.
-    $release_query = "SELECT release_date FROM shin_metadata WHERE content_id='$id' AND content_version='$v' AND content_language='$lang'";
-    $release = getData("release_date", $release_query);
-    if (!empty($release)) {
-        $release_date = date('F jS, Y', strtotime($release[0]));
-        echo detailWrapper($release_date, "Release Date");
-        $details++;
-    }
+    $details = $details + getReleaseDate($id, $v, $lang);
 
     // Get adapted into.
     $details = $details + getAdaptedInto($id);

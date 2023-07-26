@@ -162,7 +162,7 @@ function translateFromSemantic($semanticTag)
 // Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
 function translateToSemantic($id, $v = null, $lang = null)
 {
-    include('./php/db_connect.php');
+    include('db_connect.php');
 
     $semanticQuery = "";
     if ($v != null && $lang != null) {
@@ -211,7 +211,7 @@ function getHREF($s = null, $id = null, $v = null, $lang = null)
     }
 
     if (!is_null($s)) {
-        return '/read/?s=$s';
+        return '/read/?s=' . $s;
     } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
         $semanticTag = translateToSemantic($id, $v, $lang);
         if ($semanticTag != 1) {
@@ -394,16 +394,8 @@ function getTitleBoxText($id, $version = 1, $language = "en")
         return null;
     }
 
-    $query_creators = "SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$version OR content_version IS NULL) AND (content_language='$language' OR content_language IS NULL) AND tag_type='author'";
-    $result_creators = $mysqli->query($query_creators);
-    if (mysqli_num_rows($result_creators) > 0) {
-        echo "<h2>By ";
-        while ($row_creators = $result_creators->fetch_assoc()) {
-            $creator = $row_creators["tag"];
-            echo "$creator";
-        }
-        echo "</h2>";
-    }
+    // Get creators.
+    loadContentContributors($id, $version, $language);
 }
 
 
@@ -601,7 +593,7 @@ function addTableOfContents($id, $v = null, $l = null)
                 foreach ($uniqueVersions as $version) {
                     array_push($versionTitles, $version["version_title"]);
                 }
-                echo buildDefaultCard($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_title"], $uniqueVersions[0]["content_snippet"], true, $versionTitles);
+                echo buildDefaultCard($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"]);
             }
             echo "</div>";
         }
@@ -622,37 +614,6 @@ function addTableOfContents($id, $v = null, $l = null)
  * 3. A function to get all relevant tags.
  * 4. A function to find the optimal image for the card.
  */
-
-
-function buildDefaultCard($id, $v, $title, $snippet, $small = false, $versions = null)
-{
-    if ($v == "") {
-        $card = "<a class='card medium__card' href='/read/?id=$id'>";
-    } else {
-        $card = "<a class='card medium__card' href='/read/?id=$id&v=$v'>";
-    }
-
-    if ($small) {
-        str_replace("medium__card", "small__card", $card);
-    }
-
-    // If file exists ../img/story/contents/$id.webp, use that as the card image.
-    if (file_exists("../img/story/contents/$id.webp")) {
-        $card .= "<img src='/img/story/contents/$id.webp' alt='$title'>";
-    }
-
-    $uniqueVersions = "";
-    // If more than one version, add a version tag.
-    if ($versions != null) {
-        // Implode $versions with ", "
-        $uniqueVersions = "<p>" . implode(", ", $versions);
-        +"</p>";
-    }
-
-    $card .= "<div class='card__text'><h3>$title</h3><div class='versions'>$uniqueVersions<p>Word Count: 999</p></div><p>$snippet</p></div>";
-    $card .= "</a>";
-    return $card;
-}
 
 
 function getTypeTags($id, $v = null)
@@ -683,9 +644,7 @@ function getTypeTags($id, $v = null)
 }
 
 
-
-
-function buildDefaultCardNuva($id, $v = null, $lang = null, $size = "medium")
+function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
 {
     if ($v == null) {
         // If $v is null, check if there are actually multiple versions.
@@ -741,6 +700,18 @@ function buildDefaultCardNuva($id, $v = null, $lang = null, $size = "medium")
         $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
     }
 
+    // Step 1: Image (REVISE)
+    if (file_exists("../img/story/contents/$id.webp")) {
+        $card .= "<img src='/img/story/contents/$id.webp' alt='[PUT SOMETHING HERE EVENTUALLY.]'>";
+    }
+
+    // Step 2: Verions (REVISE)
+    $uniqueVersions = "";
+    // If more than one version, add a version tag.
+    if (is_array($v)) {
+        // Implode $versions with ", "
+        $uniqueVersions = "<p>" . implode(", ", $v) . "</p>";
+    }
 
     /**
      * 0. videospace (if movie && teaser/trailer/TV spot available)
@@ -756,7 +727,19 @@ function buildDefaultCardNuva($id, $v = null, $lang = null, $size = "medium")
      *    2.d. p:snippet
      */
 
+    $card .= "<div class='card__text'><h3>[TITLE]</h3><div class='versions'>$uniqueVersions<p>Word Count: 999</p></div><p>[SNIPPET]</p></div>";
     return $card .= "</a>";
+}
+
+
+
+function buildCardText($id, $v=null, $lang=null) {
+    if (!is_array($v)) {
+        $v = [$v];
+    }
+    $query = "SELECT version_title, content_title, content_snippet, content_words FROM shin_content WHERE content_id='$id' AND (content_version IN (" . implode(",", $v) . ") OR content_version IS NULL) AND (content_language='$lang' OR content_language IS NULL)";
+
+    $full_query = "SELECT version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
 }
 
 
@@ -1142,27 +1125,51 @@ function sanitizeContributors($contributors_array)
 }
 
 
-function loadContentContributors($id)
+function translateRoles($role)
+{
+    switch ($role) {
+        case "developer":
+            return "Developed by ";
+            break;
+        case "writer":
+            return "Written by ";
+            break;
+        case "producer":
+            return "Produced by ";
+            break;
+        case "animator":
+            return "Animated by ";
+            break;
+        case "illustrator":
+            return "Illustrated by ";
+            break;
+        case "publisher":
+            return "Published by ";
+            break;
+    }
+}
+
+
+function loadContentContributors($id, $v, $lang)
 {
     include("db_connect.php");
 
-    $contributors_query = "SELECT detailed_tag AS tag FROM story_tags WHERE id = \"" . $id . "\" AND (tag_type = 'author')";
-    $contributors = $mysqli->query($contributors_query);
-    $num_rows = mysqli_num_rows($contributors);
-    if ($num_rows == 1) {
-        while ($row = $contributors->fetch_assoc()) {
-            echo "<h3>" . $row["tag"] . "</h3>";
+    $query = "SELECT creators.creator_id, creator_name, creator_role FROM creators JOIN creator_roles ON creators.creator_id=creator_roles.creator_id WHERE creator_roles.content_id='$id' AND (creator_roles.content_version=$v OR creator_roles.content_version IS NULL) AND (creator_roles.content_language='$lang' OR creator_roles.content_language IS NULL)";
+    $result = $mysqli->query($query);
+    $numRows = mysqli_num_rows($result);
+    if ($numRows == 1) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<h3>" . translateRoles($row["creator_role"]) . $row["creator_name"] . "</h3>";
         }
     }
 
-    if ($num_rows > 1) {
+    if ($numRows > 1) {
         echo "<h3>";
-        $contributors_array = array();
-        // Replace with implode.
-        while ($row = $contributors->fetch_assoc()) {
-            array_push($contributors_array, $row["tag"]);
+        $creators_array = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($creators_array, translateRoles($row["creator_role"]) . $row["creator_name"]);
         }
-        sort($contributors_array);
+        sort($creators_array);
         echo sanitizeContributors($contributors_array) . "</h3>";
     }
 }
