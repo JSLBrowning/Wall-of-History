@@ -113,6 +113,17 @@ function str_contains($haystack, $needle)
 }
 
 
+function chooseDefaultVersion($arrayOfNumbers) {
+    // Get the lowest NON-NEGATIVE number.
+    $lowest = 9999;
+    foreach ($arrayOfNumbers as $number) {
+        if ($number < $lowest && $number >= 1) {
+            $lowest = $number;
+        }
+    }
+}
+
+
 // Function to fetch and decode the CONFIG.JSON file.
 function getJSONConfigVariables()
 {
@@ -556,9 +567,7 @@ function addTableOfContents($id, $v = null, $l = null)
             while ($row = $result->fetch_assoc()) {
                 $id = $row["content_id"];
                 $version = $row["content_version"];
-                $title = $row["content_title"];
-                $snippet = $row["content_snippet"];
-                echo buildDefaultCard($id, $version, $title, $snippet);
+                echo buildDefaultCard($id, $version);
             }
             echo "</div>";
         }
@@ -705,14 +714,6 @@ function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
         $card .= "<img src='/img/story/contents/$id.webp' alt='[PUT SOMETHING HERE EVENTUALLY.]'>";
     }
 
-    // Step 2: Verions (REVISE)
-    $uniqueVersions = "";
-    // If more than one version, add a version tag.
-    if (is_array($v)) {
-        // Implode $versions with ", "
-        $uniqueVersions = "<p>" . implode(", ", $v) . "</p>";
-    }
-
     /**
      * 0. videospace (if movie && teaser/trailer/TV spot available)
      * 1. img
@@ -727,19 +728,38 @@ function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
      *    2.d. p:snippet
      */
 
-    $card .= "<div class='card__text'><h3>[TITLE]</h3><div class='versions'>$uniqueVersions<p>Word Count: 999</p></div><p>[SNIPPET]</p></div>";
+    $card .= buildCardText($id, $v, $lang);
     return $card .= "</a>";
 }
 
 
 
 function buildCardText($id, $v=null, $lang=null) {
+    include("db_connect.php");
     if (!is_array($v)) {
         $v = [$v];
     }
-    $query = "SELECT version_title, content_title, content_snippet, content_words FROM shin_content WHERE content_id='$id' AND (content_version IN (" . implode(",", $v) . ") OR content_version IS NULL) AND (content_language='$lang' OR content_language IS NULL)";
-
-    $full_query = "SELECT version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
+    $defaultVersion = chooseDefaultVersion($v);
+    $full_query = "SELECT shin_metadata.content_version, version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
+    $result = $mysqli->query($full_query);
+    $content_title = "";
+    $content_snippet = "";
+    // $content_words = "";
+    $release_date = "";
+    $content_versions = [];
+    while ($row = $result->fetch_assoc()) {
+        if ($row["content_version"] == $defaultVersion) {
+            $content_title = $row["content_title"];
+            $content_snippet = $row["content_snippet"];
+            // $content_words = $row["content_words"];
+            $release_date = date("Y/m/d", strtotime($row["release_date"]));
+        }
+        array_push($content_versions, $row["version_title"]);
+    }
+    $content_versions = implode(", ", $content_versions);
+    // TO-DO: Add back in word counts.
+    $card_text = "<div class='card__text'><h3>$content_title</h3><div class='versions'><p>$content_versions</p><p>RELEASED $release_date</p></div><p>$content_snippet</p></div>";
+    return $card_text;
 }
 
 
