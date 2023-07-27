@@ -80,7 +80,10 @@ body {
 }
 
 body {
-    background: url("/img/bgl.webp") left no-repeat, url("/img/bgr.webp") right no-repeat, #121212;
+    background:
+        url("/img/bgl.webp") left no-repeat,
+        url("/img/bgr.webp") right no-repeat,
+        #121212;
     background-size: clamp(180px, 40%, 808px) auto;
     background-attachment: fixed;
 }
@@ -432,7 +435,8 @@ article {
                 padding: 0rem;
 
                 h1,
-                h2 {
+                h2,
+                h3 {
                     margin-left: 0rem;
                     margin-right: 0rem;
                 }
@@ -1022,7 +1026,7 @@ nav {
             row-gap: 0rem;
 
             p {
-                margin: .125rem 0rem;
+                margin: 0.125rem 0rem;
             }
         }
 

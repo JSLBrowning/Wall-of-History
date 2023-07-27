@@ -74,13 +74,11 @@ $languages = [
  *    b. Insert <script> tags for any JS files found in the /mods/ folder before the end of the <body> tag.
  */
 
-
 /**
  * SPECIAL BEHAVIORS FOR TYPE:
  * 1. Comic: If folder contains numbered images, create a slideshow.
  * 2. Video: If folder contains a video file, create a video player.
  */
-
 
 /**
  * WHAT TO DO WITH IMAGES:
@@ -90,7 +88,6 @@ $languages = [
  *    1. Can link to 3D assets (/[id/s]/3d.txt).
  * 3. Slideshow images (/[id/s]/[int].png /assets/[id/s]/[int].png).
  */
-
 
 /**
  * FUNCTIONS TO ADD:
@@ -105,22 +102,16 @@ $languages = [
  ******************************/
 
 
+/**
+ * GENERAL PURPOSE
+ */
+
+
 // Fine, I'll do it myself.
 // DELETE THIS when we transition to PHP 8.
 function str_contains($haystack, $needle)
 {
     return strpos($haystack, $needle) !== false;
-}
-
-
-function chooseDefaultVersion($arrayOfNumbers) {
-    // Get the lowest NON-NEGATIVE number.
-    $lowest = 9999;
-    foreach ($arrayOfNumbers as $number) {
-        if ($number < $lowest && $number >= 1) {
-            $lowest = $number;
-        }
-    }
 }
 
 
@@ -143,102 +134,6 @@ function overwriteArrayElements($array, $overwrite)
         $array[$key] = $value;
     }
     return $array;
-}
-
-
-// Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
-function translateFromSemantic($semanticTag)
-{
-    include('db_connect.php');
-
-    $semanticQuery = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semanticTag' LIMIT 1";
-    $semanticResult = $mysqli->query($semanticQuery);
-    $semanticRow = $semanticResult->fetch_assoc();
-    $contentID = $semanticRow["content_id"];
-    $contentVersion = $semanticRow["content_version"];
-    $contentLanguage = $semanticRow["content_language"];
-
-    // Put ID, version, and langauge into a dictionary, with the values being null if they're not present.
-    $semanticData = array(
-        "id" => $contentID,
-        "v" => $contentVersion,
-        "lang" => $contentLanguage,
-        "s" => $semanticTag
-    );
-
-    return $semanticData;
-}
-
-
-// Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
-function translateToSemantic($id, $v = null, $lang = null)
-{
-    include('db_connect.php');
-
-    $semanticQuery = "";
-    if ($v != null && $lang != null) {
-        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
-    } else if ($v != null && $lang == null) {
-        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
-    } else if ($v == null && $lang != null) {
-        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
-    } else {
-        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
-    }
-
-    $semanticResult = $mysqli->query($semanticQuery);
-    if (mysqli_num_rows($semanticResult) > 0) {
-        while ($row = $semanticResult->fetch_assoc()) {
-            return $row["tag"];
-        }
-    } else {
-        return 1;
-    }
-}
-
-
-// Function to check if there are multiple versions of a given work, and return an array of those versions.
-function checkForMultipleVersions($id)
-{
-    include("db_connect.php");
-    $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
-    $result = $mysqli->query($query);
-    // Return result as an array.
-    $versions = [];
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($versions, $row["content_version"]);
-        }
-    }
-    return $versions;
-}
-
-
-// Function to translate IDENTIFIERS into an HREF.
-function getHREF($s = null, $id = null, $v = null, $lang = null)
-{
-    if (is_array($v)) {
-        $v = implode(",", $v);
-    }
-
-    if (!is_null($s)) {
-        return '/read/?s=' . $s;
-    } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
-        $semanticTag = translateToSemantic($id, $v, $lang);
-        if ($semanticTag != 1) {
-            return "/read/?s=$semanticTag";
-        } else {
-            return "/read/?id=$id&v=$v&lang=$lang";
-        }
-    } else if (!is_null($id) && !is_null($v)) {
-        return "/read/?id=$id&v=$v";
-    } else if (!is_null($id) && !is_null($lang)) {
-        return "/read/?id=$id&lang=$lang";
-    } else if (!is_null($id)) {
-        return "/read/?id=$id";
-    } else {
-        return "<a href='/read/'>";
-    }
 }
 
 
@@ -302,6 +197,119 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
     return $paths;
 }
 
+
+/**
+ * SHIN-SPECIFIC
+ */
+
+
+// Function to check if there are multiple versions of a given work, and return an array of those versions. Useful for when a function doesn't actually get a version number passed to it, but only one version exists.
+function checkForMultipleVersions($id)
+{
+    include("db_connect.php");
+    $query = "SELECT content_version FROM shin_content WHERE content_id='$id'";
+    $result = $mysqli->query($query);
+    // Return result as an array.
+    $versions = [];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($versions, $row["content_version"]);
+        }
+    }
+    return $versions;
+}
+
+
+// Function to choose the ideal version for a card when multiple are available. Tries to default to the lowest (positive/published) version.
+function chooseDefaultVersion($arrayOfNumbers)
+{
+    // Get the lowest NON-NEGATIVE number.
+    $lowest = 9999;
+    foreach ($arrayOfNumbers as $number) {
+        if ($number < $lowest && $number >= 1) {
+            $lowest = $number;
+        }
+    }
+}
+
+
+// Function to translate a SEMANTIC TAG into a CONTENT ID, VERSION, and LANGUAGE.
+function translateFromSemantic($semanticTag)
+{
+    include('db_connect.php');
+
+    $semanticQuery = "SELECT content_id, content_version, content_language FROM shin_tags WHERE tag_type='semantic' AND tag='$semanticTag' LIMIT 1";
+    $semanticResult = $mysqli->query($semanticQuery);
+    $semanticRow = $semanticResult->fetch_assoc();
+    $contentID = $semanticRow["content_id"];
+    $contentVersion = $semanticRow["content_version"];
+    $contentLanguage = $semanticRow["content_language"];
+
+    // Put ID, version, and langauge into a dictionary, with the values being null if they're not present.
+    $semanticData = array(
+        "id" => $contentID,
+        "v" => $contentVersion,
+        "lang" => $contentLanguage,
+        "s" => $semanticTag
+    );
+
+    return $semanticData;
+}
+
+
+// Function to translate a CONTENT ID, VERSION, and LANGUAGE into a SEMANTIC TAG.
+function translateToSemantic($id, $v = null, $lang = null)
+{
+    include('db_connect.php');
+
+    $semanticQuery = "";
+    if ($v != null && $lang != null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
+    } else if ($v != null && $lang == null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version=$v AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
+    } else if ($v == null && $lang != null) {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language='$lang' ORDER BY LENGTH(tag) LIMIT 1";
+    } else {
+        $semanticQuery = "SELECT tag FROM shin_tags WHERE tag_type='semantic' AND content_id='$id' AND content_version IS NULL AND content_language IS NULL ORDER BY LENGTH(tag) LIMIT 1";
+    }
+
+    $semanticResult = $mysqli->query($semanticQuery);
+    if (mysqli_num_rows($semanticResult) > 0) {
+        while ($row = $semanticResult->fetch_assoc()) {
+            return $row["tag"];
+        }
+    } else {
+        return 1;
+    }
+}
+
+
+// Function to translate IDENTIFIERS into an HREF.
+function getHREF($s = null, $id = null, $v = null, $lang = null)
+{
+    if (is_array($v)) {
+        $v = implode(",", $v);
+    }
+
+    if (!is_null($s)) {
+        return '/read/?s=' . $s;
+    } else if (!is_null($id) && !is_null($v) && !is_null($lang)) {
+        $semanticTag = translateToSemantic($id, $v, $lang);
+        if ($semanticTag != 1) {
+            return "/read/?s=$semanticTag";
+        } else {
+            return "/read/?id=$id&v=$v&lang=$lang";
+        }
+    } else if (!is_null($id) && !is_null($v)) {
+        return "/read/?id=$id&v=$v";
+    } else if (!is_null($id) && !is_null($lang)) {
+        return "/read/?id=$id&lang=$lang";
+    } else if (!is_null($id)) {
+        return "/read/?id=$id";
+    } else {
+        return "<a href='/read/'>";
+    }
+}
 
 
 /******************************
@@ -610,21 +618,6 @@ function addTableOfContents($id, $v = null, $l = null)
 }
 
 
-
-/**
- * OKAY, SO. This function. This one right here. It's the problem.
- * What I need is one function that can take an ID, an optional single version # or an array of #s, and an optional language.
- * Then return a card. No questions asked, nothing else required, nada. It should also take an optional SIZE parameter.
- * Default medium. That's what I need to do today.
- * This function will need several helper functions.
- * 1. A function to get content metadata — title, subtitle, snippet, word_count, etc.
- * 2. A function to get "true" metadata — release date, completion_status, chronology, theme_color, etc.
- * ACTUALLY. Chronology needs to be grabbed first, so this function can be called for each set of IDs in chronological order.
- * 3. A function to get all relevant tags.
- * 4. A function to find the optimal image for the card.
- */
-
-
 function getTypeTags($id, $v = null)
 {
     include("db_connect.php");
@@ -651,6 +644,9 @@ function getTypeTags($id, $v = null)
         return null;
     }
 }
+
+
+// So the function below basically needs to be split into two — one function that takes the identifiers and returns an array of the data, and a second that actually turns that data into a card, so we can run the overwrite for the homepage easily.
 
 
 function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
@@ -734,7 +730,8 @@ function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
 
 
 
-function buildCardText($id, $v=null, $lang=null) {
+function buildCardText($id, $v = null, $lang = null)
+{
     include("db_connect.php");
     if (!is_array($v)) {
         $v = [$v];
@@ -752,13 +749,18 @@ function buildCardText($id, $v=null, $lang=null) {
             $content_title = $row["content_title"];
             $content_snippet = $row["content_snippet"];
             // $content_words = $row["content_words"];
-            $release_date = date("Y/m/d", strtotime($row["release_date"]));
+            $release_date = "";
+            if ($row["release_date"] != null) {
+                $release_date = "<p>RELEASED " . date("Y/m/d", strtotime($row["release_date"])) . "</p>";
+            } else {
+                $release_date = "";
+            }
         }
         array_push($content_versions, $row["version_title"]);
     }
     $content_versions = implode(", ", $content_versions);
     // TO-DO: Add back in word counts.
-    $card_text = "<div class='card__text'><h3>$content_title</h3><div class='versions'><p>$content_versions</p><p>RELEASED $release_date</p></div><p>$content_snippet</p></div>";
+    $card_text = "<div class='card__text'><h3>$content_title</h3><div class='versions'><p>$content_versions</p>$release_date</div><p>$content_snippet</p></div>";
     return $card_text;
 }
 
@@ -1190,57 +1192,6 @@ function loadContentContributors($id, $v, $lang)
             array_push($creators_array, translateRoles($row["creator_role"]) . $row["creator_name"]);
         }
         sort($creators_array);
-        echo sanitizeContributors($contributors_array) . "</h3>";
-    }
-}
-
-
-// Function to get all version titles, release date(s), word count, and... contributor tags.
-function getDetails($id, $primeversion, $lang)
-{
-    $data_count = 0;
-    $output = "<div class='versions'>\n";
-
-    $versionquery = "SELECT version_title FROM story_content WHERE id = '$id' AND content_language = '$lang' AND version_title IS NOT NULL ORDER BY content_version ASC LIMIT 3";
-    $versions = getData("version_title", $versionquery);
-    if (count($versions) > 0 && count($versions) <= 2) {
-        // Increment data_count.
-        $data_count++;
-        $output .= "<p>" . implode(", ", $versions) . "</p>\n";
-    } else if (count($versions) > 2) {
-        // Increment data_count.
-        $data_count++;
-        $output .= "<p>" . implode(", ", array_slice($versions, 0, 2)) . ", OTHERS</p>\n";
-    }
-
-    $releasequery = "SELECT publication_date FROM story_metadata WHERE id = '$id'";
-    $release = getData("publication_date", $releasequery);
-    if ($release[0] != "") {
-        // Increment data_count.
-        $data_count++;
-        $output .= "<p>RELEASED " . str_replace("-", "/", implode(", ", getData("publication_date", $releasequery))) . "</p>\n";
-    }
-
-    $wordquery = "SELECT ROUND(AVG(word_count), 0) AS word_count FROM story_content WHERE id = '$id' and content_version = '$primeversion'";
-    $words = getData("word_count", $wordquery);
-    if ($words[0] != "") {
-        // Increment data_count.
-        $data_count++;
-        $output .= "<p>WORD COUNT: " . implode(", ", getData("word_count", $wordquery)) . "</p>\n";
-    }
-
-    $output .= "</div>";
-    if ($data_count > 0) {
-        echo $output;
-    }
-
-    $tagsquery = "SELECT detailed_tag FROM story_tags WHERE id = '$id' AND (tag_type='author' OR tag_type='type')";
-    $tags = getData("detailed_tag", $tagsquery);
-    if (!empty($tags)) {
-        echo "<div class='tags'>";
-        foreach ($tags as $tag) {
-            echo "<p class='tag'>" . $tag . "</p>";
-        }
-        echo "</div>";
+        echo sanitizeContributors($creators_array) . "</h3>";
     }
 }
