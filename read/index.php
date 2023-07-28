@@ -112,6 +112,7 @@ if (count($_GET)) {
                         <?php
                         // If id variable is set.
                         if (isset($id)) {
+                            loadContentParents($id, $v);
                             getTitleBoxText($id, $v);
                             $config = getJSONConfigVariables();
                         } else {
@@ -141,6 +142,7 @@ if (count($_GET)) {
 
                     if (isset($id)) {
                         if ($id == "0") {
+                            echo "<p>You can also explore contents by <a href='/read/type/'>type</a>.</p>";
                             addTableOfContents($id);
                         } else {
                             getMainContent($id, $v);

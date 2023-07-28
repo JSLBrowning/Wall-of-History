@@ -115,6 +115,13 @@ function str_contains($haystack, $needle)
 }
 
 
+// Helper function for sorting arrays of strings by length.
+function sortByLength($a, $b)
+{
+    return strlen($b) - strlen($a);
+}
+
+
 // Function to fetch and decode the CONFIG.JSON file.
 function getJSONConfigVariables()
 {
@@ -143,13 +150,14 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
 {
     include("db_connect.php");
     $content_path = $config["contentPath"];
+    if (!is_array($v)) $v = [$v];
 
     /**
      * IDENTIFIERS
      */
 
     // First things first, get all semantic tags for the content.
-    $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version=$v AND content_language='$lang'";
+    $query_tags = "SELECT tag FROM shin_tags WHERE content_id='$id' AND tag_type='semantic' AND content_version IN (" . implode(", ", $v) . ") AND content_language='$lang'";
     $identifiers = [$id];
     // Add any/all semantic tags to the array.
     $result_tags = $mysqli->query($query_tags);
@@ -191,6 +199,19 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
         }
 
         // Replace $paths with $new_paths.
+        $paths = $new_paths;
+    }
+
+    // If "[optional:v]" in $content_path, for each version number passed in, create a copy of the full path with that version number. Leave one copy of the path without a version number.
+    if (strpos($content_path, "[optional:v]") !== false) {
+        $new_paths = [];
+        foreach ($paths as $path) {
+            array_push($new_paths, str_replace("[optional:v]", "", $path));
+
+            for ($i = 0; $i < count($v); $i++) {
+                array_push($new_paths, str_replace("[optional:v]", $v[$i], $path));
+            }
+        }
         $paths = $new_paths;
     }
 
@@ -318,6 +339,7 @@ function getHREF($s = null, $id = null, $v = null, $lang = null)
 
 
 // Function to get title, subtitle, and snippet from a content ID. Returns an array of arrays.
+// I'm sorry, where is this used??
 function getContentData($id, $v = null, $lang = null)
 {
     include('db_connect.php');
@@ -337,84 +359,6 @@ function getContentData($id, $v = null, $lang = null)
     }
 
     return $content_rows;
-}
-
-
-function getContentAutomaticallyByType($id, $version = 1, $language = "en", $types = null)
-{
-    if ($types == null) {
-        return 1;
-    }
-
-    $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
-    if (in_array("video", $types) || in_array("teaser", $types)) {
-        foreach ($contentPaths as $path) {
-            if (glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4") != null) {
-                $filename = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4")[0];
-                // Remove 'F:/Wall of History/root' from the beginning of the path.
-                $src = str_replace($_SERVER['DOCUMENT_ROOT'], "", $filename);
-                $content = "<video controls><source src='$src' type='video/mp4'></video>";
-                return $content;
-            }
-        }
-    }
-}
-
-
-function getMainContent($id, $version = 1, $language = "en")
-{
-    include("db_connect.php");
-
-    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) == 0) {
-        return null;
-    } else if (mysqli_num_rows($result) == 1) {
-        $row = $result->fetch_assoc();
-        $content = $row["content_main"];
-        if ($content == null) {
-            echo getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
-        } else {
-            /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
-            $content = preg_replace_callback(
-                '/<!([a-zA-Z0-9_]+)!>/',
-                function ($matches) {
-                    return getMainContent($matches[1]);
-                },
-                $content
-            ); */
-
-            echo $content;
-        }
-    } else {
-        return null;
-    }
-}
-
-
-function getTitleBoxText($id, $version = 1, $language = "en")
-{
-    include("db_connect.php");
-
-    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
-    if (mysqli_num_rows($result) == 0) {
-        return null;
-    } else if (mysqli_num_rows($result) == 1) {
-        $row = $result->fetch_assoc();
-        $title = $row["content_title"];
-        $subtitle = $row["content_subtitle"];
-        echo "<h1>$title</h1>";
-
-        if ($subtitle != null) {
-            echo "<h2>$subtitle</h2>";
-        }
-    } else {
-        return null;
-    }
-
-    // Get creators.
-    loadContentContributors($id, $version, $language);
 }
 
 
@@ -618,6 +562,7 @@ function addTableOfContents($id, $v = null, $l = null)
 }
 
 
+// Function to get an array of all the type tags for a given work.
 function getTypeTags($id, $v = null)
 {
     include("db_connect.php");
@@ -644,90 +589,6 @@ function getTypeTags($id, $v = null)
         return null;
     }
 }
-
-
-// So the function below basically needs to be split into two — one function that takes the identifiers and returns an array of the data, and a second that actually turns that data into a card, so we can run the overwrite for the homepage easily.
-
-
-function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
-{
-    if ($v == null) {
-        // If $v is null, check if there are actually multiple versions.
-        $allV = checkForMultipleVersions($id);
-        # If length of $allV is 1, $v = $allV[0]. Else, leave $v null.
-        if (count($allV) == 1) {
-            $v = $allV[0];
-        }
-    }
-
-    if ($lang == null) {
-        $potential_lang = getUserLanguage();
-        $available_lang = getAvailableLanguages($id, $v);
-        if (in_array($potential_lang, $available_lang)) {
-            $lang = $potential_lang;
-        } else {
-            if (in_array("en", $available_lang)) {
-                $lang = "en";
-            } else {
-                $lang = $available_lang[0];
-            }
-        }
-    }
-
-    // Generate basic HREF.
-    $cardHREF = getHREF(null, $id, $v, $lang);
-    // Check if there is a semantic tag for this content.
-    if (!is_array($v)) {
-        $semanticTag = translateToSemantic($id, $v, $lang);
-        if ($semanticTag != 1) {
-            $cardHREF = getHREF($semanticTag);
-        }
-    }
-
-    $card = "";
-    switch ($size) {
-        case "small":
-            $card = "<a class='card small__card' href='$cardHREF'>";
-            break;
-        case "medium":
-            $card = "<a class='card medium__card' href='$cardHREF'>";
-            break;
-        case "large":
-            $card = "<a class='card large__card' href='$cardHREF'>";
-            break;
-    }
-
-
-    // Step 0: Check for videospace.
-    if ($size == "large" && in_array("movie", getTypeTags($id, $v))) {
-        // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
-        $versionConditonal = versionConditional($v, true);
-        $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
-    }
-
-    // Step 1: Image (REVISE)
-    if (file_exists("../img/story/contents/$id.webp")) {
-        $card .= "<img src='/img/story/contents/$id.webp' alt='[PUT SOMETHING HERE EVENTUALLY.]'>";
-    }
-
-    /**
-     * 0. videospace (if movie && teaser/trailer/TV spot available)
-     * 1. img
-     * 2. card__text
-     *    2.a. h3:title
-     *    2.b. div.versions
-     *       2.b.i. p:versions
-     *       2.b.ii. p:release_date
-     *       2.b.iii. p:word_count
-     *    2.c. div.tags
-     *       2.c.i. p:tag
-     *    2.d. p:snippet
-     */
-
-    $card .= buildCardText($id, $v, $lang);
-    return $card .= "</a>";
-}
-
 
 
 function buildCardText($id, $v = null, $lang = null)
@@ -764,6 +625,93 @@ function buildCardText($id, $v = null, $lang = null)
     return $card_text;
 }
 
+
+function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
+{
+    include("db_connect.php");
+
+    if ($v == null) {
+        // If $v is null, check if there are actually multiple versions.
+        $allV = checkForMultipleVersions($id);
+        # If length of $allV is 1, $v = $allV[0]. Else, leave $v null.
+        if (count($allV) == 1) {
+            $v = $allV[0];
+        }
+    }
+
+    if ($lang == null) {
+        $potential_lang = getUserLanguage();
+        $available_lang = getAvailableLanguages($id, $v);
+        if (in_array($potential_lang, $available_lang)) {
+            $lang = $potential_lang;
+        } else {
+            if (in_array("en", $available_lang)) {
+                $lang = "en";
+            } else {
+                $lang = $available_lang[0];
+            }
+        }
+    }
+
+    // Generate basic HREF.
+    $cardHREF = getHREF(null, $id, $v, $lang);
+    // Check if there is a semantic tag for this content.
+    if (!is_array($v)) {
+        $semanticTag = translateToSemantic($id, $v, $lang);
+        if ($semanticTag != 1) {
+            $cardHREF = getHREF($semanticTag);
+        }
+    }
+}
+
+
+function assembleDefaultCard($cardDataArray) {
+    include("db_connect.php");
+
+    $size = $cardDataArray["size"];
+    $cardHREF = $cardDataArray["cardHREF"];
+    $imgURL = $cardDataArray["imgURL"];
+    $title = $cardDataArray["title"];
+    $versions = $cardDataArray["versions"];
+    $releaseDate = $cardDataArray["releaseDate"];
+    $wordCount = $cardDataArray["wordCount"];
+    $snippet = $cardDataArray["snippet"];
+
+    $card = "";
+    switch ($size) {
+        case "small":
+            $card = "<a class='card small__card' href='$cardHREF'>";
+            break;
+        case "medium":
+            $card = "<a class='card medium__card' href='$cardHREF'>";
+            break;
+        case "large":
+            $card = "<a class='card large__card' href='$cardHREF'>";
+            break;
+    }
+
+
+    // Step 0: Check for videospace.
+    if ($size == "large" && in_array("movie", getTypeTags($id, $v))) {
+        // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
+        $versionConditonal = versionConditional($v, true);
+        $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
+        $result = $mysqli->query($query);
+        if (mysqli_num_rows($result) > 0) {
+            $row = $result->fetch_assoc();
+            $childID = $row["child_id"];
+            echo "Working on it! childID: " . $childID;
+        }
+    }
+
+    // Step 1: Image (REVISE)
+    if (file_exists("../img/story/contents/$id.webp")) {
+        $card .= "<img src='/img/story/contents/$id.webp' alt='[PUT TITLE HERE EVENTUALLY.]'>";
+    }
+
+    $card .= buildCardText($id, $v, $lang);
+    return $card .= "</a>";
+}
 
 
 function versionConditional($v, $web = null)
@@ -1061,11 +1009,11 @@ function loadHeader($id, $v = null, $lang = null)
 
 
 // This function gets the parent(s), if any, of the current page, and displays them.
-function loadContentParents($id, $v, $title)
+function loadContentParents($id, $v)
 {
     include("db_connect.php");
 
-    $parents_query = "SELECT * FROM story_reference_web WHERE child_id=\"$id\" AND child_version=$v";
+    $parents_query = "SELECT * FROM shin_web WHERE child_id=\"$id\" AND child_version=$v";
     $parents = $mysqli->query($parents_query);
     $num_parents = mysqli_num_rows($parents);
 
@@ -1074,29 +1022,29 @@ function loadContentParents($id, $v, $title)
     } else if ((!($id === "0")) && ($num_parents === 0)) {
         echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
     } else {
-        echo getImages($id, $v, "NULL", $title[0]);
+        // echo getImages($id, $v, "NULL", $title[0]);
         echo "<div class='titleBoxText'>";
 
         if ($num_parents === 1) {
             while ($row = $parents->fetch_assoc()) {
-                $parent_title_query = "SELECT title FROM story_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $parent_title_query = "SELECT content_title FROM shin_content WHERE content_id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 $parent_title = $mysqli->query($parent_title_query);
                 while ($new_row = $parent_title->fetch_assoc()) {
-                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $new_row["title"] . "</a></h3>";
+                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $new_row["content_title"] . "</a></h3>";
                 }
             }
         } else if ($num_parents > 1) {
-            echo "<div class='multiparents'><button onclick='carouselBack(this)'><span class='leftarrow'></span></button>";
+            echo "<div class='multiparents'><h3 onclick='carouselBack(this)'><i class='fa-solid fa-left-long'></i></h2>";
             while ($row = $parents->fetch_assoc()) {
-                $sql_title = "SELECT title FROM story_content WHERE id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $sql_title = "SELECT content_title FROM shin_content WHERE content_id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
                 // ORDER BY chronology, title ASC
                 $result_title = $mysqli->query($sql_title);
                 while ($row_title = $result_title->fetch_assoc()) {
                     $parentid = $row["parent_id"];
-                    echo "<h3><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["title"] . "</a></h3>";
+                    echo "<h2><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["content_title"] . "</a></h2>";
                 }
             }
-            echo "<button onclick='carouselForward(this)'><span class='rightarrow'></span></button></div>";
+            echo "<h3 onclick='carouselForward(this)'><i class='fa-solid fa-right-long'></i></h2></div>";
         }
     }
 }
@@ -1193,5 +1141,124 @@ function loadContentContributors($id, $v, $lang)
         }
         sort($creators_array);
         echo sanitizeContributors($creators_array) . "</h3>";
+    }
+}
+
+
+function getTitleBoxText($id, $version = 1, $language = "en")
+{
+    include("db_connect.php");
+
+    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $title = $row["content_title"];
+        $subtitle = $row["content_subtitle"];
+        echo "<h1>$title</h1>";
+
+        if ($subtitle != null) {
+            echo "<h2>$subtitle</h2>";
+        }
+    } else {
+        return null;
+    }
+
+    // Get creators.
+    loadContentContributors($id, $version, $language);
+}
+
+
+function getContentAutomaticallyByType($id, $version = 1, $language = "en", $types = null)
+{
+    if ($types == null) {
+        return null;
+    }
+
+    $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
+
+    if (in_array("video", $types) || in_array("teaser", $types)) {
+        foreach ($contentPaths as $path) {
+            if (glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4") != null) {
+                $filename = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4")[0];
+                // Remove 'F:/Wall of History/root' from the beginning of the path.
+                $src = str_replace($_SERVER['DOCUMENT_ROOT'], "", $filename);
+                $content = "<video controls><source src='$src' type='video/mp4'></video>";
+                return $content;
+            }
+        }
+    } else if (in_array("comic", $types)) {
+        $content = "";
+        // Sort content paths by length, longest to shortest. But don't return that.
+        usort($contentPaths, 'sortByLength');
+        foreach ($contentPaths as $path) {
+        }
+
+        $images = [];
+        foreach ($contentPaths as $path) {
+            $extensions = ["webp", "jpg", "jpeg", "png"];
+            foreach ($extensions as $extension) {
+                $imagesOnPath = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.$extension");
+                // If there is not an image already in $images with the same name, add it.
+                foreach ($imagesOnPath as $image) {
+                    $image = str_replace($_SERVER['DOCUMENT_ROOT'], "", $image);
+                    $imageMinusExtension = str_replace("." . $extension, "", $image);
+                    // Check if any image in the array uses $imageMinusExtension as a key.
+                    $imageAlreadyExists = false;
+                    if (array_key_exists($imageMinusExtension, $images)) {
+                        $imageAlreadyExists = true;
+                    }
+
+                    if (!$imageAlreadyExists) {
+                        // Add the image to the array, using the filename minus the extension as the key.
+                        $images[$imageMinusExtension] = $image;
+                    }
+                }
+            }
+        }
+
+        // Natsort the array.
+        natsort($images);
+
+        foreach ($images as $image) {
+            $content .= "<img src='$image'>";
+        }
+        return $content;
+    }
+}
+
+
+function getMainContent($id, $version = 1, $language = "en")
+{
+    include("db_connect.php");
+
+    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
+    $result = $mysqli->query($query);
+    if (mysqli_num_rows($result) == 0) {
+        return null;
+    } else if (mysqli_num_rows($result) == 1) {
+        $row = $result->fetch_assoc();
+        $content = $row["content_main"];
+        if ($content == null) {
+            $autoContent = getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
+            if ($autoContent != null) {
+                echo $autoContent;
+            }
+        } else {
+            /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
+            $content = preg_replace_callback(
+                '/<!([a-zA-Z0-9_]+)!>/',
+                function ($matches) {
+                    return getMainContent($matches[1]);
+                },
+                $content
+            ); */
+
+            echo $content;
+        }
+    } else {
+        return null;
     }
 }

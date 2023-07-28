@@ -806,6 +806,23 @@ nav {
         margin-left: 0.25rem;
         margin-right: 0.25rem;
     }
+
+    h2 {
+        display: none;
+
+        &:first-of-type {
+            display: block;
+        }
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        max-height: 1.5rem;
+        margin-top: auto;
+        margin-bottom: auto;
+        cursor: pointer;
+    }
 }
 
 /********************

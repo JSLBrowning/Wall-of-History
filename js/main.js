@@ -699,7 +699,7 @@ function goForward() {
 // These can be tested on “The Legend of Mata Nui,” which has three parents.
 // Make these update CSS where applicable: https://stackoverflow.com/questions/574944/how-to-load-up-css-files-using-javascript
 function carouselForward(button) {
-    let parents = button.parentElement.querySelectorAll("h1, h3");
+    let parents = button.parentElement.querySelectorAll("h2");
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
         if ((currentStyles.display != "none") && (i < parents.length - 1)) {
@@ -712,11 +712,11 @@ function carouselForward(button) {
             break;
         }
     }
-}
+}s
 
 
 function carouselBack(button) {
-    let parents = button.parentElement.querySelectorAll("h1, h3");
+    let parents = button.parentElement.querySelectorAll("h2");
     for (let i = 0; i < parents.length; i++) {
         let currentStyles = window.getComputedStyle(parents[i]);
         if ((currentStyles.display != "none") && (i > 0)) {
