@@ -524,8 +524,7 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "</div>";
         }
     } else {
-        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' ORDER BY shin_metadata.chronology/*, shin_content.content_title*/ ASC";
-        // $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' $version_conditonal $language_conditional ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC";
         // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
 
         $result = $mysqli->query($revisedDistinctQuery);
