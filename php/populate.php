@@ -244,6 +244,11 @@ function checkForMultipleVersions($id)
 // Function to choose the ideal version for a card when multiple are available. Tries to default to the lowest (positive/published) version.
 function chooseDefaultVersion($arrayOfNumbers)
 {
+    // If array only contains null, return null.
+    if (count($arrayOfNumbers) == 1 && $arrayOfNumbers[0] == null) {
+        return 1;
+    }
+
     // Get the lowest NON-NEGATIVE number.
     $lowest = 9999;
     foreach ($arrayOfNumbers as $number) {
@@ -251,6 +256,7 @@ function chooseDefaultVersion($arrayOfNumbers)
             $lowest = $number;
         }
     }
+    return $lowest;
 }
 
 
@@ -519,7 +525,14 @@ function addTableOfContents($id, $v = null, $l = null)
             while ($row = $result->fetch_assoc()) {
                 $id = $row["content_id"];
                 $version = $row["content_version"];
-                echo assembleDefaultCard($id, $version);
+                if ($version == null) {
+                    $cardDataArray = getCardData($id);
+                    $cardTextArray = getCardText($id);
+                } else {
+                    $cardDataArray = getCardData($id, $version);
+                    $cardTextArray = getCardText($id, $version);
+                }
+                echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";
         }
@@ -599,6 +612,9 @@ function getCardText($id, $v = null, $lang = null)
         $v = [$v];
     }
     $defaultVersion = chooseDefaultVersion($v);
+    if ($v == [null]) {
+        $v = [$defaultVersion];
+    }
     $content_title = $content_snippet = $content_words = $release_date = "";
     $content_versions = [];
 
@@ -629,7 +645,7 @@ function getCardText($id, $v = null, $lang = null)
 }
 
 
-function getCardData($id, $v = null, $lang = null, $size = "medium")
+function getCardData($id, $v = null, $lang = null, $cardsize = "medium")
 {
     include("db_connect.php");
 
@@ -675,7 +691,7 @@ function getCardData($id, $v = null, $lang = null, $size = "medium")
     }
 
     return [
-        "size" => $size,
+        "cardSize" => $cardsize,
         "cardHREF" => $cardHREF,
         "img" => $cardImage
     ];
@@ -686,7 +702,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
 {
     include("db_connect.php");
 
-    $size = $cardDataArray["size"];
+    $cardsize = $cardDataArray["cardSize"];
     $cardHREF = $cardDataArray["cardHREF"];
     $img = $cardDataArray["img"];
     $title = $cardTextArray["title"];
@@ -696,7 +712,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
     $snippet = $cardTextArray["snippet"];
 
     $card = "";
-    switch ($size) {
+    switch ($cardsize) {
         case "small":
             $card = "<a class='card small__card' href='$cardHREF'>";
             break;
@@ -710,7 +726,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
 
 
     // Step 0: Check for videospace.
-    if ($size == "large" && in_array("movie", getTypeTags($id, $v))) {
+    if ($cardsize == "large" && in_array("movie", getTypeTags($id, $v))) {
         // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
         $versionConditonal = versionConditional($v, true);
         $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
