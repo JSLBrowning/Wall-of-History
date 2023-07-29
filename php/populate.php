@@ -519,7 +519,7 @@ function addTableOfContents($id, $v = null, $l = null)
             while ($row = $result->fetch_assoc()) {
                 $id = $row["content_id"];
                 $version = $row["content_version"];
-                echo buildDefaultCard($id, $version);
+                echo assembleDefaultCard($id, $version);
             }
             echo "</div>";
         }
@@ -554,7 +554,9 @@ function addTableOfContents($id, $v = null, $l = null)
                 foreach ($uniqueVersions as $version) {
                     array_push($versionTitles, $version["version_title"]);
                 }
-                echo buildDefaultCard($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"]);
+                $cardDataArray = getCardData($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"], "medium");
+                $cardTextArray = getCardText($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"]);
+                echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";
         }
@@ -591,25 +593,23 @@ function getTypeTags($id, $v = null)
 }
 
 
-function buildCardText($id, $v = null, $lang = null)
+function getCardText($id, $v = null, $lang = null)
 {
     include("db_connect.php");
     if (!is_array($v)) {
         $v = [$v];
     }
     $defaultVersion = chooseDefaultVersion($v);
+    $content_title = $content_snippet = $content_words = $release_date = "";
+    $content_versions = [];
+
     $full_query = "SELECT shin_metadata.content_version, version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
     $result = $mysqli->query($full_query);
-    $content_title = "";
-    $content_snippet = "";
-    // $content_words = "";
-    $release_date = "";
-    $content_versions = [];
     while ($row = $result->fetch_assoc()) {
         if ($row["content_version"] == $defaultVersion) {
             $content_title = $row["content_title"];
             $content_snippet = $row["content_snippet"];
-            // $content_words = $row["content_words"];
+            $content_words = getWordCount($id, $row["content_version"], $lang);
             $release_date = "";
             if ($row["release_date"] != null) {
                 $release_date = "<p>RELEASED " . date("Y/m/d", strtotime($row["release_date"])) . "</p>";
@@ -619,14 +619,18 @@ function buildCardText($id, $v = null, $lang = null)
         }
         array_push($content_versions, $row["version_title"]);
     }
-    $content_versions = implode(", ", $content_versions);
-    // TO-DO: Add back in word counts.
-    $card_text = "<div class='card__text'><h3>$content_title</h3><div class='versions'><p>$content_versions</p>$release_date</div><p>$content_snippet</p></div>";
-    return $card_text;
+
+    return [
+        "content_title" => $content_title,
+        "content_snippet" => $content_snippet,
+        "content_versions" => implode(", ", $content_versions),
+        "release_date" => $release_date,
+        "content_words" => $content_words
+    ];
 }
 
 
-function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
+function getCardData($id, $v = null, $lang = null, $size = "medium")
 {
     include("db_connect.php");
 
@@ -662,20 +666,35 @@ function buildDefaultCard($id, $v = null, $lang = null, $size = "medium")
             $cardHREF = getHREF($semanticTag);
         }
     }
+
+    // Step 1: Image (REVISE)
+    $cardImage = "";
+    if (file_exists("../img/story/contents/$id.webp")) {
+        $cardImage = "<img src='/img/story/contents/$id.webp' alt='[PUT TITLE HERE EVENTUALLY.]'>";
+    } else {
+        $cardImage = "";
+    }
+
+    return [
+        "size" => $size,
+        "cardHREF" => $cardHREF,
+        "img" => $cardImage
+    ];
 }
 
 
-function assembleDefaultCard($cardDataArray) {
+function assembleDefaultCard($cardDataArray, $cardTextArray)
+{
     include("db_connect.php");
 
     $size = $cardDataArray["size"];
     $cardHREF = $cardDataArray["cardHREF"];
-    $imgURL = $cardDataArray["imgURL"];
-    $title = $cardDataArray["title"];
-    $versions = $cardDataArray["versions"];
-    $releaseDate = $cardDataArray["releaseDate"];
-    $wordCount = $cardDataArray["wordCount"];
-    $snippet = $cardDataArray["snippet"];
+    $img = $cardDataArray["img"];
+    $title = $cardTextArray["title"];
+    $versions = $cardTextArray["versions"];
+    $releaseDate = $cardTextArray["releaseDate"];
+    // $wordCount = $cardTextArray["wordCount"];
+    $snippet = $cardTextArray["snippet"];
 
     $card = "";
     switch ($size) {
@@ -704,12 +723,7 @@ function assembleDefaultCard($cardDataArray) {
         }
     }
 
-    // Step 1: Image (REVISE)
-    if (file_exists("../img/story/contents/$id.webp")) {
-        $card .= "<img src='/img/story/contents/$id.webp' alt='[PUT TITLE HERE EVENTUALLY.]'>";
-    }
-
-    $card .= buildCardText($id, $v, $lang);
+    $card .= "$img<div class='card__text'><h3>$title</h3><div class='versions'><p>$versions</p>$releaseDate</div><p>$snippet</p></div>";
     return $card .= "</a>";
 }
 
