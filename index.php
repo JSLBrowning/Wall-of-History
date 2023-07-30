@@ -186,22 +186,7 @@
             }
 
 
-            function getTypeRepresentative($type)
-            {
-                include('./php/db_connect.php');
-
-                // How to account for null?
-                $query = "SELECT shin_tags.content_id, shin_tags.content_version, shin_tags.content_language, shin_metadata.release_date, shin_metadata.chronology FROM shin_tags JOIN shin_metadata ON shin_tags.content_id=shin_metadata.content_id WHERE tag_type='type' AND tag='$type' AND release_date IS NOT NULL ORDER BY release_date, chronology ASC LIMIT 1;";
-                // Add relative chronology values to *Chronicles* novels.
-                $result = $mysqli->query($query);
-
-                if (mysqli_num_rows($result) == 1) {
-                    $row = $result->fetch_assoc();
-                    return $row["content_id"];
-                } else {
-                    return null;
-                }
-            }
+            
 
 
             

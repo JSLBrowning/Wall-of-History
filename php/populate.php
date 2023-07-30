@@ -206,10 +206,14 @@ function translateToPath($config, $id, $v = 1, $lang = "en")
     if (strpos($content_path, "[optional:v]") !== false) {
         $new_paths = [];
         foreach ($paths as $path) {
-            array_push($new_paths, str_replace("[optional:v]", "", $path));
+            $new_path = str_replace("[optional:v]", "", $path);
+            $new_path = str_replace("//", "/", $new_path);
+            array_push($new_paths, $new_path);
 
             for ($i = 0; $i < count($v); $i++) {
-                array_push($new_paths, str_replace("[optional:v]", $v[$i], $path));
+                $new_path = str_replace("[optional:v]", $v[$i], $path);
+                $new_path = str_replace("//", "/", $new_path);
+                array_push($new_paths, $new_path);
             }
         }
         $paths = $new_paths;
@@ -244,11 +248,6 @@ function checkForMultipleVersions($id)
 // Function to choose the ideal version for a card when multiple are available. Tries to default to the lowest (positive/published) version.
 function chooseDefaultVersion($arrayOfNumbers)
 {
-    // If array only contains null, return null.
-    if (count($arrayOfNumbers) == 1 && $arrayOfNumbers[0] == null) {
-        return 1;
-    }
-
     // Get the lowest NON-NEGATIVE number.
     $lowest = 9999;
     foreach ($arrayOfNumbers as $number) {
@@ -461,6 +460,8 @@ function getTypeChildren($type)
     $query_children = "SELECT child_tag FROM tag_web WHERE parent_tag='$type' AND child_tag IN (SELECT DISTINCT tag FROM shin_tags) ORDER BY (SELECT COUNT(*) FROM shin_tags WHERE tag=child_tag) DESC";
     $result_children = $mysqli->query($query_children);
     if (mysqli_num_rows($result_children) > 0) {
+        echo "<div class='deck'>";
+
         // Put results into an array.
         $children = [];
         while ($row_children = $result_children->fetch_assoc()) {
@@ -478,9 +479,27 @@ function getTypeChildren($type)
                 $row_child = $result_child->fetch_assoc();
                 $child = $row_child["media_tag"];
                 $child_plural = $row_child["media_tag_plural"];
-                echo "<h2>$child_plural</h2>";
+                $representative = getTypeRepresentative($child);
+                $cardDataArray = getCardData($representative[0], $representative[1], $representative[2]);
+                $newCardData = [
+                    "id" => null,
+                    "cardSize" => "medium",
+                    "cardHREF" => "/read/?t=" . $child
+                ];
+                $cardDataArray = overwriteArrayElements($cardDataArray, $newCardData);
+                $cardTextArray = getCardText($representative[0], $representative[1], $representative[2]);
+                $newCardText = [
+                    "content_title" => $child_plural,
+                    "content_snippet" => "All media with the " . $child . " tag.",
+                    "content_versions" => null,
+                    "release_date" => null,
+                    "content_words" => null
+                ];
+                $cardTextArray = overwriteArrayElements($cardTextArray, $newCardText);
+                echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
         }
+        echo "</div>";
     }
 }
 
@@ -608,20 +627,38 @@ function getTypeTags($id, $v = null)
 function getCardText($id, $v = null, $lang = null)
 {
     include("db_connect.php");
-    if (!is_array($v)) {
+    // Three possible scenarios: $v is null (bad), $v is a single value (good), or $v is already an array (confusing, but we can fix it).
+    // Determine version to proceed with.
+    if ($v == null) {
+        $allV = checkForMultipleVersions($id);
+        $v = [chooseDefaultVersion($allV)];
+    } else if (!is_array($v)) {
         $v = [$v];
     }
     $defaultVersion = chooseDefaultVersion($v);
-    if ($v == [null]) {
-        $v = [$defaultVersion];
+
+    // Determine language to proceed with.
+    if ($lang == null) {
+        $potential_lang = getUserLanguage();
+        $available_lang = getAvailableLanguages($id, $v);
+        if (in_array($potential_lang, $available_lang)) {
+            $lang = $potential_lang;
+        } else {
+            if (in_array("en", $available_lang) || $available_lang == null) {
+                $lang = "en";
+            } else {
+                $lang = $available_lang[0];
+            }
+        }
     }
+
     $content_title = $content_snippet = $content_words = $release_date = "";
     $content_versions = [];
 
     $full_query = "SELECT shin_metadata.content_version, version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
     $result = $mysqli->query($full_query);
     while ($row = $result->fetch_assoc()) {
-        if ($row["content_version"] == $defaultVersion) {
+        if ($row["content_version"] == $defaultVersion || $row["content_version"] == null) {
             $content_title = $row["content_title"];
             $content_snippet = $row["content_snippet"];
             $content_words = getWordCount($id, $row["content_version"], $lang);
@@ -649,22 +686,22 @@ function getCardData($id, $v = null, $lang = null, $cardsize = "medium")
 {
     include("db_connect.php");
 
+    // Determine version to proceed with.
     if ($v == null) {
-        // If $v is null, check if there are actually multiple versions.
         $allV = checkForMultipleVersions($id);
-        # If length of $allV is 1, $v = $allV[0]. Else, leave $v null.
-        if (count($allV) == 1) {
-            $v = $allV[0];
-        }
+        $v = [chooseDefaultVersion($allV)];
+    } else if (!is_array($v)) {
+        $v = [$v];
     }
 
+    // Determine language to proceed with.
     if ($lang == null) {
         $potential_lang = getUserLanguage();
         $available_lang = getAvailableLanguages($id, $v);
         if (in_array($potential_lang, $available_lang)) {
             $lang = $potential_lang;
         } else {
-            if (in_array("en", $available_lang)) {
+            if (in_array("en", $available_lang) || $available_lang == null) {
                 $lang = "en";
             } else {
                 $lang = $available_lang[0];
@@ -691,6 +728,9 @@ function getCardData($id, $v = null, $lang = null, $cardsize = "medium")
     }
 
     return [
+        "id" => $id,
+        "v" => $v,
+        "lang" => $lang,
         "cardSize" => $cardsize,
         "cardHREF" => $cardHREF,
         "img" => $cardImage
@@ -702,14 +742,17 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
 {
     include("db_connect.php");
 
+    $id = $cardDataArray["id"];
+    $v = $cardDataArray["v"];
+    $lang = $cardDataArray["lang"];
     $cardsize = $cardDataArray["cardSize"];
     $cardHREF = $cardDataArray["cardHREF"];
     $img = $cardDataArray["img"];
-    $title = $cardTextArray["title"];
-    $versions = $cardTextArray["versions"];
-    $releaseDate = $cardTextArray["releaseDate"];
+    $title = $cardTextArray["content_title"];
+    $versions = $cardTextArray["content_versions"];
+    $releaseDate = $cardTextArray["release_date"];
     // $wordCount = $cardTextArray["wordCount"];
-    $snippet = $cardTextArray["snippet"];
+    $snippet = $cardTextArray["content_snippet"];
 
     $card = "";
     switch ($cardsize) {
@@ -726,7 +769,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
 
 
     // Step 0: Check for videospace.
-    if ($cardsize == "large" && in_array("movie", getTypeTags($id, $v))) {
+    if ($cardsize == "large" && $id != null && in_array("movie", getTypeTags($id, $v))) {
         // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
         $versionConditonal = versionConditional($v, true);
         $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
@@ -1208,7 +1251,7 @@ function getContentAutomaticallyByType($id, $version = 1, $language = "en", $typ
 
     $contentPaths = translateToPath($GLOBALS['config'], $id, $version, $language);
 
-    if (in_array("video", $types) || in_array("teaser", $types)) {
+    if (in_array("video", $types) || in_array("teaser", $types) || in_array("commercial", $types)) {
         foreach ($contentPaths as $path) {
             if (glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4") != null) {
                 $filename = glob($_SERVER['DOCUMENT_ROOT'] . $path . "*.mp4")[0];
@@ -1222,8 +1265,6 @@ function getContentAutomaticallyByType($id, $version = 1, $language = "en", $typ
         $content = "";
         // Sort content paths by length, longest to shortest. But don't return that.
         usort($contentPaths, 'sortByLength');
-        foreach ($contentPaths as $path) {
-        }
 
         $images = [];
         foreach ($contentPaths as $path) {
@@ -1251,10 +1292,18 @@ function getContentAutomaticallyByType($id, $version = 1, $language = "en", $typ
         // Natsort the array.
         natsort($images);
 
-        foreach ($images as $image) {
-            $content .= "<img src='$image'>";
+        if (count($images) > 0) {
+            $content .= "<div class='mediaplayer'><div class='mediaplayercontents'>";
+            foreach ($images as $image) {
+                $content .= "<img src='$image'>";
+            }
+            $content .= "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>‹</button><div class='slidelocationdiv'><p class='slidelocation'>1 / " . count($images) . "</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>›</button></div></div>";
+            return $content;
+        } else {
+            return null;
         }
-        return $content;
+    } else {
+        return null;
     }
 }
 
@@ -1271,22 +1320,57 @@ function getMainContent($id, $version = 1, $language = "en")
         $row = $result->fetch_assoc();
         $content = $row["content_main"];
         if ($content == null) {
-            $autoContent = getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
-            if ($autoContent != null) {
-                echo $autoContent;
-            }
+            $content = getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
         } else {
+            // If less than 50% of the lines in the content become with a "<", assume it's Markdown.
+            $lines = explode("\n", $content);
+            $linesThatAreHTML = 0;
+            foreach ($lines as $line) {
+                if (str_contains($line, "<") && str_contains($line, ">")) {
+                    $linesThatAreHTML++;
+                }
+            }
+
+            if ($linesThatAreHTML < (count($lines) / 2)) {
+                $Parsedown = new Parsedown();
+                $content = $Parsedown->text($content);
+            }
+
             /* Find any occurrences of <!$id!> and replace with the content_main of that ID.
             $content = preg_replace_callback(
                 '/<!([a-zA-Z0-9_]+)!>/',
                 function ($matches) {
                     return getMainContent($matches[1]);
+                    // Need to choose default version and language automatically, if none passed.
                 },
                 $content
             ); */
-
-            echo $content;
         }
+        echo $content;
+    } else {
+        return null;
+    }
+}
+
+
+/***********************
+ * TYPE PAGE FUNCTIONS *
+ ***********************/
+
+
+function getTypeRepresentative($type)
+{
+    include('db_connect.php');
+
+    // How to account for null?
+    $query = "SELECT shin_tags.content_id, shin_tags.content_version, shin_tags.content_language, shin_metadata.release_date, shin_metadata.chronology FROM shin_tags JOIN shin_metadata ON shin_tags.content_id=shin_metadata.content_id WHERE tag_type='type' AND tag='$type' AND release_date IS NOT NULL ORDER BY release_date, chronology ASC LIMIT 1;";
+    // Add relative chronology values to *Chronicles* novels.
+    $result = $mysqli->query($query);
+
+    if (mysqli_num_rows($result) == 1) {
+        // Return the content ID, version, and language.
+        $row = $result->fetch_assoc();
+        return [$row["content_id"], $row["content_version"], $row["content_language"]];
     } else {
         return null;
     }
