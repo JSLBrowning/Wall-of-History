@@ -5,12 +5,10 @@
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-
 body {
     background: #0f0f0f;
     color: #fff;
 }
-
 
 header {
     display: flex;
@@ -41,11 +39,11 @@ header {
                 border-radius: 1.25rem 0rem 0rem 1.25rem;
                 height: 2.5rem;
                 width: calc(100% - 4rem);
-                background-color: rgba(0,0,0,0);
+                background-color: rgba(0, 0, 0, 0);
                 padding-left: 1rem;
-        
+
                 color: #fff;
-                letter-spacing: .0625rem;
+                letter-spacing: 0.0625rem;
                 font-size: 1rem;
 
                 &:focus {
@@ -74,16 +72,15 @@ header {
     }
 }
 
-
 article {
     margin: auto;
 
     .article__content {
         display: grid;
         grid-template-areas:
-        "video"
-        "title__box"
-        "extra__content";
+            "video"
+            "title__box"
+            "extra__content";
 
         section.main__content {
             grid-area: video;
@@ -96,7 +93,7 @@ article {
 
         section.title__box {
             grid-area: title__box;
-            margin: .5rem auto;
+            margin: 0.5rem auto;
             width: 75vw;
 
             h1 {
@@ -111,12 +108,12 @@ article {
 
         section.extra__content {
             grid-area: extra__content;
-            margin: .5rem auto;
+            margin: 0.5rem auto;
             width: 75vw;
 
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: .75rem;
-            padding: .5rem .625rem;
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.625rem;
 
             span.detail {
                 width: 25%;
@@ -127,7 +124,7 @@ article {
             }
 
             p {
-                margin: .125rem 0rem;
+                margin: 0.125rem 0rem;
                 font-weight: lighter;
             }
         }

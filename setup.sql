@@ -361,6 +361,8 @@ CREATE TABLE IF NOT EXISTS shin_metadata(
     /* RELEASE STUFF */
     release_date datetime,
     /* Self-explanatory. */
+    release_location text,
+    /* Self-explanatory. */
     completion_status int,
     /* 0 = not started, 1 = in progress, 2 = completed, 3 = cancelled. Leave NULL for ambiguous or single release (like books). */
 
@@ -403,8 +405,12 @@ CREATE TABLE IF NOT EXISTS shin_content(
     /* This is the descriptive text that will show up underneath the titles of pages in Google searches and on summary cards. For OGP queries, these will be shortened to 319 characters, with a "…" serving as the 320th (as this is Google's character limit for descriptions). */
 
     /* CONTENT STUFF */
+    content_overview text,
+    /* Has a pretty specific usecase I will elaborate on later. */
     content_main longtext,
     /* The actual contents of the page (in Markdown/HTML) go here. */
+    content_json longtext,
+    /* For cases where content is structured in a relatively complex way, such as Twitter backups (with multiple images, captions on all those images, metrics, et cetera), a JSON object can be more useful than plain text. */
     content_words int,
     /* Self-explanatory. */
 
@@ -710,8 +716,10 @@ CREATE TABLE IF NOT EXISTS creator_roles (
 CREATE TABLE IF NOT EXISTS creator_aliases (
     creator_id VARCHAR(36) NOT NULL,
     /* UUID of the creator. */
-    creator_alias text NOT NULL
+    creator_alias text NOT NULL,
     /* Self-explanatory. Interpreter will translate an alias link, such as <a data-alias="GregF"></a>, into a link to the creator's main page. */
+    alias_platform text
+    /* Optional specifier for where an alias was used. For example, if "twitter" is put here, this alias will be displayed on any content pages with the "twitter" tag. Thumbnail images can be used for icons… Maybe. */
 );
 
 
