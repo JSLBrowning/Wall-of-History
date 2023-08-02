@@ -89,14 +89,14 @@ body {
 }
 
 p,
-a,
 button {
     font-family: "Gill Sans Std";
-    line-height: 1.5rem;
 }
 
+p,
 a,
 button {
+    line-height: 1.5rem;
     cursor: pointer;
 }
 
@@ -843,6 +843,7 @@ nav {
         border-radius: .5rem;
         padding-left: 1rem;
         padding-bottom: 1rem;
+        padding-right: .5rem;
         margin: 0rem !important;
         background: rgb(22,22,22);
         background: linear-gradient(90deg, rgba(0,0,0,.375) 0%, rgba(22,22,22,0) 100%);
