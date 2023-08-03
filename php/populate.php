@@ -75,12 +75,6 @@ $languages = [
  */
 
 /**
- * SPECIAL BEHAVIORS FOR TYPE:
- * 1. Comic: If folder contains numbered images, create a slideshow.
- * 2. Video: If folder contains a video file, create a video player.
- */
-
-/**
  * WHAT TO DO WITH IMAGES:
  * Asset folders can contain:
  * 1. OGP images (/[id/s]/ogp.png or /ogp/[id/s].png).
@@ -89,11 +83,12 @@ $languages = [
  * 3. Slideshow images (/[id/s]/[int].png /assets/[id/s]/[int].png).
  */
 
+
 /**
- * FUNCTIONS TO ADD:
- * 1. checkForTag(tag, id, v (optional), lang (optional)) - check if a given entry has a given tag.
- * 2. getAllTags(id, v(optional), lang (optional)) - get an array of all distinct tags for an entry.
- * 3. All data fetching functions will need to be refactored into a function that gets JSON first, then database?
+ * If no language passed, get best option. Easy.
+ * If no version passed:
+ *    1. If only one version exists, use that.
+ *    2. If multiple versions exist, create a disambiguation page.
  */
 
 
@@ -564,6 +559,15 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
                 $childID = $row["child_id"];
+
+                $chapterQuery = "SELECT tag FROM shin_tags WHERE content_id='$childID' AND tag='chapter'";
+                $chapterResult = $mysqli->query($chapterQuery);
+                $chapterCount = mysqli_num_rows($chapterResult);
+                $cardSize = "medium";
+                if ($chapterCount > 0) {
+                    $cardSize = "small";
+                }
+
                 $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.version_title, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_content.content_version, shin_metadata.chronology, shin_content.content_title ASC";
 
                 $childResult = $mysqli->query($query);
@@ -585,7 +589,7 @@ function addTableOfContents($id, $v = null, $l = null)
                 foreach ($uniqueVersions as $version) {
                     array_push($versionTitles, $version["version_title"]);
                 }
-                $cardDataArray = getCardData($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"], "medium");
+                $cardDataArray = getCardData($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"], $cardSize);
                 $cardTextArray = getCardText($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"]);
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
@@ -620,6 +624,21 @@ function getTypeTags($id, $v = null)
         return $tags;
     } else {
         return null;
+    }
+}
+
+
+function checkForTags($id, $v, $tag)
+{
+    $tags = getTypeTags($id, $v);
+    if ($tags != null) {
+        if (in_array($tag, $tags)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
     }
 }
 
