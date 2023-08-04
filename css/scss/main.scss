@@ -577,8 +577,10 @@ article {
         min-height: 100vh;
 
         .article__content {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-areas:
+                "title extra"
+                "main main";
 
             .title__box {
                 grid-template-rows: unset;

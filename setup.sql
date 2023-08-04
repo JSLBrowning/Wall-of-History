@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS shin_routes_connections(
     /* Self-explanatory. Can be NULL if not relevant. */
     route_id VARCHAR(36),
     /* Self-explanatory. */
-)
+);
 
 
 /*********************
