@@ -531,30 +531,22 @@ function addTableOfContents($id, $v = null, $l = null)
     $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='en'";
 
     if ($id == "0") {
-        $query = "SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC";
+        $result = $mysqli->query("SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC");
 
-        $result = $mysqli->query($query);
         if (mysqli_num_rows($result) > 0) {
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
-                $id = $row["content_id"];
-                $version = $row["content_version"];
-                if ($version == null) {
-                    $cardDataArray = getCardData($id);
-                    $cardTextArray = getCardText($id);
-                } else {
-                    $cardDataArray = getCardData($id, $version);
-                    $cardTextArray = getCardText($id, $version);
-                }
+                $contentID = $row["content_id"];
+                $contentVersion = $row["content_version"];
+                $cardDataArray = getCardData($contentID, $contentVersion);
+                $cardTextArray = getCardText($contentID, $contentVersion);
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";
         }
     } else {
-        $revisedDistinctQuery = "SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC";
+        $result = $mysqli->query("SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
         // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
-
-        $result = $mysqli->query($revisedDistinctQuery);
         if (mysqli_num_rows($result) > 0) {
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
@@ -589,8 +581,10 @@ function addTableOfContents($id, $v = null, $l = null)
                 foreach ($uniqueVersions as $version) {
                     array_push($versionTitles, $version["version_title"]);
                 }
-                $cardDataArray = getCardData($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"], $cardSize);
-                $cardTextArray = getCardText($childID, $uniqueVersions[0]["content_version"], $uniqueVersions[0]["content_language"]);
+                $newV = $uniqueVersions[0]["content_version"];
+                $newL = $uniqueVersions[0]["content_language"];
+                $cardDataArray = getCardData($childID, $newV, $newL, $cardSize);
+                $cardTextArray = getCardText($childID, $newV, $newL);
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";
@@ -683,7 +677,7 @@ function getCardText($id, $v = null, $lang = null)
             $content_words = getWordCount($id, $row["content_version"], $lang);
             $release_date = "";
             if ($row["release_date"] != null) {
-                $release_date = "<p>RELEASED " . date("Y/m/d", strtotime($row["release_date"])) . "</p>";
+                $release_date = "<p>Released " . date("Y/m/d", strtotime($row["release_date"])) . "</p>";
             } else {
                 $release_date = "";
             }
@@ -701,7 +695,7 @@ function getCardText($id, $v = null, $lang = null)
 }
 
 
-function getCardData($id, $v = null, $lang = null, $cardsize = "medium")
+function getCardData($id, $v = null, $lang = null, $cardSize = "medium")
 {
     include("db_connect.php");
 
@@ -740,17 +734,17 @@ function getCardData($id, $v = null, $lang = null, $cardsize = "medium")
 
     // Step 1: Image (REVISE)
     $cardImage = "";
-    if (file_exists("../img/story/contents/$id.webp")) {
-        $cardImage = "<img src='/img/story/contents/$id.webp' alt='[PUT TITLE HERE EVENTUALLY.]'>";
-    } else {
-        $cardImage = "";
+    if ($cardSize != "small") {
+        if (file_exists("../img/story/contents/$id.webp")) {
+            $cardImage = "<img src='/img/story/contents/$id.webp' alt='[PUT TITLE HERE EVENTUALLY.]'>";
+        }
     }
 
     return [
         "id" => $id,
         "v" => $v,
         "lang" => $lang,
-        "cardSize" => $cardsize,
+        "cardSize" => $cardSize,
         "cardHREF" => $cardHREF,
         "img" => $cardImage
     ];
@@ -763,7 +757,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
 
     $id = $cardDataArray["id"];
     $v = $cardDataArray["v"];
-    $lang = $cardDataArray["lang"];
+    // $lang = $cardDataArray["lang"];
     $cardsize = $cardDataArray["cardSize"];
     $cardHREF = $cardDataArray["cardHREF"];
     $img = $cardDataArray["img"];
@@ -777,12 +771,16 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
     switch ($cardsize) {
         case "small":
             $card = "<a class='card small__card' href='$cardHREF'>";
+            $title = "<div class='chapter__header'><h4>$title</h4></div>";
+            $releaseDate = $snippet = "";
             break;
         case "medium":
             $card = "<a class='card medium__card' href='$cardHREF'>";
+            $title = "<h3>$title</h3>";
             break;
         case "large":
             $card = "<a class='card large__card' href='$cardHREF'>";
+            $title = "<h3>$title</h3>";
             break;
     }
 
@@ -800,7 +798,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
         }
     }
 
-    $card .= "$img<div class='card__text'><h3>$title</h3><div class='versions'><p>$versions</p>$releaseDate</div><p>$snippet</p></div>";
+    $card .= "$img<div class='card__text'>$title<div class='versions'><p>$versions</p>$releaseDate</div><p>$snippet</p></div>";
     return $card .= "</a>";
 }
 
@@ -1104,35 +1102,38 @@ function loadContentParents($id, $v)
 {
     include("db_connect.php");
 
-    $parents_query = "SELECT * FROM shin_web WHERE child_id=\"$id\" AND child_version=$v";
-    $parents = $mysqli->query($parents_query);
-    $num_parents = mysqli_num_rows($parents);
+    $parents = $mysqli->query("SELECT * FROM shin_web WHERE child_id=\"$id\" AND child_version=$v");
+    // Update this function to get parent of matching language if it exists, optimal language if not.
+    $numParents = mysqli_num_rows($parents);
 
     if ($id === "0") {
-        echo "<div class='titleBoxText'><h1>Table of Contents</h1></div></section>";
-    } else if ((!($id === "0")) && ($num_parents === 0)) {
-        echo "<div class='titleBoxText'><h3><a onClick='location.href=\"/read/\"'>BIONICLE</a></h3>";
+        echo "<h1>The BIONICLE Story</h1>";
+        // Update this to get content_title of mainWork.
+    } else if ((!($id === "0")) && ($numParents === 0)) {
+        echo "<h2><a onClick='location.href=\"/read/\"'>The BIONICLE Story</a></h2>";
     } else {
         // echo getImages($id, $v, "NULL", $title[0]);
-        echo "<div class='titleBoxText'>";
 
-        if ($num_parents === 1) {
+        if ($numParents === 1) {
             while ($row = $parents->fetch_assoc()) {
-                $parent_title_query = "SELECT content_title FROM shin_content WHERE content_id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
-                $parent_title = $mysqli->query($parent_title_query);
-                while ($new_row = $parent_title->fetch_assoc()) {
-                    echo "<h3><a onClick=\"goTo('" . $row["parent_id"] . "." . $row["parent_version"] . "')\">" . $new_row["content_title"] . "</a></h3>";
+                $parentID = $row["parent_id"];
+                $parentVersion = $row["parent_version"];
+                $parentTitle = $mysqli->query("SELECT content_title FROM shin_content WHERE content_id='$parentID' AND content_version=$parentVersion LIMIT 1");
+                while ($newRow = $parentTitle->fetch_assoc()) {
+                    $title = $newRow["content_title"];
+                    echo "<h2><a href='/read/?id=$parentID&v=$parentVersion'>$title</a></h2>";
                 }
             }
-        } else if ($num_parents > 1) {
+        } else if ($numParents > 1) {
             echo "<div class='multiparents'><h3 onclick='carouselBack(this)'><i class='fa-solid fa-left-long'></i></h2>";
             while ($row = $parents->fetch_assoc()) {
-                $sql_title = "SELECT content_title FROM shin_content WHERE content_id=\"" . $row["parent_id"] . "\" AND content_version = \"" . $row["parent_version"] . "\"";
+                $parentID = $row["parent_id"];
+                $parentVersion = $row["parent_version"];
+                $parentTitles = $mysqli->query("SELECT content_title FROM shin_content WHERE content_id='$parentID' AND content_version=$parentVersion LIMIT 1");
                 // ORDER BY chronology, title ASC
-                $result_title = $mysqli->query($sql_title);
-                while ($row_title = $result_title->fetch_assoc()) {
-                    $parentid = $row["parent_id"];
-                    echo "<h2><a id='$parentid' onClick=\"goTo('$parentid." . $row["parent_version"] . "')\">" . $row_title["content_title"] . "</a></h2>";
+                while ($newRow = $parentTitles->fetch_assoc()) {
+                    $title = $newRow["content_title"];
+                    echo "<h2><a href='/read/?id=$parentID&v=$parentVersion'>$title</a></h2>";
                 }
             }
             echo "<h3 onclick='carouselForward(this)'><i class='fa-solid fa-right-long'></i></h2></div>";
@@ -1215,41 +1216,70 @@ function loadContentContributors($id, $v, $lang)
 {
     include("db_connect.php");
 
-    $query = "SELECT creators.creator_id, creator_name, creator_role FROM creators JOIN creator_roles ON creators.creator_id=creator_roles.creator_id WHERE creator_roles.content_id='$id' AND (creator_roles.content_version=$v OR creator_roles.content_version IS NULL) AND (creator_roles.content_language='$lang' OR creator_roles.content_language IS NULL)";
-    $result = $mysqli->query($query);
+    $result = $mysqli->query("SELECT creators.creator_id, creator_name, creator_role FROM creators JOIN creator_roles ON creators.creator_id=creator_roles.creator_id WHERE creator_roles.content_id='$id' AND (creator_roles.content_version=$v OR creator_roles.content_version IS NULL) AND (creator_roles.content_language='$lang' OR creator_roles.content_language IS NULL)");
     $numRows = mysqli_num_rows($result);
+
     if ($numRows == 1) {
         while ($row = $result->fetch_assoc()) {
-            echo "<h3>" . translateRoles($row["creator_role"]) . $row["creator_name"] . "</h3>";
+            $attribution = translateRoles($row["creator_role"]) . $row["creator_name"];
+            echo "<h3>$attribution</h3>";
         }
     }
 
     if ($numRows > 1) {
-        echo "<h3>";
-        $creators_array = array();
+        $creatorsArray = array();
         while ($row = $result->fetch_assoc()) {
-            array_push($creators_array, translateRoles($row["creator_role"]) . $row["creator_name"]);
+            array_push($creatorsArray, translateRoles($row["creator_role"]) . $row["creator_name"]);
         }
-        sort($creators_array);
-        echo sanitizeContributors($creators_array) . "</h3>";
+        sort($creatorsArray);
+        $attributions = sanitizeContributors($creatorsArray);
+        echo "<h3>$attributions</h3>";
     }
 }
 
 
-function getTitleBoxText($id, $version = 1, $language = "en")
+function loadTags($id, $v=null) {
+    include("db_connect.php");
+
+    $result = $mysqli->query("SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$v OR content_version IS NULL) AND tag_type='type'");
+    $numRows = mysqli_num_rows($result);
+
+    if ($numRows > 0) {
+        echo "<section class='title__box__tags'>";
+
+        $tagsArray = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($tagsArray, $row["tag"]);
+        }
+        sort($tagsArray);
+
+        foreach ($tagsArray as $tag) {
+            echo "<a href='/read/?t=$tag'><i class='fa-solid fa-hashtag'></i> $tag</a>";
+        }
+
+        echo "</section>";
+    }
+}
+
+
+function getTitleBoxText($id, $v=1, $lang="en")
 {
     include("db_connect.php");
 
-    $query = "SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
+    // Get parents.
+    loadContentParents($id, $v);
+
+    // Get title and subtitle.
+    $result = $mysqli->query("SELECT content_title, content_subtitle FROM shin_content WHERE content_id='$id' AND content_version=$v AND content_language='$lang'");
     if (mysqli_num_rows($result) == 0) {
         return null;
     } else if (mysqli_num_rows($result) == 1) {
         $row = $result->fetch_assoc();
+
         $title = $row["content_title"];
         $subtitle = $row["content_subtitle"];
-        echo "<h1>$title</h1>";
 
+        echo "<h1>$title</h1>";
         if ($subtitle != null) {
             echo "<h2>$subtitle</h2>";
         }
@@ -1258,7 +1288,7 @@ function getTitleBoxText($id, $version = 1, $language = "en")
     }
 
     // Get creators.
-    loadContentContributors($id, $version, $language);
+    loadContentContributors($id, $v, $lang);
 }
 
 
@@ -1327,19 +1357,19 @@ function getContentAutomaticallyByType($id, $version = 1, $language = "en", $typ
 }
 
 
-function getMainContent($id, $version = 1, $language = "en")
+function getMainContent($id, $v = 1, $lang = "en")
 {
     include("db_connect.php");
 
-    $query = "SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$version AND content_language='$language'";
-    $result = $mysqli->query($query);
+    $result = $mysqli->query("SELECT content_main FROM shin_content WHERE content_id='$id' AND content_version=$v AND content_language='$lang'");
+
     if (mysqli_num_rows($result) == 0) {
         return null;
     } else if (mysqli_num_rows($result) == 1) {
         $row = $result->fetch_assoc();
         $content = $row["content_main"];
         if ($content == null) {
-            $content = getContentAutomaticallyByType($id, $version, $language, getTypeTags($id, $version));
+            $content = getContentAutomaticallyByType($id, $v, $lang, getTypeTags($id, $v));
         } else {
             // If less than 50% of the lines in the content become with a "<", assume it's Markdown.
             $lines = explode("\n", $content);

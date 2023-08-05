@@ -723,6 +723,10 @@ nav {
     .anchor {
         transition: all 0.25s ease-in-out;
     }
+
+    p {
+        cursor: unset;
+    }
 }
 
 .anchors:target p,
@@ -1054,6 +1058,16 @@ nav {
         color: #fff;
     }
 
+    &.small__card {
+        .card__text {
+            .versions {
+                p {
+                    text-transform: unset;
+                }
+            }
+        }
+    }
+
     &.medium__card {
         width: calc(50% - 0.5rem);
         height: 8rem;
@@ -1356,8 +1370,9 @@ nav {
  ***********************/
 
 div.mediaplayer {
-    max-height: 100vh;
-    max-width: 100vw;
+    // max-height: 100vh;
+    width: 100%;
+    max-width: 100%;
 
     div.mediaplayercontents {
         display: flex;
@@ -1373,7 +1388,9 @@ div.mediaplayer {
         video,
         span {
             display: none;
-            max-height: calc(100vh - 5rem);
+            height: auto;
+            max-width: 100%;
+            // max-height: calc(100vh - 5rem);
         }
 
         span {

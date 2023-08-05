@@ -112,7 +112,6 @@ if (count($_GET)) {
                         <?php
                         // If id variable is set.
                         if (isset($id)) {
-                            loadContentParents($id, $v);
                             getTitleBoxText($id, $v);
                             $config = getJSONConfigVariables();
                         } else {
@@ -120,6 +119,11 @@ if (count($_GET)) {
                         }
                         ?>
                     </section>
+                    <?php
+                    if (isset($id)) {
+                        loadTags($id, $v, $lang);
+                    }
+                    ?>
                 </section>
                 <section class="extra__content">
                     <?php
