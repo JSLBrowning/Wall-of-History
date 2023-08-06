@@ -793,9 +793,9 @@ CREATE TABLE IF NOT EXISTS shin_web(
     /* …you'd put the ID of “Tahu — Toa of Fire” here, then do the same with “Lewa — Toa of Air” — both of these are children of Tale of the Toa, as are the other fourteen chapters. */
     child_version int,
     /* If version numbers are not specified, then all versions of the parent are implied to be connected to all versions of the child — for example, all Mask of Light trailers are advertisements for all versions of the movie. */
-    hierarchal boolean
-    /* Determines if the given connection is a true parent/child relationship (think chapter of a book) or a looser connection (think commercial for a game or behind the scenes video for a movie). */
-    /* If a given node has two parents, and one of those parents is also the child of another, that should be considered a "disambiguation" connection (for cases like *Chronicles*). Disambiguation connections SHOULD NOT BE DISPLAYED ON TABLES OF CONTENTS AT ALL. */
+    hidden_connection boolean
+    /* If a given node has two parents, and one of those parents is also the child of another, whichever one has a "false" here should be considered a "disambiguation" connection (for cases like *Chronicles*). Disambiguation connections SHOULD NOT BE DISPLAYED ON TABLES OF CONTENTS AT ALL. */
+    /* In the case of commentaries, this can be set to false for threading posts to their replies. Other potential use cases include connecting commentary answers to reference subjects or story nodes. */
 );
 
 

@@ -71,7 +71,6 @@ function populateReferenceChildren($parent_id, $v, $lang)
                     // <p>$vtitle</p>
                     echo "<a class='card medium__card' href=\"/reference/?id=$id&v=$newv\">" . $img . "<div class='card__text'><h3>" . $title . "</h3><p>" . $snippet . "</p><div class='versions'><p>Released " . date('F jS, Y', strtotime($date)) . " | Word Count: " . $words . "</p></div></div></a>";
                 }
-                
             }
         }
         echo "</div>";
@@ -176,7 +175,7 @@ function populateReferenceSubjectPage($subject, $lang)
         }
         $images .= "</div><div class='mediaplayercontrols'><button class='mediaplayerbutton' onclick='backNav(this)' style='display: none;'>&#8249;</button><div class='slidelocationdiv'><p class='slidelocation'>1 / $image_count</p></div><button class='mediaplayerbutton' onclick='forwardNav(this)'>&#8250;</button></div></div>";
     }
-    
+
 
     echo "<section class='story'><section class='title__box'><div class='title__box__text'><h2><a onclick='window.location.href=\"/reference/subjects/\"'>Reference</a></h2>$titles</div>$images</section>";
 
@@ -194,10 +193,10 @@ function populateReferenceSubjectPage($subject, $lang)
         }
 
         $doc = new DOMDocument();
-        $doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">'.$row["main"]);
+        $doc->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $row["main"]);
 
         $selector = new DOMXPath($doc);
-        foreach($selector->query('//a[contains(attribute::class, "anchor")]') as $a ) {
+        foreach ($selector->query('//a[contains(attribute::class, "anchor")]') as $a) {
             $a->parentNode->removeChild($a);
         }
 
@@ -234,7 +233,7 @@ function populateReferenceSubjectPage($subject, $lang)
 function populateReferencePage($parent, $v, $lang)
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='title__box'><div class='title__box__text'>";
+    echo "<div class='article__content'><section class='title__box'><section class='title__box__text'>";
 
 
     // Get and list parent(s) of current content.
@@ -254,7 +253,7 @@ function populateReferencePage($parent, $v, $lang)
             }
         }
     } else {
-        echo "<h2><a onclick='window.location.href=\"/reference/\"'>Reference</a></h2>";
+        echo "<h2><a href='/reference/'>Reference</a></h2>";
     }
 
 
@@ -274,7 +273,7 @@ function populateReferencePage($parent, $v, $lang)
         echo "<button onclick='carouselForward(this)'><span class='rightarrow'></span></button></div>";
     }
 
-    echo "</div></section>";
+    echo "</section></section><section class='main__content'>";
 
 
     // Get and display images, in a media player if necessary.
@@ -308,7 +307,6 @@ function populateReferencePage($parent, $v, $lang)
 
 
     // Close out main section and display child links, if any children.
-    echo "</section><section class='structure'>";
     populateReferenceChildren($parent, $v, $lang);
     echo "</section>";
 }
@@ -324,10 +322,17 @@ function populateReferenceContent($id, $v, $lang, $pg)
     include("db_connect.php");
 
     if ($id == "0") {
-        echo "<section class='story'><section class='title__box'><div class='title__box__text'><h1>Reference</h1></div></section><p class='center'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p></section><section class='structure'>";
+        echo "<div class='article__content'>
+                <section class='title__box'>
+                    <section class='title__box__text'>
+                        <h1>Reference</h1>
+                    </section>
+                </section>
+                <section class='main_content'>
+                <p style='text-align:center;'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p>";
         populateReferenceChildren($id, $v, $lang);
         // populateAllSubjects($pg);
-        echo "</section>";
+        echo "</section></div>";
     } else {
 
         $sql_subjects = "SELECT DISTINCT subject_id FROM reference_subjects";
@@ -361,6 +366,6 @@ function populateReferenceContentSubjects($pg)
 {
     include("db_connect.php");
 
-    echo "<section class='story'><section class='title__box'><div class='title__box__text'><h1>Reference</h1></div></section><p class='center'>Currently organized by subject. You can also organize by <a href='/reference/'>sources</a>.</p></section>";
+    echo "<div class='article__content'><section class='title__box'><div class='title__box__text'><h1>Reference</h1></div></section><p class='center'>Currently organized by subject. You can also organize by <a href='/reference/'>sources</a>.</p></section>";
     populateAllSubjects($pg);
 }

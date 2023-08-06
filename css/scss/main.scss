@@ -93,6 +93,10 @@ a,
 button {
     font-family: "Gill Sans Std";
     line-height: 1.5rem;
+}
+
+a,
+button {
     cursor: pointer;
 }
 
@@ -843,8 +847,8 @@ nav {
         width: 100%;
         text-align: center;
         font-family: "TradeMarker" !important;
-        margin: .5rem;
-        
+        margin: 0.5rem;
+
         &.collapsible {
             cursor: pointer;
         }
@@ -870,12 +874,12 @@ nav {
     .grouping {
         border-left: 4px solid #202020;
         border-bottom: 1px solid #202020;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         padding-left: 1rem;
-        padding-right: .5rem;
+        padding-right: 0.5rem;
         margin: 0rem !important;
-        background: rgb(22,22,22);
-        background: linear-gradient(90deg, rgba(0,0,0,.375) 0%, rgba(22,22,22,0) 100%);
+        background: rgb(22, 22, 22);
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.375) 0%, rgba(22, 22, 22, 0) 100%);
         width: 100%;
         display: flex;
         flex-flow: row wrap;
@@ -1591,5 +1595,17 @@ div.mediaplayer {
 
     h2 {
         font-size: 1.125rem;
+    }
+}
+
+.deck {
+    container-type: inline-size;
+    transition: none;
+}
+
+@container (min-width: 720px) {
+    a.card {
+        width: calc(33.33% - .67rem) !important;
+        transition: none !important;
     }
 }
