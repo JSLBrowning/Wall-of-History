@@ -68,8 +68,8 @@ function populateReferenceChildren($parent_id, $v, $lang)
             if (mysqli_num_rows($result_child_title) > 0) {
                 while ($row_child_title = mysqli_fetch_assoc($result_child_title)) {
                     $title = $row_child_title["title"];
-
-                    echo "<a class='card medium__card' href=\"/reference/?id=$id&v=$newv\">" . $img . "<div class='card__text'><p>" . $title . "</p><p>" . $snippet . "</p><div class='versions'><p>$vtitle</p><p>RELEASED " . date('F jS, Y', strtotime($date)) . "</p><p>WORD COUNT: " . $words . "</p></div></div></a>";
+                    // <p>$vtitle</p>
+                    echo "<a class='card medium__card' href=\"/reference/?id=$id&v=$newv\">" . $img . "<div class='card__text'><h3>" . $title . "</h3><p>" . $snippet . "</p><div class='versions'><p>Released " . date('F jS, Y', strtotime($date)) . " | Word Count: " . $words . "</p></div></div></a>";
                 }
                 
             }
@@ -178,7 +178,7 @@ function populateReferenceSubjectPage($subject, $lang)
     }
     
 
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h3><a onclick='window.location.href=\"/reference/subjects/\"'>Reference</a></h3>$titles</div>$images</section>";
+    echo "<section class='story'><section class='title__box'><div class='title__box__text'><h2><a onclick='window.location.href=\"/reference/subjects/\"'>Reference</a></h2>$titles</div>$images</section>";
 
 
     $sql = "SELECT entry_id, content_version, main, version_title FROM reference_content WHERE entry_id IN (SELECT DISTINCT entry_id FROM reference_subjects WHERE subject_id='" . $_GET['id'] . "')";
@@ -234,7 +234,7 @@ function populateReferenceSubjectPage($subject, $lang)
 function populateReferencePage($parent, $v, $lang)
 {
     include("db_connect.php");
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'>";
+    echo "<section class='story'><section class='title__box'><div class='title__box__text'>";
 
 
     // Get and list parent(s) of current content.
@@ -248,13 +248,13 @@ function populateReferencePage($parent, $v, $lang)
             $result_parent_title = $mysqli->query($sql_parent_title);
             if ($result_parent_title->num_rows > 0) {
                 while ($row_parent_title = $result_parent_title->fetch_assoc()) {
-                    echo "<h3><a onclick='window.location.href=\"/reference/?id=" . $parent_id . "\"'>" . $row_parent_title["title"] . "</a></h3>";
+                    echo "<h2><a onclick='window.location.href=\"/reference/?id=" . $parent_id . "\"'>" . $row_parent_title["title"] . "</a></h2>";
                     break;
                 }
             }
         }
     } else {
-        echo "<h3><a onclick='window.location.href=\"/reference/\"'>Reference</a></h3>";
+        echo "<h2><a onclick='window.location.href=\"/reference/\"'>Reference</a></h2>";
     }
 
 
@@ -324,7 +324,7 @@ function populateReferenceContent($id, $v, $lang, $pg)
     include("db_connect.php");
 
     if ($id == "0") {
-        echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section><p class='center'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p></section><section class='structure'>";
+        echo "<section class='story'><section class='title__box'><div class='title__box__text'><h1>Reference</h1></div></section><p class='center'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p></section><section class='structure'>";
         populateReferenceChildren($id, $v, $lang);
         // populateAllSubjects($pg);
         echo "</section>";
@@ -361,6 +361,6 @@ function populateReferenceContentSubjects($pg)
 {
     include("db_connect.php");
 
-    echo "<section class='story'><section class='titleBox'><div class='titleBoxText'><h1>Reference</h1></div></section><p class='center'>Currently organized by subject. You can also organize by <a href='/reference/'>sources</a>.</p></section>";
+    echo "<section class='story'><section class='title__box'><div class='title__box__text'><h1>Reference</h1></div></section><p class='center'>Currently organized by subject. You can also organize by <a href='/reference/'>sources</a>.</p></section>";
     populateAllSubjects($pg);
 }

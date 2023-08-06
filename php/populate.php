@@ -560,9 +560,7 @@ function addTableOfContents($id, $v = null, $l = null)
                     $cardSize = "small";
                 }
 
-                $query = "SELECT shin_content.content_id, shin_content.content_version, shin_content.version_title, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_content.content_version, shin_metadata.chronology, shin_content.content_title ASC";
-
-                $childResult = $mysqli->query($query);
+                $childResult = $mysqli->query("SELECT shin_content.content_id, shin_content.content_version, shin_content.version_title, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_content.content_version, shin_metadata.chronology, shin_content.content_title ASC");
                 if (mysqli_num_rows($childResult) > 0) {
                     $uniqueVersions = [];
                     while ($childRow = $childResult->fetch_assoc()) {
@@ -668,8 +666,7 @@ function getCardText($id, $v = null, $lang = null)
     $content_title = $content_snippet = $content_words = $release_date = "";
     $content_versions = [];
 
-    $full_query = "SELECT shin_metadata.content_version, version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC";
-    $result = $mysqli->query($full_query);
+    $result = $mysqli->query("SELECT shin_metadata.content_version, version_title, content_title, content_snippet, content_words, release_date FROM shin_content JOIN shin_metadata ON shin_content.content_id=shin_metadata.content_id WHERE shin_content.content_id='$id' AND (shin_content.content_version IN (" . implode(",", $v) . ") OR shin_content.content_version IS NULL) AND (shin_content.content_language='$lang' OR shin_content.content_language IS NULL) ORDER BY shin_metadata.chronology ASC");
     while ($row = $result->fetch_assoc()) {
         if ($row["content_version"] == $defaultVersion || $row["content_version"] == null) {
             $content_title = $row["content_title"];
@@ -789,8 +786,7 @@ function assembleDefaultCard($cardDataArray, $cardTextArray)
     if ($cardsize == "large" && $id != null && in_array("movie", getTypeTags($id, $v))) {
         // Find out if there's a child element with the type tag "teaser," "trailer," or "TV spot."
         $versionConditonal = versionConditional($v, true);
-        $query = "SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))";
-        $result = $mysqli->query($query);
+        $result = $mysqli->query("SELECT child_id FROM shin_web WHERE parent_id='$id' $versionConditonal AND child_id IN (SELECT content_id FROM shin_tags WHERE tag_type='type' AND tag IN ('teaser', 'trailer', 'TV spot'))");
         if (mysqli_num_rows($result) > 0) {
             $row = $result->fetch_assoc();
             $childID = $row["child_id"];
@@ -1238,7 +1234,8 @@ function loadContentContributors($id, $v, $lang)
 }
 
 
-function loadTags($id, $v=null) {
+function loadTags($id, $v = null)
+{
     include("db_connect.php");
 
     $result = $mysqli->query("SELECT tag FROM shin_tags WHERE content_id='$id' AND (content_version=$v OR content_version IS NULL) AND tag_type='type'");
@@ -1262,7 +1259,7 @@ function loadTags($id, $v=null) {
 }
 
 
-function getTitleBoxText($id, $v=1, $lang="en")
+function getTitleBoxText($id, $v = 1, $lang = "en")
 {
     include("db_connect.php");
 
