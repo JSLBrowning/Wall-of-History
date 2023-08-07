@@ -1,11 +1,11 @@
-section.story {
+section.main__content {
     overflow: hidden;
 
-    section.titleBox {
+    section.title__box {
         display: flex;
         flex-flow: row nowrap;
 
-        .titleBoxText {
+        .title__box__text {
             margin: auto 0em;
         }
     }
@@ -20,7 +20,7 @@ section.story {
         box-shadow: none;
     }
 
-    section.titleBox div.mediaplayer {
+    section.title__box div.mediaplayer {
         margin: -0.5em;
 
         div.mediaplayercontents {
@@ -75,7 +75,7 @@ section.story {
 }
 
 @media only screen and (max-width: 640px) {
-    section.story section.titleBox div.mediaplayer {
+    section.story section.title__box div.mediaplayer {
         display: none;
     }
 

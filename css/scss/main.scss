@@ -150,14 +150,18 @@ h3 {
     font-size: 1.125rem;
 }
 
-p {
+p,
+li {
     color: #fff;
     font-family: "Gill Sans Std";
-    margin: 0.5rem;
     font-weight: normal;
     letter-spacing: 0.0625rem;
     font-size: 1rem;
     line-height: 1.5rem;
+}
+
+p {
+    margin: 0.5rem;
     width: 100%;
 
     sup {
@@ -730,6 +734,11 @@ nav {
 
     p {
         cursor: unset;
+    }
+
+    ul {
+        margin: .5rem;
+        padding-left: 1rem;
     }
 }
 
@@ -1598,6 +1607,7 @@ div.mediaplayer {
     }
 }
 
+/*
 .deck {
     container-type: inline-size;
     transition: none;
@@ -1609,3 +1619,4 @@ div.mediaplayer {
         transition: none !important;
     }
 }
+*/

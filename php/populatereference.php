@@ -26,7 +26,7 @@ function populateTitle($id)
 }
 
 
-function populateReferenceChildren($parent_id, $v, $lang)
+function populateReferenceChildren($parent_id, $lang)
 {
     include("db_connect.php");
 
@@ -307,7 +307,7 @@ function populateReferencePage($parent, $v, $lang)
 
 
     // Close out main section and display child links, if any children.
-    populateReferenceChildren($parent, $v, $lang);
+    populateReferenceChildren($parent, $lang);
     echo "</section>";
 }
 
@@ -330,7 +330,7 @@ function populateReferenceContent($id, $v, $lang, $pg)
                 </section>
                 <section class='main_content'>
                 <p style='text-align:center;'>Currently organized by source. You can also organize by <a href='/reference/subjects/'>subject</a>.</p>";
-        populateReferenceChildren($id, $v, $lang);
+        populateReferenceChildren($id, $lang);
         // populateAllSubjects($pg);
         echo "</section></div>";
     } else {

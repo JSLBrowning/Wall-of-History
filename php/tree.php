@@ -6,13 +6,19 @@ class Tree {
     public $version;
     public $language;
     public $children;
+    public $tags;
+    public $releaseDate;
+    public $chronology;
 
     // Methods
-    function __construct($id, $version, $language, $children) {
+    function __construct($id, $version, $language, $tags, $releaseDate, $chronology) {
         $this->id = $id;
         $this->version = $version;
         $this->language = $language;
-        $this->children = $children;
+        $this->children = [];
+        $this->tags = $tags;
+        $this->releaseDate = $releaseDate;
+        $this->chronology = $chronology;
     }
 
     function add_child($child) {
@@ -33,6 +39,18 @@ class Tree {
 
     function get_children() {
         return $this->children;
+    }
+
+    function get_tags() {
+        return $this->tags;
+    }
+
+    function get_chronology() {
+        return $this->chronology;
+    }
+
+    function get_releaseDate() {
+        return $this->releaseDate;
     }
 }
 

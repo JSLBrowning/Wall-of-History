@@ -3,6 +3,8 @@
 
 // Include Parsedown.
 require("/parsedown-1.7.4/Parsedown.php");
+// Include the Tree class.
+require("/tree.php");
 
 
 // Get config.json variables.
@@ -531,17 +533,34 @@ function addTableOfContents($id, $v = null, $l = null)
     $language_conditional = ($l != null) ? "AND shin_content.content_language='$l'" : "AND shin_content.content_language='en'";
 
     if ($id == "0") {
-        $result = $mysqli->query("SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_content.content_title ASC");
+        $result = $mysqli->query("SELECT shin_metadata.content_id, shin_metadata.content_version, shin_metadata.content_language, shin_metadata.release_date, shin_metadata.chronology FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id NOT IN (SELECT child_id FROM shin_web) ORDER BY shin_metadata.chronology, shin_metadata.release_date, shin_content.content_title ASC");
 
         if (mysqli_num_rows($result) > 0) {
-            echo "<div class='deck'>";
+            $deck = [];
             while ($row = $result->fetch_assoc()) {
                 $contentID = $row["content_id"];
                 $contentVersion = $row["content_version"];
-                $cardDataArray = getCardData($contentID, $contentVersion);
-                $cardTextArray = getCardText($contentID, $contentVersion);
+                $contentLanguage = $row["content_language"];
+                $contentTags = getTypeTags($contentID, $contentVersion);
+                $contentReleaseDate = $row["release_date"];
+                $contentChronology = $row["chronology"];
+
+                // Get parents. If in array, add as child.
+                // Get children. If in array, MOVE to children of current node.
+
+                $newNode = new Tree($contentID, $contentVersion, $contentLanguage, $contentTags, $contentReleaseDate, $contentChronology);
+                array_push($deck, $newNode);
+            }
+            echo "<div class='deck'>";
+
+            // Loop through array and display results.
+            foreach($deck as $node) {
+                // If has children, display this node as a grouping, then put all children inside.
+                $cardDataArray = getCardData($node->get_id(), $node->get_version());
+                $cardTextArray = getCardText($node->get_id(), $node->get_version());
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
+
             echo "</div>";
         }
     } else {
@@ -998,6 +1017,26 @@ function generateHead($title, $description, $ogpImage, $themeColor, $notFound = 
 function populateHead($id, $v = null, $lang = null)
 {
     include("db_connect.php");
+
+    if ($v == null) {
+        $allV = checkForMultipleVersions($id);
+        $v = [chooseDefaultVersion($allV)];
+    }
+
+    // Determine language to proceed with.
+    if ($lang == null) {
+        $potential_lang = getUserLanguage();
+        $available_lang = getAvailableLanguages($id, $v);
+        if (in_array($potential_lang, $available_lang)) {
+            $lang = $potential_lang;
+        } else {
+            if (in_array("en", $available_lang) || $available_lang == null) {
+                $lang = "en";
+            } else {
+                $lang = $available_lang[0];
+            }
+        }
+    }
 
     $result = $mysqli->query("SELECT content_title, content_snippet, content_theme_color FROM shin_metadata JOIN shin_content ON shin_metadata.content_id = shin_content.content_id WHERE shin_metadata.content_id='$id' AND shin_content.content_version=$v AND shin_content.content_language='$lang' ORDER BY shin_metadata.chronology, shin_content.content_title ASC");
     $numRows = mysqli_num_rows($result);
