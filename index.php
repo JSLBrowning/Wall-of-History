@@ -102,10 +102,7 @@
             // echo "<h1>Something went wrong.</h1>";
         }
         ?>
-
-
-
-
+        
         <article>
             <div class="video__article">
                 <video poster="img/video2.webp" controls>
@@ -130,11 +127,8 @@
         <div class="deck">
             <?php
             // Function to build a medium card. Takes an array as an argument.
-            function buildMediumCard($tileContents)
+            function assembleTiles($tileContents)
             {
-                // Okay, what do we NEED? Need an href, a title, a snippet, and ideally...
-                // word count, publish date, version, et cetera (details).
-
                 include('./php/db_connect.php');
 
                 // Get "tile" contents.
@@ -149,18 +143,7 @@
                     // Get content data.
                     $content_data = getContentData($semantic_data["id"], $semantic_data["v"], $semantic_data["lang"]);
 
-                    // If len(content_data) > 1, build card using version 1, but list all version_titles in a comma-delimited div.versions.
-                    if (count($content_data) == 1) {
-                        echo "<a class='card medium__card' href='/read/?s=$semantic_tag'>";
-                        echo "<div class='card__text'>";
-                        echo "<h3>" . $content_data[0]["content_title"] . "</h3>";
-                        echo "<div class='versions'>";
-                        echo "<p>" . $content_data[0]["version_title"] . "</p>";
-                        echo "</div>";
-                        echo "<p>" . $content_data[0]["content_snippet"] . "</p>";
-                        echo "</div>";
-                        echo "</a>";
-                    }
+                    // Build card, overwrite, whatever.
                 }
 
                 if (str_contains($tile, "[type:")) {
@@ -172,36 +155,12 @@
 
                     $Parsedown = new Parsedown();
 
-                    // If len(content_data) > 1, build card using version 1, but list all version_titles in a comma-delimited div.versions.
-                    if (count($content_data) > 0) {
-                        // Get image based on content_data.
-                        echo "<a class='card medium__card' href='/read/?t=$type_tag'>";
-                        echo "<div class='card__text'>";
-                        echo "<h3>" . $plural_tag . "</h3>";
-                        echo "<p>" . $Parsedown->text($tileContents["description"]) . "</p>";
-                        echo "</div>";
-                        echo "</a>";
-                    }
+                    // Get card blah blah blah.
                 }
             }
 
-
-            
-
-
-            
-
-
             foreach ($additionalTiles as $additionalTile) {
-                // echo populateMedium($tile);
-                /**
-                 * Card builder would need...
-                 * - type=null, s=null, id.v.lang=null...
-                 * - override=[
-                 *    - title=null, subtitle=null, description=null, image=null, href=null, badge=null
-                 * ]
-                 */
-                buildMediumCard($additionalTile);
+                assembleTiles($additionalTile);
             }
             ?>
         </div>

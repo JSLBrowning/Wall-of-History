@@ -347,8 +347,8 @@ function getContentData($id, $v = null, $lang = null)
     include('db_connect.php');
 
     // If $v is not null...
-    $version_conditonal = ($v != null) ? "AND content_version=$v" : "";
-    $language_conditional = ($lang != null) ? "AND content_language='$lang'" : "";
+    $version_conditonal = ($v != null) ? "AND (content_version=$v OR content_version IS NULL)" : "";
+    $language_conditional = ($lang != null) ? "AND (content_language='$lang' OR content_language IS NULL)" : "";
 
     // If version is null, get all versions, and list them on the card (which links to version 1 by default).
     // If language is null, try user language, then default to English.
