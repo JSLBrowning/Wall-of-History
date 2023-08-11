@@ -564,12 +564,15 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "</div>";
         }
     } else {
-        $result = $mysqli->query("SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
+        // $result = $mysqli->query("SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
+        $result = $mysqli->query("SELECT shin_web.child_id, shin_web.child_version FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
+
         // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
         if (mysqli_num_rows($result) > 0) {
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
                 $childID = $row["child_id"];
+                $childVersion = $row["child_version"];
 
                 $chapterQuery = "SELECT tag FROM shin_tags WHERE content_id='$childID' AND tag='chapter'";
                 $chapterResult = $mysqli->query($chapterQuery);
@@ -579,29 +582,8 @@ function addTableOfContents($id, $v = null, $l = null)
                     $cardSize = "small";
                 }
 
-                $childResult = $mysqli->query("SELECT shin_content.content_id, shin_content.content_version, shin_content.version_title, shin_content.content_language, shin_content.content_title, shin_content.content_snippet FROM shin_metadata JOIN shin_content ON shin_metadata.content_id=shin_content.content_id WHERE shin_metadata.content_id IN (SELECT child_id FROM shin_web WHERE parent_id='$id' AND child_id='$childID' $version_conditonal $language_conditional ORDER BY shin_content.content_version, shin_metadata.chronology, shin_content.content_title ASC");
-                if (mysqli_num_rows($childResult) > 0) {
-                    $uniqueVersions = [];
-                    while ($childRow = $childResult->fetch_assoc()) {
-                        array_push($uniqueVersions, [
-                            "content_id" => $childRow["content_id"],
-                            "content_version" => $childRow["content_version"],
-                            "version_title" => $childRow["version_title"],
-                            "content_language" => $childRow["content_language"],
-                            "content_title" => $childRow["content_title"],
-                            "content_snippet" => $childRow["content_snippet"]
-                        ]);
-                    }
-                }
-                // Put version titles into an array.
-                $versionTitles = [];
-                foreach ($uniqueVersions as $version) {
-                    array_push($versionTitles, $version["version_title"]);
-                }
-                $newV = $uniqueVersions[0]["content_version"];
-                $newL = $uniqueVersions[0]["content_language"];
-                $cardDataArray = getCardData($childID, $newV, $newL, $cardSize);
-                $cardTextArray = getCardText($childID, $newV, $newL);
+                $cardDataArray = getCardData($childID, $childVersion, null, $cardSize);
+                $cardTextArray = getCardText($childID, $childVersion, null);
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";

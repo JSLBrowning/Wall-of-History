@@ -146,7 +146,6 @@ if (count($_GET)) {
 
                     if (isset($id)) {
                         if ($id == "0") {
-                            echo "<p>You can also explore contents by <a href='/read/type/'>type</a>.</p>";
                             addTableOfContents($id);
                         } else {
                             getMainContent($id, $v);
