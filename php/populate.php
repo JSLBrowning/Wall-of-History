@@ -556,30 +556,31 @@ function addTableOfContents($id, $v = null, $l = null)
             // Loop through array and display results.
             foreach($deck as $node) {
                 // If has children, display this node as a grouping, then put all children inside.
-                $cardDataArray = getCardData($node->get_id(), $node->get_version());
-                $cardTextArray = getCardText($node->get_id(), $node->get_version());
+                $cardDataArray = getCardData($node->get_id(), $node->get_versions());
+                $cardTextArray = getCardText($node->get_id(), $node->get_versions());
                 echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
 
             echo "</div>";
         }
     } else {
-        // $result = $mysqli->query("SELECT DISTINCT shin_web.child_id FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
-        $result = $mysqli->query("SELECT shin_web.child_id, shin_web.child_version FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
+        $result = $mysqli->query("SELECT shin_web.child_id, GROUP_CONCAT(DISTINCT(shin_web.child_version) ORDER BY shin_web.child_version) AS child_versions FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) GROUP BY shin_web.child_id ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
 
         // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
         if (mysqli_num_rows($result) > 0) {
+            $cardSize = "";
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
                 $childID = $row["child_id"];
-                $childVersion = $row["child_version"];
+                $childVersion = $row["child_versions"];
 
-                $chapterQuery = "SELECT tag FROM shin_tags WHERE content_id='$childID' AND tag='chapter'";
-                $chapterResult = $mysqli->query($chapterQuery);
-                $chapterCount = mysqli_num_rows($chapterResult);
-                $cardSize = "medium";
-                if ($chapterCount > 0) {
-                    $cardSize = "small";
+                if ($cardSize == "") {
+                    $cardSize = "medium";
+                    $chapterResult = $mysqli->query("SELECT tag FROM shin_tags WHERE content_id='$childID' AND tag='chapter'");
+                    $chapterCount = mysqli_num_rows($chapterResult);
+                    if ($chapterCount > 0) {
+                        $cardSize = "small";
+                    }
                 }
 
                 $cardDataArray = getCardData($childID, $childVersion, null, $cardSize);
@@ -645,7 +646,12 @@ function getCardText($id, $v = null, $lang = null)
         $allV = checkForMultipleVersions($id);
         $v = [chooseDefaultVersion($allV)];
     } else if (!is_array($v)) {
-        $v = [$v];
+        if (str_contains($v, ",")) {
+            $v = explode(",", $v);
+        } else {
+            // If $v is a single value, turn it into an array.
+            $v = [$v];
+        }
     }
     $defaultVersion = chooseDefaultVersion($v);
 
@@ -702,7 +708,12 @@ function getCardData($id, $v = null, $lang = null, $cardSize = "medium")
         $allV = checkForMultipleVersions($id);
         $v = [chooseDefaultVersion($allV)];
     } else if (!is_array($v)) {
-        $v = [$v];
+        if (str_contains($v, ",")) {
+            $v = explode(",", $v);
+        } else {
+            // If $v is a single value, turn it into an array.
+            $v = [$v];
+        }
     }
 
     // Determine language to proceed with.
@@ -721,7 +732,7 @@ function getCardData($id, $v = null, $lang = null, $cardSize = "medium")
     }
 
     // Generate basic HREF.
-    $cardHREF = getHREF(null, $id, $v, $lang);
+    $cardHREF = getHREF(null, $id, chooseDefaultVersion($v), $lang);
     // Check if there is a semantic tag for this content.
     if (!is_array($v)) {
         $semanticTag = translateToSemantic($id, $v, $lang);
