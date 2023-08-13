@@ -545,9 +545,6 @@ function addTableOfContents($id, $v = null, $l = null)
                 $contentReleaseDate = $row["release_date"];
                 $contentChronology = $row["chronology"];
 
-                // Get parents. If in array, add as child.
-                // Get children. If in array, MOVE to children of current node.
-
                 $newNode = new Tree($contentID, $contentVersion, $contentLanguage, $contentTags, $contentReleaseDate, $contentChronology);
                 array_push($deck, $newNode);
             }
@@ -565,14 +562,14 @@ function addTableOfContents($id, $v = null, $l = null)
         }
     } else {
         $result = $mysqli->query("SELECT shin_web.child_id, GROUP_CONCAT(DISTINCT(shin_web.child_version) ORDER BY shin_web.child_version) AS child_versions FROM shin_web JOIN shin_metadata ON shin_web.child_id=shin_metadata.content_id WHERE parent_id='$id' AND (parent_version=$v OR parent_version IS NULL) GROUP BY shin_web.child_id ORDER BY shin_metadata.chronology, shin_metadata.release_date ASC");
+        $childForest = [];
 
-        // For each ID, get all versions that are child of $id (apply version conditional), then create one button for each version.
         if (mysqli_num_rows($result) > 0) {
             $cardSize = "";
             echo "<div class='deck'>";
             while ($row = $result->fetch_assoc()) {
                 $childID = $row["child_id"];
-                $childVersion = $row["child_versions"];
+                $childVersions = $row["child_versions"];
 
                 if ($cardSize == "") {
                     $cardSize = "medium";
@@ -583,9 +580,39 @@ function addTableOfContents($id, $v = null, $l = null)
                     }
                 }
 
-                $cardDataArray = getCardData($childID, $childVersion, null, $cardSize);
-                $cardTextArray = getCardText($childID, $childVersion, null);
-                echo assembleDefaultCard($cardDataArray, $cardTextArray);
+                $parentsQuery = "SELECT parent_id, parent_version FROM shin_web WHERE child_id='$childID' AND (child_version IN ($childVersions) OR child_version IS NULL) AND NOT parent_id='$id' ORDER BY parent_version ASC";
+                $parentsResult = $mysqli->query($parentsQuery);
+                $parents = [];
+                while ($parentsRow = $parentsResult->fetch_assoc()) {
+                    $parentID = $parentsRow["parent_id"];
+                    $parentVersion = $parentsRow["parent_version"];
+                    $parentTags = getTypeTags($parentID, $parentVersion);
+                    $parentReleaseDate = "";
+                    $parentChronology = "";
+
+                    // If childForest already contains a node with this parentID and parentVersion, skip it.
+                    foreach ($childForest as $node) {
+                        if (!($node->get_id() == $parentID && $node->get_versions() == $parentVersion)) {
+                            $newNode = new Tree($parentID, $parentVersion, null, $parentTags, $parentReleaseDate, $parentChronology);
+                            $newNode->add_child($childID, $childVersions);
+                            array_push($childForest, $newNode);
+                        } else {
+                            // Get existing parent node and add to $parents.
+                            foreach ($childForest as $node) {
+                                if ($node->get_id() == $parentID && $node->get_versions() == $parentVersion) {
+                                    array_push($parents, $node);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $newNode = new Tree($childID, $childVersions, null, null, null, null);
+                $newNode->add_parents($parents);
+
+                // $cardDataArray = getCardData($childID, $childVersions, null, $cardSize);
+                // $cardTextArray = getCardText($childID, $childVersions, null);
+                // echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
             echo "</div>";
         }

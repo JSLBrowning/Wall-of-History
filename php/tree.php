@@ -27,6 +27,12 @@ class Tree {
         array_push($this->parents, $parent);
     }
 
+    function add_parents($parents) {
+        foreach ($parents as $parent) {
+            array_push($this->parents, $parent);
+        }
+    }
+
     function add_child($child) {
         array_push($this->children, $child);
     }

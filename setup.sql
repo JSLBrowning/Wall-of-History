@@ -393,7 +393,7 @@ CREATE TABLE IF NOT EXISTS shin_content(
     /* This integer identifies the version of the content… */
     version_title text,
     /* …and this text labels that version (for example, "Standard Edition"). Can be NULL if only one version exists. */
-    content_language varchar(16) DEFAULT "en",
+    content_language varchar(16),
     /* Language (and optional country code) of the content. */
 
     /* DESCRIPTIVE STUFF */
