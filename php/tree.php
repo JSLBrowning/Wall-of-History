@@ -69,5 +69,3 @@ class Tree {
         return $this->releaseDate;
     }
 }
-
-?>

@@ -551,7 +551,7 @@ function addTableOfContents($id, $v = null, $l = null)
             echo "<div class='deck'>";
 
             // Loop through array and display results.
-            foreach($deck as $node) {
+            foreach ($deck as $node) {
                 // If has children, display this node as a grouping, then put all children inside.
                 $cardDataArray = getCardData($node->get_id(), $node->get_versions());
                 $cardTextArray = getCardText($node->get_id(), $node->get_versions());
