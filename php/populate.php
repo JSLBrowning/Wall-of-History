@@ -614,6 +614,10 @@ function addTableOfContents($id, $v = null, $l = null)
                 // $cardTextArray = getCardText($childID, $childVersions, null);
                 // echo assembleDefaultCard($cardDataArray, $cardTextArray);
             }
+
+            // So at this point... $childForest should contain all children nodes, and all their direct parents. But we also need to get grandparents... Hhh. How do we do this efficiently?
+            // We could do a recursive function that gets all parents of a given node, then all parents of those parents, and so on, but that's a lot of queries. Maybe we could do it all in one query?
+
             echo "</div>";
         }
     }
